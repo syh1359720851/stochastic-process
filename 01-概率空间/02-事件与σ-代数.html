@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 事件与 σ-代数 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  /* Venn-like ASCII venn */
+  pre.venn{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:14px;overflow-x:auto;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 02</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 样本空间</a>
+    <a href="./02-事件与σ-代数.html" class="current">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-σ-代数构造.html">动画 σ-代数</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>02 · 事件与 σ-代数</h1>
+  <p class="lede">把"随机事件"从日常模糊概念变成集合论里可以严格操作的成员——这是概率论公理化最关键的一步。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 随机事件（Random Event）</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    随机试验中<strong>可能被观察到</strong>、用集合语言描述的"事情"。一次试验的结果 $\omega$ <strong>属于</strong>这个集合就说这件事<strong>发生了</strong>。
+  </div>
+
+  <h3>1.1 严格定义</h3>
+  <p>样本空间 $\Omega$ 的<strong>子集</strong> $A \subseteq \Omega$，称为一个<strong>随机事件</strong>（简称<strong>事件</strong>）。</p>
+  <p>事件 $A$ 在一次试验中"发生"，当且仅当此次试验的样本点 $\omega \in A$。</p>
+
+  <div class="callout example">
+    <span class="label">例子（掷骰子）</span>
+    $\Omega=\{1,2,3,4,5,6\}$。可定义的事件：
+    <ul>
+      <li>$A=\{2,4,6\}$："出现偶数"——骰子掷出 2、4、6 时事件 $A$ 发生。</li>
+      <li>$B=\{1\}$："出现 1 点"——这是一个<strong>基本事件</strong>。</li>
+      <li>$\Omega$ 本身是<strong>必然事件</strong>（必然发生）。</li>
+      <li>$\varnothing$ 是<strong>不可能事件</strong>（永远不发生）。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 事件的基本运算</h2>
+  <p>设 $A, B \subseteq \Omega$，常用集合运算：</p>
+  <table>
+    <tr><th>运算</th><th>记号</th><th>含义（人话）</th></tr>
+    <tr><td>并</td><td>$A \cup B$</td><td>$A$ 或 $B$ 至少一个发生</td></tr>
+    <tr><td>交</td><td>$A \cap B$（或 $AB$）</td><td>$A$ 与 $B$ 同时发生</td></tr>
+    <tr><td>差</td><td>$A - B$</td><td>$A$ 发生而 $B$ 不发生</td></tr>
+    <tr><td>补 / 对立</td><td>$A^c = \Omega - A$</td><td>$A$ 不发生</td></tr>
+    <tr><td>包含</td><td>$A \subseteq B$</td><td>$A$ 发生则 $B$ 必发生</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">易错点</span>
+    "对立"和"互斥"不同：
+    <ul>
+      <li><strong>对立（互逆）</strong> $A, A^c$：$A \cap A^c = \varnothing$ <strong>且</strong> $A \cup A^c = \Omega$。</li>
+      <li><strong>互斥（不相容）</strong> $A, B$：$A \cap B = \varnothing$。互斥不一定对立（两者可都不是 $\Omega$）。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. σ-代数（σ-Algebra）</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    一个"够用"的<strong>事件集合</strong>——里面的事件互相取并、取补、做可列次并之后还是这个集合里的成员。概率 $P$ 必须能作用到这些事件上，所以它必须"封闭"。
+  </div>
+
+  <h3>3.1 严格定义</h3>
+  <p>设 $\mathcal{F}$ 是由 $\Omega$ 的一些子集构成的<strong>非空集合类</strong>。若 $\mathcal{F}$ 满足：</p>
+  <ol>
+    <li>$\Omega \in \mathcal{F}$；</li>
+    <li>（<strong>对补封闭</strong>）若 $A \in \mathcal{F}$，则 $A^c \in \mathcal{F}$；</li>
+    <li>（<strong>对可列并封闭</strong>）若 $A_i \in \mathcal{F}$（$i=1,2,\dots$），则 $\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}$。</li>
+  </ol>
+  <p>则称 $\mathcal{F}$ 为 $\Omega$ 上的一个 <strong>σ-代数</strong>（$\sigma$-algebra，或 σ-域、随机事件体）。</p>
+
+  <div class="callout theorem">
+    <span class="label">等价刻画（教材补充）</span>
+    由三条公理可推出（也是常见考题）：
+    <ul>
+      <li>$\varnothing \in \mathcal{F}$（由 ② 对 $\Omega$ 取补）</li>
+      <li>对<strong>可列交</strong>封闭：$A_1, A_2, \dots \in \mathcal{F} \Rightarrow \bigcap_{i=1}^{\infty} A_i \in \mathcal{F}$（De Morgan）</li>
+      <li>对<strong>差</strong>封闭：$A, B \in \mathcal{F} \Rightarrow A - B \in \mathcal{F}$</li>
+      <li>对<strong>有限并 / 交</strong>封闭（可列并的特例）</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 基本事件与可测空间</h2>
+
+  <h3>4.1 基本事件（Elementary Event）</h3>
+  <p>仅含<strong>一个样本点</strong>的事件，称为基本事件，又叫<strong>原子</strong>（atom）。</p>
+  <p>$$\{\omega\} \in \mathcal{F} \quad \text{（对每个 } \omega \in \Omega \text{）}$$</p>
+
+  <h3>4.2 可测空间（Measurable Space）</h3>
+  <p>$\Omega$ 和 $\mathcal{F}$ 一起构成的<strong>二元组</strong> $(\Omega, \mathcal{F})$ 称为<strong>可测空间</strong>。</p>
+  $$\boxed{(\Omega, \mathcal{F})}$$
+  <p>它定义了"哪些集合算事件"，但不定义"事件发生的可能性"——后者由下一讲的概率测度 $P$ 给出。</p>
+
+  <!-- ============================================ -->
+  <h2>5. 几个重要 σ-代数</h2>
+
+  <h3>5.1 平凡 σ-代数（最小）</h3>
+  $$\mathcal{F} = \{\varnothing, \Omega\}$$
+  <p>满足三条公理。给可测空间"配最小的事件结构"——只能谈"必然"和"不可能"，问不到任何中间事件。</p>
+
+  <h3>5.2 离散 σ-代数（最大）</h3>
+  $$\mathcal{F} = 2^{\Omega} = \{A \mid A \subseteq \Omega\}$$
+  <p>当 $\Omega$ 是有限集时，$2^\Omega$ 就是最大的 σ-代数，包含 $\Omega$ 的<strong>所有</strong>子集，共 $2^{|\Omega|}$ 个元素。</p>
+
+  <div class="callout example">
+    <span class="label">Ex · $n$ 元集合的 σ-代数（教材原例 Ex.3）</span>
+    设 $\Omega = \{1, 2, \dots, n\}$，$\mathcal{F} = 2^\Omega$。问 $\mathcal{F}$ 有多少个元素？
+    $$\#\mathcal{F} = 2^n$$
+    因为每个子集对应一个长度为 $n$ 的 0/1 向量（决定每个 $\omega$ 是否在子集中），共 $2^n$ 种。
+  </div>
+
+  <h3>5.3 由单点集 $\{x\}$ 生成的 σ-代数（教材 Ex.4）</h3>
+  <div class="callout example">
+    <span class="label">Ex · $\mathcal{F}_\sigma(\{x\})$</span>
+    $$\mathcal{F}_\sigma(\{x\}) = \{\varnothing, \{x\}, \{x\}^c, \Omega\} = \{\varnothing, \{x\}, \Omega\}$$
+    （因为 $\{x\}^c = \Omega - \{x\}$；把 $\Omega$ 视为全集时，这 4 个里实际有 3 个不同元素，如果 $\Omega = \{x\}$ 则退化为 $\{\varnothing, \Omega\}$。）
+  </div>
+
+  <h3>5.4 Borel σ-代数（连续情形）</h3>
+  <p>当 $\Omega = \mathbb{R}$ 时，包含所有开区间 $(a, b)$ 的<strong>最小</strong> σ-代数，称为 $\mathbb{R}$ 上的 <strong>Borel σ-代数</strong> $\mathcal{B}(\mathbb{R})$。它是随机变量 / 随机过程理论的标准舞台。</p>
+
+  <!-- ============================================ -->
+  <h2>6. 一个完整的可测空间例子（教材 Ex.2）</h2>
+
+  <div class="callout example">
+    <span class="label">掷骰子 + 抛硬币</span>
+    $$\Omega_1 = \{1,2,3,4,5,6\},\quad \Omega_2 = \{H, T\}$$
+    $$\Omega = \Omega_1 \times \Omega_2 = \{(i, j) \mid i=1,\dots,6,\ j \in \{H, T\}\}$$
+    $$\mathcal{F} = 2^\Omega = \{\text{所有 } \Omega \text{ 子集}\}，\ \text{共 } 2^{12} = 4096 \text{ 个}$$
+    例如事件 $A = \{(1, H), (2, H), \dots, (6, H)\}$ = "硬币正面朝上"，$B = \{(1, H), (1, T)\}$ = "骰子掷出 1 点"。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 为什么需要 σ-代数？（一个高频疑问）</h2>
+
+  <div class="callout intuition">
+    <span class="label">回答</span>
+    因为我们<strong>不一定能给 $\Omega$ 的所有子集都定义概率</strong>。
+    <ul>
+      <li>当 $\Omega$ 有限或可数时——可以，所有子集都"安全"。</li>
+      <li>当 $\Omega = \mathbb{R}$ 或更复杂的空间时——存在<strong>不可测</strong>的子集（Vitali 集），无法给它们一致地定义概率。</li>
+      <li>σ-代数的存在，就是把"可以谈概率的事件"显式地圈出来，避免在不可测集上谈概率。</li>
+    </ul>
+    <p>所以 $(\Omega, \mathcal{F}, P)$ 是一个<strong>三件套</strong>：空间 + 哪些子集可测 + 在可测集上赋概率。少一个都不行。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>8. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 判断：以下哪个集合类是 σ-代数？<br>① $\mathcal{F}_1 = \{\varnothing, \Omega\}$  ② $\mathcal{F}_2 = \{A \subseteq \mathbb{R} \mid A \text{ 至多可数}\}$  ③ $\mathcal{F}_3 = \{\text{所有有限子集}\} \cup \{\mathbb{R}\}$</summary>
+    <p>① ✅ 是 σ-代数（最小情形）</p>
+    <p>② ❌ 不是——两个可数集之并不一定可数（甚至可能不可数），对可列并不封闭。</p>
+    <p>③ ❌ 不是——$\mathbb{R}$ 不是有限集，但有限集的可列并不一定是有限集，不封闭。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 设 $\mathcal{F} = \{\varnothing, \{1\}, \{2,3\}, \{1,2,3\}\}$。这是 $\Omega=\{1,2,3\}$ 上的 σ-代数吗？</summary>
+    <p>检查公理：</p>
+    <ul>
+      <li>① $\Omega=\{1,2,3\}\in\mathcal{F}$ ✓</li>
+      <li>② 对补封闭：$\{1\}^c=\{2,3\}\in\mathcal{F}$ ✓；$\{2,3\}^c=\{1\}\in\mathcal{F}$ ✓</li>
+      <li>③ 可列并：所有有限并都已在 $\mathcal{F}$ 内 ✓</li>
+    </ul>
+    <p>所以 ✅ <b>是</b> σ-代数。但注意 $\{2\}$、$\{3\}$ <b>不在</b> $\mathcal{F}$ 中——所以这不是最大 σ-代数，也不是"原子可见"的 σ-代数。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $\Omega$ 有限时，"$\mathcal{F}$ 是 σ-代数"等价于什么？</summary>
+    <p>等价于"<strong>对有限并 / 补封闭</strong>"。因为有限集的可列并可以替换成有限并。所以教材例题里只需验证"有限情形下的封闭性"。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · "所有子集" 是不是平凡 σ-代数？</summary>
+    <p>不是。"所有子集"是<strong>最大</strong> σ-代数。平凡 σ-代数是 $\{\varnothing, \Omega\}$——最小。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>σ-代数 = 一族"封闭"的事件集合：装下 $\Omega$、补回来、可列并回来。</strong> 概率 $P$ 必须能定义在它的成员上。
+  </div>
+
+  <div class="pager">
+    <a href="./01-随机试验与样本空间.html"><span class="label">← 上一节</span><span class="title">随机试验与样本空间</span></a>
+    <a href="./03-概率公理与概率空间.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">概率公理与概率空间</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 02 事件与 σ-代数 · 融合版课件</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08 互相关、互不相关与独立性 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 08</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html" class="current">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>08 · 互相关、互不相关与独立性</h1>
+  <p class="lede">上一节处理的是"一个过程内部"的相似度。这一节把两块拼起来：<strong>两个过程之间</strong>的相似度（互相关、互协方差），以及那个必须牢记的经典结论——<strong>独立一定互不相关，互不相关却一般不独立</strong>。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>互协方差 $C_{XY}(s,t)=R_{XY}(s,t)-m_X(s)m_Y(t)$；"互不相关"就是 $C_{XY}\equiv0$。</strong>独立 ⇒ 互不相关（因为期望能拆开），反过来只在<strong>联合正态</strong>时才成立。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>互相关 $R_{XY}(s,t)=E[X(s)Y(t)]$</strong>：问"$X$ 在 $s$ 时刻大，$Y$ 在 $t$ 时刻是不是也大？"注意<strong>两个时刻可以不同</strong>——这允许"$X$ 先动，$Y$ 后跟上"这种<strong>延迟响应</strong>（信号处理里找延迟就靠扫 $R_{XY}$ 的峰值）。</li>
+      <li><strong>互协方差 $C_{XY}(s,t)$</strong>：同样减掉各自的均值层，只留"波动之间的联动"。</li>
+      <li><strong>互不相关</strong>：$C_{XY}\equiv 0$，即"两个过程的<strong>线性</strong>关联为零"。请注意措辞——是<strong>线性</strong>关联。两个过程完全可能"非线性地绑死"却毫不相关。</li>
+      <li><strong>独立</strong>：比"不相关"强得多，要求<strong>整族分布</strong>都能拆（第 05 节）。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 空调遥控与室温</span>
+    <p>设 $X(t)$ 是空调遥控器发出的"设定温度"信号，$Y(t)$ 是房间实际温度。两者显然有关（你调低设定，室温会下降），但<strong>有延迟</strong>：$X$ 在 $s$ 时刻变化，$Y$ 要到 $s+\Delta$ 才响应。于是 $R_{XY}(s,s+\Delta)$ 会明显偏离 $m_Xm_Y$，而 $R_{XY}(s,s-\Delta)$（"未来的指令影响过去的室温"）几乎是 0。<strong>$R_{XY}(s,t)$ 的"不对称"正是因果与延迟的指纹</strong>——这也是它与 $R(s,t)$（对称）最大的形态差别。</p>
+  </div>
+
+  <h2>2. 严格定义</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 互协方差函数与互相关函数</span>
+    <p>给定两个随机过程 $\{X(t),t\in T\}$ 与 $\{Y(t),t\in T\}$，称</p>
+    $$C_{XY}(s,t)=E\bigl\{\bigl[X(s)-m_X(s)\bigr]\bigl[Y(t)-m_Y(t)\bigr]\bigr\},\qquad s,t\in T$$
+    <p>为它们的<strong>互协方差函数</strong>，其中 $m_X(s)=E[X(s)]$、$m_Y(t)=E[Y(t)]$。称</p>
+    $$R_{XY}(s,t)=E\bigl[X(s)Y(t)\bigr],\qquad s,t\in T$$
+    <p>为它们的<strong>互相关函数</strong>。显然</p>
+    $$C_{XY}(s,t)=R_{XY}(s,t)-m_X(s)\,m_Y(t)$$
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 互不相关</span>
+    <p>如果 $C_{XY}(s,t)=0$（对一切 $s,t\in T$），等价地</p>
+    $$R_{XY}(s,t)=m_X(s)\,m_Y(t),\quad\text{即}\quad E\bigl[X(s)Y(t)\bigr]=E[X(s)]\,E[Y(t)]$$
+    <p>则称 $\{X(t)\}$ 与 $\{Y(t)\}$ <strong>互不相关</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 · 转置对称性（注意与自相关的差别）</span>
+    $$R_{XY}(s,t)=R_{YX}(t,s),\qquad C_{XY}(s,t)=C_{YX}(t,s)$$
+    <p>因为 $E[X(s)Y(t)]=E[Y(t)X(s)]$，交换过程的同时<strong>两个时刻也要交换</strong>。<br>
+    <strong>对比</strong>：自相关有 $R(s,t)=R(t,s)$（只交换时刻，过程不变）；互相关<strong>没有</strong> $R_{XY}(s,t)=R_{XY}(t,s)$ 这种性质。这个差别正是上面"延迟指纹"的来源。</p>
+  </div>
+
+  <h2>3. 核心定理：独立 ⇒ 互不相关</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · 独立必不相关</span>
+    <p>若随机过程 $\{X(t),t\in T\}$ 与 $\{Y(t),t\in T\}$ <strong>相互独立</strong>，则它们<strong>一定互不相关</strong>。</p>
+    <p><strong>证明</strong> 对任意 $s,t\in T$，由独立性 $X(s)$ 与 $Y(t)$ 相互独立，故</p>
+    $$E\bigl[X(s)Y(t)\bigr]=E[X(s)]\,E[Y(t)]
+    \;\Longrightarrow\;
+    C_{XY}(s,t)=R_{XY}(s,t)-m_X(s)m_Y(t)=0$$
+    <p>即互不相关。$\blacksquare$</p>
+  </div>
+
+  <div class="callout danger">
+    <span class="label">反之不然 —— 这是本讲最重要的"坑"</span>
+    <p><strong>互不相关一般推不出相互独立。</strong>原因很直接：<strong>协方差只探测"线性"关联</strong>，而独立性要求<strong>所有形式的关联</strong>都为零。</p>
+    <p>课件里的原话是：</p>
+    <blockquote>"如果随机过程 $\{X(t)\}$ 和 $\{Y(t)\}$ 相互独立，则它们一定互不相关；反之，如果互不相关，一般不能推出它们相互独立。"</blockquote>
+    <p><strong>唯一的例外是正态情形</strong>：若 $\{X(t)\}$ 与 $\{Y(t)\}$ 是<strong>联合正态过程</strong>（任意有限个时刻合起来的联合分布都是正态），则"互不相关 $\iff$ 相互独立"。这条在第 11 节会再次用到。</p>
+  </div>
+
+  <h2>4. 三个必会算例</h2>
+
+  <h3>4.1 例 · 两个独立过程的互相关</h3>
+  <div class="callout example">
+    <span class="label">例 1</span>
+    <p>设 $\{X(t)\}$ 与 $\{Y(t)\}$ 相互独立，均值函数分别为 $m_X(t)=t$、$m_Y(t)=2t$，自相关函数分别为 $R_X(s,t)=1+st$、$R_Y(s,t)=4+2st$。求互相关函数。</p>
+    <p><strong>解</strong> 由独立性直接拆开：</p>
+    $$R_{XY}(s,t)=E[X(s)]E[Y(t)]=m_X(s)m_Y(t)=s\cdot 2t=2st$$
+    $$C_{XY}(s,t)=R_{XY}(s,t)-m_X(s)m_Y(t)=0$$
+    <p><strong>结论</strong>：独立过程的互相关完全由两个均值函数决定，没有任何"额外信息"。<strong>这就是"独立性让二阶信息退化"的具体表现。</strong></p>
+  </div>
+
+  <h3>4.2 例 · 共享一个随机变量的两个过程</h3>
+  <div class="callout example">
+    <span class="label">例 2</span>
+    <p>设 $X_0,V$ 是相互独立的标准正态变量，定义</p>
+    $$X(t)=X_0+Vt,\qquad Y(t)=X_0\quad (t\ge0)$$
+    <p>求 $R_{XY}(s,t)$ 与 $C_{XY}(s,t)$。</p>
+    <p><strong>解</strong> $m_X(t)=0$，$m_Y(t)=E(X_0)=0$，故 $C_{XY}=R_{XY}$。</p>
+    $$R_{XY}(s,t)=E\bigl[(X_0+Vs)\cdot X_0\bigr]=E(X_0^2)+s\,E(X_0V)=1+s\cdot 0=1$$
+    $$C_{XY}(s,t)=1-0=1$$
+    <p><strong>读法</strong>：结果恒为 $1$，<strong>与 $s,t$ 都无关</strong>。因为两个过程共享同一个 $X_0$，这个共同的随机成分带来的协方差恒为 $1$（即 $D(X_0)$）。<br>
+    <strong>更有意思的是</strong>：$Y(t)=X_0$ 与 $X(t)$ 显然<strong>高度依赖</strong>（$Y$ 完全由 $X$ 的一个成分决定），但它们的相关性是确定的常数——<strong>相关不等于依赖的强度，只反映线性成分的强度</strong>。</p>
+  </div>
+
+  <h3>4.3 反例 · 互不相关但相互依赖</h3>
+  <div class="callout danger">
+    <span class="label">例 3 · 经典反例（过程版）</span>
+    <p>设 $\Theta\sim U(0,2\pi)$，定义</p>
+    $$X(t)=\cos(t+\Theta),\qquad Y(t)=\cos^2(t+\Theta),\qquad t\in\mathbb R$$
+    <p>判断它们是否互不相关、是否相互独立。</p>
+    <p><strong>解（1）先算均值</strong>：对 $\Theta$ 在一个整周期上积分，</p>
+    $$m_X(t)=E[\cos(t+\Theta)]=0,\qquad m_Y(t)=E\bigl[\cos^2(t+\Theta)\bigr]=\frac{1}{2}$$
+    <p>（后者用了降幂公式，参考第 06 节 4.1。）</p>
+    <p><strong>（2）算互相关</strong>：</p>
+    $$R_{XY}(s,t)=E\bigl[\cos(s+\Theta)\cos^2(t+\Theta)\bigr]$$
+    <p>把 $\cos^2$ 降幂：$\cos^2(t+\Theta)=\dfrac{1+\cos(2t+2\Theta)}{2}$，则</p>
+    $$R_{XY}(s,t)=\frac{1}{2}E\bigl[\cos(s+\Theta)\bigr]+\frac{1}{2}E\bigl[\cos(s+\Theta)\cos(2t+2\Theta)\bigr]$$
+    <p>第一项 $=\dfrac12\cdot0=0$。第二项用积化和差，得到两个形如 $\cos(\text{常数}+k\Theta)$（$k\ne0$）的项，对 $\Theta$ 积分均为 $0$。故</p>
+    $$R_{XY}(s,t)=0$$
+    <p><strong>（3）算互协方差</strong>：</p>
+    $$C_{XY}(s,t)=R_{XY}(s,t)-m_X(s)m_Y(t)=0-0\cdot\frac{1}{2}=0$$
+    <p>所以 $X$ 与 $Y$ <strong>互不相关</strong>。</p>
+    <p><strong>（4）它们独立吗？不独立！</strong>因为</p>
+    $$Y(t)=\cos^2(t+\Theta)=\bigl[\cos(t+\Theta)\bigr]^2=X^2(t)$$
+    <p><strong>$Y$ 完全由 $X$ 决定</strong>——知道 $X(t)$ 就等于知道 $Y(t)$，这是最强的依赖。所以"互不相关"绝不意味着"没有关系"。<br>
+    <strong>根因</strong>：$Y$ 与 $X$ 的关系是<strong>平方</strong>（二次型），它是关于 $X=0$ 对称的，正负两侧"抵消"掉了线性相关。协方差只能看见直线，看不见抛物线。</p>
+  </div>
+
+  <h2>5. 独立 vs 互不相关：一张对照表</h2>
+  <div class="callout theorem">
+    <span class="label">两个概念的定量对比</span>
+    <table>
+      <tr><th></th><th>相互独立</th><th>互不相关</th></tr>
+      <tr><th>数学表述</th><td>$F_{XY}=F_X\cdot F_Y$（所有维度）</td><td>$C_{XY}(s,t)\equiv0$</td></tr>
+      <tr><th>探测什么关联</th><td>全部关联（线性 + 非线性）</td><td>仅线性关联</td></tr>
+      <tr><th>强度</th><td><strong>强</strong></td><td><strong>弱</strong></td></tr>
+      <tr><th>推导关系</th><td>$\Rightarrow$ 互不相关</td><td>$\nRightarrow$ 独立（联合正态例外）</td></tr>
+      <tr><th>典型反例</th><td colspan="2">$X(t)=\cos(t+\Theta)$、$Y(t)=X^2(t)$：不相关但 $Y=X^2$</td></tr>
+      <tr><th>本课程用处</th><td>第 05 节的联合分布、第 09 节独立过程</td><td>第 10 / 12 节证明增量独立、正态过程独立</td></tr>
+    </table>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把互不相关当成相互独立</strong>。这是概率论最经典的错误，两个方向的混淆都要避免：<strong>独立能推不相关，不相关不能推独立。</strong></li>
+      <li>❌ <strong>漏掉 $C_{XY}$ 里的均值项</strong>。$R_{XY}(s,t)=m_X(s)m_Y(t)$ 才等价于互不相关；只看 $R_{XY}=0$ 会误判。</li>
+      <li>❌ <strong>以为 $R_{XY}$ 也对称</strong>。$R_{XY}(s,t)=R_{XY}(t,s)$ <strong>不成立</strong>；正确的是 $R_{XY}(s,t)=R_{YX}(t,s)$。"$s$ 时刻的 $X$"与"$t$ 时刻的 $Y$"和"$t$ 时刻的 $X$"与"$s$ 时刻的 $Y$"是两回事。</li>
+      <li>❌ <strong>把"互不相关"与"两个过程彼此无关"等同</strong>。例 3 已证明：$Y=X^2$ 这种"完全决定"的关系，也可以互不相关。</li>
+      <li>❌ <strong>忘记"联合正态"这个前提就用"不相关 ⇒ 独立"</strong>。仅"$X$ 正态、$Y$ 正态"不够（第 00 节已给过边缘正态而联合非正态的反例）；必须是<strong>任意有限维联合正态</strong>。</li>
+      <li>❌ <strong>把互协方差与协方差函数混在一起算</strong>。$C(s,t)$ 是同一个过程两个时刻；$C_{XY}(s,t)$ 是两个过程。写公式时先确认是哪个。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 两个过程互不相关，是否意味着 $R_{XY}(s,t)=0$？</summary>
+    <p><strong>不一定</strong>。互不相关的定义是 $C_{XY}(s,t)=0$，即 $R_{XY}(s,t)=m_X(s)m_Y(t)$。<strong>只有当均值函数至少有一个恒为 0 时</strong>，才有 $R_{XY}\equiv0$。</p>
+    <p>例如 $m_X(t)=1$、$m_Y(t)=3$ 且互不相关，则 $R_{XY}(s,t)=3\ne0$。<strong>所以判断"不相关"必须看 $C_{XY}$，不能看 $R_{XY}$。</strong></p>
+  </details>
+  <details>
+    <summary>Q2 · 甲说"两个独立过程必然不相关"，乙说"两个不相关过程必然独立"。谁对？</summary>
+    <p><strong>甲对，乙错。</strong></p>
+    <ul>
+      <li>甲的依据：独立 $\Rightarrow E[X(s)Y(t)]=E[X(s)]E[Y(t)]$ $\Rightarrow C_{XY}=0$。这是本节的定理。</li>
+      <li>乙的反例：例 3，$X(t)=\cos(t+\Theta)$、$Y(t)=X^2(t)$，$C_{XY}\equiv0$ 但 $Y$ 完全由 $X$ 决定。</li>
+    </ul>
+    <p><strong>要养成习惯</strong>：看到"不相关"就自动在脑子里加一句"<strong>——只是线性层面</strong>"。</p>
+  </details>
+  <details>
+    <summary>Q3 · 若 $\{X(t)\}$ 与 $\{Y(t)\}$ 是联合正态过程且互不相关，能否断定独立？为什么？</summary>
+    <p><strong>能</strong>。任取有限个时刻，把 $(X(s_1),\dots,X(s_n),Y(t_1),\dots,Y(t_m))$ 合起来看，它是一个正态随机向量。互不相关意味着它的协方差矩阵是<strong>块对角阵</strong>（$X$ 与 $Y$ 的交叉块全为 0）。而对正态向量，协方差矩阵块对角 $\iff$ 两个子向量独立（第 00 节性质 4）。<br>
+    <strong>这一步在证明中的地位</strong>：它是"正态过程只需 $m(t)$ 与 $C(s,t)$ 就能完整刻画"的关键一环——因为一旦由二阶信息确认了独立性，高阶联合分布就被自动锁定了。第 11 节会详述。</p>
+  </details>
+  <details>
+    <summary>Q4 · 工程上怎么用互相关函数找"延迟"？</summary>
+    <p>把 $R_{XY}(s,t)$ 写成"固定 $s$、扫 $t$"的形式：$R_{XY}(s,s+\Delta)$。如果 $Y$ 是 $X$ 经过延迟 $\Delta_0$ 的响应，那么 $R_{XY}(s,s+\Delta)$ 会在 $\Delta=\Delta_0$ 处出现<strong>峰值</strong>。</p>
+    <p><strong>现实例子</strong>：麦克风阵列定位声源（两路信号互相关的峰值位置对应到达时间差）、雷达测距、地震波走时分析、以及神经网络里"对齐两个序列"的思路，本质都是在扫 $R_{XY}$ 找峰。<strong>反过来，$R_{XY}(s,s-\Delta)$ 在 $\Delta&gt;0$ 时接近 0，则说明因果方向是 $X\to Y$（"将来"不可能是"过去"的原因）。</strong></p>
+  </details>
+
+  <div class="pager">
+    <a href="./07-相关函数与协方差函数.html"><span class="label">← 上一节</span><span class="title">相关函数与协方差函数</span></a>
+    <a href="./09-独立过程与独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">独立过程与独立增量过程</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

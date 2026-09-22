@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 随机试验与样本空间 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{font-size:16px;color:var(--c-muted);margin:8px 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  .source{font-size:13px;color:var(--c-muted);margin-top:6px}
+  .source a{color:var(--c-primary);text-decoration:none}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 01</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html" class="current">01 随机试验与样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-频率收敛.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>01 · 随机试验与样本空间</h1>
+  <p class="lede">一切概率论的开端：把"一次试验"用集合 $\Omega$ 形式化。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 随机试验（Random Experiment）</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    满足<strong>三条性质</strong>的一次"观察 / 操作 / 实验"——可重复、结果不止一个但事先知道所有可能、单次结果事先无法确定。
+  </div>
+
+  <h3>1.1 严格定义</h3>
+  <p>一个试验 $E$ 若同时满足以下三条，则称其为<strong>随机试验</strong>（<em>stochastic / random experiment</em>）：</p>
+  <ol>
+    <li>在<strong>相同条件</strong>下可以<strong>重复进行</strong>；</li>
+    <li>每次试验的可能结果<strong>不止一个</strong>，并且能<strong>事先明确知道</strong>所有可能结果；</li>
+    <li>在一次试验结束之前，<strong>不能确定</strong>哪一个结果会出现。</li>
+  </ol>
+
+  <div class="callout example">
+    <span class="label">现实例子（课件原例改编）</span>
+    <p><strong>例 1 · 掷骰子</strong>：在桌面上掷一颗均匀骰子，记录朝上的面。</p>
+    <ul>
+      <li>✅ 可重复：随便掷多少次都行</li>
+      <li>✅ 结果不止一个、且事先知道：$\{1,2,3,4,5,6\}$</li>
+      <li>✅ 单次结果事先不知道：下一次具体掷出几，不确定</li>
+    </ul>
+    <p><strong>例 2 · 抛硬币</strong>：结果集 $\{H, T\}$（正面 / 反面）。</p>
+    <p><strong>例 3 · 测灯泡寿命</strong>：从一批灯泡里随机取一个，开着等它烧坏，记录寿命 $t$（小时）。结果集 $[0, +\infty)$。</p>
+    <p><strong>反例 · 太阳从东方升起</strong>：不是随机试验（不可重复、结果唯一）。</p>
+    <p><strong>反例 · 在某路口观察下一分钟通过的车数</strong>：结果事先知道是 $0,1,2,\dots$ 但"通过哪辆车"无法事先全部列举——所以有时建模上需要做近似。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错点</span>
+    <ul>
+      <li>三条<strong>必须同时</strong>满足。"不可重复"或"结果唯一"或"结果事先未知"任一不满足，就<strong>不是</strong>随机试验。</li>
+      <li>"事先知道所有可能"≠"事先知道具体结果"。掷骰子前知道可能面是 $\{1,...,6\}$，但不知道下次具体几。</li>
+      <li>很多工程 / 商业实验（如 A/B 测试）也视作随机试验。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 样本点（Sample Point）</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    一次随机试验的<strong>每一个具体结果</strong>，叫一个样本点，用 $\omega$ 表示。
+  </div>
+
+  <h3>2.1 严格定义</h3>
+  <p>随机试验 $E$ 的每一个<strong>不可再分的具体结果</strong> $\omega$，称为该试验的一个<strong>样本点</strong>（<em>sample point</em>，或样本元素、基本事件点）。</p>
+
+  <div class="callout example">
+    <span class="label">例子</span>
+    <ul>
+      <li>掷一颗骰子：样本点 $\omega_i = i$，$i=1,2,\dots,6$，共 6 个。</li>
+      <li>抛一枚硬币：样本点 $\omega_1 = H$，$\omega_2 = T$，共 2 个。</li>
+      <li>测灯泡寿命：每个实数 $t \geq 0$ 就是一个样本点，<strong>无穷不可数</strong>个。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 样本空间（Sample Space）</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    一个试验<strong>所有可能样本点的集合</strong>，记作 $\Omega$。
+  </div>
+
+  <h3>3.1 严格定义</h3>
+  <p>随机试验 $E$ 的<strong>全体样本点</strong>构成的集合，称为该试验的<strong>样本空间</strong>（<em>sample space</em>），记为 $\Omega$。</p>
+  $$\Omega = \{\omega \mid \omega \text{ 是 } E \text{ 的一个样本点}\}$$
+
+  <h3>3.2 样本空间的分类</h3>
+  <table>
+    <tr><th>类型</th><th>特征</th><th>例子</th></tr>
+    <tr><td>有限样本空间</td><td>样本点有限个</td><td>掷骰子 $\Omega=\{1,2,3,4,5,6\}$</td></tr>
+    <tr><td>可数（离散）样本空间</td><td>样本点可列无穷个</td><td>抛硬币直到首次出现正面，记录抛的次数：$\Omega=\{1,2,3,\dots\}$</td></tr>
+    <tr><td>不可数（连续）样本空间</td><td>样本点与实数区间对应</td><td>测灯泡寿命：$\Omega=[0,+\infty)$</td></tr>
+  </table>
+
+  <h3>3.3 典型例子（与教材对应）</h3>
+  <div class="callout example">
+    <span class="label">Ex · 骰子 + 硬币乘积空间</span>
+    <p>先掷骰子（$E_1$），再抛硬币（$E_2$）。把它们"拼"在一起作为一次复合试验：</p>
+    $$E = E_1 \times E_2, \qquad \Omega = \Omega_1 \times \Omega_2$$
+    $$\Omega_1=\{1,2,3,4,5,6\},\ \Omega_2=\{H,T\}$$
+    $$\Omega = \{(i,j) \mid i=1,\dots,6,\ j\in\{H,T\}\}$$
+    例如 $(3,H)$ 表示"骰子掷出 3，硬币正面"；$(5,T)$ 表示"骰子掷出 5，硬币反面"。共 $6 \times 2 = 12$ 个样本点。
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · n 次独立试验</span>
+    <p>把同一试验 $E$ 独立重复 $n$ 次（如抛 $n$ 次硬币）：</p>
+    $$\Omega_n = \Omega^n = \underbrace{\Omega \times \Omega \times \cdots \times \Omega}_{n\text{ 个}}$$
+    抛 3 次硬币的样本空间有 $2^3 = 8$ 个样本点：$(H,H,H),(H,H,T),\dots,(T,T,T)$。
+  </div>
+
+  <h3>3.4 $\Omega$ 的两个特殊元素</h3>
+  <ul>
+    <li><strong>必然事件</strong> $\Omega$ 本身：每次试验必定发生。</li>
+    <li><strong>不可能事件</strong> $\varnothing$：永远不会发生，是 $\Omega$ 的空子集。</li>
+  </ul>
+
+  <!-- ============================================ -->
+  <h2>4. 关键性质小结</h2>
+  <table>
+    <tr><th>对象</th><th>记号</th><th>性质</th></tr>
+    <tr><td>随机试验</td><td>$E$</td><td>满足"可重复 + 结果可知 + 单次不确定"三条</td></tr>
+    <tr><td>样本点</td><td>$\omega$</td><td>单次试验的不可再分结果</td></tr>
+    <tr><td>样本空间</td><td>$\Omega$</td><td>所有样本点的集合；可能有限、可数或不可数</td></tr>
+    <tr><td>必然事件</td><td>$\Omega$</td><td>$\Omega \in \mathcal{F}$（下一讲）</td></tr>
+    <tr><td>不可能事件</td><td>$\varnothing$</td><td>$\varnothing \in \mathcal{F}$</td></tr>
+  </table>
+
+  <!-- ============================================ -->
+  <h2>5. 自检问题（先遮住答案，自己想）</h2>
+  <details>
+    <summary>Q1 · 写出"连续掷 2 颗骰子，记录点数之和"的样本空间 $\Omega$。</summary>
+    <p>$\Omega = \{2,3,4,\dots,12\}$，共 11 个样本点。</p>
+    <p>注意：<strong>不能</strong>用 $\{(i,j)\mid i,j=1,\dots,6\}$ 来描述——那是"记录两颗骰子的点数"的样本空间（36 个元素），不是"记录点数之和"。</p>
+  </details>
+  <details>
+    <summary>Q2 · 同一试验的样本空间是否唯一？</summary>
+    <p><strong>不是</strong>。"观察同一颗骰子"既可以取 $\Omega_1=\{1,2,3,4,5,6\}$（只看数字），也可以取 $\Omega_2=\{\text{奇},\text{偶}\}$（只看奇偶）。样本空间依赖于你关心什么。</p>
+    <p>这是建模自由度——同一个物理试验，可以有不同的概率模型，<strong>只要计算出的感兴趣概率一致就行</strong>。</p>
+  </details>
+  <details>
+    <summary>Q3 · 抛硬币直到正面出现，样本空间是什么？</summary>
+    <p>$\Omega = \{1, 2, 3, \dots\}$，可数无穷。因为第一次就正面（样本点 1），或第一次反面第二次正面（样本点 2），等等。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>随机试验 = 知道所有可能 + 不确定单次结果；样本空间 $\Omega$ = 把这些"所有可能"装进一个集合。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./index.html"><span class="label">← 返回</span><span class="title">讲次首页</span></a>
+    <a href="./02-事件与σ-代数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">事件与 σ-代数</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 01 随机试验与样本空间 · 融合版课件</footer>
+</div>
+</body>
+</html>

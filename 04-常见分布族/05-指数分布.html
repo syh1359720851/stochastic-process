@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta meta="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 指数分布 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 05</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html">03 Poisson</a>
+    <a href="./04-均匀分布.html">04 均匀</a>
+    <a href="./05-指数分布.html" class="current">05 指数</a>
+    <a href="./06-Gamma与正态分布.html">06 Gamma / 正态</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>05 · 指数分布</h1>
+  <p class="lede">"<strong>几何分布的连续版本</strong>"——同样具有<strong>无记忆性</strong>。它是 Poisson 过程<strong>间隔时间</strong>的标准模型，也是排队论 M/M/1 的核心。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>指数分布 = 描述"<strong>两次相邻稀有事件之间的等待时间</strong>"</strong>。
+    <ul>
+      <li>参数 $\lambda>0$：单位时间内<strong>平均发生</strong>的次数（与 Poisson 的 $\lambda$ <strong>同义</strong>）。</li>
+      <li>取值 $\mathbb{R}^+$：等待时间非负。</li>
+      <li>它的"<strong>无记忆</strong>"性质：与几何分布互为离散-连续类比——这是工程中"指数假设"的核心。</li>
+      <li>在排队论中：顾客到达的<strong>间隔</strong>、服务时间、寿命——都常用 $\text{Exp}(\lambda)$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li>相邻两位顾客到达银行的<strong>间隔时间</strong>（$\lambda=20$ 人/h，则平均间隔 $1/20$ h = 3 分钟）。</li>
+      <li>灯泡寿命：从点亮到烧毁的<strong>时间</strong>（指数假设是可靠性工程的简化模型）。</li>
+      <li>客服电话的<strong>等待接通</strong>时间。</li>
+      <li>地震<strong>复发</strong>间隔（指数假设简化模型）。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 指数分布 $\text{Exp}(\lambda)$</span>
+    <p>随机变量 $X$ 取非负实数值，密度函数为</p>
+    $$\boxed{f(x)=\begin{cases}\lambda e^{-\lambda x},& x\ge 0\\ 0,& x&lt;0\end{cases}}$$
+    <p>其中 $\lambda>0$。记作 $X\sim\text{Exp}(\lambda)$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">分布函数与尾概率</span>
+    $$F(x)=\begin{cases}1-e^{-\lambda x},& x\ge 0\\ 0,& x&lt;0\end{cases}$$
+    $$\bar F(x)=P(X>x)=e^{-\lambda x},\quad x\ge 0$$
+    <p>$F$ 是"<strong>指数</strong>"爬升——$\lambda$ 越大爬得越快。这是分布名字的来源。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">归一性验证</span>
+    $$\int_0^\infty \lambda e^{-\lambda x}\,dx=\left[-e^{-\lambda x}\right]_0^\infty=0-(-1)=1\ \checkmark$$
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 关键性质</h2>
+
+  <h3>3.1 数字特征</h3>
+  <div class="callout theorem">
+    <span class="label">期望 / 方差 / 特征函数</span>
+    <table>
+      <tr><th>期望 $E(X)$</th><th>方差 $D(X)$</th><th>特征函数 $\Phi(t)$</th></tr>
+      <tr><td>$1/\lambda$</td><td>$1/\lambda^2$</td><td>$\lambda/(\lambda-it)$</td></tr>
+    </table>
+    <p>$\lambda$ 越大（事件越频繁），平均等待时间 $1/\lambda$ 越短。</p>
+  </div>
+
+  <!-- 数字特征推导（点击展开） -->
+  <details>
+    <summary>📐 <strong>推导 1 · $E(X)=\dfrac{1}{\lambda}$（分部积分 5 步）</strong></summary>
+
+    <p>目标：</p>
+    $$E(X) = \int_0^{+\infty} x \cdot \lambda e^{-\lambda x}\,dx$$
+
+    <p><strong>直觉</strong>：被积函数是"<strong>多项式 × 指数</strong>"——分部积分的经典套路。<strong>原则：多项式进 $u$，指数进 $dv$</strong>（指数放进 $dv$，积分后会多出系数 $\lambda$，得到 $e^{-\lambda x}$，更简洁）。</p>
+
+    <p><strong>步骤 1 · 拆 $u, dv$</strong></p>
+    $$u = x, \qquad dv = \lambda e^{-\lambda x}\,dx$$
+    $$du = dx, \qquad v = \int \lambda e^{-\lambda x}\,dx = -e^{-\lambda x}$$
+    <p>⚠️ $v$ 里的负号最容易漏——分部积分公式最后一项会带这个符号，错一点就错。</p>
+
+    <p><strong>步骤 2 · 套公式 $\int u\,dv = [u\,v]_a^b - \int v\,du$</strong></p>
+    $$E(X) = \Big[-x e^{-\lambda x}\Big]_0^{+\infty} - \int_0^{+\infty}(-e^{-\lambda x})\,dx$$
+    $$=\Big[-x e^{-\lambda x}\Big]_0^{+\infty} + \int_0^{+\infty} e^{-\lambda x}\,dx$$
+
+    <p><strong>步骤 3 · 边界项 $= 0$（这一步最容易卡）</strong></p>
+    <p>为什么 $\displaystyle\lim_{x \to +\infty} x e^{-\lambda x} = 0$？</p>
+    <p><strong>直观</strong>：分子 $x$ 线性增长，分母 $e^{\lambda x}$ 指数增长——<strong>指数永远跑赢线性</strong>。</p>
+    <p><strong>严谨（洛必达）</strong>：</p>
+    $$\lim_{x\to+\infty}\frac{x}{e^{\lambda x}} \;\stackrel{\text{L'H}}{=}\; \lim_{x\to+\infty}\frac{1}{\lambda e^{\lambda x}} = 0$$
+    <p>因此：</p>
+    $$\Big[-x e^{-\lambda x}\Big]_0^{+\infty} \;=\; 0 - 0 \;=\; 0$$
+
+    <p><strong>步骤 4 · 算剩下的积分</strong></p>
+    $$\int_0^{+\infty} e^{-\lambda x}\,dx = \Big[-\tfrac{1}{\lambda}e^{-\lambda x}\Big]_0^{+\infty} = 0 - (-\tfrac{1}{\lambda}) = \tfrac{1}{\lambda}$$
+
+    <p><strong>步骤 5 · 合起来</strong></p>
+    $$E(X) = 0 + \tfrac{1}{\lambda} \;=\; \boxed{\tfrac{1}{\lambda}}\ \checkmark$$
+
+    <div style="margin-top:10px;padding:10px 12px;background:var(--c-primary-bg);border-radius:6px;border-left:3px solid var(--c-primary);font-size:14px">
+      💡 <strong>套路总结</strong>：求 $\int_0^{+\infty} x^k \lambda e^{-\lambda x}\,dx$，就一招"多项式进 $u$，指数进 $dv$"。每分部一次 $k$ 降 1，最终化到 $\int e^{-\lambda x}\,dx = 1/\lambda$。$k$ 次分部后得到 $k!/\lambda^{k+1}$——这就是 Gamma 分布 $\Gamma(k+1,\lambda)$ 各阶原点矩公式的来源。
+    </div>
+  </details>
+
+  <details>
+    <summary>📐 <strong>推导 2 · $D(X)=\dfrac{1}{\lambda^2}$（借力 $\text{Var}=E(X^2)-[E(X)]^2$）</summary>
+
+    <p>先算 $E(X^2)$，用<strong>同一手法</strong>（$u=x^2$，$dv=\lambda e^{-\lambda x}\,dx$）：</p>
+    $$E(X^2) = \int_0^{+\infty} x^2 \lambda e^{-\lambda x}\,dx$$
+    $$=\Big[-x^2 e^{-\lambda x}\Big]_0^{+\infty} + \int_0^{+\infty} 2x\,e^{-\lambda x}\,dx$$
+    $$= 0 + \frac{2}{\lambda}\int_0^{+\infty} \lambda x\,e^{-\lambda x}\,dx = \frac{2}{\lambda}\cdot \underbrace{E(X)}_{=1/\lambda} = \frac{2}{\lambda^2}$$
+
+    <p>套方差定义：</p>
+    $$\text{Var}(X) = E(X^2) - [E(X)]^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \boxed{\frac{1}{\lambda^2}}\ \checkmark$$
+
+    <div style="margin-top:10px;padding:10px 12px;background:var(--c-primary-bg);border-radius:6px;border-left:3px solid var(--c-primary);font-size:14px">
+      📌 <strong>关键省力</strong>：算方差的两步套路是"<strong>先算 $E(X^2)$（分部积分），再用 $\text{Var}=E(X^2)-[E(X)]^2$</strong>"。不要去硬算 $E[(X-\mu)^2]$——那种"先减后平方"的形式远不如这种"先 $E(X^2)$ 再减"省事。
+    </div>
+  </details>
+
+  <h3>3.2 无记忆性（核心考点）</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 无记忆性</span>
+    <p>若 $X\sim\text{Exp}(\lambda)$，则对任意 $s,t>0$，</p>
+    $$\boxed{P(X>s+t\mid X>s)=P(X>t)=\frac{\bar F(s+t)}{\bar F(s)}}$$
+    <p>直观——"已经等了 $s$ 时间，再等 $t$ 的概率 = 直接等 $t$ 的概率"。过去的等待对未来<strong>无影响</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">重要 · 连续族中<strong>唯一</strong>无记忆的分布</span>
+    <p>指数分布是<strong>连续型随机变量中唯一</strong>具有无记忆性的分布。证明：设 $X$ 在 $[0,\infty)$ 上取值，密度 $f>0$，无记忆性推出</p>
+    $$\bar F(s+t)=\bar F(s)\bar F(t)$$
+    <p>这是 Cauchy 函数方程，可微下推出 $\bar F(t)=e^{-\lambda t}$，$f(t)=\lambda e^{-\lambda t}$——正是指数。</p>
+    <p><strong>对应关系</strong>：离散族中"几何"是唯一无记忆，连续族中"指数"是唯一无记忆——二者是离散-连续类比。</p>
+  </div>
+
+  <h3>3.3 与 Poisson 的对偶</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · Poisson 过程间隔</span>
+    <p>若 $\{N(t):t\ge 0\}$ 是<strong>Poisson 过程</strong>（速率 $\lambda$，详见第 10 讲），则相邻两次事件之间的间隔 $X_i$ <strong>独立</strong>同分布 $\text{Exp}(\lambda)$。</p>
+    <p>反之，若 $X_i\sim\text{Exp}(\lambda)$ i.i.d.，则 $S_n=X_1+\dots+X_n$ 的到达计数 $N(t)=\max\{n:S_n\le t\}$ 是 Poisson 过程。</p>
+    <p><strong>Poisson 计数 ↔ 指数间隔</strong>——二者互为镜像，是<strong>排队论的基石</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 典型例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 银行窗口</span>
+    <p>某银行平均每小时到达 20 位顾客，相邻顾客间隔 $X\sim\text{Exp}(20)$（每小时 20 次）。</p>
+    <p>$E(X)=1/20$ 小时 = 3 分钟。</p>
+    <p>$P(X&gt;5\text{min})=P(X&gt;1/12\text{ h})=e^{-20/12}=e^{-5/3}\approx 0.189$。</p>
+    <p>$P(X\le 2\text{min})=1-e^{-20/30}=1-e^{-2/3}\approx 0.487$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 灯泡寿命（无记忆）</span>
+    <p>某型号灯泡寿命 $X\sim\text{Exp}(1/2000)$（平均 2000 小时）。</p>
+    <p>已经用 1000 小时未坏，再坏前还能用 1000 小时以上的概率？</p>
+    <p>由无记忆：$P(X&gt;2000\mid X&gt;1000)=P(X&gt;1000)=e^{-1000/2000}=e^{-1/2}\approx 0.607$。</p>
+    <p><strong>这意味着什么？</strong>指数假设下，灯泡"<strong>越用越新</strong>"——已用多久对未来寿命没影响。这与实际不符（灯泡通常有"老化"），所以指数假设是一种简化。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 排队 M/M/1（预告）</span>
+    <p>某服务窗口：顾客到达速率 $\lambda=4$ 人/h（间隔 $\text{Exp}(4)$），服务速率 $\mu=5$ 人/h（服务时间 $\text{Exp}(5)$）。</p>
+    <p>第 13 讲排队论会证明：系统<strong>稳定</strong>条件 $\rho=\lambda/\mu&lt;1$，即 $\rho=4/5=0.8$。系统平均队长 $L=\rho/(1-\rho)=4$，平均等待 $W=L/\lambda=1$ h。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 易错点</h2>
+
+  <div class="callout danger">
+    <span class="label">致命错误 · 指数假设的"<strong>老化</strong>"反例</label>
+    <p>指数分布"<strong>无老化</strong>"——但实际设备寿命有"老化"（用越久越易坏）。指数假设是<strong>简化</strong>，常用于：</p>
+    <ul>
+      <li>排队论（到达间隔 / 服务时间）；</li>
+      <li>可靠性初步建模；</li>
+      <li>复合 Poisson 模型。</li>
+    </ul>
+    <p>若数据有"老化"现象（如 IFR 失效率递增），需用 Weibull / Gamma 替代。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · 速率 $\lambda$ 的单位</label>
+    <p>$\lambda$ 的单位是"<strong>次/单位时间</strong>"。改变时间单位，$\lambda$ 必须改：</p>
+    <ul>
+      <li>若平均 1 小时 1 次（$\lambda=1$ /h），则平均 1 分钟 $1/60$ 次（$\lambda=1/60$ /min）。</li>
+      <li>若 $X\sim\text{Exp}(\lambda)$ 表示"<strong>小时</strong>单位的等待时间"，改成"分钟"则 $X' = 60X\sim\text{Exp}(\lambda/60)$。</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · "指数族" ≠ "指数分布"</label>
+    <p>本节是<strong>指数分布</strong>（Exponential distribution）。</p>
+    <p>"指数族"（Exponential family）是另一概念：把所有分布写成 $p(x;\eta)=h(x)\exp(\eta^\top T(x)-A(\eta))$。Bernoulli / 正态 / Poisson / Gamma / 二项都是指数族——但这是第 05 讲的内容。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $X\sim\text{Exp}(2)$，求 $E(X)$，$D(X)$，$P(X&gt;1)$。</summary>
+    <p>$E(X)=1/2$，$D(X)=1/4$。</p>
+    <p>$P(X&gt;1)=e^{-2}\approx 0.1353$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · $X\sim\text{Exp}(\lambda)$，求 $E(X\mid X&gt;a)$。</summary>
+    <p>由无记忆性：$X-a\mid X&gt;a\sim\text{Exp}(\lambda)$，故 $E(X\mid X&gt;a)=a+1/\lambda$。</p>
+    <p>直观：已经等了 $a$，再平均等 $1/\lambda$。所以"<strong>剩余寿命</strong>"与新等待<strong>同分布</strong>。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 顾客间隔 $\text{Exp}(\lambda=2)$，求"30 秒内无顾客到达"的概率（设 $\lambda$ 单位 = /分钟）。</summary>
+    <p>$P(X&gt;0.5)=e^{-2\times 0.5}=e^{-1}\approx 0.368$。</p>
+    <p>等价表述：30 秒间隔大于 30 秒（无到达）。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 验证指数分布是无记忆的。</summary>
+    <p>$P(X&gt;s+t\mid X&gt;s)=\dfrac{P(X&gt;s+t)}{P(X&gt;s)}=\dfrac{e^{-\lambda(s+t)}}{e^{-\lambda s}}=e^{-\lambda t}=P(X&gt;t)$ ✓</p>
+  </details>
+
+  <details>
+    <summary>Q5 · 为什么指数分布是 Poisson 过程的"间隔分布"？</summary>
+    <p>Poisson 过程有三条等价定义（详见第 10 讲），其中一条是"相邻事件间隔 i.i.d. Exp($\lambda$)"。直观：</p>
+    <ul>
+      <li>Poisson 计数说"$\lambda t$ 时间内到达 $k$ 次"的概率；</li>
+      <li>指数间隔说"<strong>下次</strong>到达还要 $t$ 时间"的概率；</li>
+      <li>两者描述的是<strong>同一物理过程</strong>，只是视角不同——计数 vs 间隔。</li>
+    </ul>
+    <p>这是排队论的<strong>最根本对应关系</strong>。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>指数 $\text{Exp}(\lambda)$：$f(x)=\lambda e^{-\lambda x}$（$x\ge 0$），$F(x)=1-e^{-\lambda x}$；均值 $1/\lambda$，方差 $1/\lambda^2$；<u>连续族唯一无记忆</u>；是 Poisson 过程相邻事件的间隔分布。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./04-均匀分布.html"><span class="label">← 上一节</span><span class="title">均匀分布</span></a>
+    <a href="./06-Gamma与正态分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">Gamma 与正态分布</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 05 指数分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

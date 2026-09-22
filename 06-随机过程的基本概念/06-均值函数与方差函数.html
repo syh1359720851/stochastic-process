@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 均值函数与方差函数 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html" class="current">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · 均值函数与方差函数</h1>
+  <p class="lede">有限维分布族虽然完备，但"无穷多个分布函数"没法画、没法比。于是我们退回第 05 讲的老办法：<strong>把过程压缩成几个数</strong>。只不过这次已经不是"一个数"了——每个时刻都有自己的期望和方差，所以它们成为<strong>两个函数</strong>：均值函数 $m(t)$ 与方差函数 $D(t)$。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>$m(t)=E[X(t)]$ 是"所有轨道的平均曲线"，$D(t)=D[X(t)]$ 是"轨道围绕这条平均曲线的散布程度"。</strong>把无数条轨道压成"一条中心线 + 一条宽度带"，是最实用的可视化模型。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · 一族轨道的"中心 + 宽度"</span>
+    <ul>
+      <li><strong>均值函数 $m(t)$</strong>：在时刻 $t$ 把所有可能轨道的高度取加权平均，得到一个确定性的数 $m(t)$；$t$ 一动就描出一条曲线。它<strong>通常不是任何一条实际轨道</strong>，而是"平均轨道"。</li>
+      <li><strong>方差函数 $D(t)$</strong>：刻画时刻 $t$ 时各条轨道离 $m(t)$ 有多远。$D(t)$ 小说明"每次实验都差不多"，$D(t)$ 大说明"这个时刻很不确定"。</li>
+      <li><strong>均方差函数 $\sigma(t)=\sqrt{D(t)}$</strong>：量纲与 $X(t)$ 一致，所以画图时用 $\sigma(t)$ 而不是 $D(t)$——"$m(t)\pm\sigma(t)$ 带"才是可以目测的"概率走廊"。</li>
+      <li><strong>关键一步的松绑</strong>：$m(t)$ 与 $D(t)$ <strong>都只用到一维分布</strong>。所以它们比有限维分布族好算得多；代价是丢掉跨时刻的关联信息——那个信息留给 $R(s,t)$ 与 $C(s,t)$（第 07 节）。</li>
+    </ul>
+  </div>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 258" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>样本轨道族、均值函数与均方差带</title>
+      <desc>图中画出五条样本轨道，中间的红色虚线为均值函数，浅蓝色区域为均值上下各一个均方差的带状范围，随时间变宽。</desc>
+      <line x1="55" y1="200" x2="645" y2="200" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="60" y1="30" x2="60" y2="200" stroke="#57606a" stroke-width="0.8"/>
+      <polygon points="60,200 172,170.4 284,148.8 396,128.5 508,108.8 620,89.6 620,150.4 508,163.2 396,175.5 284,187.2 172,197.6 60,200" fill="#ddf4ff" stroke="#0969da" stroke-width="0.5"/>
+      <polyline points="60,200 172,178 284,158 396,140 508,124 620,104" fill="none" stroke="#8250df" stroke-width="1"/>
+      <polyline points="60,200 172,182 284,166 396,150 508,140 620,132" fill="none" stroke="#8250df" stroke-width="1"/>
+      <polyline points="60,200 172,175 284,152 396,132 508,116 620,96" fill="none" stroke="#8250df" stroke-width="1"/>
+      <polyline points="60,200 172,190 284,176 396,160 508,146 620,140" fill="none" stroke="#8250df" stroke-width="1"/>
+      <polyline points="60,200 172,168 284,142 396,126 508,110 620,92" fill="none" stroke="#8250df" stroke-width="1"/>
+      <line x1="60" y1="200" x2="620" y2="120" stroke="#cf222e" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="60" y="215" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="172" y="215" font-size="11" fill="#57606a" text-anchor="middle">2</text>
+      <text x="284" y="215" font-size="11" fill="#57606a" text-anchor="middle">4</text>
+      <text x="396" y="215" font-size="11" fill="#57606a" text-anchor="middle">6</text>
+      <text x="508" y="215" font-size="11" fill="#57606a" text-anchor="middle">8</text>
+      <text x="620" y="215" font-size="11" fill="#57606a" text-anchor="middle">10</text>
+      <text x="650" y="222" font-size="12" fill="#57606a">t</text>
+      <text x="30" y="30" font-size="12" fill="#57606a">X(t)</text>
+      <line x1="70" y1="240" x2="100" y2="240" stroke="#8250df" stroke-width="1.4"/>
+      <text x="106" y="244" font-size="12" fill="#57606a">样本轨道</text>
+      <line x1="200" y1="240" x2="230" y2="240" stroke="#cf222e" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="236" y="244" font-size="12" fill="#57606a">均值函数 m(t)</text>
+      <rect x="390" y="234" width="30" height="12" fill="#ddf4ff" stroke="#0969da" stroke-width="0.5"/>
+      <text x="426" y="244" font-size="12" fill="#57606a">m(t) ± σ(t) 带</text>
+    </svg>
+  </div>
+
+  <h2>2. 均值函数</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 均值函数（数学期望）</span>
+    <p>给定随机过程 $\{X(t),t\in T\}$，称</p>
+    $$m(t)=E[X(t)],\qquad t\in T$$
+    <p>为该过程的<strong>均值函数</strong>。具体形式按状态空间类型分两种：</p>
+    <ul>
+      <li><strong>离散型</strong>（状态空间离散）：$X(t)$ 的概率分布为 $p_k(t)=P\{X(t)=x_k\}$，$k=1,2,\dots$，则
+      $$m(t)=E[X(t)]=\sum_{k}x_k\,p_k(t)$$</li>
+      <li><strong>连续型</strong>（状态空间连续，一维密度 $f(t,x)$）：则
+      $$m(t)=E[X(t)]=\int_{-\infty}^{+\infty}x\,f(t,x)\,dx$$</li>
+    </ul>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 · 均值函数的线性性</span>
+    <p>设 $a,b$ 为常数，$\{X(t)\}$、$\{Y(t)\}$ 的均值函数分别为 $m_X(t)$、$m_Y(t)$，则</p>
+    <ol>
+      <li>$E[aX(t)+b]=a\,m_X(t)+b$</li>
+      <li>$E[X(t)+Y(t)]=m_X(t)+m_Y(t)$（<strong>不需要独立性</strong>！）</li>
+      <li>$\displaystyle E\Bigl[\sum_{k=1}^{n}a_kX(t_k)\Bigr]=\sum_{k=1}^{n}a_k\,m(t_k)$</li>
+    </ol>
+    <p><strong>注意</strong>：期望的线性<strong>与是否独立、是否相关完全无关</strong>——这是期望最"好用"的地方。方差的线性却没有这么简单（第 3 节）。</p>
+  </div>
+
+  <h2>3. 方差函数与均方差函数</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 方差函数</span>
+    <p>给定随机过程 $\{X(t),t\in T\}$，称</p>
+    $$D(t)=D[X(t)]=E\bigl[X(t)-m(t)\bigr]^2,\qquad t\in T$$
+    <p>为<strong>方差函数</strong>。显然</p>
+    $$D(t)=E\bigl[X(t)-m(t)\bigr]^2=E\bigl[X^2(t)\bigr]-m^2(t)$$
+    <p>称 $\sigma(t)=\sqrt{D(t)}$ 为<strong>均方差函数</strong>（标准方差函数）。同样分两种形式：</p>
+    <ul>
+      <li>离散型：$D(t)=\displaystyle\sum_k\bigl[x_k-m(t)\bigr]^2p_k(t)$</li>
+      <li>连续型：$D(t)=\displaystyle\int_{-\infty}^{+\infty}\bigl[x-m(t)\bigr]^2f(t,x)\,dx$</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">与第 05 讲的对应关系</span>
+    <p>$m(t)$ 就是第 05 讲的 $E(X)$、$D(t)$ 就是第 05 讲的 $D(X)$，只是<strong>逐时刻看一遍</strong>。所以第 05 讲的所有结论都可以"对每个 $t$ 用一次"：</p>
+    <table>
+      <tr><th>第 05 讲的公式</th><th>本讲的函数版本</th></tr>
+      <tr><td>$D(X)=E(X^2)-[E(X)]^2$</td><td>$D(t)=E[X^2(t)]-m^2(t)$</td></tr>
+      <tr><td>$D(aX+b)=a^2D(X)$</td><td>$D[aX(t)+b]=a^2D(t)$</td></tr>
+      <tr><td>$E(X+Y)=E(X)+E(Y)$</td><td>$E[X(t)+Y(t)]=m_X(t)+m_Y(t)$</td></tr>
+      <tr><td>$D(X+Y)=D(X)+D(Y)+2\mathrm{Cov}(X,Y)$</td><td>$D[X(t)+Y(t)]=D_X(t)+D_Y(t)+2C_{XY}(t,t)$（第 08 节）</td></tr>
+    </table>
+  </div>
+
+  <h2>4. 四个必会算例</h2>
+
+  <h3>4.1 随机相位正弦波</h3>
+  <div class="callout example">
+    <span class="label">例 · 随机相位正弦波</span>
+    <p>设 $X(t)=a\cos(bt+\Theta)$，$\Theta\sim U(0,2\pi)$（$a,b$ 为常数）。求 $m(t)$、$D(t)$。</p>
+    <p><strong>解</strong> $\Theta$ 的密度为 $f_\Theta(\theta)=\dfrac{1}{2\pi}$（$0&lt;\theta&lt;2\pi$）。</p>
+    <p>(1) <strong>均值函数</strong>：</p>
+    $$m(t)=E[a\cos(bt+\Theta)]=\frac{a}{2\pi}\int_0^{2\pi}\cos(bt+\theta)\,d\theta=0$$
+    <p>因为 $\cos$ 在<strong>一个完整周期</strong>上的积分为 $0$——不管 $bt$ 取什么值，积分区间恰好覆盖一个整周期。</p>
+    <p>(2) <strong>方差函数</strong>：先算 $E[X^2(t)]$，用降幂公式 $\cos^2u=\dfrac{1+\cos 2u}{2}$：</p>
+    $$E[X^2(t)]=\frac{a^2}{2\pi}\int_0^{2\pi}\frac{1+\cos(2bt+2\theta)}{2}\,d\theta=\frac{a^2}{2\pi}\cdot\frac{2\pi}{2}=\frac{a^2}{2}$$
+    <p>故</p>
+    $$D(t)=E[X^2(t)]-m^2(t)=\frac{a^2}{2}-0=\frac{a^2}{2}$$
+    <p><strong>读法</strong>：均值恒为 $0$，方差恒为 $a^2/2$。<strong>两个函数都是常数</strong>——这就是"随机相位正弦波"最漂亮的地方：不管什么时候看，统计规律都一样。</p>
+  </div>
+
+  <h3>4.2 二项计数过程（随机游动）</h3>
+  <div class="callout example">
+    <span class="label">例 · 二项计数过程</span>
+    <p>设 $X(n)$（$n\ge1$）是相互独立同分布的伯努利变量：$P\{X(n)=1\}=p$，$P\{X(n)=0\}=q=1-p$。令</p>
+    $$Y(n)=X(1)+X(2)+\cdots+X(n),\qquad n=0,1,2,\dots$$
+    <p>（约定 $Y(0)=0$）。求 $Y(n)$ 的一维分布、均值函数、方差函数。</p>
+    <p><strong>解</strong> $Y(n)$ 是 $n$ 个独立同分布伯努利的和，由第 04 讲的二项分布得</p>
+    $$Y(n)\sim B(n,p),\qquad P\{Y(n)=k\}=\binom{n}{k}p^kq^{n-k}$$
+    <p>故</p>
+    $$m(n)=E[Y(n)]=np,\qquad D(n)=D[Y(n)]=npq$$
+    <p><strong>注意</strong>：二项分布 $B(n,p)$ 的方差是 $\boxed{npq}$，不是 $pq$。$pq$ 是单个伯努利变量的方差；求和 $n$ 次后方差<strong>线性累加</strong>为 $npq$。（课件此处若写成 $pq$，属于笔误，请以 $npq$ 为准。）</p>
+  </div>
+
+  <h3>4.3 Poisson 过程与维纳过程（提前预览）</h3>
+  <div class="callout example">
+    <span class="label">例 · 两个后续主角的数字特征</span>
+    <table>
+      <tr><th>过程</th><th>一维分布</th><th>$m(t)$</th><th>$D(t)$</th></tr>
+      <tr><td>Poisson 过程 $\{N(t),t\ge0\}$</td><td>$N(t)\sim P(\lambda t)$</td><td>$\lambda t$</td><td>$\lambda t$</td></tr>
+      <tr><td>维纳过程 $\{W(t),t\ge0\}$（参数 $\sigma^2$）</td><td>$W(t)\sim N(0,\sigma^2t)$</td><td>$0$</td><td>$\sigma^2t$</td></tr>
+    </table>
+    <p><strong>两者都满足"均值与方差同量级"</strong>（Poisson：均值 = 方差 = $\lambda t$；维纳：均值为 $0$、方差 $\sigma^2t$）。这不是巧合——它们都是<strong>平稳独立增量过程且 $X(0)=0$</strong>，第 10 节会证明这个条件下必有 $m(t)=at$、$D(t)=\sigma^2t$。</p>
+    <p>也正因为 $D(t)$ 随时间增长，<strong>维纳过程与 Poisson 过程都不是平稳过程</strong>（第 03 节末尾提过的坑，第 12 节详解）。</p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把 $m(t)$ 当成某条实际轨道</strong>。它是"加权平均"，一般<strong>不在样本函数族里</strong>（随机相位正弦波的 $m(t)\equiv0$，但没有任何一条轨道恒为 0）。</li>
+      <li>❌ <strong>把 $E[X(t)]$ 写成 $E[X(t,\omega)]$ 再对 $\omega$ 求"逐点期望"</strong>。期望是对 $\omega$ 的积分 $\int_\Omega X(t,\omega)\,dP$，不是逐点取值。</li>
+      <li>❌ <strong>忘记 $D(t)=E[X^2(t)]-m^2(t)$ 里的 $m^2(t)$ 不是 $m(t^2)$</strong>。$m^2(t)=[m(t)]^2$，$m(t^2)$ 是完全不同的东西（后者是"在时刻 $t^2$ 的均值"）。</li>
+      <li>❌ <strong>把方差函数写成 $\sigma(t)$</strong>。$\sigma(t)=\sqrt{D(t)}$ 是"均方差"，量纲与 $X(t)$ 相同；$D(t)$ 是量的平方。计算和画图时要分清。</li>
+      <li>❌ <strong>以为 $D(t)$ 恒定就说明"过程是平稳的"</strong>。$D(t)$ 恒定只是"二阶信息"平稳的必要条件之一，平稳性要看完整的有限维分布（第 03 节）。随机相位正弦波确实平稳，但理由比"方差恒定"更强。</li>
+      <li>❌ <strong>把 $m(n)=np$ 当作"随 $n$ 线性"的普遍规律</strong>。这只是二项计数过程的结论。均值函数的形状由具体过程决定：随机相位正弦波是常数 $0$，Poisson 过程是 $\lambda t$，而一个有衰减记忆的过程可能有 $m(t)=ce^{-\alpha t}$。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 为什么 $E[X(t)+Y(t)]=m_X(t)+m_Y(t)$ 不需要独立性，而 $D[X(t)+Y(t)]$ 却需要额外信息？</summary>
+    <p>因为<strong>期望是线性算子</strong>（积分是线性的），而<strong>方差不是</strong>。展开方差会出现交叉项：</p>
+    $$D(X+Y)=D(X)+D(Y)+2E\bigl[(X-m_X)(Y-m_Y)\bigr]$$
+    <p>最后那个期望就是协方差 $\mathrm{Cov}(X,Y)$。<strong>只有当两者独立（或不相关）时交叉项才为 0</strong>，方差才能相加。这正是第 07 / 08 节要补的工具：$C(s,t)$ 与 $C_{XY}(s,t)$ 就是用来处理这些交叉项的。</p>
+  </details>
+  <details>
+    <summary>Q2 · 设 $X(t)=A\cos\omega t$，其中 $A\sim N(0,\sigma^2)$，$\omega$ 为常数。求 $m(t)$、$D(t)$。</summary>
+    <p>$m(t)=E(A)\cos\omega t=0$。</p>
+    <p>$E[X^2(t)]=E(A^2)\cos^2\omega t=\sigma^2\cos^2\omega t$，故 $D(t)=\sigma^2\cos^2\omega t$。</p>
+    <p><strong>关键区别</strong>：这里<strong>随机性在振幅上</strong>（相位固定），所以 $D(t)$ 随 $t$ 变化、每半个周期归零（$\cos\omega t=0$ 时该时刻没有不确定性）。对比 4.1 的随机相位正弦波——那里<strong>随机性在相位上</strong>，于是 $D(t)\equiv a^2/2$ 恒定。<strong>"随机性放在哪个参数上"决定数字特征长什么样。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · 某计数过程 $N(t)$ 满足 $N(0)=0$，$E[N(t)]=2t$，$D[N(t)]=2t$。它可能是 Poisson 过程吗？</summary>
+    <p><strong>有可能，但不能仅凭这两条断定。</strong>Poisson 过程确实满足"均值 = 方差 = $\lambda t$"（此处 $\lambda=2$）。但要成为 Poisson 过程还需满足：<strong>具有平稳独立增量，且增量 $N(t)-N(s)\sim P(\lambda(t-s))$</strong>。<br>
+    <strong>方法论提示</strong>：数字特征只是"二阶信息"，确定一个过程还需要分布层面的条件——这正是第 04 / 05 节反复强调"有限维分布才是完整描述"的原因。</p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么画图时用 $\sigma(t)=\sqrt{D(t)}$ 而不是 $D(t)$？</summary>
+    <p>两个原因：</p>
+    <ul>
+      <li><strong>量纲一致</strong>：$X(t)$ 若以"个"为单位，$D(t)$ 的单位是"个²"，无法与轨道画在同一坐标系。$\sigma(t)$ 与 $X(t)$ 同量纲。</li>
+      <li><strong>概率可解释</strong>：对正态类过程，$m(t)\pm\sigma(t)$ 大约包含 68% 的概率，$\pm2\sigma(t)$ 约 95%（3σ 原则）。所以"$m(t)\pm\sigma(t)$ 走廊"能直观读成"过程大概在这个带子里"。<strong>这也是本讲动画页要画的那条带子。</strong></li>
+    </ul>
+  </details>
+
+  <div class="pager">
+    <a href="./05-联合分布与独立性.html"><span class="label">← 上一节</span><span class="title">联合分布、独立性与 $n$ 维特征函数</span></a>
+    <a href="./07-相关函数与协方差函数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">相关函数与协方差函数</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

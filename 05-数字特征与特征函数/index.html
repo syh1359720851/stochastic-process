@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第05讲 · 数字特征与特征函数 | 随机过程与排队论（融合版）</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#ffffff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme: dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}
+  header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:30px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{font-size:16px;color:var(--c-muted);margin:8px 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 24px;font-size:13px;color:var(--c-muted)}
+  .meta span{background:var(--c-card);padding:4px 10px;border-radius:6px;border:1px solid var(--c-line)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:20px 0}
+  .toc-card{display:block;padding:14px 16px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-card);text-decoration:none;color:inherit;transition:transform 0.1s,border-color 0.1s}
+  .toc-card:hover{transform:translateY(-2px);border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .toc-card .num{font-size:12px;color:var(--c-muted);font-weight:600}
+  .toc-card .title{font-weight:600;margin:4px 0;font-size:16px;color:var(--c-fg)}
+  .toc-card .desc{font-size:13px;color:var(--c-muted);line-height:1.5}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a></div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html" class="current">讲次首页</a>
+    <a href="./00-Fourier变换与复平面.html">00 预备</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 数学期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差 / 相关</a>
+    <a href="./06-矩与矩母函数.html">06 矩 / 矩母</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>第 05 讲 · 数字特征与特征函数</h1>
+  <p class="lede">第 03 讲回答了"随机变量是什么"，第 04 讲回答了"随机变量长什么样"；本讲回答"如何<strong>用一个或几个数</strong>把分布的最重要信息<strong>压缩</strong>出来"——这就是<strong>数字特征</strong>（期望、方差、协方差、矩）以及<strong>特征函数</strong>。</p>
+
+  <div class="meta">
+    <span>📘 来源 · 彭江燕第 3 / 5 次课件（数值特征、特征函数）</span>
+    <span>📘 课件 · 王庆先第 2 讲（数字特征、特征函数）</span>
+    <span>📚 教材 · 《随机过程及应用》第 2 章（陈良均）</span>
+    <span>🎯 难度 · ⭐⭐⭐</span>
+  </div>
+
+  <h2>本讲学习目标</h2>
+  <p>学完本讲，你应该能够：</p>
+  <ol>
+    <li>写出<strong>期望 $E(X)$ 的三种等价定义</strong>（连续型、离散型、R-S 积分）并理解 R-S 积分的几何含义</li>
+    <li>用 $E[g(X)]$、$E[g(X,Y)]$ 的<strong>无需求分布</strong>技巧（指示变量、对称性、条件化简）</li>
+    <li>独立推出 $D(X)=E(X^2)-[E(X)]^2$、$D(aX+b)=a^2D(X)$、$D(X\pm Y)$ 公式</li>
+    <li>区分<strong>不相关</strong>（$\rho=0$）与<strong>独立</strong>（$P(AB)=P(A)P(B)$）并给出反例</li>
+    <li>写出并应用<strong>全期望公式</strong> $E(X)=E[E(X|Y)]$（重期望公式）</li>
+    <li>证明并应用 <strong>Wald 方程</strong> $E\!\left(\sum_{i=1}^{N}X_i\right)=E(N)\cdot E(X)$，并看到它在 LLM/GAN 中的影子</li>
+    <li>写出<strong>特征函数定义</strong> $\varphi(t)=E(e^{itX})$，掌握 6 个基本性质、唯一性定理、与矩的关系</li>
+    <li><strong>预备</strong>：理解复平面 + Euler 公式 + Fourier 变换——这些是看懂 $\varphi_X(t)=E(e^{itX})$ 的工程基础</li>
+    <li>对 6 个常见分布（Bernoulli / 二项 / Poisson / 指数 / 均匀 / 正态）<strong>写出其特征函数</strong></li>
+  </ol>
+
+  <h2>知识图谱</h2>
+  <div class="callout intuition">
+    <span class="label">一句话定位</span>
+    <p>数字特征 = 把 $F(x)$ / $p_k$ / $f(x)$ 的全部信息"投影"到一两个数上：</p>
+    <ul>
+      <li><strong>$E(X)$</strong>：分布的<strong>重心</strong>（一阶矩）。</li>
+      <li><strong>$D(X)$</strong>：分布的<strong>散布程度</strong>（二阶中心矩）。</li>
+      <li><strong>$\text{Cov}(X,Y)$ / $\rho_{XY}$</strong>：两个变量的<strong>共变方向</strong>。</li>
+      <li><strong>$k$ 阶矩 / 中心矩</strong>：分布形状的更高阶刻画（偏度、峰度）。</li>
+      <li><strong>$E(Y|X)$</strong>：条件下的"局部期望"——把条件概率翻译成期望。</li>
+      <li><strong>$\varphi(t)=E(e^{itX})$</strong>：把分布<strong>编码成复平面上的函数</strong>，是唯一性的、最适合做计算的工具。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">课件主线例子（贯穿本讲）</span>
+    <ol>
+      <li><strong>抛硬币</strong>：$X\sim B(1,1/2)$，$E(X)=1/2$，$D(X)=1/4$——最简的"期望—方差"算例。</li>
+      <li><strong>考试成绩</strong>：$X\sim N(75,10^2)$，$E(X)=75$ 分，$D(X)=100$，3σ 原则 → 95% 在 $[55,95]$。</li>
+      <li><strong>袋中摸球（条件期望）</strong>：第 2 次摸到的红球数 $Y$ 在"第一次摸到红"条件下的期望 = 全期望公式的最简例子。</li>
+      <li><strong>几何分布求和（Wald 方程）</strong>：抛到第 $N$ 次才首次出现正面时，已抛次数的总期望 = $1/p$。</li>
+      <li><strong>正态 $N(0,1)$ 的特征函数 $\varphi(t)=e^{-t^2/2}$</strong>：唯一能"求导还原各阶矩"的例子。</li>
+      <li><strong>延伸</strong>：Wald 方程 → LLM 的 Perplexity $= \exp\!\bigl(-\tfrac{1}{N}\sum\log p_i\bigr)$ = 几何平均倒数的对数。</li>
+    </ol>
+  </div>
+
+  <h2>讲次目录</h2>
+  <div class="toc-grid">
+    <a class="toc-card" href="./00-Fourier变换与复平面.html">
+      <div class="num">00</div>
+      <div class="title">Fourier 变换与复平面</div>
+      <div class="desc">特征函数的两个前置工具：复平面 / Euler 公式 / Fourier 变换</div>
+    </a>
+    <a class="toc-card" href="./01-R-S积分简介.html">
+      <div class="num">01</div>
+      <div class="title">Riemann-Stieltjes 积分简介</div>
+      <div class="desc">期望的积分学根基 / 用 g(x)=x 测 F(x) 的几何含义</div>
+    </a>
+    <a class="toc-card" href="./02-数学期望.html">
+      <div class="num">02</div>
+      <div class="title">数学期望</div>
+      <div class="desc">$E(X)$ 定义 / 存在性 / 离散与连续统一写法</div>
+    </a>
+    <a class="toc-card" href="./03-随机变量函数的期望.html">
+      <div class="num">03</div>
+      <div class="title">随机变量函数的期望</div>
+      <div class="desc">$E[g(X)]$、$E[g(X,Y)]$ / 不用求分布直接算期望</div>
+    </a>
+    <a class="toc-card" href="./04-方差.html">
+      <div class="num">04</div>
+      <div class="title">方差</div>
+      <div class="desc">$D(X)=E(X^2)-[E(X)]^2$ / 性质 / 常见分布的方差</div>
+    </a>
+    <a class="toc-card" href="./05-协方差与相关系数.html">
+      <div class="num">05</div>
+      <div class="title">协方差与相关系数</div>
+      <div class="desc">$\text{Cov}(X,Y)$、$\rho_{XY}$ / 不相关 ≠ 独立</div>
+    </a>
+    <a class="toc-card" href="./06-矩与矩母函数.html">
+      <div class="num">06</div>
+      <div class="title">矩与矩母函数</div>
+      <div class="desc">$k$ 阶原点矩 / 中心矩 / 矩母函数 $M_X(t)$</div>
+    </a>
+    <a class="toc-card" href="./07-条件期望与全期望公式.html">
+      <div class="num">07</div>
+      <div class="title">条件期望与全期望公式</div>
+      <div class="desc">$E(Y|X=x)$ / 重期望公式 / 摸球例</div>
+    </a>
+    <a class="toc-card" href="./08-Wald方程.html">
+      <div class="num">08</div>
+      <div class="title">Wald 方程</div>
+      <div class="desc">$E(\sum X_i)=E(N)E(X)$ / LLM Perplexity</div>
+    </a>
+    <a class="toc-card" href="./09-特征函数.html">
+      <div class="num">09</div>
+      <div class="title">特征函数</div>
+      <div class="desc">$\varphi(t)=E(e^{itX})$ / 唯一性 / 与矩的关系</div>
+    </a>
+    <a class="toc-card" href="./10-常见分布的特征函数.html">
+      <div class="num">10</div>
+      <div class="title">常见分布的特征函数</div>
+      <div class="desc">Bernoulli / 二项 / Poisson / 指数 / 均匀 / 正态</div>
+    </a>
+    <a class="toc-card" href="./动画-分布参数与数字特征联动.html">
+      <div class="num">动画</div>
+      <div class="title">分布参数与数字特征联动</div>
+      <div class="desc">滑块控制参数，观察 $E(X)$、$D(X)$、$|\varphi(t)|$ 实时变化</div>
+    </a>
+    <a class="toc-card" href="./自测.html">
+      <div class="num">自测</div>
+      <div class="title">本讲自测</div>
+      <div class="desc">10 题，覆盖期望 / 方差 / 全期望 / Wald / 特征函数</div>
+    </a>
+  </div>
+
+  <h2>本讲与前后章的关系</h2>
+  <div class="callout warn">
+    <span class="label">为什么必须把这一讲学扎实？</span>
+    <ul>
+      <li><strong>第 03 / 04 讲</strong>给出了分布 $F$ 或 $p_k,\ f(x)$——本讲把它们"压缩成几个数"，是后续所有推导的<strong>工具箱</strong>。</li>
+      <li><strong>第 06 讲</strong>"多维随机变量"将本讲推广到 $(X_1,\ldots,X_n)$，并定义协方差矩阵。</li>
+      <li><strong>第 08 / 09 讲</strong>"Markov 链"——极限分布的<strong>均值与方差</strong>全部用本讲公式。</li>
+      <li><strong>第 10 讲</strong>"Poisson 过程"——用<strong>特征函数</strong>证明独立 Poisson 之和仍是 Poisson。</li>
+      <li><strong>第 13 / 14 讲</strong>"排队论"——平均队长、平均等待时间全部是<strong>期望</strong>。</li>
+    </ul>
+  </div>
+
+  <h2>学习建议</h2>
+  <ol>
+    <li>先读 <strong>01 R-S 积分</strong>——它让 $E(X)$ 的定义"严谨"，但只需懂几何含义，不必深究极限。</li>
+    <li><strong>02 → 03 → 04 → 05</strong>按顺序：期望 → 函数期望 → 方差 → 协方差。<strong>不要跳着看</strong>。</li>
+    <li><strong>06 矩与矩母函数</strong> 是特征函数的前置——先学这页再进 09。</li>
+    <li><strong>07 条件期望</strong> 是 Wald 方程的基础——看完 07 再看 08。</li>
+    <li><strong>09 → 10</strong> 特征函数定义 → 6 个常见分布对照表。</li>
+    <li><strong>动画页</strong>：拉滑块时眼睛在三个面板间跳——这是本讲最值钱的"具象化"工具。</li>
+    <li>做自测 10 题。</li>
+  </ol>
+
+  <div class="pager">
+    <a href="../04-常见分布族/"><span class="label">← 上一讲</span><span class="title">第 04 讲 · 常见分布族</span></a>
+    <a href="./01-R-S积分简介.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">Riemann-Stieltjes 积分简介</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

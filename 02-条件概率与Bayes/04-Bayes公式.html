@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 Bayes 公式 | 第02讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  pre.box{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:14px;overflow-x:auto;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-条件概率的定义.html">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html">03 全概率公式</a>
+    <a href="./04-Bayes公式.html" class="current">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>04 · Bayes 公式</h1>
+  <p class="lede">"已知结果，反推原因"——这是统计推断、机器学习、决策论的<strong>同一道母题</strong>。课件原文把它称作<strong>贝叶斯更新</strong>（Bayesian updating）：用新证据修正对原因的判断。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>已知 $A$ 发生，反过来问"$A$ 是由 $B_i$ 引起的概率"。</strong>
+    <ul>
+      <li>$P(B_i)$：<strong>先验</strong>（prior）—— 没看到 $A$ 之前对 $B_i$ 的判断。</li>
+      <li>$P(A\mid B_i)$：<strong>似然</strong>（likelihood）—— 在 $B_i$ 成立时观察到 $A$ 的"匹配度"。</li>
+      <li>$P(A)$：<strong>证据</strong>（evidence）—— 由全概率公式算出的归一化常数。</li>
+      <li>$P(B_i\mid A)$：<strong>后验</strong>（posterior）—— 看到 $A$ 之后对 $B_i$ 的"更新后"判断。</li>
+    </ul>
+    <p>Bayes 公式就是<strong>用证据更新先验</strong>：后验 $\propto$ 先验 $\times$ 似然。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 医生看病</span>
+    <p>医生看病有 3 个阶段：</p>
+    <ol>
+      <li><strong>先验</strong>：根据病人年龄/性别/生活习惯等，<strong>还没做检查</strong>时估计可能是什么病（如"流感可能性 30%、过敏 50%、其他 20%"）。</li>
+      <li><strong>似然</strong>：每种病对应的检查结果（如"过敏性鼻炎通常嗜酸细胞高"）。</li>
+      <li><strong>后验</strong>：看到实际检查结果后，<strong>更新</strong>诊断（如"嗜酸细胞高→过敏的可能性升到 80%"）。</li>
+    </ol>
+    <p>这就是 Bayes 公式在医学诊断里的具体使用——<strong>信息更新</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格陈述</h2>
+
+  <div class="callout theorem">
+    <span class="label">定理 · Bayes 公式（课件 sjgc0-1概率空间-2.pdf 第 34 页）</span>
+    <p>设 $\{B_i\}_{i\geq 1}$ 是 $\Omega$ 的一个<strong>完备事件组</strong>，$A\in\mathcal{F}$ 且 $P(A)>0$。则对每个 $i$：</p>
+    $$\boxed{P(B_i\mid A)=\frac{P(B_i)\,P(A\mid B_i)}{P(A)}=\frac{P(B_i)\,P(A\mid B_i)}{\displaystyle\sum_{j=1}^{\infty}P(B_j)\,P(A\mid B_j)}}$$
+    <p>直观推导：$P(B_i\mid A)=\dfrac{P(B_i A)}{P(A)}=\dfrac{P(B_i)P(A\mid B_i)}{P(A)}$，再对分母用全概率公式展开。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">贝叶斯术语表（统一起名）</span>
+    <table>
+      <tr><th>符号</th><th>名称</th><th>含义</th></tr>
+      <tr><td>$P(B_i)$</td><td>先验概率 prior</td><td>在看到 $A$ 之前对 $B_i$ 的判断</td></tr>
+      <tr><td>$P(A\mid B_i)$</td><td>似然 likelihood</td><td>在 $B_i$ 成立下 $A$ 出现的"匹配度"</td></tr>
+      <tr><td>$P(A)$</td><td>证据 / 边缘概率 evidence</td><td>$A$ 出现的总概率（归一化常数）</td></tr>
+      <tr><td>$P(B_i\mid A)$</td><td>后验概率 posterior</td><td>看到 $A$ 之后对 $B_i$ 的更新判断</td></tr>
+    </table>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 三门问题（Monty-Hall）—— 课件核心例子</h2>
+
+  <h3>3.1 场景</h3>
+  <div class="callout example">
+    <span class="label">三门问题（蒙提霍尔问题 · Monty-Hall Problem）</span>
+    <p>课件原文（sjgc0-1概率空间-2.pdf 第 37 页）：</p>
+    <ol>
+      <li>三扇关闭的门：1 扇汽车，2 扇山羊。</li>
+      <li>你随机选 1 扇门，<strong>不打开</strong>。</li>
+      <li>主持人<strong>知道</strong>奖品位置，<strong>永远从剩下两扇门中打开一扇后面是山羊的门</strong>，绝不会打开汽车门。</li>
+      <li>主持人给你机会：<strong>是否换成剩下那扇没打开的门</strong>？问换与不换的中奖概率。</li>
+    </ol>
+  </div>
+
+  <h3>3.2 经典解法 · 枚举</h3>
+  <p>设你选的是 1 号门。把样本空间分成 3 个等可能的情况（汽车在哪扇门后）：</p>
+  <table>
+    <tr><th>汽车位置</th><th>概率</th><th>主持人开的门</th><th>不换：是否赢</th><th>换：是否赢</th></tr>
+    <tr><td>1 号（你选的这扇）</td><td>1/3</td><td>2 或 3 号之一</td><td>✓ 赢</td><td>✗ 输</td></tr>
+    <tr><td>2 号</td><td>1/3</td><td>3 号（避开汽车）</td><td>✗ 输</td><td>✓ 赢</td></tr>
+    <tr><td>3 号</td><td>1/3</td><td>2 号（避开汽车）</td><td>✗ 输</td><td>✓ 赢</td></tr>
+  </table>
+  <p>结论：<strong>不换</strong>胜率 $=1/3$；<strong>换</strong>胜率 $=2/3$。<strong>换门永远更优</strong>。</p>
+
+  <h3>3.3 Bayes 公式解法</h3>
+  <p>设 $A$ = "主持人开了 3 号门（背后是羊）"。要把 $B_i=\{\text{汽车在第 }i\text{ 扇门}\}$（$i=1,2,3$）作为完备事件组。</p>
+  <table>
+    <tr><th>$B_i$</th><th>先验 $P(B_i)$</th><th>似然 $P(A\mid B_i)$</th><th>先验 × 似然</th><th>后验 $P(B_i\mid A)$</th></tr>
+    <tr><td>1 号</td><td>1/3</td><td>1/2（主持人从 2、3 中随机选一个开）</td><td>1/6</td><td>1/3</td></tr>
+    <tr><td>2 号</td><td>1/3</td><td>1（主持人避开 2 号只能开 3 号）</td><td>1/3</td><td>2/3</td></tr>
+    <tr><td>3 号</td><td>1/3</td><td>0（主持人不会开 3 号）</td><td>0</td><td>0</td></tr>
+  </table>
+  <p>归一化（$P(A)=1/6+1/3+0=1/2$）后：$P(B_1\mid A)=\frac{1/6}{1/2}=1/3$，$P(B_2\mid A)=\frac{1/3}{1/2}=2/3$，$P(B_3\mid A)=0$。</p>
+  <p>主持人开 3 号门（看到羊）后，<strong>2 号门后是汽车的概率 $=2/3$</strong>——应当换门。</p>
+
+  <!-- ============================================ -->
+  <h2>4. 三门问题 · 变种：主持人<strong>不知情</strong>（Monty Fall）</h2>
+
+  <div class="callout example">
+    <span class="label">变种 · Monty Fall（课件第 39 页）</span>
+    <p>如果主持人<strong>不知道</strong>门后情况，<strong>随机</strong>打开一扇门<strong>恰好是山羊</strong>，这时候换不换？</p>
+    <p><strong>答案</strong>：换不换都一样（各 1/2）。</p>
+    <p><strong>为什么</strong>：主持人<strong>没有传递额外信息</strong>——他只是"碰巧开了羊门"。在不知情前提下，"主持人开了 3 号门是羊"这一事件<strong>不能区分</strong>"汽车在 1 号"还是"汽车在 2 号"。用 Bayes 公式可知两个后验相等。</p>
+    <p><strong>结论</strong>：概率论不仅是数学，更是"信息学"。换不换门，不取决于门本身，核心取决于<strong>主持人是否知道门后情况</strong>——这决定了获取的信息量是否对等。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 三门问题 · $n$ 扇门推广</h2>
+
+  <div class="callout example">
+    <span class="label">推广（课件第 40 页）</span>
+    <p>把游戏推广到 $n$ 扇门：1 扇汽车，$n-1$ 扇山羊。</p>
+    <ol>
+      <li>你选 1 扇门。</li>
+      <li>主持人<strong>知道</strong>汽车在哪，打开 $n-2$ 扇<strong>都是山羊</strong>的门（只剩 1 扇未开）。</li>
+      <li>坚持 vs 换到那唯一未开的门？</li>
+    </ol>
+    <p>由对称性，你最初选对的概率 $=1/n$；选错的概率 $=(n-1)/n$。</p>
+    <p>如果选错了，那唯一未开的门里<strong>必定</strong>是汽车（主持人已经把所有其他羊门打开）。</p>
+    $$\boxed{P(\text{坚持赢})=\frac{1}{n},\quad P(\text{换门赢})=\frac{n-1}{n}}$$
+    <p>当 $n=3$ 时退化为经典版（坚持 $1/3$，换门 $2/3$）。<strong>$n$ 越大，换门优势越显著</strong>——$n=100$ 时换门胜率 $99\%$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 经典例子 · 疾病检测</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 某病检测 · 1% 患病率 · 99% 准确率</span>
+    <p>某地区 $1\%$ 的人患病。检测准确率 $99\%$（患病的人 $99\%$ 阳性，没病的人 $99\%$ 阴性）。小明检测为阳性，他真的患病的概率？</p>
+    <p>设 $D$=患病，$T$=检测阳性。</p>
+    <ul>
+      <li>$P(D)=0.01$（先验）</li>
+      <li>$P(T\mid D)=0.99$（有病→检测阳）</li>
+      <li>$P(T\mid D^c)=0.01$（无病→检测假阳）</li>
+    </ul>
+    <p>由 Bayes 公式：</p>
+    $$P(D\mid T)=\frac{P(D)P(T\mid D)}{P(D)P(T\mid D)+P(D^c)P(T\mid D^c)}=\frac{0.01\times 0.99}{0.01\times 0.99+0.99\times 0.01}=\frac{0.0099}{0.0099+0.0099}=\frac{1}{2}\approx 50\%$$
+    <p><strong>答案约 $50\%$</strong>——比"检测 $99\%$ 准"的直觉结论低得多。</p>
+    <p><strong>原因</strong>：基数效应。10000 人里约 100 人患病（99 真阳 + 1 假阴）；9900 人没病（9801 真阴 + 99 假阳）。阳性总数 99+99=198 人里，真患病只占 99 人——约 $50\%$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 经典例子 · 生男生女问题</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · "已知一胎是女孩，另一胎也是女孩"的概率？</label>
+    <p>一个家庭有两个孩子。已知<strong>至少一个</strong>是女孩，问另一个也是女孩的概率？</p>
+    <p><strong>直观</strong>：剩下一胎独立，是女孩概率 $=1/2$。答案是 $1/3$ 还是 $1/2$？<strong>取决于"已知"的措辞</strong>。</p>
+    <p><strong>答案 1</strong>（"随机走进一家，看到一个女孩走出房间"）：<br>
+      样本空间 $\{(男,男),(男,女),(女,男),(女,女)\}$，各 $1/4$。已知"至少一女孩"后排除 $(男,男)$，剩 3 种等可能，$(女,女)$ 占 $1/3$。</p>
+    <p><strong>答案 2</strong>（"这家有<strong>一个</strong>女孩，她叫小红"——指定了某个孩子是女孩）：<br>
+      4 种情况等可能，其中"小红是女"的有 $(男,女),(女,男),(女,女)$ 三种。这三种里另一个是女的只有 $(女,女)$，所以 $=1/3$。仍是 $1/3$。</p>
+    <p>Bayes 公式：设 $B=$"至少一女孩"，$A=$"两个都是女孩"。</p>
+    $$P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B)}=\frac{1\times 1/4}{3/4}=\frac{1}{3}$$
+    <p>但如果"已知<strong>大女儿</strong>是女孩"（顺序信息），则 $\{(男,女),(女,男),(女,女)\}$ 等可能，剩 $(女,女)$ 占 $1/3$——仍是 $1/3$。<br>
+    而"已知<strong>小女儿</strong>是女孩"——情形对称，仍是 $1/3$。</p>
+    <p><strong>真正能得到 $1/2$ 的情形</strong>：已知"随机选一个孩子，她是女孩"——这时另一个是女孩的条件概率确实是 $1/2$。这是著名的"男孩女孩悖论"。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>8. 经典例子 · Bertrand 盒子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · Bertrand 盒 · 摸出金币</span>
+    <p>三个盒子，每个盒里有 2 枚硬币：</p>
+    <ul>
+      <li>盒 1：2 枚金币 (G, G)</li>
+      <li>盒 2：2 枚银币 (S, S)</li>
+      <li>盒 3：1 金 1 银 (G, S)</li>
+    </ul>
+    <p>随机选一盒，随机摸一枚硬币，发现是<strong>金币</strong>。问这枚金币来自盒 1（双金币盒）的概率？</p>
+    <p>设 $B_i$="选第 $i$ 盒"，$A$="摸出金币"。$P(B_i)=1/3$。</p>
+    <ul>
+      <li>$P(A\mid B_1)=1$（盒 1 必是金币）</li>
+      <li>$P(A\mid B_2)=0$（盒 2 没有金币）</li>
+      <li>$P(A\mid B_3)=1/2$（盒 3 一金一银）</li>
+    </ul>
+    <p>由 Bayes 公式：</p>
+    $$P(B_1\mid A)=\frac{(1/3)\times 1}{(1/3)\times 1+(1/3)\times 0+(1/3)\times (1/2)}=\frac{1/3}{1/3+0+1/6}=\frac{1/3}{1/2}=\frac{2}{3}$$
+    <p>答案 $\dfrac{2}{3}$——和直觉的"盒 1 vs 盒 3 各半"不一样，因为盒 1 必出金币、盒 3 只出一半。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>9. AI/ML 视角（课件原文摘录）</h2>
+
+  <div class="callout example">
+    <span class="label">课件原文（sjgc0-1概率空间-2.pdf 第 36 页）</span>
+    <ul>
+      <li><strong>自回归语言模型</strong>：$P(\text{下一词}\mid\text{上文})$。GPT/Transformer 本质就是"不断计算条件概率的贝叶斯链"。</li>
+      <li><strong>贝叶斯神经网络</strong>：把权重看作随机变量，通过 Bayes 公式<strong>在数据到来时不断更新权重的后验分布</strong>，给出预测的不确定性。</li>
+      <li><strong>注意力机制</strong>：$\text{Attention}(Q,K,V)$ 本质上是"在给定查询 $Q$ 下，各键 $K$ 的重要性概率分布"——也是一个条件概率分布。</li>
+      <li><strong>大模型下一个词预测</strong>：$P(w_t\mid w_1,\dots,w_{t-1})$ 本身就是高阶条件概率，整个生成过程就是"不断应用条件概率的贝叶斯链"。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>10. 易错点速查</h2>
+
+  <div class="callout warn">
+    <span class="label">Bayes 公式的常见错误</span>
+    <ol>
+      <li><strong>把先验 $P(B_i)$ 和后验 $P(B_i\mid A)$ 弄反</strong>。先验在"看 $A$ 之前"；后验在"看完 $A$ 之后"。</li>
+      <li><strong>似然填错</strong>：$P(A\mid B_i)$ 是"在 $B_i$ 成立下 $A$ 的概率"——$A$ 是<strong>证据</strong>，$B_i$ 是<strong>假设</strong>。顺序不能乱。</li>
+      <li><strong>忘了归一化</strong>：Bayes 公式右侧的分母是 $P(A)=\sum P(B_j)P(A\mid B_j)$，必须有这一步。</li>
+      <li><strong>凭直觉不验证</strong>：三门、生男生女、疾病检测都是反直觉的。一定<strong>写完 Bayes 公式才算数</strong>。</li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>11. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 三门问题中，如果主持人<strong>不知情</strong>但碰巧开了羊门（Monty Fall），后验是多少？</summary>
+    <p>设 $A$="主持人随机选了 3 号门，恰好后面是羊"。在 $B_1$（车在 1 号）和 $B_2$（车在 2 号）下，主持人选 3 号门且后是羊的概率都是 $\tfrac{1}{2}\cdot\tfrac{1}{2}=\tfrac{1}{4}$（其中 $\tfrac{1}{2}$ 是选到 3 号门，$\tfrac{1}{2}$ 是这扇门是羊）。两者相等 → 后验相等 → 换不换都一样，胜率 $1/2$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 疾病检测的"假阳性悖论"：为什么 $99\%$ 准确率不意味着阳性的人里 $99\%$ 真的患病？</summary>
+    <p>因为<strong>基数很小</strong>（患病率 $1\%$）。在 10000 人里，真患病仅 100 人，<strong>假阳性却有 99 人</strong>。阳性总数 198 人里真患病只占 99 人，约 $50\%$。提升检测准确率到 $99.9\%$ 仍不够；<strong>必须提高先验（即对高危人群筛查）</strong> 才能让阳性确诊率上升。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · Bayes 公式与全概率公式的关系？</summary>
+    <p>全概率公式 = "按原因算结果的总概率"，是"求 $P(A)$"的方向。<br>
+    Bayes 公式 = "已知结果，反推是哪个原因的概率"，是"求 $P(B_i\mid A)$"的方向。<br>
+    数学上 Bayes 公式 = 条件概率定义 + 全概率公式（分母展开）。两者是一对<strong>互逆</strong>的工具。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · $n$ 扇门推广中，当 $n\to\infty$ 时换门胜率趋于 1。如何直观理解？</summary>
+    <p>因为最初选对的概率 $=1/n$，选错的概率 $=(n-1)/n\to 1$。主持人会打开 $n-2$ 扇羊门，只剩 1 扇门——选错时换门必赢（因为那扇门里必定是车）。所以换门胜率随 $n$ 增大趋近 1。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>Bayes 公式 = 用证据更新先验：$P(B_i\mid A)=\dfrac{P(B_i)\,P(A\mid B_i)}{\sum_j P(B_j)\,P(A\mid B_j)}$。核心：用"原因"算"结果"的全概率反过来，得到"已知结果"算"原因"的后验。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./03-全概率公式.html"><span class="label">← 上一节</span><span class="title">全概率公式</span></a>
+    <a href="./05-事件的独立性.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">事件的独立性</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 04 Bayes 公式 · 融合版课件</footer>
+</div>
+</body>
+</html>

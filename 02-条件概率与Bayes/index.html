@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第02讲 · 条件概率与 Bayes | 随机过程与排队论（融合版）</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{
+    --c-bg:#ffffff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}
+  header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:30px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{font-size:16px;color:var(--c-muted);margin:8px 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 24px;font-size:13px;color:var(--c-muted)}
+  .meta span{background:var(--c-card);padding:4px 10px;border-radius:6px;border:1px solid var(--c-line)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:20px 0}
+  .toc-card{display:block;padding:14px 16px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-card);text-decoration:none;color:inherit;transition:transform 0.1s,border-color 0.1s}
+  .toc-card:hover{transform:translateY(-2px);border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .toc-card .num{font-size:12px;color:var(--c-muted);font-weight:600}
+  .toc-card .title{font-weight:600;margin:4px 0;font-size:16px;color:var(--c-fg)}
+  .toc-card .desc{font-size:13px;color:var(--c-muted);line-height:1.5}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a></div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html" class="current">讲次首页</a>
+    <a href="./01-条件概率的定义.html">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html">03 全概率公式</a>
+    <a href="./04-Bayes公式.html">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo 验证</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>第 02 讲 · 条件概率与 Bayes</h1>
+  <p class="lede">一旦获得"新信息"，就要<strong>重新评估</strong>事件的可能性——这正是条件概率的核心。本讲从定义出发，给出<strong>乘法公式 → 全概率公式 → Bayes 公式</strong>这条黄金链，并最终落到<strong>事件的独立性</strong>与<strong>独立重复试验</strong>。</p>
+
+  <div class="meta">
+    <span>📘 来源 · 《随机过程》第 2 次课（彭江燕）</span>
+    <span>📘 课件 · sjgc0-1概率空间-2.pdf</span>
+    <span>📚 教材 · 陈良均《随机过程及应用》第 1 章</span>
+    <span>🎯 难度 · ⭐⭐</span>
+  </div>
+
+  <h2>本讲学习目标</h2>
+  <p>学完本讲，你应该能够：</p>
+  <ol>
+    <li>给出条件概率 $P(A\mid B)$ 的严格定义，并验证它确实满足概率公理</li>
+    <li>熟练运用乘法公式 $P(AB)=P(A)\,P(B\mid A)$，推广到多个事件</li>
+    <li>识别"完备事件组（划分）"，并用全概率公式把复杂事件拆解</li>
+    <li>写出 Bayes 公式的完整形式，正确区分先验、似然、证据、后验</li>
+    <li>用三门问题、生男生女、Bertrand 盒子等经典例子检验直觉</li>
+    <li>判断两事件是否独立，理解"互斥 ⟹ 不独立，独立 ⟹ 不互斥"</li>
+    <li>给出 $n$ 个事件相互独立的完整定义（$2^n$ 条乘积式）</li>
+    <li>描述 Bernoulli 试验与 $n$ 重伯努利试验的概率结构</li>
+  </ol>
+
+  <h2>知识图谱</h2>
+  <div class="callout intuition">
+    <span class="label">一句话定位</span>
+    条件概率 = <strong>"在已知 $B$ 发生的前提下，$A$ 发生的概率"</strong>。Bayes 公式 = 用新证据<strong>更新</strong>先验信念；独立性 = <strong>"知道 $B$ 不改变 $A$ 的可能性"</strong>。
+  </div>
+
+  <div class="callout example">
+    <span class="label">课件主线例子（贯穿本讲）</span>
+    <ol>
+      <li><strong>抽签模型</strong>：10 张签里 3 张幸运，3 人依次抽——求条件概率</li>
+      <li><strong>三门问题（Monty-Hall）</strong>：主持人<strong>知情</strong>开一扇山羊门，换不换？</li>
+      <li><strong>三门问题（Monty-Fall）</strong>：主持人<strong>不知情</strong>随机开门（恰好是羊），换不换？</li>
+      <li><strong>$n$ 扇门推广</strong>：换门胜率 $=\frac{n-1}{n}$，随 $n$ 增大趋近 1</li>
+    </ol>
+  </div>
+
+  <h2>讲次目录</h2>
+  <div class="toc-grid">
+    <a class="toc-card" href="./01-条件概率的定义.html">
+      <div class="num">01</div>
+      <div class="title">条件概率的定义</div>
+      <div class="desc">$P(A\mid B)=\frac{P(AB)}{P(B)}$、几何直观、公理化验证、抽签例</div>
+    </a>
+    <a class="toc-card" href="./02-乘法公式.html">
+      <div class="num">02</div>
+      <div class="title">乘法公式</div>
+      <div class="desc">两事件 / 三事件 / $n$ 个事件的乘法分解；条件概率反演</div>
+    </a>
+    <a class="toc-card" href="./03-全概率公式.html">
+      <div class="num">03</div>
+      <div class="title">全概率公式</div>
+      <div class="desc">划分 → 加权求和；生男生女、雷达探测、抽签决策</div>
+    </a>
+    <a class="toc-card" href="./04-Bayes公式.html">
+      <div class="num">04</div>
+      <div class="title">Bayes 公式</div>
+      <div class="desc">先验 → 后验；三门 + Monty Fall + $n$ 扇门推广</div>
+    </a>
+    <a class="toc-card" href="./05-事件的独立性.html">
+      <div class="num">05</div>
+      <div class="title">事件的独立性</div>
+      <div class="desc">两事件独立 / 互斥 vs 独立 / 多个事件相互独立</div>
+    </a>
+    <a class="toc-card" href="./06-独立重复试验.html">
+      <div class="num">06</div>
+      <div class="title">独立重复试验</div>
+      <div class="desc">Bernoulli 试验 / $n$ 重伯努利 / 二项分布预告</div>
+    </a>
+    <a class="toc-card" href="./动画-MonteCarlo验证.html">
+      <div class="num">动画</div>
+      <div class="title">Monte Carlo 验证</div>
+      <div class="desc">调 $p$、$P(A)$、$P(B)$，模拟上千次试验，看频率如何逼近理论概率</div>
+    </a>
+    <a class="toc-card" href="./自测.html">
+      <div class="num">自测</div>
+      <div class="title">本讲自测</div>
+      <div class="desc">8 道题，覆盖所有要点（含三门、生男生女、雷达、抽签）</div>
+    </a>
+  </div>
+
+  <h2>本讲与前后章的关系</h2>
+  <div class="callout warn">
+    <span class="label">为什么必须把这一讲学扎实？</span>
+    <ul>
+      <li>随机变量、Markov 性、鞅、Bayesian 统计——所有"条件"概念都建立在这一讲之上。</li>
+      <li><strong>Bayes 公式</strong>是第 04 讲 Bayesian 估计 / 第 15 讲应用案例的直接前置。</li>
+      <li><strong>独立重复试验</strong>是第 04 讲二项分布 / 第 08 讲 Markov 链 / 第 10 讲 Poisson 过程的源头。</li>
+      <li>课件中提到的<strong>自回归语言模型</strong>（GPT/Transformer）本质上就是"不断应用条件概率的贝叶斯链"——这个视角在深度学习时代尤其重要。</li>
+    </ul>
+  </div>
+
+  <h2>学习建议</h2>
+  <ol>
+    <li>先读 01–03 三页，建立"条件概率 → 乘法 → 全概率"的链条。</li>
+    <li>第 04 页 Bayes 是核心——务必跟着<strong>三门问题</strong>的两种版本（主持人知情 vs 不知情）走一遍。</li>
+    <li>第 05、06 两页讨论独立性与重复试验，是后续 Markov 链 / Poisson 过程的基础。</li>
+    <li>玩一遍动画页（Monte Carlo），亲手用随机试验验证公式。</li>
+    <li>最后做自测 8 题；如果某题卡住，回到对应概念页重读。</li>
+  </ol>
+
+  <div class="pager">
+    <a href="../index.html"><span class="label">← 返回</span><span class="title">课程地图</span></a>
+    <a href="./01-条件概率的定义.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">条件概率的定义</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 条件概率与 Bayes · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

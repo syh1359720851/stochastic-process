@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 方差 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html" class="current">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>04 · 方差</h1>
+  <p class="lede">期望是分布的"重心"，方差是分布的"<strong>胖瘦</strong>"——衡量 $X$ 在期望周围<strong>散布得多开</strong>。方差是后续协方差、Markov 链极限、Poisson 过程、排队论中队长方差的核心。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    $D(X)=E\!\bigl[(X-E(X))^2\bigr]=E(X^2)-[E(X)]^2$——"<strong>均值偏差的平方再取期望</strong>"。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>散布的尺度</strong>：$D(X)$ 越大，$X$ 取值越"散"；$D(X)=0$ 时 $X$ 必为常数。</li>
+      <li><strong>为什么平方？</strong>：偏差有正有负，不平方会正负抵消 → 必须用 $X-E(X)$ 的平方或绝对值。方差用平方 → 计算方便、与后续 $\chi^2$ 分布衔接。</li>
+      <li><strong>标准差 $\sigma=\sqrt{D(X)}$</strong>：与 $X$ 同量纲，更直观。例：考试成绩 $X\sim N(75,10^2)$，$\sigma=10$ 分。</li>
+      <li><strong>物理解释</strong>：若把 $X$ 想成"测量误差"，$\sigma$ 是误差的典型量级。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>工厂零件长度</strong>：均值都是 $10$ cm，但 $A$ 厂 $\sigma=0.1$，$B$ 厂 $\sigma=0.5$ —— $A$ 厂更"精密"。</li>
+      <li><strong>考试成绩</strong>：全班平均分 $80$，方差小说明大家都集中在 $80$ 分附近；方差大说明分数"两极分化"。</li>
+      <li><strong>股票日收益</strong>：均值差不多（年化 $10\%$），但方差大的股票波动剧烈——风险更高。</li>
+    </ul>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 方差</span>
+    <p>设 $E(X^2)$ 存在，定义方差</p>
+    $$D(X)=\text{Var}(X)=E\!\bigl[(X-E(X))^2\bigr]$$
+    <p>称 $\sigma_X=\sqrt{D(X)}$ 为<strong>标准差</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">关键等价公式</span>
+    <p>展开后</p>
+    $$D(X)=E\!\bigl[X^2-2XE(X)+[E(X)]^2\bigr]=E(X^2)-2E(X)E(X)+[E(X)]^2=E(X^2)-[E(X)]^2$$
+    <p>这是<strong>所有方差计算的核心恒等式</strong>。</p>
+  </div>
+
+  <h3>2.1 离散 / 连续统一写法</h3>
+  <div class="callout theorem">
+    <span class="label">统一公式</span>
+    $$D(X)=\int_{-\infty}^{+\infty}\bigl(x-E(X)\bigr)^2\,dF(x)=E(X^2)-[E(X)]^2$$
+    <p>离散：$D(X)=\sum_k (x_k-E(X))^2 p_k$。</p>
+    <p>连续：$D(X)=\int (x-E(X))^2 f(x)\,dx$。</p>
+  </div>
+
+  <h2>3. 方差的六条性质</h2>
+  <div class="callout theorem">
+    <span class="label">核心性质</span>
+    <ol>
+      <li><strong>非负</strong>：$D(X)\ge 0$。$D(X)=0$ 当且仅当 $X$ 几乎处处为常数 $E(X)$。</li>
+      <li><strong>常数</strong>：$D(c)=0$。</li>
+      <li><strong>平移</strong>：$D(X+c)=D(X)$。</li>
+      <li><strong>缩放</strong>：$D(aX)=a^2 D(X)$（<strong>系数 $a$ 要平方</strong>，这是常错）。</li>
+      <li><strong>线性变换</strong>：$D(aX+b)=a^2 D(X)$（$b$ 不影响方差）。</li>
+      <li><strong>和</strong>：<strong>独立时</strong> $D(X+Y)=D(X)+D(Y)$；一般情况 $D(X\pm Y)=D(X)+D(Y)\pm 2\,\text{Cov}(X,Y)$。</li>
+    </ol>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">最常考 · 独立性 vs 不独立</span>
+    <ul>
+      <li>$D(X+Y)=D(X)+D(Y)+2\,\text{Cov}(X,Y)$</li>
+      <li>若 $X,Y$ <strong>独立</strong>，$\text{Cov}(X,Y)=0$ → $D(X+Y)=D(X)+D(Y)$</li>
+      <li>若 $X,Y$ <strong>不独立</strong>，$\text{Cov}(X,Y)\ne 0$，需要单独计算（详见 §5）</li>
+    </ul>
+  </div>
+
+  <h2>4. 常用分布的方差速查</h2>
+  <table>
+    <thead>
+      <tr><th>分布</th><th>参数</th><th>$D(X)$</th><th>直观</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bernoulli $B(1,p)$</td><td>$p$</td><td>$pq$</td><td>$p=1/2$ 时最大</td></tr>
+      <tr><td>二项 $B(n,p)$</td><td>$n,p$</td><td>$npq$</td><td>独立 Bernoulli 和</td></tr>
+      <tr><td>几何 $G(p)$</td><td>$p$</td><td>$q/p^2$</td><td>$p$ 越小方差越大</td></tr>
+      <tr><td>Poisson $P(\lambda)$</td><td>$\lambda$</td><td>$\lambda$</td><td>均值=方差</td></tr>
+      <tr><td>均匀 $U(a,b)$</td><td>$a,b$</td><td>$(b-a)^2/12$</td><td>区间越宽方差越大</td></tr>
+      <tr><td>指数 $\text{Exp}(\lambda)$</td><td>$\lambda$</td><td>$1/\lambda^2$</td><td>与均值相同量纲</td></tr>
+      <tr><td>正态 $N(\mu,\sigma^2)$</td><td>$\mu,\sigma^2$</td><td>$\sigma^2$</td><td>参数即方差</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · $X\sim B(1,p)$，求 $D(X)$</span>
+    <p>$E(X)=p$，$E(X^2)=1^2\cdot p+0^2\cdot q=p$，所以</p>
+    $$D(X)=E(X^2)-[E(X)]^2=p-p^2=pq$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · $X\sim U[0,a]$，求 $D(X)$</span>
+    <p>$E(X)=a/2$，$E(X^2)=a^2/3$，所以</p>
+    $$D(X)=\tfrac{a^2}{3}-\tfrac{a^2}{4}=\tfrac{a^2}{12}$$
+    <p>当 $a=12$ 时 $D(X)=12$——这正是"6 面骰子点数和 $X$"的方差（$X\sim U[1,6]$，$a=5$，$D(X)=25/12$）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · $X$ 取 $\pm 1$ 各概率 $1/2$，求 $D(X), D(X^3)$</span>
+    <p>$E(X)=0$，$E(X^2)=1$ → $D(X)=1$。</p>
+    <p>$X^3$ 取 $\pm 1$ 各概率 $1/2$ → $E(X^3)=0$，$E(X^6)=1$ → $D(X^3)=1$。</p>
+    <p><strong>$g(X)=X^3$ 没有改变方差</strong>——直观：$X^3$ 与 $X$ 同分布。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 4 · 线性变换 $Y=aX+b$</span>
+    <p>$D(Y)=E[(aX+b-E(aX+b))^2]=E[(aX-aE(X))^2]=a^2 E[(X-E(X))^2]=a^2 D(X)$。</p>
+    <p><strong>$b$ 不影响方差</strong>——这是最常错的点：很多人写 $D(aX+b)=a^2 D(X)+b^2$，是错的！</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 5 · 独立和的方差</span>
+    <p>设 $X_1,\ldots,X_n$ i.i.d.，$E(X_i)=\mu, D(X_i)=\sigma^2$，则 $\bar X=\tfrac{1}{n}\sum X_i$ 的方差为</p>
+    $$D(\bar X)=\tfrac{1}{n^2}D\!\left(\sum X_i\right)=\tfrac{1}{n^2}\cdot n\sigma^2=\tfrac{\sigma^2}{n}$$
+    <p><strong>样本均值方差是单点的 $1/n$</strong>——这就是"为什么大数定律收敛得快"。</p>
+  </div>
+
+  <h2>6. 方差的两种等价理解</h2>
+  <div class="callout theorem">
+    <span class="label">理解 1 · 偏离度</span>
+    $$D(X)=E[(X-EX)^2]$$
+    <p>直接定义：$X$ 偏离 $EX$ 的"均方距离"。</p>
+  </div>
+  <div class="callout theorem">
+    <span class="label">理解 2 · 均方误差</span>
+    $$D(X)=\min_c E[(X-c)^2]=E(X^2)-[E(X)]^2$$
+    <p>用任意常数 $c$ 估计 $X$，最小均方误差在 $c=E(X)$ 处取到，最小值是 $D(X)$。</p>
+    <p>这是<strong>点估计理论</strong>的核心思想——用常数 $E(X)$ 估计 $X$ 比用任何其他常数都好。</p>
+  </div>
+
+  <h2>7. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">五个常见错误</span>
+    <ul>
+      <li>❌ $D(aX+b)=a^2 D(X)+b^2$——错的！正确是 $a^2 D(X)$（$b$ 不影响方差）。</li>
+      <li>❌ $D(X+Y)=D(X)+D(Y)$——只在独立时成立。不独立要加协方差修正项。</li>
+      <li>❌ 把 $D(X)=E(X^2)-[E(X)]^2$ 记成 $D(X)=E(X^2)-E^2(X)$——只是写法简写，别混。</li>
+      <li>❌ 对 $X,Y$ 不独立用 $E(XY)=E(X)E(Y)$ 推导 $D(XY)$——错得离谱。</li>
+      <li>❌ 把方差与"<strong>期望的方差</strong>"混淆——后者是 $D[E(X|Y)]$，是条件期望的方差。</li>
+    </ul>
+  </div>
+
+  <h2>8. 自检</h2>
+  <details>
+    <summary>Q1 · $X\sim B(1,1/3)$，求 $D(X), D(2X+5)$。</summary>
+    <p>$D(X)=pq=\tfrac13\cdot\tfrac23=\tfrac{2}{9}$。$D(2X+5)=4D(X)=\tfrac{8}{9}$。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X_1,\ldots,X_n$ i.i.d. $N(\mu,\sigma^2)$，$Y=\sum X_i$，$D(Y)=$?</summary>
+    <p>$D(Y)=\sum D(X_i)=n\sigma^2$。</p>
+  </details>
+  <details>
+    <summary>Q3 · $X,Y$ 独立，$E(X)=E(Y)=1$，$D(X)=D(Y)=4$。$D(X-Y)=$?</summary>
+    <p>$D(X-Y)=D(X)+D(Y)-2\text{Cov}(X,Y)$。独立 → $\text{Cov}=0$ → $D(X-Y)=4+4=8$。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./03-随机变量函数的期望.html"><span class="label">← 上一节</span><span class="title">随机变量函数的期望</span></a>
+    <a href="./05-协方差与相关系数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">协方差与相关系数</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

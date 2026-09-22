@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 独立重复试验 | 第02讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-条件概率的定义.html">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html">03 全概率公式</a>
+    <a href="./04-Bayes公式.html">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html" class="current">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · 独立重复试验</h1>
+  <p class="lede">把同一个试验在<strong>相同条件下</strong>重复多次、且各次<strong>相互独立</strong>——这是伯努利试验、$n$ 重伯努利试验、Poisson 过程、Markov 链等几乎所有后续内容的<strong>基石</strong>。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>独立重复试验 = "同样的事在相同条件下做很多次，每次互不影响"。</strong>
+    <ul>
+      <li><strong>"重复"</strong>：每次试验都做同一件事——如抛同一枚硬币、掷同一颗骰子。</li>
+      <li><strong>"独立"</strong>：每次试验的结果不影响其他次。</li>
+      <li><strong>"相同条件"</strong>：每次的样本空间和概率分布都一样。</li>
+    </ul>
+    <p>独立重复试验是"独立"概念的<strong>典型应用</strong>，也是二项分布、Poisson 过程、马尔可夫链的<strong>共同入口</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>抛硬币</strong>：每次抛硬币都是一次独立重复试验——硬币构造不变、前一次不影响后一次。</li>
+      <li><strong>有放回抽样</strong>：把抽到的球放回去再抽——等同于"独立的"多次抽样。</li>
+      <li><strong>机器加工产品</strong>：在稳定生产条件下，每件产品合格与否独立——这是工业统计的常用假设。</li>
+      <li><strong>网络请求</strong>：服务器每天收到的请求数，每天的分布大致相同且独立（粗略模型）。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 重复试验</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 重复试验</span>
+    <p>设试验 $E$ 的样本空间为 $\Omega$。将 $E$ 在<strong>相同条件下</strong>重复进行 $n$ 次，得到 $n$ 次试验 $E_1,E_2,\dots,E_n$。</p>
+    <p>联合样本空间为 $\Omega^n=\Omega\times\Omega\times\cdots\times\Omega$（$n$ 个 $\Omega$ 的笛卡尔积）。</p>
+  </div>
+
+  <h3>2.2 独立重复试验</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 独立重复试验</span>
+    <p>若对任意 $A_i\subseteq\Omega$（$i=1,\dots,n$），都有</p>
+    $$P(A_1\times A_2\times\cdots\times A_n)=P(A_1)P(A_2)\cdots P(A_n)$$
+    <p>则称 $E_1,E_2,\dots,E_n$ 为<strong>独立重复试验</strong>。也就是说，第 $i$ 次试验中事件 $A_i$ 的发生<strong>不依赖</strong>其他次试验的结果。</p>
+    <p>等价描述：第 $i$ 次试验的<strong>结果随机变量</strong> $X_i$（如果引入）相互独立。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. Bernoulli 试验</h2>
+
+  <h3>3.1 定义</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · Bernoulli 试验（伯努利试验）</span>
+    <p>一次试验只有<strong>两个可能结果</strong>：$A$（"成功"）和 $A^c$（"失败"），且 $P(A)=p$，$P(A^c)=1-p=q$。这样的试验称为 <strong>Bernoulli 试验</strong>，参数为 $p\in[0,1]$。</p>
+    <p>常见情形：</p>
+    <ul>
+      <li>抛一次硬币（正面=成功）</li>
+      <li>抽一件产品（合格=成功）</li>
+      <li>一道选择题（蒙对=成功）</li>
+      <li>病人是否治愈（治愈=成功）</li>
+    </ul>
+  </div>
+
+  <h3>3.2 $n$ 重伯努利试验</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 重伯努利试验</span>
+    <p>将参数为 $p$ 的 Bernoulli 试验在<strong>相同条件下独立重复</strong>进行 $n$ 次，称为 <strong>$n$ 重伯努利试验</strong>。</p>
+    <p>记每次结果为 $X_i$（$X_i=1$ 表示第 $i$ 次成功，$X_i=0$ 表示失败），则 $X_1,X_2,\dots,X_n$ <strong>独立同分布</strong>（i.i.d.），$P(X_i=1)=p$，$P(X_i=0)=1-p$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 关键概率 · "恰好 $k$ 次成功"</h2>
+
+  <div class="callout theorem">
+    <span class="label">定理 · 二项分布的概率公式</span>
+    <p>在 $n$ 重伯努利试验中，恰好 $k$ 次成功的概率为</p>
+    $$\boxed{P(\text{恰好 }k\text{ 次成功})=\binom{n}{k}p^k(1-p)^{n-k},\quad k=0,1,\dots,n}$$
+    <p>其中 $\binom{n}{k}=\dfrac{n!}{k!(n-k)!}$ 为二项式系数。</p>
+    <p>此时我们称 $k$ 服从<strong>二项分布</strong> $B(n,p)$（细节见第 04 讲）。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">推导 · 为什么是组合 × 概率乘积？</span>
+    <ol>
+      <li><strong>选位置</strong>：$n$ 次试验里挑哪 $k$ 次是成功？共 $\binom{n}{k}$ 种方法（顺序无关）。</li>
+      <li><strong>概率</strong>：每一种选法对应的概率都是 $p^k(1-p)^{n-k}$（因为独立：$k$ 个 $p$ 和 $n-k$ 个 $1-p$ 相乘）。</li>
+      <li><strong>加和</strong>：互斥事件的概率相加 → $\binom{n}{k}\cdot p^k(1-p)^{n-k}$。</li>
+    </ol>
+  </div>
+
+  <h3>4.1 三个标志性的特例</h3>
+
+  <table>
+    <tr><th>$k$</th><th>概率</th><th>直观</th></tr>
+    <tr><td>$k=0$（全失败）</td><td>$(1-p)^n$</td><td>每一步都失败</td></tr>
+    <tr><td>$k=1$（恰好 1 次成功）</td><td>$np(1-p)^{n-1}$</td><td>有 1 次成功 + $n-1$ 次失败；成功位置有 $n$ 种</td></tr>
+    <tr><td>$k=n$（全成功）</td><td>$p^n$</td><td>每一步都成功</td></tr>
+  </table>
+
+  <h3>4.2 例子</h3>
+
+  <div class="callout example">
+    <span class="label">Ex · 抛 5 次硬币，恰好 3 次正面</span>
+    <p>$p=1/2$，$n=5$，$k=3$。</p>
+    $$P=\binom{5}{3}(1/2)^3(1/2)^2=10\times(1/2)^5=\frac{10}{32}=\frac{5}{16}=0.3125$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 产品抽检 · 5 件抽 3 件</span>
+    <p>一批产品合格率 $p=0.9$。抽 5 件，<strong>恰好 2 件次品</strong>（即 $k=2$ 件次品）的概率？</p>
+    <p>把"次品"视为"成功"：$k=2$，$p=0.1$，$n=5$。</p>
+    $$P=\binom{5}{2}(0.1)^2(0.9)^3=10\times 0.01\times 0.729=0.0729$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 投篮命中 · 5 投 3 中</span>
+    <p>球员每次投篮命中率 $p=0.6$。投 5 次，<strong>恰好 3 中</strong>的概率？</p>
+    $$P=\binom{5}{3}(0.6)^3(0.4)^2=10\times 0.216\times 0.16=0.3456\approx 34.6\%$$
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 条件独立：另一条主线</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 条件独立（提早了解）</span>
+    <p>设 $A,B,C$ 是三个事件，$P(C)>0$。若在已知 $C$ 发生的条件下，$A,B$ 独立，即</p>
+    $$P(AB\mid C)=P(A\mid C)\,P(B\mid C)$$
+    <p>则称 $A,B$ <strong>关于 $C$ 条件独立</strong>。</p>
+    <p>直观：在"给定 $C$"的新世界里，$A$ 和 $B$ 互不影响。这与<strong>无条件</strong>独立是两个概念——例如 $A,B$ 无条件可能不独立，但在 $C$ 下变得独立。</p>
+  </div>
+
+  <p>条件独立是 Markov 链的核心：未来<strong>在给定现在的情况下</strong>与过去独立。</p>
+
+  <!-- ============================================ -->
+  <h2>6. 易错点速查</h2>
+
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ol>
+      <li><strong>"独立" ≠ "互斥"</strong>（如上节所说）——独立是概率乘积关系，互斥是集合关系。</li>
+      <li><strong>重复试验 ≠ 独立重复试验</strong>：不放回抽样是重复试验但<strong>不</strong>独立（因为每次的样本空间变化）。</li>
+      <li><strong>二项分布的 $p$ 是每次试验的成功概率</strong>，不是"试验的某种平均值"。</li>
+      <li><strong>$n$ 重伯努利试验里"恰好 $k$ 次成功"</strong>的组合数来自"<strong>位置</strong>的选择"——和 $p$ 无关。</li>
+      <li><strong>"独立同分布（i.i.d.）"</strong> 比"独立"多一条"同分布"——这是统计推断的标准假设。</li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 抛 6 次均匀硬币，"恰好 4 次正面"的概率？</summary>
+    <p>$p=1/2$，$n=6$，$k=4$：<br>$P=\binom{6}{4}(1/2)^6=15/64\approx 0.234$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 10 题选择题，每题 4 选 1。蒙答 10 题，期望能蒙对几道？</summary>
+    <p>每次蒙对的概率 $p=1/4$。10 重伯努利试验。<br>"蒙对 $k$ 道"的概率 $=\binom{10}{k}(1/4)^k(3/4)^{10-k}$。<br>期望 $=np=10\times 1/4=2.5$ 道（细节见第 05 讲期望）。<br>实际最可能的"蒙对 2 道"概率 $=\binom{10}{2}(1/4)^2(3/4)^8\approx 0.282$。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $n$ 重伯努利试验中"全失败"（$k=0$）与"恰好 1 次成功"（$k=1$）哪个概率更大？</summary>
+    <p>$P(k=0)=(1-p)^n$，$P(k=1)=np(1-p)^{n-1}$。比值：$\dfrac{P(k=1)}{P(k=0)}=\dfrac{np}{1-p}$。<br>当 $p<1/(n+1)$ 时，全失败概率更大；当 $p>1/(n+1)$ 时，恰好 1 次成功概率更大。<br>例如 $n=10$：$p<1/11\approx 0.091$ 时全失败概率更大。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 抛 10 次硬币，"至少 1 次正面"的概率？（用对立事件计算）</summary>
+    <p>$P(\text{至少 1 正})=1-P(\text{全反})=1-(1/2)^{10}=1-1/1024=1023/1024\approx 0.999$。<br>几乎必然——这是为什么"抛硬币抛不出正面"被视为奇迹。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <h2>8. 后续章节预告</h2>
+
+  <div class="callout example">
+    <span class="label">独立重复试验是后续内容的源头</span>
+    <ul>
+      <li><strong>第 04 讲 · 二项分布 $B(n,p)$</strong>：就是 $n$ 重伯努利试验中"成功次数"的分布。</li>
+      <li><strong>第 05 讲 · 期望与方差</strong>：$B(n,p)$ 的期望 $np$，方差 $np(1-p)$——证明用独立性和指示变量。</li>
+      <li><strong>第 08 讲 · Markov 链</strong>：每次状态转移<strong>条件独立</strong>于更早的历史（Markov 性 = 条件独立）。</li>
+      <li><strong>第 10 讲 · Poisson 过程</strong>：在 $[0,T]$ 内的"事件数"可以看作"在微小时间窗内 Bernoulli 试验的极限"。</li>
+      <li><strong>大数定律 / CLT</strong>：$n$ 重伯努利试验的成功频率 $\dfrac{k}{n}$ 在 $n\to\infty$ 时依概率收敛到 $p$——这是概率论最深刻的结论之一。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>独立重复试验 = "相同条件 + 相互独立"。$n$ 重伯努利试验中"恰好 $k$ 次成功"的概率 $=\binom{n}{k}p^k(1-p)^{n-k}$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./05-事件的独立性.html"><span class="label">← 上一节</span><span class="title">事件的独立性</span></a>
+    <a href="./动画-MonteCarlo验证.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">动画 Monte Carlo 验证</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 06 独立重复试验 · 融合版课件</footer>
+</div>
+</body>
+</html>

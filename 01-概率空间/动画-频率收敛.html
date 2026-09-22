@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · 频率→概率的收敛 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px 20px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:16px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:20px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:24px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:18px;line-height:1.35;margin:24px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--c-line)}
+  p{margin:8px 0}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .callout{border-radius:8px;padding:12px 16px;margin:14px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:4px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.example .label{color:var(--c-accent)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:720px){.grid2{grid-template-columns:1fr}}
+  .panel{background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:14px}
+  .panel h3{margin:0 0 8px;font-size:14px;color:var(--c-muted);font-weight:600;letter-spacing:0.5px}
+  canvas{display:block;background:var(--c-bg);border:1px solid var(--c-line);border-radius:6px;width:100%;height:240px}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;align-items:center}
+  .controls label{font-size:13px;color:var(--c-muted);margin-right:4px}
+  .controls button,.controls select{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-size:13px}
+  .controls button:hover{border-color:var(--c-primary);color:var(--c-primary)}
+  .controls button.primary{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .controls button.primary:hover{background:#0550ae}
+  .controls input[type=range]{vertical-align:middle;width:140px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;font-size:13px}
+  .stats .stat{background:var(--c-bg);border:1px solid var(--c-line);border-radius:6px;padding:8px 10px}
+  .stats .stat .k{color:var(--c-muted);font-size:11px;display:block;letter-spacing:0.5px;text-transform:uppercase}
+  .stats .stat .v{font-family:ui-monospace,Consolas,monospace;font-weight:600;color:var(--c-primary);font-size:15px}
+  .exp-tabs{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+  .exp-tabs button{padding:5px 10px;border-radius:6px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-size:13px}
+  .exp-tabs button.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  footer.bot{margin-top:32px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-频率收敛.html" class="current">动画 频率→概率</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 频率→概率的收敛</h1>
+  <p style="color:var(--c-muted);margin:0 0 12px">直观看"为什么 Kolmogorov 用公理化定义概率是合理的"——频率是概率的经验估计，试验次数越大，两者越接近。</p>
+
+  <div class="callout intuition">
+    <span class="label">核心思想</span>
+    做 $n$ 次独立试验，事件 $A$ 出现 $n_A$ 次，<strong>频率</strong> $f_A^{(n)} = n_A / n$。当 $n$ 变大，$f_A^{(n)}$ 会"上下抖动"地靠近真实概率 $P(A)$。这就是概率的<strong>统计意义</strong>。
+  </div>
+
+  <h2>选实验</h2>
+  <div class="exp-tabs" id="expTabs">
+    <button data-exp="coin" class="active">抛硬币（正面概率 0.5）</button>
+    <button data-exp="die">掷骰子（掷出 6 概率 1/6）</button>
+    <button data-exp="biased">有偏硬币（自定义 p）</button>
+    <button data-exp="twodice">两颗骰子（点数和=7）</button>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>实验现场</h3>
+      <canvas id="cvScene" width="400" height="240"></canvas>
+      <div class="stats">
+        <div class="stat"><span class="k">已做次数 n</span><span class="v" id="stN">0</span></div>
+        <div class="stat"><span class="k">A 出现次数</span><span class="v" id="stHits">0</span></div>
+        <div class="stat"><span class="k">当前频率</span><span class="v" id="stFreq">—</span></div>
+        <div class="stat"><span class="k">真实概率</span><span class="v" id="stTrue">0.500</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>频率随 n 的变化</h3>
+      <canvas id="cvPlot" width="600" height="240"></canvas>
+      <p style="font-size:12px;color:var(--c-muted);margin:6px 0 0">红线：真实概率 $P(A)$；蓝线：实际频率 $f_A^{(n)}$</p>
+    </div>
+  </div>
+
+  <h2>控制台</h2>
+  <div class="controls">
+    <button id="btnStep" class="primary">单次试验</button>
+    <button id="btnRun">开始连播</button>
+    <button id="btnStop" disabled>停止</button>
+    <button id="btnReset">重置</button>
+    <label>速度：<input type="range" id="spd" min="1" max="200" value="30"><span id="spdVal">30 /s</span></label>
+    <label>每次 +<input type="range" id="batch" min="1" max="200" value="1">次</label>
+    <label id="biasWrap" style="display:none">p(正面) =<input type="range" id="bias" min="0" max="1" step="0.01" value="0.3"><span id="biasVal">0.30</span></label>
+  </div>
+
+  <h2>看到的现象</h2>
+  <ul>
+    <li><strong>n 很小时</strong>，频率抖动很大（前期可能偏离真值 0.3、0.5）。</li>
+    <li><strong>n 变大</strong>，频率越来越收敛到红线（真实概率）。</li>
+    <li><strong>永远不会"等于"</strong>真实概率，只是越来越接近——这是"<strong>依概率收敛</strong>"的含义。</li>
+    <li>多跑几次，看看 <strong>波动幅度</strong> 和 <strong>收敛速度</strong> 与理论概率 $P$ 的关系。</li>
+  </ul>
+
+  <div class="callout example">
+    <span class="label">动手小任务</span>
+    <ol>
+      <li>选"有偏硬币" p=0.3，按"单次试验"做 1000 次，看频率曲线。再做 1000 次，两条曲线会重合吗？</li>
+      <li>选"两颗骰子点数和=7"（理论 $1/6$），看看和硬币 $1/2$ 比，哪个收敛得慢？</li>
+      <li>选 p=0.01 的极端偏置硬币，做 10000 次试验——观察前期"全 0" 段持续多久。</li>
+    </ol>
+  </div>
+
+  <footer class="bot">第 01 讲 · 动画 · 频率→概率 · 融合版课件</footer>
+</div>
+
+<script>
+// ============ 实验定义 ============
+const exps = {
+  coin:      { name:'硬币', trueP:0.5,  bias:0.5,
+    trial: () => Math.random() < 0.5 },
+  die:       { name:'骰子=6', trueP:1/6, bias:1/6,
+    trial: () => Math.random() < 1/6 },
+  biased:    { name:'偏硬币', trueP:0.3, bias:0.3,
+    trial: null /* set later */ },
+  twodice:   { name:'两颗骰子', trueP:1/6, bias:1/6,
+    trial: () => {
+      const a = 1+Math.floor(Math.random()*6);
+      const b = 1+Math.floor(Math.random()*6);
+      return (a+b)===7;
+    }},
+};
+
+let current = 'coin';
+let n = 0, hits = 0;
+let hist = []; // {n, freq}
+let running = false;
+let timer = null;
+
+// ============ DOM ============
+const $ = id => document.getElementById(id);
+const cvScene = $('cvScene'), cvPlot = $('cvPlot');
+const ctxS = cvScene.getContext('2d'), ctxP = cvPlot.getContext('2d');
+
+// ============ 绘制 ============
+function drawScene(lastOutcome){
+  const W = cvScene.width, H = cvScene.height;
+  ctxS.fillStyle = getComputedStyle(document.body).getPropertyValue('--c-bg');
+  ctxS.fillRect(0,0,W,H);
+  const exp = exps[current];
+  if (current === 'coin' || current === 'biased'){
+    // 画硬币
+    const cx=W/2, cy=H/2, r=70;
+    const grad = ctxS.createRadialGradient(cx-15,cy-15,5,cx,cy,r);
+    grad.addColorStop(0,'#fff'); grad.addColorStop(1,'#bbb');
+    ctxS.beginPath(); ctxS.arc(cx,cy,r,0,Math.PI*2);
+    ctxS.fillStyle = grad; ctxS.fill();
+    ctxS.lineWidth = 3; ctxS.strokeStyle = '#666'; ctxS.stroke();
+    ctxS.fillStyle = '#333'; ctxS.font='bold 44px sans-serif'; ctxS.textAlign='center'; ctxS.textBaseline='middle';
+    ctxS.fillText(lastOutcome===null ? '?' : (lastOutcome?'正面':'反面'), cx, cy);
+    ctxS.font='12px sans-serif'; ctxS.fillStyle='#666';
+    ctxS.fillText('最近一次：'+(lastOutcome===null?'—':(lastOutcome?'正面（事件 A 发生）':'反面（A 未发生）')), cx, H-18);
+  } else if (current === 'die'){
+    const cx=W/2, cy=H/2, sz=110;
+    ctxS.fillStyle='#f5f5f5'; ctxS.fillRect(cx-sz/2,cy-sz/2,sz,sz);
+    ctxS.strokeStyle='#333'; ctxS.lineWidth=2; ctxS.strokeRect(cx-sz/2,cy-sz/2,sz,sz);
+    drawDieFace(ctxS, cx, cy, sz, lastOutcome===null?0:lastOutcome);
+    ctxS.font='12px sans-serif'; ctxS.fillStyle='#666'; ctxS.textAlign='center';
+    ctxS.fillText('最近一次：'+(lastOutcome===null?'—':(lastOutcome===6?'6 点（A 发生）':(lastOutcome+' 点'))), cx, H-18);
+  } else if (current === 'twodice'){
+    const sz=80, gap=14, total=sz*2+gap;
+    const x0=(W-total)/2, y0=H/2-sz/2-10;
+    ctxS.fillStyle='#f5f5f5'; ctxS.fillRect(x0,y0,sz,sz); ctxS.strokeRect(x0,y0,sz,sz);
+    ctxS.fillRect(x0+sz+gap,y0,sz,sz); ctxS.strokeRect(x0+sz+gap,y0,sz,sz);
+    if (lastOutcome!==null){
+      const [a,b] = lastOutcome;
+      drawDieFace(ctxS, x0+sz/2, y0+sz/2, sz, a);
+      drawDieFace(ctxS, x0+sz+gap+sz/2, y0+sz/2, sz, b);
+    }
+    ctxS.font='12px sans-serif'; ctxS.fillStyle='#666'; ctxS.textAlign='center';
+    ctxS.fillText('最近一次和='+(a&&b?a+b:'—')+(a&&b&&a+b===7?'（A 发生）':''), W/2, H-12);
+  }
+}
+
+function drawDieFace(ctx, cx, cy, sz, val){
+  ctx.fillStyle='#222'; ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill();
+  if (val===1) return;
+  const r=sz*0.32;
+  const pts = {2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[-1,1],[1,-1],[1,1]],
+               5:[[-1,-1],[-1,1],[0,0],[1,-1],[1,1]],6:[[-1,-1],[-1,0],[-1,1],[1,-1],[1,0],[1,1]]}[val]||[];
+  for (const [dx,dy] of pts){
+    ctx.beginPath(); ctx.arc(cx+dx*r, cy+dy*r, 5, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function drawPlot(){
+  const W = cvPlot.width, H = cvPlot.height;
+  const cs = getComputedStyle(document.body);
+  ctxP.fillStyle = cs.getPropertyValue('--c-bg'); ctxP.fillRect(0,0,W,H);
+  // 坐标
+  const X0=44, Y0=20, X1=W-12, Y1=H-30;
+  ctxP.strokeStyle = cs.getPropertyValue('--c-line'); ctxP.lineWidth=1;
+  ctxP.beginPath(); ctxP.moveTo(X0,Y1); ctxP.lineTo(X1,Y1); ctxP.stroke();
+  // 真实概率红线
+  const exp = exps[current];
+  const py = Y1 - exp.trueP * (Y1-Y0);
+  ctxP.strokeStyle = '#cf222e'; ctxP.lineWidth=1.5; ctxP.setLineDash([5,4]);
+  ctxP.beginPath(); ctxP.moveTo(X0,py); ctxP.lineTo(X1,py); ctxP.stroke(); ctxP.setLineDash([]);
+  ctxP.fillStyle='#cf222e'; ctxP.font='11px sans-serif'; ctxP.fillText('P='+exp.trueP.toFixed(3), X1-58, py-4);
+
+  // 频率曲线
+  if (hist.length>1){
+    ctxP.strokeStyle='#0969da'; ctxP.lineWidth=1.5; ctxP.beginPath();
+    const xMax = Math.max(hist[hist.length-1].n, 100);
+    for (let i=0;i<hist.length;i++){
+      const x = X0 + hist[i].n / xMax * (X1-X0);
+      const y = Y1 - hist[i].freq * (Y1-Y0);
+      if (i===0) ctxP.moveTo(x,y); else ctxP.lineTo(x,y);
+    }
+    ctxP.stroke();
+    // 当前点
+    const last = hist[hist.length-1];
+    const x = X0 + last.n / xMax * (X1-X0);
+    const y = Y1 - last.freq * (Y1-Y0);
+    ctxP.fillStyle='#0969da'; ctxP.beginPath(); ctxP.arc(x,y,4,0,Math.PI*2); ctxP.fill();
+  }
+  // 轴标签
+  ctxP.fillStyle = cs.getPropertyValue('--c-muted'); ctxP.font='10px sans-serif'; ctxP.textAlign='right';
+  ctxP.fillText('1.0', X0-4, Y0+8); ctxP.fillText('0.5', X0-4, (Y0+Y1)/2+4); ctxP.fillText('0.0', X0-4, Y1);
+  ctxP.textAlign='left';
+  ctxP.fillText('n=0', X0, H-8);
+  const xEnd = Math.max(n, 100);
+  ctxP.fillText('n='+xEnd, X1-32, H-8);
+  ctxP.fillStyle = cs.getPropertyValue('--c-fg'); ctxP.font='11px sans-serif'; ctxP.textAlign='center';
+  ctxP.fillText('频率 f_A(n)', (X0+X1)/2, 12);
+}
+
+// ============ 状态更新 ============
+function updateStats(){
+  $('stN').textContent = n;
+  $('stHits').textContent = hits;
+  $('stFreq').textContent = n? (hits/n).toFixed(4) : '—';
+  $('stTrue').textContent = exps[current].trueP.toFixed(3);
+}
+function step(){
+  const batch = parseInt($('batch').value);
+  let lastOut = null;
+  for (let i=0;i<batch;i++){
+    let ok;
+    if (current === 'biased'){
+      const p = parseFloat($('bias').value);
+      ok = Math.random() < p;
+      lastOut = ok;
+    } else {
+      ok = exps[current].trial();
+      lastOut = ok;
+    }
+    n++;
+    if (ok) hits++;
+  }
+  hist.push({n, freq: hits/n});
+  // 二项骰子细节
+  if (current === 'die' || current === 'twodice'){
+    if (current === 'die'){
+      const v = 1+Math.floor(Math.random()*6);
+      // 简单：根据 ok 是否=掷出6，重掷显示
+      // 直接用 v 简化
+      lastOut = v;
+    } else {
+      const a = 1+Math.floor(Math.random()*6);
+      const b = 1+Math.floor(Math.random()*6);
+      lastOut = [a,b];
+    }
+  }
+  drawScene(lastOut);
+  drawPlot();
+  updateStats();
+}
+function reset(){
+  n=0; hits=0; hist=[]; drawScene(null); drawPlot(); updateStats();
+}
+
+// ============ 控制 ============
+$('btnStep').onclick = step;
+$('btnRun').onclick = () => {
+  if (running) return;
+  running = true;
+  $('btnRun').disabled = true; $('btnStop').disabled = false;
+  const tick = () => {
+    if (!running) return;
+    step();
+    const spd = parseInt($('spd').value);
+    timer = setTimeout(tick, 1000/Math.max(spd,1));
+  };
+  tick();
+};
+$('btnStop').onclick = () => {
+  running=false; clearTimeout(timer);
+  $('btnRun').disabled = false; $('btnStop').disabled = true;
+};
+$('btnReset').onclick = () => { running=false; clearTimeout(timer); $('btnRun').disabled=false; $('btnStop').disabled=true; reset(); };
+
+$('spd').oninput = e => $('spdVal').textContent = e.target.value + ' /s';
+$('bias').oninput = e => {
+  const p = parseFloat(e.target.value);
+  $('biasVal').textContent = p.toFixed(2);
+  exps.biased.trueP = p;
+  reset();
+};
+
+document.querySelectorAll('#expTabs button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('#expTabs button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    current = b.dataset.exp;
+    $('biasWrap').style.display = (current==='biased') ? '' : 'none';
+    reset();
+  };
+});
+
+// 初始化
+reset();
+drawScene(null);
+drawPlot();
+window.addEventListener('resize', () => { drawPlot(); drawScene(null); });
+</script>
+</body>
+</html>

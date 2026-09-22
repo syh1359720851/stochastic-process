@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 概率的性质 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .prop{background:var(--c-theorem-bg);border-left:3px solid var(--c-theorem);border-radius:4px;padding:12px 16px;margin:12px 0}
+  .prop .name{font-weight:600;color:var(--c-theorem);font-size:14px;margin-bottom:4px}
+  .proof{border:1px dashed var(--c-line);border-radius:6px;padding:10px 14px;margin:8px 0;background:var(--c-card);font-size:14px}
+  .proof>summary{cursor:pointer;color:var(--c-muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html" class="current">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-频率收敛.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>04 · 概率的性质</h1>
+  <p class="lede">三条公理看似简单，但能推出<strong>所有</strong>概率计算会用到的结论。这一页把它们逐一列出并给出证明思路——做题的"弹药库"。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 性质速查表</h2>
+  <table>
+    <tr><th>#</th><th>名称</th><th>结论</th></tr>
+    <tr><td>1</td><td>不可能事件</td><td>$P(\varnothing) = 0$</td></tr>
+    <tr><td>2</td><td>补集</td><td>$P(A^c) = 1 - P(A)$</td></tr>
+    <tr><td>3</td><td>有限可加</td><td>两两不交的有限事件族 $P(\bigcup_{i=1}^n A_i) = \sum_{i=1}^n P(A_i)$</td></tr>
+    <tr><td>4</td><td>单调性</td><td>$A \subseteq B \Rightarrow P(A) \leq P(B)$</td></tr>
+    <tr><td>5</td><td>差集</td><td>$A \subseteq B \Rightarrow P(B - A) = P(B) - P(A)$</td></tr>
+    <tr><td>6</td><td>并集加法</td><td>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$</td></tr>
+    <tr><td>7</td><td>次可加性（有限）</td><td>$P(A \cup B) \leq P(A) + P(B)$</td></tr>
+    <tr><td>8</td><td>次可加性（可列）</td><td>$P(\bigcup_{i=1}^\infty A_i) \leq \sum_{i=1}^\infty P(A_i)$</td></tr>
+    <tr><td>9</td><td>下连续</td><td>$A_n \uparrow A \Rightarrow P(A_n) \to P(A)$</td></tr>
+    <tr><td>10</td><td>上连续</td><td>$A_n \downarrow A \Rightarrow P(A_n) \to P(A)$</td></tr>
+  </table>
+
+  <!-- ============================================ -->
+  <h2>2. 性质 1–3：由公理直接推</h2>
+
+  <div class="prop">
+    <div class="name">性质 1 · $P(\varnothing) = 0$</div>
+    <p>取 $A_i = \varnothing$，$i=1,2,\dots$。两两不交，且 $\bigcup A_i = \varnothing$。由可列可加性：</p>
+    $$P(\varnothing) = \sum_{i=1}^{\infty} P(\varnothing) = \infty \cdot P(\varnothing)$$
+    若 $P(\varnothing) > 0$，则右端无穷，矛盾。故 $P(\varnothing) = 0$。
+  </div>
+
+  <div class="prop">
+    <div class="name">性质 2 · $P(A^c) = 1 - P(A)$</div>
+    <p>$A$ 与 $A^c$ 不相交，且 $A \cup A^c = \Omega$。由有限可加性 + 正则性：</p>
+    $$1 = P(\Omega) = P(A \cup A^c) = P(A) + P(A^c) \Rightarrow P(A^c) = 1 - P(A)$$
+  </div>
+
+  <div class="prop">
+    <div class="name">性质 3 · 有限可加性</div>
+    <p>设 $A_1, \dots, A_n$ 两两不交。取 $A_{n+1} = A_{n+2} = \cdots = \varnothing$ 扩展成可列族。由可列可加性：</p>
+    $$P\!\left(\bigcup_{i=1}^n A_i\right) = \sum_{i=1}^n P(A_i) + \sum_{i=n+1}^\infty P(\varnothing) = \sum_{i=1}^n P(A_i)$$
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 性质 4–5：单调性与差集</h2>
+
+  <div class="prop">
+    <div class="name">性质 4 · 单调性</div>
+    <p>设 $A \subseteq B$。则 $B = A \cup (B - A)$，且 $A \cap (B - A) = \varnothing$。由非负 + 有限可加：</p>
+    $$P(B) = P(A) + P(B - A) \geq P(A)$$
+    <p>推论：$P$ 是<strong>单调非减</strong>的。</p>
+  </div>
+
+  <div class="prop">
+    <div class="name">性质 5 · 差集公式</div>
+    <p>由上面的等式直接得：</p>
+    $$A \subseteq B \Rightarrow P(B - A) = P(B) - P(A)$$
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 性质 6–7：并集与次可加性</h2>
+
+  <div class="prop">
+    <div class="name">性质 6 · 并集加法公式（最常用）</div>
+    <p>把 $A \cup B$ 拆成三个不相交部分：</p>
+    $$A \cup B = A \cup (B - A) = A \cup (B - A \cap B)$$
+    <p>更标准地，把 $A \cup B$ 分成 4 块：$A \cap B$、$A - B$、$B - A$、$(A \cup B)^c$。直接对 $A, B$ 做有限可加：</p>
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+    <details class="proof"><summary>推导</summary>
+      <p>把 $B$ 拆成 $B = (A \cap B) \cup (B - A)$（不相交）。</p>
+      $$P(B) = P(A \cap B) + P(B - A) \Rightarrow P(B - A) = P(B) - P(A \cap B)$$
+      <p>又 $A \cup B = A \cup (B - A)$（不相交），故</p>
+      $$P(A \cup B) = P(A) + P(B - A) = P(A) + P(B) - P(A \cap B)$$
+    </details>
+  </div>
+
+  <div class="prop">
+    <div class="name">性质 7 · 次可加性（有限情形）</div>
+    <p>由性质 6 + $P(A \cap B) \geq 0$ 直接得：</p>
+    $$P(A \cup B) \leq P(A) + P(B)$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">应用 · 三事件容斥（教材重点）</span>
+    $$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(AB) - P(BC) - P(AC) + P(ABC)$$
+    <p>这是考试里出现频率非常高的公式，证明可对两事件情形反复使用归纳。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 性质 8：可列次可加性</h2>
+
+  <div class="prop">
+    <div class="name">性质 8 · 可列次可加性</div>
+    <p>对<strong>任意</strong>（不一定不相交的）事件族 $A_1, A_2, \dots \in \mathcal{F}$：</p>
+    $$P\!\left(\bigcup_{i=1}^{\infty} A_i\right) \leq \sum_{i=1}^{\infty} P(A_i)$$
+    <details class="proof"><summary>证明思路</summary>
+      <p>定义 $B_1 = A_1$，$B_i = A_i - \bigcup_{j<i} A_j$（$i \geq 2$）。则 $B_i$ 两两不交，$B_i \subseteq A_i$，且 $\bigcup B_i = \bigcup A_i$。由可列可加 + 单调性：</p>
+      $$P\!\left(\bigcup A_i\right) = P\!\left(\bigcup B_i\right) = \sum P(B_i) \leq \sum P(A_i)$$
+    </details>
+    <p>这就是<strong>Boole 不等式</strong>（Boole's inequality）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 性质 9–10：连续性</h2>
+
+  <div class="prop">
+    <div class="name">性质 9 · 概率的下连续性</div>
+    <p>若 $A_1 \subseteq A_2 \subseteq \cdots \subseteq A_n \subseteq \cdots$（单调递增），记 $A = \bigcup_n A_n$（极限事件），则</p>
+    $$P(A_n) \uparrow P(A), \quad \lim_{n\to\infty} P(A_n) = P(A)$$
+  </div>
+
+  <div class="prop">
+    <div class="name">性质 10 · 概率的上连续性</div>
+    <p>若 $A_1 \supseteq A_2 \supseteq \cdots$，且 $\bigcap_n A_n = A$，则</p>
+    $$P(A_n) \downarrow P(A), \quad \lim_{n\to\infty} P(A_n) = P(A)$$
+    <p>（前提是某个 $P(A_n) < \infty$，否则递减趋于 $-\infty$ 没有意义。）</p>
+  </div>
+
+  <details class="proof"><summary>性质 9 的证明思路（下连续）</summary>
+    <p>令 $B_1 = A_1$，$B_i = A_i - A_{i-1}$（$i \geq 2$）。则 $B_i$ 两两不交，$\bigcup_{i=1}^n B_i = A_n$。由可列可加：</p>
+    $$P(A) = P\!\left(\bigcup_{i=1}^\infty B_i\right) = \sum_{i=1}^\infty P(B_i) = \lim_{n\to\infty} \sum_{i=1}^n P(B_i) = \lim_{n\to\infty} P(A_n)$$
+  </details>
+
+  <div class="callout warn">
+    <span class="label">为什么需要连续性？</span>
+    连续性是<strong>可列可加性的推论</strong>，但它反过来又是验证"$P$ 是否构成概率"的强有力工具：<strong>只要在所有递增事件族上极限正确，$P$ 一定满足可列可加</strong>。在测度论里这两个条件是等价的。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 一张图串起来</h2>
+  <div class="callout intuition">
+    <span class="label">推导链</span>
+    <pre style="font-family:ui-monospace,Consolas,monospace;font-size:14px;line-height:1.5;margin:0">
+      ┌─ 公理 ─────────────────────┐
+      │ ① 非负      P(A) ≥ 0       │
+      │ ② 正则      P(Ω) = 1       │
+      │ ③ 可列可加                  │
+      └─────────┬───────────────────┘
+                ↓ 推出
+      ┌─ 基本结论 ─────────────────┐
+      │ P(∅) = 0                  │
+      │ P(Aᶜ) = 1 - P(A)           │
+      │ 有限可加                   │
+      └─────────┬───────────────────┘
+                ↓ 推出
+      ┌─ 常用工具 ─────────────────┐
+      │ 单调性                     │
+      │ 差集公式                   │
+      │ 并集加法公式               │
+      │ 次可加性（有限 / 可列）    │
+      │ 上/下连续性                │
+      └────────────────────────────┘
+      </pre>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>8. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 已知 $P(A) = 0.7$，$P(A \cup B) = 0.9$，求 $P(B)$ 的范围。</summary>
+    <p>由并集加法公式（性质 6）：</p>
+    $$P(A \cup B) = P(A) + P(B) - P(AB)$$
+    $$0.9 = 0.7 + P(B) - P(AB) \Rightarrow P(B) - P(AB) = 0.2$$
+    <p><strong>下界</strong>：$P(AB) \geq 0 \Rightarrow P(B) \geq 0.2$。</p>
+    <p><strong>上界</strong>：$P(AB) \leq P(A) = 0.7 \Rightarrow P(B) \leq 0.7 + 0.2 = 0.9$。</p>
+    <p>也可以更直观地看：因为 $B \subseteq A \cup B$，由<strong>单调性</strong>（性质 4）直接得 $P(B) \leq P(A \cup B) = 0.9$。</p>
+    <p>综上 $\boxed{0.2 \leq P(B) \leq 0.9}$。</p>
+    <p><strong>易错点</strong>：上界不能写成 1——若 $P(B) = 1$ 即 $B = \Omega$，则 $P(A \cup B) = P(\Omega) = 1 \neq 0.9$，矛盾。正确的上界来自"$P(AB) \leq P(A)$"，不是来自"$P(B) \leq 1$"。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 证明：若 $A_n$ 两两不交，则 $P(\bigcup A_n) = \sum P(A_n)$。</summary>
+    <p>这其实是<strong>可列可加性的直接应用</strong>——题目等价于公理 3 本身。如果需要由"两两不交 + 有限可加"推出，需要额外论证；多数教材的版本直接给出可列可加为公理。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $P(A \cup B \cup C) = ?$</summary>
+    <p>三事件容斥公式：</p>
+    $$P(A \cup B \cup C) = \sum P(A_i) - \sum P(A_i A_j) + P(ABC)$$
+    <p>展开即 $P(A)+P(B)+P(C) - P(AB) - P(BC) - P(AC) + P(ABC)$。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 给一列单调递减的事件 $A_n$，其概率收敛到 0 吗？</summary>
+    <p>不一定！例如 $A_n = \{n, n+1, n+2, \dots\}$（$N = \{1,2,3,\dots\}$）。$\bigcap A_n = \varnothing$，$P(A_n) = 1 - 1/n$。故 $P(A_n) \to 1$，不趋于 0。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>补、对、差、并——四个最常用公式：$P(A^c)=1-P(A)$、$P(A\cup B)=P(A)+P(B)-P(AB)$、差集、并集加法（容斥）。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./03-概率公理与概率空间.html"><span class="label">← 上一节</span><span class="title">概率公理</span></a>
+    <a href="./05-古典概型.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">古典概型</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 04 概率的性质 · 融合版课件</footer>
+</div>
+</body>
+</html>

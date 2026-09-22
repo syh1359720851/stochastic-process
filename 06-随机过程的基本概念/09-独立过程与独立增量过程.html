@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>09 独立过程与独立增量过程 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 09</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html" class="current">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>09 · 独立过程与独立增量过程</h1>
+  <p class="lede">前面讲了"分布怎么写""数字特征怎么算"，从这一节开始进入<strong>结构好的特例</strong>。第一个结构性假设是"<strong>独立性</strong>"——它弱得足够常见（很多模型天然满足），又强得足够好用（$n$ 维分布直接等于一维分布相乘）。但要小心：<strong>"各时刻独立"与"各时段增量独立"是两个不同的条件</strong>，混淆是本节最大的坑。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>独立过程：$X(t_1),\dots,X(t_n)$ 相互独立（"各时刻"互不通气）。独立增量过程：$X(t_2)-X(t_1),\dots$ 相互独立（"各时段"互不通气）。</strong>前者 ⇒ 后者，反之不成立。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · "时刻"与"时段"的区分</span>
+    <ul>
+      <li><strong>独立过程</strong>：每个时刻都重新掷骰子、与之前完全无关。过去的信息对未来<strong>零价值</strong>。典型：每天的降雨量若真是独立的，那"昨天下了雨"对"今天是否下雨"毫无提示。</li>
+      <li><strong>独立增量过程</strong>：真正独立的是"<strong>这一段的变化量</strong>"。<strong>过去的水平可以影响未来的水平，但过去的"变化"不影响未来的"变化"。</strong>典型：随机游动——走到的位置（水平）依赖于历史，但"下一步走哪"与历史无关。</li>
+      <li><strong>为什么后者才是主角</strong>：真实系统几乎都"有记忆"（位置、余额、队长都会累积），所以"独立过程"太理想化；真正自然出现的是"<strong>增量的独立性</strong>"。Poisson 过程（第 10 节）与维纳过程（第 12 节）都建立在它之上。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 存钱罐</span>
+    <p>把 $X(n)$ 想成"第 $n$ 天存钱罐里的总金额"。<strong>总额显然不独立</strong>——今天有 100 元，明天不可能只有 3 元（不会凭空丢钱）。但<strong>每天的"存入额" $X(n)-X(n-1)$ 可以是独立的</strong>：今天存多少与昨天存多少无关。<br>
+    这就是"独立增量过程"的原型：<strong>水平不独立，增量独立</strong>。<br>
+    而"独立过程"对应的模型是"每天换一个全新的存钱罐"——现实中不常见，但作为理论起点很有用。</p>
+  </div>
+
+  <h2>2. 独立过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 独立过程</span>
+    <p>给定随机过程 $\{X(t),t\in T\}$，如果对任意正整数 $n$ 及任意 $t_1,t_2,\dots,t_n\in T$，随机变量 $X(t_1),X(t_2),\dots,X(t_n)$ <strong>相互独立</strong>，则称 $\{X(t),t\in T\}$ 为<strong>独立过程</strong>。</p>
+    <p>特别地，若 $X(n)$（$n=1,2,3,\dots$）是相互独立的随机变量，则称 $\{X(n),n=1,2,3,\dots\}$ 为<strong>独立随机序列</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">关键性质 · $n$ 维分布由一维分布完全确定</span>
+    <p>独立过程的 $n$ 维概率分布等于各一维概率分布的<strong>乘积</strong>：</p>
+    $$F(t_1,\dots,t_n;x_1,\dots,x_n)=\prod_{k=1}^{n}F(t_k,x_k),\qquad
+    f(t_1,\dots,t_n;x_1,\dots,x_n)=\prod_{k=1}^{n}f(t_k,x_k)$$
+    <p>特征函数同样变成乘积：$\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=\prod_{k=1}^{n}\varphi(t_k;u_k)$。</p>
+    <p><strong>意义</strong>：这是一个巨大的简化——<strong>只需知道每个时刻的一维分布，整个过程的有限维分布就全知道了</strong>（这与第 04 节"一般过程一维分布不够"形成鲜明对比）。这也解释了为什么"独立"是随机过程理论里最受欢迎的结构性假设之一。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 1 · 伯努利随机序列</span>
+    <p>如果 $X(n)$，$n=1,2,3,\dots$ 是相互独立的伯努利随机变量，概率分布律为</p>
+    <table>
+      <tr><th>$X(n)$</th><td>$0$</td><td>$1$</td></tr>
+      <tr><th>$P$</th><td>$q$</td><td>$p$</td></tr>
+    </table>
+    <p>（$0&lt;p&lt;1$，$p+q=1$），则称 $\{X(n),n=1,2,3,\dots\}$ 为<strong>伯努利随机序列</strong>，它是一个<strong>独立随机序列</strong>（从而也是独立过程）。其数字特征为：</p>
+    <table>
+      <tr><th>量</th><th>结果</th><th>说明</th></tr>
+      <tr><td>均值</td><td>$E[X(n)]=p$</td><td>与 $n$ 无关</td></tr>
+      <tr><td>方差</td><td>$D[X(n)]=pq$</td><td>单个伯努利的方差</td></tr>
+      <tr><td>相关函数</td><td>$R(m,n)=\begin{cases}p,&amp;m=n\\ p^2,&amp;m\ne n\end{cases}$</td><td>$m=n$ 时 $E(X^2)=E(X)=p$（$0/1$ 变量！）</td></tr>
+      <tr><td>协方差函数</td><td>$C(m,n)=\begin{cases}pq,&amp;m=n\\ 0,&amp;m\ne n\end{cases}$</td><td>$m\ne n$ 时不相关（此处因独立而更强）</td></tr>
+    </table>
+    <p><strong>注意 $R(n,n)=p$ 而不是 $p^2$</strong>：因为 $X(n)\in\{0,1\}$，故 $X^2(n)=X(n)$，于是 $E[X^2(n)]=E[X(n)]=p$。这是 $0/1$ 变量特有的便利。</p>
+  </div>
+
+  <h2>3. 独立增量过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 独立增量过程</span>
+    <p>设随机过程 $\{X(t),t\in T\}$，$T=[0,+\infty)$。如果对任意正整数 $n\ge2$ 及任意 $t_1&lt;t_2&lt;\cdots&lt;t_n$（$t_k\in T$），随机过程的增量</p>
+    $$X(t_2)-X(t_1),\quad X(t_3)-X(t_2),\quad\dots,\quad X(t_n)-X(t_{n-1})$$
+    <p>是<strong>相互独立的随机变量</strong>，则称 $\{X(t),t\in T\}$ 为<strong>独立增量过程</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 平稳独立增量过程</span>
+    <p>如果独立增量过程 $\{X(t),t\in[0,+\infty)\}$ 还满足：对所有的 $s,t\in T$ 及 $h&gt;0$（$s+h,t+h\in T$），</p>
+    $$X(t+h)-X(s+h)\ \text{与}\ X(t)-X(s)\ \text{有相同的概率分布}$$
+    <p>则称 $\{X(t),t\in T\}$ 为<strong>平稳独立增量过程</strong>。</p>
+    <p>等价说法：增量 $X(t+\tau)-X(t)$ 的概率分布<strong>仅依赖于区间长度 $\tau$，而与起点 $t$ 无关</strong>——这叫"增量具有平稳性"。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">"平稳独立增量" ≠ "平稳过程"</span>
+    <p>这是本讲最容易混的一处，务必分清：</p>
+    <table>
+      <tr><th></th><th>说的是谁平稳</th><th>例子</th></tr>
+      <tr><td>平稳<strong>增量</strong></td><td>"<strong>变化量</strong>的分布"不随起点变</td><td>维纳过程、Poisson 过程都满足</td></tr>
+      <tr><td>平稳<strong>过程</strong></td><td>"<strong>过程本身</strong>的分布"不随起点变</td><td>随机相位正弦波满足；维纳过程<strong>不</strong>满足</td></tr>
+    </table>
+    <p>维纳过程有 $D[W(t)]=\sigma^2t$ 随时间增长，所以过程本身不平稳，但它的增量 $W(t)-W(s)\sim N(0,\sigma^2(t-s))$ 只依赖 $t-s$。<strong>两条不同的性质，别合并成一条。</strong></p>
+  </div>
+
+  <h3>3.1 例 2 · 部分和过程（随机游动的雏形）</h3>
+  <div class="callout example">
+    <span class="label">例 2（课件原例）</span>
+    <p>设 $\{X(n),n=1,2,3,\dots\}$ 是独立随机序列，令</p>
+    $$Y(n)=X(1)+X(2)+\cdots+X(n),\qquad Y(0)=0$$
+    <p>则 $\{Y(n),n=0,1,2,\dots\}$ 是<strong>独立增量过程</strong>。</p>
+    <p><strong>证明</strong> 任取 $0&lt;n_1&lt;n_2&lt;\cdots&lt;n_k$，考察增量</p>
+    $$Y(n_2)-Y(n_1)=\sum_{i=n_1+1}^{n_2}X(i),\quad
+    Y(n_3)-Y(n_2)=\sum_{i=n_2+1}^{n_3}X(i),\quad\dots$$
+    <p>每个增量是<strong>互不重叠</strong>的一段 $X$ 之和。<strong>不同段涉及的 $X(i)$ 指标集合不相交</strong>，而 $\{X(n)\}$ 本身相互独立，所以这些增量相互独立。$\blacksquare$</p>
+    <p><strong>进一步</strong>：若 $X(n)$ 不仅独立而且<strong>同分布</strong>（i.i.d.），则每个增量的分布只依赖"段长" $n_{k+1}-n_k$，故 $\{Y(n)\}$ 是<strong>平稳独立增量过程</strong>。</p>
+  </div>
+
+  <h3>3.2 例 3 · 二项计数过程（随机游动）</h3>
+  <div class="callout example">
+    <span class="label">例 3（课件原例）</span>
+    <p>设 $\{X(n),n=1,2,3,\dots\}$ 是相互独立同分布的伯努利随机变量序列（$P\{X(n)=1\}=p$，$P\{X(n)=0\}=q$），令</p>
+    $$Y(n)=X(1)+X(2)+\cdots+X(n),\qquad Y(0)=0$$
+    <p>则称 $\{Y(n),n=0,1,2,\dots\}$ 为<strong>二项计数过程</strong>（也叫随机游动），它是一个<strong>平稳独立增量过程</strong>。其数字特征与分布为：</p>
+    <table>
+      <tr><th>项目</th><th>结果</th></tr>
+      <tr><td>一维概率分布</td><td>$Y(n)\sim B(n,p)$，即 $P\{Y(n)=k\}=\dbinom{n}{k}p^kq^{n-k}$</td></tr>
+      <tr><td>均值函数</td><td>$m(n)=E[Y(n)]=np$</td></tr>
+      <tr><td>方差函数</td><td>$D(n)=D[Y(n)]=npq$</td></tr>
+      <tr><td>协方差函数</td><td>$C(m,n)=pq\cdot\min(m,n)$</td></tr>
+      <tr><td>相关函数</td><td>$R(m,n)=pq\cdot\min(m,n)+p^2mn$</td></tr>
+    </table>
+    <p><strong>二维概率分布</strong>（设 $m&lt;n$）：把 $(Y(m),Y(n))$ 拆成"前 $m$ 步"与"后 $n-m$ 步"两段独立的部分，</p>
+    $$P\{Y(m)=i,\ Y(n)=j\}=\binom{m}{i}p^iq^{m-i}\cdot\binom{n-m}{j-i}p^{\,j-i}q^{\,(n-m)-(j-i)}$$
+    <p>其中 $0\le i\le m$，$i\le j\le i+(n-m)$。第二段用 $j-i$ 而不是 $j$，因为"从 $Y(m)=i$ 走到 $Y(n)=j$"这一段的增量恰好是 $j-i$。</p>
+  </div>
+
+  <details>
+    <summary>例 3 的协方差 $C(m,n)=pq\min(m,n)$ 怎么来的？</summary>
+    <p>设 $m\le n$。利用 $Y(m)=\sum_{i=1}^{m}X(i)$、$Y(n)=\sum_{j=1}^{n}X(j)$，以及各 $X$ 相互独立：</p>
+    $$C(m,n)=\mathrm{Cov}\Bigl(\sum_{i=1}^{m}X(i),\ \sum_{j=1}^{n}X(j)\Bigr)=\sum_{i=1}^{m}\sum_{j=1}^{n}\mathrm{Cov}\bigl(X(i),X(j)\bigr)$$
+    <p>而 $\mathrm{Cov}(X(i),X(j))=pq$（当 $i=j$）、$=0$（当 $i\ne j$）。所以双重求和只剩下"$i=j$ 且 $i\le m$"的那些项，共 $m=\min(m,n)$ 个：</p>
+    $$C(m,n)=m\cdot pq=pq\cdot\min(m,n)$$
+    <p><strong>验证</strong>：令 $m=n$，得 $C(n,n)=npq=D[Y(n)]$ ✓ 与协方差函数的对角线要求一致。</p>
+    <p><strong>形状的意义</strong>：$C(m,n)=pq\min(m,n)$ 是一个"<strong>先升后平</strong>"的折线——两个时刻的协方差随着"共同经历的时间"增长，但超过较短时刻后不再增加。<strong>这正是第 10 节"平稳独立增量过程必有 $C(s,t)=\sigma^2\min(s,t)$"的离散版本。</strong></p>
+  </details>
+
+  <p>下图画出三条二项随机游动轨道（$p=1/2$，$n=0\sim10$），红虚线是均值函数 $m(n)=np=\dfrac{n}{2}$。请特别留意：<strong>轨道本身明显不独立</strong>（每条都在"爬坡"，前后高度相互关联），但<strong>每走一步的增量 $0$ 或 $1$ 是相互独立的</strong>——这正是"独立增量"的含义。</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 262" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>二项随机游动的三条轨道与均值函数</title>
+      <desc>横轴为步数零到十，纵轴为累计正面次数，画出三条单调不减的阶梯轨道，并用红色虚线标出均值函数。</desc>
+      <line x1="55" y1="200" x2="645" y2="200" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="60" y1="40" x2="60" y2="200" stroke="#57606a" stroke-width="0.8"/>
+      <text x="30" y="40" font-size="12" fill="#57606a">Y(n)</text>
+      <polyline points="60,200 116,200 116,182 172,182 228,182 228,164 284,164 284,146 340,146 396,146 396,128 452,128 508,128 508,110 564,110 564,92 620,92 620,74" fill="none" stroke="#0969da" stroke-width="1.4"/>
+      <polyline points="60,200 116,200 172,200 172,182 228,182 284,182 284,164 340,164 340,146 396,146 452,146 508,146 508,128 564,128 620,128 620,110" fill="none" stroke="#8250df" stroke-width="1.4"/>
+      <polyline points="60,200 116,200 116,182 172,182 172,164 228,164 284,164 340,164 396,164 396,146 452,146 452,128 508,128 564,128 620,128 620,110" fill="none" stroke="#1a7f37" stroke-width="1.4"/>
+      <line x1="60" y1="200" x2="620" y2="110" stroke="#cf222e" stroke-width="1.4" stroke-dasharray="6 4"/>
+      <text x="60" y="215" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="172" y="215" font-size="11" fill="#57606a" text-anchor="middle">2</text>
+      <text x="284" y="215" font-size="11" fill="#57606a" text-anchor="middle">4</text>
+      <text x="396" y="215" font-size="11" fill="#57606a" text-anchor="middle">6</text>
+      <text x="508" y="215" font-size="11" fill="#57606a" text-anchor="middle">8</text>
+      <text x="620" y="215" font-size="11" fill="#57606a" text-anchor="middle">10</text>
+      <text x="650" y="222" font-size="12" fill="#57606a">n</text>
+      <line x1="70" y1="240" x2="100" y2="240" stroke="#0969da" stroke-width="1.4"/>
+      <text x="106" y="244" font-size="12" fill="#57606a">样本轨道 Y(n)</text>
+      <line x1="240" y1="240" x2="270" y2="240" stroke="#cf222e" stroke-width="1.4" stroke-dasharray="6 4"/>
+      <text x="276" y="244" font-size="12" fill="#57606a">均值 m(n) = n/2</text>
+      <text x="470" y="244" font-size="12" fill="#57606a">增量 X(n) 相互独立</text>
+    </svg>
+  </div>
+
+  <h2>4. 两个条件的包含关系</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · 独立过程 ⇒ 独立增量过程（反之不然）</span>
+    <p><strong>（1）独立过程一定是独立增量过程。</strong><br>
+    取不相交时段上的增量，如 $X(t_2)-X(t_1)$（只涉及 $t\in[t_1,t_2]$ 的 $X(t)$）与 $X(t_4)-X(t_3)$（只涉及 $t\in[t_3,t_4]$ 的 $X(t)$）。由独立过程定义，这两个时刻集合上的随机变量<strong>整体</strong>相互独立，故增量独立。</p>
+    <p><strong>（2）反之不成立。</strong><br>
+    反例就是<strong>二项计数过程</strong>：它是平稳独立增量过程，但 $Y(1)$ 与 $Y(2)=Y(1)+X(2)$ 显然不独立（$Y(2)$ 包含 $Y(1)$ 的信息，且 $Y(2)\ge Y(1)$ 以概率 1 成立）。</p>
+    <p><strong>一句话总结</strong>：<strong>"各时刻独立"是"各时段独立"的特例——因为"时段"是把"时刻"加总，加总会带来依赖。</strong></p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">独立增量过程的分布结构（预告）</span>
+    <p>独立增量过程的 $n$ 维分布<strong>由一维分布与增量分布共同决定</strong>。</p>
+    <p>特别地，若 $X(0)=0$，则 $X(t_1)=X(t_1)-X(0)$ 本身就是一个增量，于是<strong>只需知道所有 $X(t)$ 的一维分布（即各 $t$ 处的分布），整套有限维分布就被完全锁定</strong>。</p>
+    <p>这正是第 10 节要证明的核心定理，也是 Poisson 过程与维纳过程"只需声明一维分布"的合法性来源。</p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把"独立过程"与"独立增量过程"当成一回事</strong>。前者说各<strong>时刻</strong>的 $X(t)$ 独立，后者说各<strong>时段</strong>的增量独立。前者蕴含后者，反之不成立。</li>
+      <li>❌ <strong>以为独立增量过程里 $X(t)$ 相互独立</strong>。错。$Y(n)$ 单调不减且 $C(m,n)=pq\min(m,n)&gt;0$（$m,n&gt;0$），相关性明显存在。</li>
+      <li>❌ <strong>把"平稳"加在过程本身上</strong>。二项计数过程有 $D(n)=npq$ 随时间增长，<strong>不是平稳过程</strong>；"平稳"修饰的是<strong>增量</strong>。</li>
+      <li>❌ <strong>协方差公式里漏掉 $\min(m,n)$</strong>。$C(m,n)\ne pq$（除非 $m=n=1$）。它是折线，不是常数。</li>
+      <li>❌ <strong>二维分布里把第二段写成 $\binom{n-m}{j}$</strong>。正确的是 $\binom{n-m}{j-i}$——第二段从 $i$ 涨到 $j$，增量是 $j-i$；指数也要相应写成 $j-i$ 与 $(n-m)-(j-i)$。</li>
+      <li>❌ <strong>认为"增量独立"就等于"过程没有记忆"</strong>。"没有记忆"是 Markov 性（第 08 讲），"增量独立"更强——它不仅说增量与历史无关，还说<strong>增量之间</strong>也无关。</li>
+      <li>❌ <strong>只看 $R$ 判独立</strong>。$R(m,n)=p^2$（$m\ne n$）容易被误读成"独立"，但这只在均值函数为常数时才成立；$R$ 与 $C$ 要分清（第 07 / 08 节的反复提醒）。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 二项计数过程 $Y(n)$（$p=1/2$）中，求 $P\{Y(2)=1,\ Y(4)=3\}$。</summary>
+    <p>用"前 2 步 + 后 2 步"的分解（$m=2$，$n=4$，$i=1$，$j=3$）：</p>
+    $$P\{Y(2)=1,Y(4)=3\}=\binom{2}{1}\Bigl(\tfrac12\Bigr)^2\cdot\binom{2}{2}\Bigl(\tfrac12\Bigr)^2=\frac{2}{4}\cdot\frac{1}{4}=\frac{2}{16}=\frac{1}{8}$$
+    <p><strong>解读</strong>：前 2 步恰好 1 次正面（$\binom21/4=1/2$），后 2 步全是正面（$1/4$）。两段独立所以相乘。<br>
+    <strong>顺便验证</strong>：$P\{Y(2)=1\}=1/2$，$P\{Y(4)=3\}=\binom43/16=4/16=1/4$；若独立则应为 $1/8$——恰好相等？<strong>巧合而已！</strong>换个组合就不等，例如 $P\{Y(2)=2,Y(4)=0\}=0\ne P\{Y(2)=2\}P\{Y(4)=0\}$（$Y$ 单调不减，不可能"前 2 步 2 次正面、4 步后反而 0 次"）。</p>
+  </details>
+  <details>
+    <summary>Q2 · 判断：某过程的轨道是"一阶差分互不相关"的，它是否一定是独立增量过程？</summary>
+    <p><strong>不一定</strong>。"增量互不相关"（$C$ 层面的条件）比"增量相互独立"（分布层面的条件）弱得多。</p>
+    <p>差别与第 08 节的结论完全平行：<strong>独立 ⇒ 不相关，不相关 ⇏ 独立</strong>。要成为独立增量过程必须验证<strong>分布</strong>层面的独立性。<br>
+    唯一的常见例外：若增量联合正态（如维纳过程），则增量不相关就等价于增量独立——**这正是维纳过程能用最简单的二阶条件刻画的原因**。</p>
+  </details>
+  <details>
+    <summary>Q3 · 为什么"独立过程"在建模中很少直接用，而"独立增量过程"却极其常见？</summary>
+    <p>因为真实系统几乎都有<strong>累积性</strong>：计数、位置、余额、库存、队长都随时间单调或累积变化。<strong>累积量本身必然前后相关</strong>（今天的总数包含昨天的总数），所以"独立过程"这种极端假设很难成立。</p>
+    <p>反过来，"<strong>每个时段新增了多少是独立的</strong>"这个假设在很多场景下相当合理：新到达的顾客数、分子碰撞的位移增量、单位时间新增的请求数——这些增量确实"不关心历史"。</p>
+    <p><strong>这条分界线解释了为什么第 10 节的 Poisson 过程与第 12 节的维纳过程都要以"独立增量"为公理起点</strong>：它是"能抓住累积性、又足够简单"的中间地带。</p>
+  </details>
+  <details>
+    <summary>Q4 · 二项计数过程中，$C(m,n)=pq\min(m,n)$。取 $p=q=0.5$，求 $\rho(2,4)$。</summary>
+    <p>$D(2)=2pq=0.5$，$D(4)=4pq=1$，$C(2,4)=2pq=0.5$。</p>
+    $$\rho(2,4)=\frac{C(2,4)}{\sqrt{D(2)\,D(4)}}=\frac{0.5}{\sqrt{0.5\times1}}=\frac{0.5}{\sqrt{0.5}}\approx 0.707$$
+    <p><strong>解读</strong>：$\rho(2,4)=\dfrac{\min(2,4)}{\sqrt{2\cdot4}}=\dfrac{2}{\sqrt8}=\dfrac{1}{\sqrt2}\approx0.707$。一般地 $\rho(m,n)=\dfrac{\min(m,n)}{\sqrt{mn}}$——<strong>只依赖 $m,n$ 之比</strong>，与 $p$ 无关！<br>
+    这也说明：<strong>相关系数（无量纲）比协方差（带量纲）更能揭示结构</strong>。当 $m=n$ 时 $\rho=1$（自己和自己），当 $n\to\infty$（$m$ 固定）时 $\rho\to0$（相隔太远就记不住了）。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./08-互相关与互不相关.html"><span class="label">← 上一节</span><span class="title">互相关、互不相关与独立性</span></a>
+    <a href="./10-平稳独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">平稳独立增量过程的性质</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

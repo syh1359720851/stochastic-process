@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 二维随机变量与联合分布 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html" class="current">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · 二维随机变量与联合分布</h1>
+  <p class="lede">从一个随机变量到<strong>两个</strong>随机变量——我们关心"$X$ 和 $Y$ <strong>一起</strong>是什么分布"。本节定义 $(X,Y)$ 的联合分布函数、离散联合分布列、连续联合密度。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>$(X,Y)$ 是一个随机"向量"</strong>——同时观察 $X$ 和 $Y$ 的取值。
+    <ul>
+      <li>$(X,Y)$ 取值在 $\mathbb{R}^2$ 上，是<strong>二维</strong>随机变量。</li>
+      <li>单独知道"$X$ 取什么"不够——$X,Y$ 之间可能有<strong>关联</strong>（如身高 $X$ 与体重 $Y$）。</li>
+      <li>联合分布函数 $F(x,y)=P(X\le x,Y\le y)$ 把 $X,Y$ <strong>作为一个整体</strong>描述。</li>
+      <li>这是把一维理论推广到多维的<strong>第一步</strong>——后续 Markov 链 / 排队论都是多维理论。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 身高 + 体重</span>
+    体检记录每个人的<strong>身高</strong> $X$ 和<strong>体重</strong> $Y$。单独的"$X$ 大"或" $Y$ 小"都不能完整描述这个人的体型——必须 $(X,Y)$ 一起看。这就是二维随机变量的思想：把"两个有关联的量"作为一个<strong>整体</strong>描述。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 二维随机变量</h3>
+  <div class="callout theorem">
+    <span class="label">定义 1.1.5（课件原文 · sjgc0-2随机变量-2.pdf 第 6 页）</span>
+    <p>设 $X,Y$ 是同一概率空间 $(\Omega,\mathcal{F},P)$ 上的随机变量，则 $(X,Y)$ 称为<strong>二维随机变量</strong>（或二维随机向量）。</p>
+    <p>$(X,Y)$ 的可测性条件：$\forall x,y\in\mathbb{R}$，$\{\omega:X(\omega)\le x,Y(\omega)\le y\}\in\mathcal{F}$。</p>
+  </div>
+
+  <h3>2.2 联合分布函数</h3>
+  <div class="callout theorem">
+    <span class="label">定义 1.1.6（课件原文）</span>
+    <p>对任意 $(x,y)\in\mathbb{R}^2$，称</p>
+    $$\boxed{F(x,y)=P(X\le x,Y\le y)}$$
+    <p>为 $(X,Y)$ 的<strong>联合分布函数</strong>（joint CDF）。</p>
+  </div>
+
+  <h3>2.3 联合分布函数的三条性质</h3>
+  <div class="callout theorem">
+    <span class="label">定理 1.1.2 · 联合 $F$ 的性质</span>
+    <ol>
+      <li><strong>关于每个分量单调不减</strong>：$F(x,y)$ 关于 $x$ 和 $y$ 分别单调不减。</li>
+      <li><strong>边界</strong>：$\lim_{x\to-\infty}F(x,y)=0,\ \lim_{y\to-\infty}F(x,y)=0,\ \lim_{x,y\to+\infty}F(x,y)=1$。</li>
+      <li><strong>矩形非负</strong>：对任意 $x_1&lt;x_2,\ y_1&lt;y_2$，
+        $$F(x_2,y_2)-F(x_1,y_2)-F(x_2,y_1)+F(x_1,y_1)\ge 0$$
+        这等于 $P(x_1&lt;X\le x_2,\ y_1&lt;Y\le y_2)\ge 0$。
+      </li>
+      <li><strong>关于每个分量右连续</strong>。</li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 离散二维随机变量</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 二维离散型</span>
+    <p>若 $(X,Y)$ 只取可数对 $(x_i,y_j)$，令</p>
+    $$p_{ij}=P(X=x_i,Y=y_j)\ge 0$$
+    <p>称为<strong>联合分布列</strong>。满足 $\sum_i\sum_j p_{ij}=1$。</p>
+    <p>对应的联合分布函数：</p>
+    $$F(x,y)=\sum_{x_i\le x}\sum_{y_j\le y} p_{ij}$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 王庆先第 2 讲课件 slide 10 · 摸两次球</span>
+    <p>袋中 $3$ 白球、$2$ 红球。$X,Y$ 分别表示<strong>第一次、第二次</strong>摸到的红球数。两种情形：</p>
+    <p><strong>(a) 不放回</strong>（$X,Y$ 不独立）：</p>
+    <table>
+      <tr><th rowspan="2">$X$ \ $Y$</th><th colspan="2">$Y$</th><th rowspan="2">边缘 $P(X)$</th></tr>
+      <tr><th>0</th><th>1</th></tr>
+      <tr><th>0</th><td>$\frac{3}{5}\cdot\frac{2}{4}=\frac{6}{20}$</td><td>$\frac{3}{5}\cdot\frac{2}{4}=\frac{6}{20}$</td><td>$6/10$</td></tr>
+      <tr><th>1</th><td>$\frac{2}{5}\cdot\frac{3}{4}=\frac{6}{20}$</td><td>$\frac{2}{5}\cdot\frac{1}{4}=\frac{2}{20}$</td><td>$4/10$</td></tr>
+      <tr><th>边缘 $P(Y)$</th><td>$6/10$</td><td>$4/10$</td><td>$1$</td></tr>
+    </table>
+    <p><strong>(b) 有放回</strong>（$X,Y$ 独立）：</p>
+    <table>
+      <tr><th rowspan="2">$X \backslash Y$</th><th colspan="2">$Y$</th><th rowspan="2">边缘 $P(X)$</th></tr>
+      <tr><th>0</th><th>1</th></tr>
+      <tr><th>0</th><td>$\frac{3}{5}\cdot\frac{3}{5}=\frac{9}{25}$</td><td>$\frac{3}{5}\cdot\frac{2}{5}=\frac{6}{25}$</td><td>$\frac{15}{25}=\frac{3}{5}$</td></tr>
+      <tr><th>1</th><td>$\frac{2}{5}\cdot\frac{3}{5}=\frac{6}{25}$</td><td>$\frac{2}{5}\cdot\frac{2}{5}=\frac{4}{25}$</td><td>$\frac{10}{25}=\frac{2}{5}$</td></tr>
+      <tr><th>边缘 $P(Y)$</th><td>$\frac{15}{25}=\frac{3}{5}$</td><td>$\frac{10}{25}=\frac{2}{5}$</td><td>$1$</td></tr>
+    </table>
+    <p>两表展示了<strong>联合 / 边缘 / 条件</strong>三种分布的关系（详见 §7）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 连续二维随机变量</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 二维连续型</span>
+    <p>若存在非负函数 $f(x,y)$ 使</p>
+    $$\boxed{F(x,y)=\int_{-\infty}^x\int_{-\infty}^y f(u,v)\,du\,dv}$$
+    <p>则称 $(X,Y)$ 为<strong>连续型</strong>，$f(x,y)$ 为<strong>联合密度</strong>。满足 $f(x,y)\ge 0$，$\iint f=1$。</p>
+    <p>对任意平面区域 $D$：</p>
+    $$P\bigl((X,Y)\in D\bigr)=\iint_D f(x,y)\,dx\,dy$$
+  </div>
+
+  <h3>4.1 几何直观</h3>
+  <pre style="font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:13px;overflow-x:auto;line-height:1.4;color:var(--c-fg)">
+   f(x,y) 表面          P((X,Y)∈D) = 曲面下 D 的体积
+       ▲                    ▲
+       │  ╱╲                │    ●●●
+       │ ╱  ╲               │   ●●●●●
+       │╱    ╲              │  ●●●●●●●
+       ┼──────► y          ┼─────────► y
+       x                    x
+                          （D 区域的体积 = 概率）
+  </pre>
+
+  <div class="callout example">
+    <span class="label">Ex · 圆盘上的均匀分布</span>
+    <p>$(X,Y)$ 在单位圆 $D=\{(x,y):x^2+y^2\le 1\}$ 上均匀分布。</p>
+    <ul>
+      <li>面积 $\pi$，所以 $f(x,y)=\frac{1}{\pi}$（$D$ 内），$0$（$D$ 外）。</li>
+      <li>$P((X,Y)\in \text{半圆})=\frac{1}{2}$（半圆面积 $=\pi/2$）。</li>
+      <li>由对称性，$f_X(x)=\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}}\tfrac{1}{\pi}\,dy=\tfrac{2\sqrt{1-x^2}}{\pi}$。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 三种概率的关系</h2>
+
+  <div class="callout theorem">
+    <span class="label">联合 → 矩形概率</span>
+    <p>对任意 $a&lt;b,\ c&lt;d$：</p>
+    $$\boxed{P(a&lt;X\le b,\ c&lt;Y\le d)=F(b,d)-F(a,d)-F(b,c)+F(a,c)}$$
+    <p>这是 §2.3 性质 3 的直接应用——四个 $F$ 值的"加加减减"。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错点 · 不能直接 $F(b,d)-F(a,c)$</label>
+    <p>很多学生会写成 $P(a<X\le b,c<Y\le d)=F(b,d)-F(a,c)$——这是错的！正确公式需要 <strong>四个</strong> $F$ 值。</p>
+    <p>反例：$X,Y$ 独立且 $X$ 集中 $\{1,2\}$，$Y$ 集中 $\{1,2\}$。$F(b,d)-F(a,c)$ 会<strong>把"小矩形"外的区域也算进来</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 一维 vs 二维的对照</h2>
+
+  <table>
+    <tr><th>概念</th><th>一维</th><th>二维</th></tr>
+    <tr><td>分布函数</td><td>$F(x)=P(X\le x)$</td><td>$F(x,y)=P(X\le x,Y\le y)$</td></tr>
+    <tr><td>连续密度</td><td>$F(x)=\int_{-\infty}^x f(t)\,dt$</td><td>$F(x,y)=\iint_{-\infty}^{(x,y)} f(u,v)\,du\,dv$</td></tr>
+    <tr><td>归一条件</td><td>$\int f=1$</td><td>$\iint f=1$</td></tr>
+    <tr><td>矩形概率</td><td>$P(a<X\le b)=F(b)-F(a)$</td><td>$P(a<X\le b,c<Y\le d)=F(b,d)-F(a,d)-F(b,c)+F(a,c)$</td></tr>
+  </table>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 二维随机变量 $(X,Y)$ 是"二维随机向量"——它的"可测"是什么意思？</summary>
+    <p>对任意 $x,y\in\mathbb{R}$，$\{\omega:X(\omega)\le x,\ Y(\omega)\le y\}\in\mathcal{F}$。等价于 $X,Y$ 各自都<strong>可测</strong>（一维可测 $\Rightarrow$ 二维可测；反过来也对）。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 联合分布函数性质 3 中"$F(x_2,y_2)-F(x_1,y_2)-F(x_2,y_1)+F(x_1,y_1)\ge 0$"为什么必须非负？</summary>
+    <p>因为它等于 $P(x_1&lt;X\le x_2,\ y_1&lt;Y\le y_2)$——一个<strong>矩形</strong>上的概率，非负是显然的。这条性质是"联合 $F$"与"两个独立 $F$ 之积"的关键区别：$F_{X,Y}(x,y)=F_X(x)F_Y(y)$ 时恰好满足等号（详见 §7 独立性）。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $(X,Y)$ 的联合密度一定存在吗？</summary>
+    <p>不一定。即使 $X,Y$ 都是连续型，$(X,Y)$ 也可能没有联合密度——这需要 $F(x,y)$ 是<strong>双连续</strong>且二阶偏导存在。课件 §4 的三角形域例子给出了带密度的典型情形。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 边缘分布一定存在吗？</summary>
+    <p>是的。对任意 $(X,Y)$，<strong>总可以</strong>通过 $f_X(x)=\int_{-\infty}^{+\infty}f(x,y)\,dy$ 或 $f_X(x)=\lim_{\Delta\to 0^+}\frac{P(x&lt;X\le x+\Delta)}{\Delta}$ 得到 $X$ 的边缘分布——前提是联合分布已知。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>$(X,Y)$ 的联合分布函数 $F(x,y)=P(X\le x,Y\le y)$；连续型 $F(x,y)=\iint f(u,v)\,du\,dv$；矩形概率 = 四个 $F$ 值的加加减减。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./05-混合型随机变量.html"><span class="label">← 上一节</span><span class="title">混合型随机变量</span></a>
+    <a href="./07-边缘分布与条件分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">边缘分布与条件分布</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 06 二维随机变量与联合分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

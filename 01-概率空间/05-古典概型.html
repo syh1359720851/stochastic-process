@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 古典概型 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .formula{background:var(--c-theorem-bg);border-left:3px solid var(--c-theorem);border-radius:4px;padding:12px 16px;margin:12px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 05</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html" class="current">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-频率收敛.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>05 · 古典概型</h1>
+  <p class="lede">概率论诞生之初处理的第一类问题——也是考试最常考的一类。"古典"二字意思是<strong>古典概率定义</strong>，它只对<strong>有限等可能</strong>样本空间成立。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 定义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    样本空间只有<strong>有限个</strong>样本点，且<strong>每个样本点出现的机会均等</strong>——这就叫古典概率空间。
+  </div>
+
+  <h3>1.1 严格定义</h3>
+  <p>称概率空间 $(\Omega, \mathcal{F}, P)$ 为<strong>古典概率空间</strong>，若满足：</p>
+  <ol>
+    <li>$\Omega = \{\omega_1, \omega_2, \dots, \omega_n\}$ 是<strong>有限集</strong>（$n \geq 1$）；</li>
+    <li>$\mathcal{F} = 2^\Omega$（所有子集都是事件）；</li>
+    <li>每个基本事件等可能：$P(\{\omega_i\}) = \dfrac{1}{n}$，$i=1,\dots,n$。</li>
+  </ol>
+
+  <h3>1.2 计算公式</h3>
+  <div class="formula">
+    对任何事件 $A \subseteq \Omega$，$\displaystyle P(A) = \frac{|A|}{|\Omega|} = \frac{\text{有利情形数}}{\text{总情形数}}$
+  </div>
+  <p>其中 $|\cdot|$ 表示集合的<strong>元素个数</strong>。这就是考试最常写的"概率 = 有利数 / 总数"。</p>
+
+  <div class="callout warn">
+    <span class="label">两个前提缺一不可</span>
+    <ul>
+      <li>必须<strong>有限</strong>样本空间——若无穷，等可能性无法用 $|A|/|\Omega|$ 表达。</li>
+      <li>必须<strong>等可能</strong>——若不满足（比如有偏骰子），概率就不能用这个公式。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 排列组合速查（古典概型计算的核心）</h2>
+  <p>古典概型的核心技能是<strong>计数</strong>。下面的公式务必熟记。</p>
+
+  <table>
+    <tr><th>类型</th><th>公式</th><th>人话</th></tr>
+    <tr><td>排列数</td><td>$A_n^k = \dfrac{n!}{(n-k)!}$</td><td>从 $n$ 个中<strong>有序</strong>选 $k$ 个</td></tr>
+    <tr><td>组合数</td><td>$C_n^k = \dbinom{n}{k} = \dfrac{n!}{k!(n-k)!}$</td><td>从 $n$ 个中<strong>无序</strong>选 $k$ 个</td></tr>
+    <tr><td>重复排列</td><td>$n^k$</td><td>每个位置 $k$ 个独立选，共 $n$ 种</td></tr>
+    <tr><td>圆排列</td><td>$A_n^{n-1} = (n-1)!$</td><td>$n$ 人围一圈，去除旋转等价</td></tr>
+    <tr><td>不可区分球</td><td>$\dbinom{n+k-1}{k}$</td><td>$n$ 盒、$k$ 球，每盒任意个（隔板法）</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <span class="label">关键判断</span>
+    <ul>
+      <li>样本点<strong>有序还是无序</strong>？有序 → 用排列；无序 → 用组合。</li>
+      <li>样本点是否<strong>可重复</strong>？可重复 → 用幂；有放回抽取。</li>
+      <li>"甲在乙前"这类问题通常用<strong>排列</strong>，因为顺序影响计数。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 典型例题</h2>
+
+  <h3>3.1 摸球问题（教材原例改编）</h3>
+  <div class="callout example">
+    <span class="label">Ex 1 · 不放回摸彩球</span>
+    <p>盒中有 5 个红球、3 个白球，共 8 个。随机<strong>不放回</strong>摸出 3 个，求"恰好 2 红 1 白"的概率。</p>
+    <p><strong>解：</strong>摸出 3 球的组合总数 $=\dbinom{8}{3}=56$。</p>
+    <p>有利情形：从 5 红中选 2，从 3 白中选 1：$\dbinom{5}{2}\cdot\dbinom{3}{1} = 10 \cdot 3 = 30$。</p>
+    $$P = \frac{30}{56} = \frac{15}{28}$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex 2 · 有放回摸球</span>
+    <p>同上的盒子，<strong>有放回</strong>摸 3 次，求"恰好 2 红 1 白"的概率。</p>
+    <p>单次摸到红球概率 $p=5/8$，白球 $q=3/8$。3 次独立试验，恰好 2 红 1 白有 $C_3^2=3$ 种顺序：</p>
+    $$P = \binom{3}{2} p^2 q = 3 \cdot \frac{25}{64} \cdot \frac{3}{8} = \frac{225}{512} \approx 0.439$$
+    <p>注意：<strong>有放回</strong>的样本空间大小是 $8^3=512$（每个样本点是长度为 3 的有序序列）；<strong>不放回</strong>的样本空间大小是 $A_8^3 = 8\cdot 7\cdot 6 = 336$（有序）或 $\binom{8}{3}=56$（无序）。两者算法不同。</p>
+  </div>
+
+  <h3>3.2 抛硬币问题</h3>
+  <div class="callout example">
+    <span class="label">Ex 3 · 抛 10 次硬币，恰好 6 次正面</span>
+    $$P = \binom{10}{6} \left(\frac{1}{2}\right)^{10} = \frac{210}{1024} = \frac{105}{512} \approx 0.205$$
+  </div>
+
+  <h3>3.3 生日问题（最经典反直觉）</h3>
+  <div class="callout example">
+    <span class="label">Ex 4 · $n$ 个人中至少两人同生日的概率</span>
+    <p>设一年 365 天，忽略闰年，<strong>等可能生日</strong>。$n$ 个人生日两两不同的概率：</p>
+    $$P(\text{两两不同}) = \frac{365 \cdot 364 \cdots (365-n+1)}{365^n}$$
+    <p>至少两同生日的概率 $P_n = 1 - $ 上式。</p>
+    <p>经典数字：</p>
+    <table>
+      <tr><th>$n$</th><th>$P_n$</th></tr>
+      <tr><td>10</td><td>0.117</td></tr>
+      <tr><td>20</td><td>0.411</td></tr>
+      <tr><td>23</td><td>0.507</td></tr>
+      <tr><td>30</td><td>0.706</td></tr>
+      <tr><td>50</td><td>0.970</td></tr>
+      <tr><td>60</td><td>0.994</td></tr>
+    </table>
+    <p>仅 <strong>23</strong> 个人，"至少两同生日"的概率就超过 50%——这远低于直觉估计。</p>
+  </div>
+
+  <h3>3.4 抽签问题（公平性）</h3>
+  <div class="callout example">
+    <span class="label">Ex 5 · 抽签先后是否影响概率？</span>
+    <p>$n$ 张签中有 1 张"中"，$n$ 个人<strong>不放回</strong>依次抽签。求第 $k$ 个人抽中的概率。</p>
+    <p>对任意 $k=1,\dots,n$：</p>
+    $$P(\text{第 } k \text{ 个人中}) = \frac{(n-1)!}{n!} = \frac{1}{n}$$
+    <p>即<strong>每个人中奖概率相等，与抽签先后无关</strong>。这是最常被考到的"反直觉"结论之一。</p>
+    <p>直观理解：把抽签看成<strong>全部 $n!$ 种排列</strong>，"中"出现在每个位置的概率都是 $1/n$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 古典概型的局限性</h2>
+
+  <div class="callout danger">
+    <span class="label">不能用的情形</span>
+    <ol>
+      <li><strong>无限样本空间</strong>：如灯泡寿命 $\Omega = [0,\infty)$——总数"无穷"，无法用 $|A|/|\Omega|$。需要<strong>几何概型</strong>（下一讲简介）或<strong>概率密度</strong>。</li>
+      <li><strong>不等可能</strong>：如有偏骰子——基本事件概率不等，不能直接套公式。需要<strong>加权计数</strong>。</li>
+      <li><strong>复杂依赖关系</strong>：条件概率、Bayes 等需要更一般的工具。</li>
+    </ol>
+    <p>下一讲（第 02 讲：条件概率与 Bayes）会从"等可能"中走出来，进入更一般的世界。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 口袋里有 6 个红球、4 个白球，不放回随机摸 3 个。求至少 1 个白球的概率。</summary>
+    <p>用补集：</p>
+    $$P(\text{至少 1 白}) = 1 - P(\text{全红}) = 1 - \frac{\binom{6}{3}}{\binom{10}{3}} = 1 - \frac{20}{120} = \frac{5}{6}$$
+  </details>
+
+  <details>
+    <summary>Q2 · 把 5 本不同的书随机放到 3 个不同的书架上，求每个书架至少有 1 本的概率。</summary>
+    <p>总情形：每本书独立选 3 个书架 → $3^5 = 243$。</p>
+    <p>用容斥求"每个书架至少 1 本"较繁琐。更简单——直接用<strong>满射计数</strong>：把 5 本书分成 3 个非空有序组的方案数 $\binom{5}{2}\binom{3}{1}\binom{2}{2} \cdot 3!/2! = \dots$</p>
+    <p>直接给数：$3^5 - \binom{3}{1}2^5 + \binom{3}{2}1^5 = 243 - 96 + 3 = 150$。</p>
+    $$P = \frac{150}{243} = \frac{50}{81} \approx 0.617$$
+  </details>
+
+  <details>
+    <summary>Q3 · 一副 52 张扑克牌，随机发 5 张。求"四张同点数（炸弹）"的概率。</summary>
+    <p>总数：$\binom{52}{5} = 2{,}598{,}960$。</p>
+    <p>有利情形：13 种点数，每种选 4 张；剩下 48 张选 1 张。</p>
+    $$P = \frac{13 \cdot 48}{2598960} = \frac{624}{2598960} = \frac{1}{4165} \approx 0.00024$$
+  </details>
+
+  <details>
+    <summary>Q4 · 100 个产品中有 5 个次品。随机抽 10 个检查，求次品数 = 2 的概率。</summary>
+    <p>总数 $\binom{100}{10}$。</p>
+    <p>有利情形：从 5 次品选 2，从 95 正品选 8。</p>
+    $$P = \frac{\binom{5}{2}\binom{95}{8}}{\binom{100}{10}}$$
+    <p>数值约 0.0704。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>古典概型 = 有限 + 等可能 → $P(A) = |A|/|\Omega|$。核心是<em>计数</em>：排列用于有序，组合用于无序。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./04-概率的性质.html"><span class="label">← 上一节</span><span class="title">概率的性质</span></a>
+    <a href="./06-集合的并与交.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">并与交（有限/可列/不可列）</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 05 古典概型 · 融合版课件</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# ===== 工作目录与本地工具配置 =====
+.workbuddy/
+
+# Claude Code 本地配置（不入库）
+.claude/
+
+# ===== Office 临时锁文件 =====
+~$*.pptx
+~$*.pptx#
+~$*.xlsx
+~$*.xlsx#
+~$*.docx
+~$*.docx#
+~$*.zip
+~$*.zip#
+
+# ===== Windows =====
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_view.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== 通用临时/备份 =====
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# ===== 大型教材 PDF（>100MB，超 GitHub 单文件上限，本地保留不入库） =====
+# 这两个文件用 `git rm --cached` 暂存区移除，工作树文件保留
+随机过程与排队论/排队论-唐应辉等.pdf
+随机过程与排队论/随机过程及应用-陈良均.pdf

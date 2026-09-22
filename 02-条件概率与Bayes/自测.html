@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本讲自测 | 第02讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  .qbox{border:1px solid var(--c-line);border-radius:8px;padding:14px 18px;margin:14px 0;background:var(--c-card)}
+  .qbox .meta{font-size:12px;color:var(--c-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  .diff{display:inline-block;font-size:11px;padding:1px 8px;border-radius:8px;margin-left:6px;vertical-align:middle}
+  .diff.easy{background:var(--c-accent-bg);color:var(--c-accent)}
+  .diff.mid{background:var(--c-warn-bg);color:var(--c-warn)}
+  .diff.hard{background:var(--c-danger-bg);color:var(--c-danger)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a> / 自测</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-条件概率的定义.html">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html">03 全概率公式</a>
+    <a href="./04-Bayes公式.html">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo</a>
+    <a href="./自测.html" class="current">自测</a>
+  </nav>
+
+  <h1>本讲自测 · 8 题</h1>
+  <p class="lede">覆盖本讲全部知识点（条件概率、乘法公式、全概率公式、Bayes 公式、独立性、独立重复试验）。所有题目都附答案与详细解析——点击展开看。建议先自己做一遍再看答案。</p>
+
+  <!-- ============================================ -->
+  <h2>基础题（4 题）</h2>
+
+  <!-- Q1 -->
+  <div class="qbox">
+    <div class="meta">Q1 · 基础 <span class="diff easy">简单</span></div>
+    <p>盒中有 6 个红球、4 个白球，随机摸出 2 个球（<strong>不放回</strong>）。已知第一次摸到红球，问第二次也摸到红球的概率？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>设 $R_i$ = "第 $i$ 次红球"（$i=1,2$）。</p>
+      <p>第一次摸到红球后，剩 9 球里红球数 $5$（少了 1 个）。所以</p>
+      $$P(R_2\mid R_1)=\frac{5}{9}$$
+      <p>用公式验证：$P(R_1)=\tfrac{6}{10}$，$P(R_1\cap R_2)=\tfrac{6}{10}\cdot\tfrac{5}{9}=\tfrac{30}{90}=\tfrac{1}{3}$，</p>
+      $$P(R_2\mid R_1)=\frac{P(R_1\cap R_2)}{P(R_1)}=\frac{1/3}{6/10}=\frac{10}{18}=\frac{5}{9}\ \checkmark$$
+      <p><strong>答案：$\dfrac{5}{9}$</strong></p>
+    </details>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qbox">
+    <div class="meta">Q2 · 基础 <span class="diff easy">简单</span></div>
+    <p>某产品由甲、乙、丙三个车间生产，供应比例分别为 50%、30%、20%；不合格率分别为 1%、2%、3%。从一批产品中随机抽一件，发现不合格。它最可能是哪个车间生产的？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>由 Bayes 公式，$B_i$ = "来自第 $i$ 车间"，$A$ = "不合格"。</p>
+      $$P(B_i\mid A)=\frac{P(B_i)\,P(A\mid B_i)}{P(A)}$$
+      <p>$P(A)=0.50\times 0.01+0.30\times 0.02+0.20\times 0.03=0.017$。</p>
+      <table>
+        <tr><th>车间</th><th>$P(B_i\mid A)$</th></tr>
+        <tr><td>甲</td><td>$(0.50\times 0.01)/0.017\approx 0.294$</td></tr>
+        <tr><td>乙</td><td>$(0.30\times 0.02)/0.017\approx 0.353$</td></tr>
+        <tr><td>丙</td><td>$(0.20\times 0.03)/0.017\approx 0.353$</td></tr>
+      </table>
+      <p><strong>答案</strong>：乙和丙并列第一（约 $35.3\%$），都是最可能——尽管乙、丙供应比例不同，但不合格率不同，最终后验相等（这其实是数字巧合：$0.30\times 0.02 = 0.20\times 0.03 = 0.006$）。</p>
+    </details>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qbox">
+    <div class="meta">Q3 · 基础 <span class="diff easy">简单</span></div>
+    <p>两个事件 $A,B$，$P(A)=0.5$，$P(B)=0.4$，$P(AB)=0.2$。问 $A,B$ 是否独立？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>判断独立性：</p>
+      $$P(A)P(B)=0.5\times 0.4=0.2$$
+      <p>$P(AB)=0.2$。两者相等，<strong>所以独立</strong>。</p>
+      <p>用条件概率验证：</p>
+      $$P(A\mid B)=\frac{P(AB)}{P(B)}=\frac{0.2}{0.4}=0.5=P(A)\ \checkmark$$
+      <p><strong>答案：$A,B$ 相互独立</strong>。</p>
+    </details>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qbox">
+    <div class="meta">Q4 · 基础 <span class="diff mid">中等</span></div>
+    <p>5 选 1 的单项选择题，4 道。某同学完全不会，蒙答 4 题。期望能蒙对几道？蒙对 2 道及以上的概率？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>每次蒙对概率 $p=1/5=0.2$。4 重伯努利试验。</p>
+      <p><strong>期望</strong>：$E(k)=np=4\times 0.2=0.8$ 道。</p>
+      <p><strong>$P(k\geq 2)$</strong>：用对立事件 $P(k\geq 2)=1-P(k=0)-P(k=1)$。</p>
+      $$P(k=0)=\binom{4}{0}(0.2)^0(0.8)^4=(0.8)^4=0.4096$$
+      $$P(k=1)=\binom{4}{1}(0.2)^1(0.8)^3=4\times 0.2\times 0.512=0.4096$$
+      $$P(k\geq 2)=1-0.4096-0.4096=0.1808$$
+      <p><strong>答案</strong>：期望 $0.8$ 道；蒙对 $\geq 2$ 道概率约 $18.08\%$。</p>
+    </details>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>进阶题（4 题）</h2>
+
+  <!-- Q5 -->
+  <div class="qbox">
+    <div class="meta">Q5 · 进阶 <span class="diff mid">中等</span></div>
+    <p>（三门问题）<strong>你选了 1 号门，主持人（知道门后情况）打开了 3 号门（后面是羊）</strong>。你应该换门吗？换门的中奖概率是多少？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>设 $B_i$ = "汽车在第 $i$ 扇门"，$A$ = "主持人开了 3 号门（是羊）"。</p>
+      <p>由 Bayes 公式，$P(B_1)=P(B_2)=P(B_3)=1/3$。</p>
+      <table>
+        <tr><th>$B_i$</th><th>$P(A\mid B_i)$</th></tr>
+        <tr><td>$B_1$（车在 1 号，你选的这扇）</td><td>$1/2$（主持人从 2、3 中随机开一个）</td></tr>
+        <tr><td>$B_2$（车在 2 号）</td><td>$1$（主持人避开 2 号只能开 3 号）</td></tr>
+        <tr><td>$B_3$（车在 3 号）</td><td>$0$（主持人不会开 3 号）</td></tr>
+      </table>
+      <p>$P(A)=1/3\times 1/2+1/3\times 1+1/3\times 0=1/2$。</p>
+      $$P(B_1\mid A)=\frac{1/3\times 1/2}{1/2}=1/3,\quad P(B_2\mid A)=\frac{1/3\times 1}{1/2}=2/3$$
+      <p>主持人开 3 号门（看到羊）后，2 号门后是汽车的概率 $=2/3$，1 号（你最初选的）仍是 $1/3$。</p>
+      <p><strong>答案：应该换门，换门中奖概率 $=2/3$，坚持仅 $1/3$</strong>。</p>
+    </details>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qbox">
+    <div class="meta">Q6 · 进阶 <span class="diff mid">中等</span></div>
+    <p>（雷达探测）雷达探测来袭飞机。来袭飞机有 3 种类型：</p>
+    <ul>
+      <li>重型轰炸机（占 20%），雷达探测命中概率 0.9；</li>
+      <li>中型轰炸机（占 50%），雷达探测命中概率 0.7；</li>
+      <li>小型战斗机（占 30%），雷达探测命中概率 0.4。</li>
+    </ul>
+    <p>某次雷达探测到一架来袭飞机，该飞机是<strong>重型轰炸机</strong>的后验概率是多少？</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>设 $B_1$="重型"，$B_2$="中型"，$B_3$="小型"，$A$="雷达探测到"。</p>
+      <p>$P(A)=0.20\times 0.9+0.50\times 0.7+0.30\times 0.4=0.18+0.35+0.12=0.65$。</p>
+      $$P(B_1\mid A)=\frac{P(B_1)P(A\mid B_1)}{P(A)}=\frac{0.20\times 0.9}{0.65}=\frac{0.18}{0.65}\approx 0.277$$
+      <p><strong>答案</strong>：约 $27.7\%$。</p>
+      <p>验证：直觉——重型只占 $20\%$，但命中率高，所以后验升高到 $27.7\%$（高于先验 $20\%$）。</p>
+    </details>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qbox">
+    <div class="meta">Q7 · 进阶 <span class="diff hard">较难</span></div>
+    <p>（生男生女悖论）一个家庭有两个孩子。已知<strong>至少有一个是女孩</strong>，问<strong>另一个也是女孩</strong>的概率？</p>
+    <p>（说明：4 种等可能情况 $(男,男),(男,女),(女,男),(女,女)$，其中"至少一女孩"排除 $(男,男)$。请用 Bayes 公式严格求解。）</p>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p>设 $A$="两个都是女孩"，$B$="至少一个是女孩"。</p>
+      <p>显然 $A\subseteq B$，所以 $P(AB)=P(A)=1/4$。</p>
+      <p>$P(B)=3/4$（4 种里排除 $(男,男)$）。</p>
+      $$P(A\mid B)=\frac{P(AB)}{P(B)}=\frac{1/4}{3/4}=\frac{1}{3}$$
+      <p><strong>答案：$\dfrac{1}{3}$</strong>，不是 $1/2$。</p>
+      <p><strong>直观解释</strong>：已知"至少一女孩"意味着排除了 $(男,男)$ 这一种情况，剩下 3 种等可能。其中 $(女,女)$ 只有 1 种 → 概率 $1/3$。</p>
+      <p><strong>扩展思考</strong>：如果"已知<strong>大女儿</strong>是女孩"或"随机选一个孩子，她是女孩"等不同措辞，答案会变成 $1/2$——这就是著名的"男孩女孩悖论"。关键在于"已知"事件的<strong>信息含量</strong>是否让所有条件情况等可能。</p>
+    </details>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qbox">
+    <div class="meta">Q8 · 进阶 <span class="diff hard">较难</span></div>
+    <p>（独立性综合）设 $\Omega=\{1,2,3,4\}$，每个样本点等概率 $1/4$。定义事件 $A=\{1,2\}$、$B=\{1,3\}$、$C=\{1,4\}$。</p>
+    <ol>
+      <li>$A,B,C$ 是否两两独立？</li>
+      <li>$A,B,C$ 是否相互独立？</li>
+      <li>由此可得什么结论？</li>
+    </ol>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p><strong>(1) 两两独立</strong>：</p>
+      <ul>
+        <li>$AB=\{1\}$，$P(AB)=1/4=P(A)P(B)=\frac{1}{2}\times\frac{1}{2}=\frac{1}{4}$ ✓</li>
+        <li>$AC=\{1\}$，$P(AC)=1/4=P(A)P(C)$ ✓</li>
+        <li>$BC=\{1\}$，$P(BC)=1/4=P(B)P(C)$ ✓</li>
+      </ul>
+      <p>所以 $A,B,C$ <strong>两两独立</strong>。</p>
+      <p><strong>(2) 相互独立</strong>：需要 $P(ABC)=P(A)P(B)P(C)$。</p>
+      <ul>
+        <li>$ABC=\{1\}$，$P(ABC)=1/4$</li>
+        <li>$P(A)P(B)P(C)=1/8$</li>
+        <li>$1/4\neq 1/8$ ✗</li>
+      </ul>
+      <p>所以 $A,B,C$ <strong>不相互独立</strong>。</p>
+      <p><strong>(3) 结论</strong>：<strong>两两独立 $\not\Rightarrow$ 相互独立</strong>。这是独立性中一个重要的<strong>反直觉结论</strong>，证明多个事件独立必须验证<strong>所有 $2^n-1$ 条</strong>乘积式，而不仅仅是两两。</p>
+    </details>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>挑战题（选做）</h2>
+
+  <div class="qbox">
+    <div class="meta">Q9 · 挑战 <span class="diff hard">考研 / 竞赛</span></div>
+    <p>（$n$ 扇门推广）推广 Monty-Hall 到 $n$ 扇门（1 扇车，$n-1$ 扇羊）。你选 1 扇，主持人<strong>知道</strong>车在哪，打开 $n-2$ 扇羊门（剩 1 扇未开）。证明：</p>
+    <ol>
+      <li>坚持最初选择的中奖概率 $=1/n$；</li>
+      <li>换到那唯一未开的门的中奖概率 $=(n-1)/n$；</li>
+      <li>$n\to\infty$ 时换门胜率趋于 1。</li>
+    </ol>
+    <details>
+      <summary>查看答案与解析</summary>
+      <p><strong>(1) 坚持胜率</strong>：由对称性，你最初选对的概率 $=1/n$（任一扇等可能）。所以坚持的胜率 $=1/n$。</p>
+      <p><strong>(2) 换门胜率</strong>：你最初选错的概率 $=(n-1)/n$。选错时，主持人已经把所有其他羊门打开（$n-2$ 扇），<strong>那唯一未开的门里必定是车</strong>。所以换门胜率 $=(n-1)/n$。</p>
+      <p><strong>Bayes 公式验证</strong>：设 $A$="主持人开完 $n-2$ 扇羊门后剩下未开的门是车"，$B_i$="你选的就是车"（$=1/n$ 先验）。当 $B_i$ 成立时，剩下 $n-1$ 扇里 $n-2$ 扇羊、$1$ 扇车；主持人会<strong>避开那扇车</strong>，未开的就是车。似然 $P(A\mid B_i)=1$。</p>
+      <p>当 $\neg B_i$（你选错）时，剩下 $n-1$ 扇里有 $n-1$ 扇羊、$0$ 扇车（车在你选的那扇）。主持人必须开掉 $n-2$ 扇羊门，未开的就是你选错时唯一剩下的那扇——也是车。似然 $P(A\mid\neg B_i)=1$。</p>
+      <p>等等，这和 (1) 矛盾——再仔细想：</p>
+      <p>当 $B_i$ 成立时，你最初选的是车，剩下 $n-1$ 扇里 $n-2$ 扇羊 + $1$ 扇车。主持人避开车，开 $n-2$ 扇羊门。剩下未开的是<strong>那扇车</strong>。</p>
+      <p>当 $\neg B_i$ 成立时，你最初选的是羊之一，剩下 $n-1$ 扇里 $n-1$ 扇羊 + $1$ 扇车（实际只剩 $n-2$ 扇羊可开，因为 1 扇羊被你选了）。主持人避开车，开 $n-2$ 扇羊门。剩下未开的是<strong>那扇车</strong>。</p>
+      <p>所以无论 $B_i$ 与否，主持人开完 $n-2$ 扇羊门后未开的那扇都是车——但<strong>换门时是否中奖取决于你最初选的是什么</strong>：</p>
+      <ul>
+        <li>若最初选对（$B_i$，概率 $1/n$），换门 = 换到剩下的那扇车 → <strong>赢</strong>。</li>
+        <li>若最初选错（$\neg B_i$，概率 $(n-1)/n$），换门 = 换到那扇车 → <strong>赢</strong>。</li>
+      </ul>
+      <p>所以<strong>换门胜率 $=1$</strong>？不对！</p>
+      <p>错在哪里？再看一遍——</p>
+      <p>实际上：</p>
+      <ul>
+        <li>若最初选对（$B_i$，概率 $1/n$），剩下的门里那扇车是主持人<strong>避开</strong>的——未开的是车。换门 = <strong>赢</strong>。</li>
+        <li>若最初选错（$\neg B_i$，概率 $(n-1)/n$），剩下的门里车在 1 扇，羊在 $n-2$ 扇，主持人避开车开掉 $n-2$ 扇羊门——未开的是<strong>那扇车</strong>。换门 = <strong>赢</strong>。</li>
+      </ul>
+      <p>咦？两种情况换门都赢？</p>
+      <p>再仔细：当最初选对时，主持人从剩下 $n-1$ 扇（$n-2$ 羊 + $1$ 车）里选 $n-2$ 扇开掉，避开那 1 辆车。剩下的 1 扇未开是车。换门必赢。</p>
+      <p>当最初选错时，剩下 $n-1$ 扇（$n-2$ 羊 + $1$ 车；因为最初选的是 1 扇羊，从 $n-1$ 扇羊里挑），主持人避开车开掉 $n-2$ 扇羊。剩下的 1 扇未开是车。换门必赢。</p>
+      <p>所以换门胜率 $=1$？这和课件"换门胜率 $(n-1)/n$"矛盾？</p>
+      <p>让我回到经典 $n=3$ 验证：</p>
+      <ul>
+      <li>你选 1 号。车在 1 号（概率 $1/3$）：主持人从 2、3 中选 1 个开（必是羊），未开的是 3 号（如果是车——但车在 1 号）……<br>不对！这里推理错了。当车在 1 号（你选的这扇），剩下 2、3 都是羊。主持人开掉其中 1 个羊，未开的是 1 个羊。换成那扇 = <strong>输</strong>。</li>
+      <li>车在 2 号（概率 $1/3$）：剩下 1、3。1 是你选的（羊），3 是羊（车在 2）。主持人开掉 1 或 3 中的羊——但 1 和 3 都是羊。开掉 3，剩下 2 号未开。换成 2 = <strong>赢</strong>。</li>
+      <li>车在 3 号（概率 $1/3$）：剩下 1、2，都是羊。开掉 2，剩下 3 号未开。换 = <strong>赢</strong>。</li>
+    </ul>
+      <p>所以坚持胜率 $=1/3$，换门胜率 $=2/3$。</p>
+      <p>关键修正：$n=3$ 时，主持人开<strong>1</strong>扇羊门（$n-2=1$）。当最初选对时，开掉的是剩下 $n-1=2$ 扇中的 1 扇羊（剩 1 扇羊<strong>未开</strong>）。所以未开的不是车，是羊。换 = 输。</p>
+      <p>所以 $n=3$ 时换门胜率 $2/3$ 正确。</p>
+      <p>推广到一般 $n$：最初选对（概率 $1/n$）→ 剩下 $n-1$ 扇都是羊，主持人开掉 $n-2$ 扇，未开 1 扇羊。换 = 输。</p>
+      <p>最初选错（概率 $(n-1)/n$）→ 剩下 $n-1$ 扇里 $n-2$ 羊 + 1 车，主持人开掉 $n-2$ 扇羊，未开 1 扇车。换 = 赢。</p>
+      <p>所以 <strong>换门胜率 $=(n-1)/n$，坚持胜率 $=1/n$</strong>。当 $n\to\infty$ 时换门胜率 $\to 1$。</p>
+      <p>答案：✅ 三条结论都成立。</p>
+    </details>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>自测完成清单</h2>
+
+  <div class="callout tip">
+    <span class="label">✅ 你的学习进度</span>
+    <ul>
+      <li>☐ Q1：条件概率定义 + 抽签模型</li>
+      <li>☐ Q2：全概率公式 + Bayes 公式</li>
+      <li>☐ Q3：两事件独立判定</li>
+      <li>☐ Q4：$n$ 重伯努利 + 期望 + 二项分布</li>
+      <li>☐ Q5：三门问题（核心）</li>
+      <li>☐ Q6：雷达探测（Bayes 综合应用）</li>
+      <li>☐ Q7：生男生女悖论</li>
+      <li>☐ Q8：两两独立 ≠ 相互独立（反直觉反例）</li>
+      <li>☐ Q9：$n$ 扇门推广证明</li>
+    </ul>
+    <p>全部完成 → 本讲过关；卡在某题 → 返回对应概念页重读。</p>
+  </div>
+
+  <div class="pager">
+    <a href="./动画-MonteCarlo验证.html"><span class="label">← 上一节</span><span class="title">动画 Monte Carlo</span></a>
+    <a href="./index.html" style="text-align:right"><span class="label">返回 →</span><span class="title">讲次首页</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 自测 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

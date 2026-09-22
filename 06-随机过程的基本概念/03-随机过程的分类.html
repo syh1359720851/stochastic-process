@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 随机过程的分类 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html" class="current">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · 随机过程的分类</h1>
+  <p class="lede">定义给了，接下来第一件事是"<strong>分门别类</strong>"。随机过程有两个几乎正交的分类坐标：一是<strong>参数集 $T$ 与状态空间 $E$ 的类型</strong>（形状层面的分类），二是<strong>概率分布规律</strong>（规律层面的分类）。把这两条理清，后面每一讲在讲哪个格子里的事，你就永远不会迷路。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>第一个坐标看"横轴和纵轴是不是离散的"，第二个坐标看"各时刻之间靠什么规律绑在一起"。</strong>前者给出四类"形状"，后者给出独立 / 独立增量 / 正态 / Markov / Poisson / 平稳这些"族"。
+  </div>
+
+  <h2>1. 坐标一：参数集 $T$ × 状态空间 $E$</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · 看两条轴</span>
+    <ul>
+      <li><strong>横轴（参数集 $T$）</strong>：什么时候观察？只在整点观察 → 离散；连续盯着 → 连续。<strong>决定轨道是"一串点"还是"一条曲线"。</strong></li>
+      <li><strong>纵轴（状态空间 $E$）</strong>：能取哪些值？只能取整数 → 离散；可取区间内任意数 → 连续。<strong>决定轨道是"阶梯"还是"平滑曲线"。</strong></li>
+      <li>两条轴各有两种可能，一共四种组合。四种组合里最"光滑"的是"连续参数 + 连续状态"（维纳过程、热噪声），最"粗糙"的是"离散参数 + 离散状态"（抛硬币序列、Markov 链）。</li>
+    </ul>
+  </div>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 300" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>随机过程的四象限分类</title>
+      <desc>按参数集离散或连续与状态空间离散或连续分成四类，每类给出典型过程的名称与举例。</desc>
+      <text x="260" y="30" text-anchor="middle" font-size="13" fill="#1f2328">状态空间 E 离散</text>
+      <text x="520" y="30" text-anchor="middle" font-size="13" fill="#1f2328">状态空间 E 连续</text>
+      <text x="132" y="100" text-anchor="end" font-size="12" fill="#57606a">参数集</text>
+      <text x="132" y="116" text-anchor="end" font-size="12" fill="#57606a">T 离散</text>
+      <text x="132" y="200" text-anchor="end" font-size="12" fill="#57606a">参数集</text>
+      <text x="132" y="216" text-anchor="end" font-size="12" fill="#57606a">T 连续</text>
+      <rect x="140" y="42" width="240" height="94" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="0.5"/>
+      <text x="260" y="68" text-anchor="middle" font-size="13" fill="#0969da">离散参数链（随机序列）</text>
+      <text x="260" y="92" text-anchor="middle" font-size="12" fill="#1f2328">伯努利随机序列 · Markov 链</text>
+      <text x="260" y="112" text-anchor="middle" font-size="12" fill="#1f2328">二项计数过程（随机游动）</text>
+      <rect x="400" y="42" width="240" height="94" rx="8" fill="#eaf3de" stroke="#639922" stroke-width="0.5"/>
+      <text x="520" y="68" text-anchor="middle" font-size="13" fill="#3b6d11">随机序列（连续状态）</text>
+      <text x="520" y="92" text-anchor="middle" font-size="12" fill="#1f2328">离散时间白噪声 · AR(1) 序列</text>
+      <text x="520" y="112" text-anchor="middle" font-size="12" fill="#1f2328">独立同分布正态序列</text>
+      <rect x="140" y="156" width="240" height="94" rx="8" fill="#fbefff" stroke="#8250df" stroke-width="0.5"/>
+      <text x="260" y="182" text-anchor="middle" font-size="13" fill="#8250df">连续参数链（计数过程）</text>
+      <text x="260" y="206" text-anchor="middle" font-size="12" fill="#1f2328">Poisson 过程 · 排队队长 L(t)</text>
+      <text x="260" y="226" text-anchor="middle" font-size="12" fill="#1f2328">连续时间 Markov 链</text>
+      <rect x="400" y="156" width="240" height="94" rx="8" fill="#faeeda" stroke="#ba7517" stroke-width="0.5"/>
+      <text x="520" y="182" text-anchor="middle" font-size="13" fill="#854f0b">随机过程（狭义，双连续）</text>
+      <text x="520" y="206" text-anchor="middle" font-size="12" fill="#1f2328">维纳过程 · 正态过程 ・ 热噪声</text>
+      <text x="520" y="226" text-anchor="middle" font-size="12" fill="#1f2328">股价模型 · 高斯白噪声</text>
+      <text x="340" y="280" text-anchor="middle" font-size="12" fill="#57606a">四类都统称"随机过程"；习惯上把最右下格单独叫"随机过程（连续参数、连续状态）"</text>
+    </svg>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">四类对照表</span>
+    <table>
+      <tr><th>参数集 $T$</th><th>状态空间 $E$</th><th>习惯名称</th><th>轨道形态</th><th>本课程对应讲次</th></tr>
+      <tr><td>离散</td><td>离散</td><td>（离散参数）链</td><td>点列 / 阶梯（跳 1）</td><td>第 08 讲 Markov 链</td></tr>
+      <tr><td>离散</td><td>连续</td><td>随机序列</td><td>点列，值连续</td><td>时间序列分析（选修）</td></tr>
+      <tr><td>连续</td><td>离散</td><td>（连续参数）链</td><td>右连续阶梯</td><td>第 10 讲 Poisson 过程、第 13 讲排队</td></tr>
+      <tr><td>连续</td><td>连续</td><td>随机过程（狭义）</td><td>连续曲线</td><td>第 12 讲维纳过程</td></tr>
+    </table>
+  </div>
+
+  <h2>2. 坐标二：按概率分布规律分类</h2>
+  <div class="callout theorem">
+    <span class="label">按"各时刻靠什么规律绑在一起"分类</span>
+    <p>这个分类<strong>跟 $T$、$E$ 无关</strong>，看的是"不同时刻的 $X(t)$ 之间是什么关系"：</p>
+    <table>
+      <tr><th>类别</th><th>核心要求</th><th>一句话理解</th></tr>
+      <tr><td><strong>独立过程</strong></td><td>任意有限个时刻的 $X(t_1),\dots,X(t_n)$ 相互独立</td><td>各时刻"互不通气"，最简单也最没意思</td></tr>
+      <tr><td><strong>独立增量过程</strong></td><td>任意不相交时间段上的增量相互独立</td><td>各<strong>段</strong>互不通气（但 $X(t)$ 本身可以不独立）</td></tr>
+      <tr><td><strong>正态过程</strong></td><td>任意有限维联合分布是 $n$ 维正态</td><td>线性运算封闭，只需知道 $m(t)$ 与 $C(s,t)$</td></tr>
+      <tr><td><strong>Markov 过程</strong></td><td>给定现在，将来与过去条件独立</td><td>"无后效性"：只认现在，不认历史</td></tr>
+      <tr><td><strong>Poisson 过程</strong></td><td>计数过程 + 平稳独立增量 + 增量为 Poisson</td><td>电话呼入、顾客到达的标准模型</td></tr>
+      <tr><td><strong>维纳过程</strong></td><td>平稳独立增量 + 增量为正态 + 轨道连续</td><td>布朗运动，连续时间的"随机游动极限"</td></tr>
+      <tr><td><strong>平稳过程</strong></td><td>有限维分布对时间平移不变</td><td>统计规律不随"什么时候开始看"而变</td></tr>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">这张表要这样读</span>
+    <ul>
+      <li><strong>这些类不是互斥的，而是层层叠加的</strong>：维纳过程同时是"独立增量过程 + 正态过程 + Markov 过程"（第 12 节会证明）；Poisson 过程也同时是"独立增量 + Markov"。所以"维纳过程属于哪一类"这种问法本身问错了——应该问"它满足哪些性质"。</li>
+      <li><strong>有些类之间是"推广"关系</strong>：独立过程 $\Rightarrow$ 独立增量过程（因为不相交时段的增量由不相交的独立变量组成），反之不成立。第 09 节会给反例。</li>
+      <li><strong>平稳性和其他性质也是独立的维度</strong>：Poisson 过程与维纳过程都是"平稳独立增量"，但一个是计数过程、一个是连续过程；而"平稳过程"是另一个更强的要求，维纳过程<strong>不是</strong>平稳过程（其方差随时间增长！第 12 节详解）。</li>
+    </ul>
+  </div>
+
+  <h2>3. 两条坐标怎么配合使用</h2>
+  <div class="callout example">
+    <span class="label">实战：看到一个过程先问三个问题</span>
+    <ol>
+      <li><strong>什么时候观察？（$T$）</strong>——"每小时统计一次" → 离散；"连续记录" → 连续。</li>
+      <li><strong>能取什么值？（$E$）</strong>——"次数、人数" → 离散；"温度、电压、价格" → 连续。</li>
+      <li><strong>各时刻怎么相关？（规律）</strong>——"完全没有记忆" → 独立/独立增量；"只记现在" → Markov；"线性结构" → 正态。</li>
+    </ol>
+    <p><strong>三个例子练手：</strong></p>
+    <ul>
+      <li>某客服中心"每 10 分钟记录一次在线人数"：$T$ 离散、$E$ 离散（人）、有记忆（人不会瞬间清零）→ 离散参数链 + 有 Markov 结构 → 第 08 讲的角色。</li>
+      <li>某型号电阻"连续测量热噪声电压"：$T$ 连续、$E$ 连续、近似正态、有相关性 → 正态过程 → 第 11 讲。</li>
+      <li>某网站"累计访问量"，连续时间、计数 → 连续参数、离散状态、平稳独立增量（若访问率恒定）→ Poisson 过程 → 第 10 讲。</li>
+    </ul>
+  </div>
+
+  <h2>4. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把"链"理解为"离散的"</strong>。链（chain）强调的是<strong>状态空间离散</strong>，参数集可以是连续（连续参数链）。而"随机序列"强调的是<strong>参数集离散</strong>，状态空间可以是连续。两者不是同义词。</li>
+      <li>❌ <strong>以为"离散参数 ⇒ 轨道是阶梯"</strong>。阶梯的前提是<strong>参数连续 + 计数型状态</strong>。"每 10 分钟记录在线人数"虽然参数离散，轨道画出来只是<strong>一串点</strong>，不是阶梯。</li>
+      <li>❌ <strong>把分类当成"贴标签"</strong>。类的判定要靠<strong>验证定义条件</strong>，不能靠直觉。比如"抛硬币序列是独立的"要靠"各次试验独立"这个前提，而不是"看起来像随机跳动"。</li>
+      <li>❌ <strong>把"平稳独立增量"读成"平稳过程"</strong>。前者说"<strong>增量</strong>的分布不随起点变"，后者说"<strong>过程本身</strong>的分布不随起点变"——维纳过程满足前者，不满足后者。</li>
+      <li>❌ <strong>忘了 Markov 性只说"将来与过去条件独立"</strong>，不是"将来与过去独立"。若真的独立，那是独立过程，不是 Markov 过程（Markov 过程几乎总是有相关性）。</li>
+    </ul>
+  </div>
+
+  <h2>5. 自检</h2>
+  <details>
+    <summary>Q1 · 判断"独立过程"与"独立增量过程"的包含关系，并举反例。</summary>
+    <p><strong>独立过程 $\Rightarrow$ 独立增量过程</strong>：取不相交时段 $[t_1,t_2]$、$[t_3,t_4]$，增量 $X(t_2)-X(t_1)$ 只由 $t\in[t_1,t_2]$ 上的 $X(t)$ 决定，$X(t_4)-X(t_3)$ 只由 $t\in[t_3,t_4]$ 上的 $X(t)$ 决定；独立过程保证这两个时刻集合的随机变量相互独立，故增量独立。<br>
+    <strong>反之不成立</strong>：二项计数过程 $Y(n)=\sum_{k=1}^{n}X(k)$（$X(k)$ i.i.d. Bernoulli）是独立增量过程，但 $Y(1)$ 与 $Y(2)=Y(1)+X(2)$ 显然不独立（$Y(2)$ 含 $Y(1)$ 的信息）。<strong>本质区别：独立过程管"各时刻"，独立增量过程管"各时段"。</strong></p>
+  </details>
+  <details>
+    <summary>Q2 · 某过程的参数集是 $\{0,1,2,\dots\}$、状态空间是 $[0,+\infty)$，它属于四象限里的哪一格？轨道长什么样？</summary>
+    <p>属于"<strong>离散参数 + 连续状态</strong>"（随机序列）。轨道是<strong>一串点</strong> $(n, X(n))$，因为值连续所以纵坐标可以在 $[0,+\infty)$ 内任意取。<strong>注意：它不叫"链"</strong>（链要求状态离散），也叫不出"连续过程"（参数离散）。典型例子：每日收盘价序列、AR(1) 模型。</p>
+  </details>
+  <details>
+    <summary>Q3 · "Poisson 过程"与"M/M/1 排队的队长过程"在四象限里是同一格吗？</summary>
+    <p><strong>是同一格</strong>：都是"连续参数 + 离散状态（非负整数）"。区别在<strong>规律层面</strong>：Poisson 过程是"平稳独立增量 + 增量为 Poisson"，而 M/M/1 队长过程不是独立增量（队长会持续偏高或偏低），但它是<strong>连续时间 Markov 链</strong>（只认现在的队长，不认历史）。<strong>这正是第 13 讲要展开的：把 Poisson 到达 + 指数服务拼成一条 Markov 链。</strong></p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么说"维纳过程不是平稳过程"？</summary>
+    <p>因为平稳过程要求"有限维分布对时间平移不变"，特别是一维分布 $X(t)$ 的分布不能随 $t$ 变。但维纳过程有 $W(t)\sim N(0,\sigma^2t)$——<strong>方差随时间线性增长</strong>，$t$ 越大分布越"胖"，平移后不可能同分布。<br>
+    <strong>维纳过程"平稳"的只有增量</strong>（$W(t+h)-W(s+h)$ 与 $W(t)-W(s)$ 同分布），这叫"具有平稳增量"，与"是平稳过程"是两回事。第 12 节会重点拆这个坑。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./02-随机过程的定义.html"><span class="label">← 上一节</span><span class="title">随机过程的定义</span></a>
+    <a href="./04-有限维分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机过程的有限维分布</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

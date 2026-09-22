@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 离散随机变量 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html" class="current">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · 离散型随机变量</h1>
+  <p class="lede">$X$ 只取<strong>有限或可数个值</strong>——这是离散型随机变量的核心特征。本节给出分布列、分布函数（阶梯形）、两个典型例子，并预告下一讲 Bernoulli / Poisson / 二项分布。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>$X$ 的取值范围是一个可数集 $\{x_1,x_2,x_3,\dots\}$</strong>——每个值上都有一个固定的"概率权重"。
+    <ul>
+      <li>想象一把<strong>天平</strong>：把<strong>全部概率 1</strong>分配到<strong>若干个离散点</strong>上。</li>
+      <li>每个点 $x_k$ 上放一个"砝码" $p_k=P(X=x_k)$，所有砝码加起来等于 1。</li>
+      <li>分布函数 $F(x)$ 在 $x_k$ 处<strong>跳跃</strong>$p_k$——画出图就是<strong>阶梯形</strong>。</li>
+      <li>典型例子：掷骰子（$1\sim 6$ 各占 $1/6$）、二项分布 $X\sim B(n,p)$、泊松分布 $X\sim P(\lambda)$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 骰子点数</span>
+    掷一颗均匀骰子的"点数"$X$：取值 $\{1,2,3,4,5,6\}$，每个点概率 $1/6\approx 0.167$。把它画在数轴上就是<strong>六根等高的"小柱子"</strong>。分布函数 $F(x)$ 就是把这些柱子从左往右累加起来——所以 $F$ 是<strong>阶梯函数</strong>。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 离散型随机变量</span>
+    <p>若随机变量 $X$ 的取值范围 $R_X=\{x_1,x_2,\dots\}$ 是<strong>有限集或可数集</strong>，则称 $X$ 为<strong>离散型随机变量</strong>。称</p>
+    $$p_k=P(X=x_k),\quad k=1,2,3,\dots$$
+    <p>为 $X$ 的<strong>分布列</strong>（probability mass function, PMF）。分布列满足：</p>
+    <ol>
+      <li><strong>非负</strong>：$p_k\ge 0$；</li>
+      <li><strong>归一</strong>：$\sum_k p_k=1$。</li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 分布函数：阶梯形</h2>
+
+  <h3>3.1 由分布列求 $F$</h3>
+  <div class="callout theorem">
+    <span class="label">公式 · 离散 $F$</span>
+    $$\boxed{F(x)=P(X\le x)=\sum_{x_k\le x}p_k}$$
+    <p>这是一个<strong>阶梯函数</strong>：</p>
+    <ul>
+      <li>在每个 $x_k$ 处<strong>右连续</strong>，跳跃 $p_k$；</li>
+      <li>在两个相邻 $x_k,x_{k+1}$ 之间为<strong>常数</strong>；</li>
+      <li>$F(-\infty)=0,\ F(+\infty)=1$。</li>
+    </ul>
+  </div>
+
+  <h3>3.2 反过来：由 $F$ 求分布列</h3>
+  <div class="callout theorem">
+    <span class="label">公式 · 离散 $p_k$</span>
+    $$\boxed{p_k=P(X=x_k)=F(x_k)-F(x_k-0)}$$
+    <p>即 $p_k$ 等于 $F$ 在 $x_k$ 处的<strong>跳跃度</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 抛两次硬币，正面次数 $X$</span>
+    <p>分布列（$\pi=0,1,2$；$\frac{1}{4},\frac{1}{2},\frac{1}{4}$）。分布函数：</p>
+    $$F(x)=\begin{cases}0,& x&lt;0\\ 1/4,& 0\le x&lt;1\\ 3/4,& 1\le x&lt;2\\ 1,& x\ge 2\end{cases}$$
+    <p>图像：</p>
+    <pre style="font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:13px;overflow-x:auto;line-height:1.5;color:var(--c-fg)">
+    F(x)
+    1.0 ┤              ●━━━━━━━━━●
+        │              ┃
+    0.75┤    ●━━━━━━━━━┛
+        │    ┃
+    0.25┤●━━━┛
+        │
+    0.0 ┤━━━┬━━━┬━━━┬━━━┬━━► x
+        0   1   2   3
+
+    F(x) 在 0,1,2 处各跳 1/4, 1/2, 1/4。
+    </pre>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 两个经典例子</h2>
+
+  <h3>4.1 Bernoulli（0-1 分布）</h3>
+  <div class="callout example">
+    <span class="label">Bernoulli · 单次试验</span>
+    <p>一次试验，成功概率 $p$，失败 $1-p$。令 $X=1$（成功）或 $0$（失败）。</p>
+    <table>
+      <tr><th>$k$</th><td>0</td><td>1</td></tr>
+      <tr><th>$p_k$</th><td>$1-p$</td><td>$p$</td></tr>
+    </table>
+    <p>记作 $X\sim B(1,p)$。这是<strong>最简单</strong>也<strong>最重要</strong>的离散分布——所有二项、几何、泊松都建立在它之上。</p>
+  </div>
+
+  <h3>4.2 二项分布（预告）</h3>
+  <div class="callout example">
+    <span class="label">Binomial · $n$ 重伯努利</span>
+    <p>独立重复 $n$ 次 Bernoulli 试验，每次成功概率 $p$。$X$ = 成功的总次数。</p>
+    $$P(X=k)=\binom{n}{k}p^k(1-p)^{n-k},\quad k=0,1,\dots,n$$
+    <p>记作 $X\sim B(n,p)$。详细推导见第 04 讲。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 离散 $F$ 的"奇怪之处"</h2>
+
+  <div class="callout warn">
+    <span class="label">$F$ 在跳跃点处不可导</span>
+    <p>离散 $F$ 在每个 $x_k$ 处<strong>不连续</strong>——左极限 $F(x_k-0)$ 与函数值 $F(x_k)$ 之间差 $p_k$：</p>
+    $$F(x_k-0)=\sum_{j&lt;k}p_j,\quad F(x_k)=\sum_{j\le k}p_j$$
+    <p>所以离散 $F$ <strong>没有密度</strong>——它在 $x_k$ 处是"瞬时跳跃"，不是"累积渐变"。这一点是离散与连续的关键区别（见 §4）。</p>
+  </div>
+
+  <div class="callout danger">
+    <span class="label">小心 · 离散型的"期望公式"长什么样？</span>
+    <p>由分布列求期望（严格定义见第 05 讲）：</p>
+    $$E(X)=\sum_k x_k\,p_k$$
+    <p>注意这是<strong>加权求和</strong>——不是积分。如果错误地用 $\int x\,f(x)\,dx$，结果会出错（见 §4）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 离散型特有的运算</h2>
+
+  <h3>6.1 求 max / min</h3>
+  <p>若 $X,Y$ 离散且独立，$M=\max(X,Y)$ 的分布列：</p>
+  $$P(M=m)=\sum_{i\le m,\,j\le m}P(X=i,Y=j)-\sum_{i<m,\,j<m}P(X=i,Y=j)$$
+
+  <h3>6.2 求和 $Z=X+Y$</h3>
+  <p>独立情形下，$Z$ 的分布列由<strong>卷积</strong>给出：</p>
+  $$P(Z=k)=\sum_{i} P(X=i)\,P(Y=k-i)$$
+  <p>（这是连续卷积的离散版本，详见 §8 + 第 06 讲。）</p>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 取值范围是 $\{0\}\cup[1,2]$ 的随机变量是离散的吗？</summary>
+    <p>不是。"取值范围是<strong>可数集</strong>"才能称为离散——$\{0\}\cup[1,2]$ 含不可数个点（$[1,2]$ 是连续区间），所以<strong>不是</strong>离散型。本讲 §5 会讨论这种"混合型"反例。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 已知 $X$ 取 $\{1,2,3\}$，$P(X=1)=1/2$，$P(X=2)=1/3$，$P(X=3)=?$</summary>
+    <p>由 $\sum p_k=1$：$P(X=3)=1-1/2-1/3=1/6$。注意这是<strong>归一条件</strong>的直接应用。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 已知 $F(x)$ 的跳跃，求 $P(X=2)$ 与 $P(X\le 2)$。</summary>
+    <p>$P(X=2)=F(2)-F(2-0)$，即 $F$ 在 $x=2$ 处的跳跃。$P(X\le 2)=F(2)$，按定义直接读。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 离散型 $F$ 在跳跃点的导数存在吗？</summary>
+    <p>不存在（严格说不存在右导数；左导数可以求）。左导数 = 0，右导数 = +∞——所以传统的 $F'(x)=f(x)$ 关系<strong>不适用于离散型</strong>。这是离散和连续的本质差异。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>离散型随机变量 = 取值可数的 $X$；分布列 $p_k=P(X=x_k)\ge 0$，$\sum p_k=1$；$F(x)$ 是阶梯函数，跳跃度 = $p_k$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./02-分布函数.html"><span class="label">← 上一节</span><span class="title">分布函数</span></a>
+    <a href="./04-连续随机变量.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">连续型随机变量</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 03 离散型随机变量 · 融合版课件</footer>
+</div>
+</body>
+</html>

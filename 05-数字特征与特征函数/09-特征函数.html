@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>09 特征函数 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 09</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-Fourier变换与复平面.html">00 预备</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html" class="current">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>09 · 特征函数</h1>
+  <p class="lede">特征函数 $\varphi(t)=E(e^{itX})$ 是把分布"<strong>编码到复平面</strong>"的工具——它在概率论中的地位，相当于 Fourier 变换之于信号处理。它<strong>永远存在</strong>（不像矩母函数可能不存在），并且与分布一一对应。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    $\varphi(t)=E(e^{itX})$ 是分布的"<strong>Fourier 变换</strong>"。核心性质：$\varphi(0)=1$，$|\varphi(t)|\le 1$，唯一决定 $F_X$，独立 ⇒ 特征函数相乘。
+  </div>
+
+  <h2>1. 历史与动机</h2>
+  <div class="callout intuition">
+    <span class="label">从 18 世纪到 1933</span>
+    <ul>
+      <li><strong>1812 年</strong>：Laplace 在概率论中引入<strong>生成函数</strong>（$E(z^X)$，对离散）。</li>
+      <li><strong>1933 年</strong>：P. Lévy 正式把 $E(e^{itX})$ 命名为"<strong>特征函数</strong>"（Characteristic Function）并系统化。</li>
+      <li><strong>动机</strong>：矩母函数 $M_X(t)=E(e^{tX})$ 对 Cauchy 等重尾分布不存在，但<strong>所有</strong>分布都有特征函数——这让特征函数成为处理"任意分布"的通用工具。</li>
+    </ul>
+  </div>
+
+  <h2>2. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>Fourier 视角</strong>：$\varphi_X(t)$ 是概率密度 $f_X(x)$ 的<strong>Fourier 变换</strong>，$f_X$ 是 $\varphi_X$ 的<strong>Fourier 逆变换</strong>——两者一一对应。</li>
+      <li><strong>复平面视角</strong>：把 $e^{itX}=\cos(tX)+i\sin(tX)$ 分实部 / 虚部：</li>
+    </ul>
+    $$\varphi_X(t)=E(\cos tX)+i\,E(\sin tX)$$
+    <p>$E(\cos tX)$ 是 $X$ 的"<strong>偶函数矩</strong>"，$E(\sin tX)$ 是"<strong>奇函数矩</strong>"。</p>
+    <ul>
+      <li><strong>"指纹" 含义</strong>：每个分布对应一条<strong>复平面上的曲线</strong> $\varphi_X(t)$（$t$ 是实参数）。不同分布的曲线不同——这是"唯一性"。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>音频指纹</strong>：每首歌的频谱（Fourier 变换）是"唯一"的——特征函数 $\varphi$ 就是概率分布的"频谱指纹"。</li>
+      <li><strong>JPEG 压缩</strong>：图像 DCT 变换后，丢弃高频分量——类似于"低阶特征函数已能近似原分布"。</li>
+    </ul>
+  </div>
+
+  <h2>3. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 特征函数</span>
+    <p>设 $X$ 为随机变量，定义</p>
+    $$\varphi_X(t)=E(e^{itX})=\int_{-\infty}^{+\infty} e^{itx}\,dF_X(x),\qquad t\in\mathbb{R}$$
+    <p>其中 $i=\sqrt{-1}$。注意 $t$ 是<strong>实数参数</strong>（不是复数）。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">三种写法</span>
+    <ul>
+      <li><strong>一般（R-S 积分）</strong>：$\varphi_X(t)=\int e^{itx}\,dF_X(x)$</li>
+      <li><strong>离散</strong>：$\varphi_X(t)=\sum_k e^{itx_k}p_k$</li>
+      <li><strong>连续</strong>：$\varphi_X(t)=\int e^{itx}f_X(x)\,dx$（即 $f_X$ 的 Fourier 变换）</li>
+    </ul>
+  </div>
+
+  <h2>4. 基本性质</h2>
+  <div class="callout theorem">
+    <span class="label">六条核心性质</span>
+    <ol>
+      <li><strong>$\varphi_X(0)=1$</strong>。</li>
+      <li><strong>$|\varphi_X(t)|\le 1$</strong>（因为 $|e^{itx}|=1$，故 $\le E(1)=1$）。</li>
+      <li><strong>共轭对称</strong>：$\varphi_X(-t)=\overline{\varphi_X(t)}$（$X$ 服从实分布时）。</li>
+      <li><strong>一致连续</strong>：$\varphi_X$ 是 $t$ 的<strong>一致连续</strong>函数。</li>
+      <li><strong>半正定</strong>：$\varphi_X$ 是<strong>正定函数</strong>（Bochner 定理：正定连续函数是某分布的特征函数）。</li>
+      <li><strong>唯一性</strong>：$\varphi_X$ <strong>唯一决定</strong> $F_X$（反演公式）。</li>
+    </ol>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 7 · 独立 ⇒ 相乘</span>
+    <p>若 $X,Y$ 独立，则 $\varphi_{X+Y}(t)=\varphi_X(t)\cdot\varphi_Y(t)$。</p>
+    <p>反之（连续性条件下）：若 $\varphi_{X+Y}=\varphi_X\varphi_Y$，则 $X,Y$ 独立。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 8 · 线性变换</span>
+    <p>$\varphi_{aX+b}(t)=e^{itb}\,\varphi_X(at)$。</p>
+  </div>
+
+  <h2>5. 唯一性定理（核心）</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · 唯一性</span>
+    <p>两个分布 $F,G$ 相同，当且仅当 $\varphi_F\equiv\varphi_G$。</p>
+    <p>这是特征函数"指纹"地位的严格陈述。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">反演公式（连续型）</span>
+    <p>若 $X$ 连续，密度 $f_X$ 在 $x$ 处连续，则</p>
+    $$f_X(x)=\frac{1}{2\pi}\int_{-\infty}^{+\infty}\varphi_X(t)\,e^{-itx}\,dt$$
+    <p>即"对特征函数做 Fourier 逆变换"得密度。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定理 · Lévy 连续性</span>
+    <p>若 $\varphi_n(t)\to\varphi(t)$ 对每个 $t$ 都成立，且 $\varphi$ 在 $t=0$ 处连续，则 $\varphi$ 是某分布的特征函数，且对应的分布 $F_n$ 弱收敛到 $F$。</p>
+    <p>这是证明"<strong>中心极限定理</strong>"的核心工具。</p>
+  </div>
+
+  <h2>6. 与矩的关系</h2>
+  <div class="callout theorem">
+    <span class="label">关键公式 · 矩与导数</span>
+    <p>若 $E(|X|^n)&lt;\infty$，则 $\varphi_X$ 在 $0$ 处 $n$ 阶可导，且</p>
+    $$\varphi_X^{(k)}(0)=i^k\,E(X^k)$$
+    <p>特别地：</p>
+    <ul>
+      <li>$\varphi_X'(0)=iE(X)$</li>
+      <li>$\varphi_X''(0)=-E(X^2)$</li>
+      <li>$\varphi_X'''(0)=-iE(X^3)$</li>
+    </ul>
+    <p>由 Taylor 展开 $\varphi_X(t)=\sum_{k=0}^{\infty}\tfrac{(it)^k}{k!}E(X^k)$。</p>
+  </div>
+
+  <h2>7. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · Bernoulli$(p)$</span>
+    <p>$\varphi(t)=pe^{it\cdot 1}+(1-p)e^{it\cdot 0}=q+pe^{it}$。</p>
+    <p>$\varphi'(t)=ipe^{it}$，$\varphi'(0)=ip$ → $E(X)=p$ ✓。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · 标准正态 $N(0,1)$</span>
+    <p>$\varphi(t)=\int_{-\infty}^{+\infty}e^{itx}\cdot\tfrac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx$。</p>
+    <p>配方 $e^{itx-x^2/2}=e^{-(x-it)^2/2}\,e^{-t^2/2}$，积分得 $\varphi(t)=e^{-t^2/2}$。</p>
+    <p>导数验证：$\varphi'(0)=0=E(X)$，$\varphi''(0)=-1=-E(X^2)=-1$ ✓。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · 指数 $\text{Exp}(\lambda)$</span>
+    <p>$\varphi(t)=\int_0^{\infty}e^{itx}\lambda e^{-\lambda x}\,dx=\lambda\int_0^{\infty}e^{-(\lambda-it)x}\,dx=\tfrac{\lambda}{\lambda-it}$。</p>
+    <p>改写：$\varphi(t)=\tfrac{1}{1-it/\lambda}$，求导 $\varphi'(t)=\tfrac{i/\lambda}{(1-it/\lambda)^2}$，$\varphi'(0)=i/\lambda$，所以 $E(X)=1/\lambda$ ✓。</p>
+  </div>
+
+  <h2>8. 特征函数 vs 矩母函数</h2>
+  <table>
+    <thead>
+      <tr><th></th><th>特征函数 $\varphi(t)=E(e^{itX})$</th><th>矩母函数 $M(t)=E(e^{tX})$</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>存在性</td><td>永远存在</td><td>未必存在（Cauchy 等）</td></tr>
+      <tr><td>对应域</td><td>$t\in\mathbb{R}$</td><td>$t\in(-t_0,t_0)$</td></tr>
+      <tr><td>唯一性</td><td>是</td><td>存在时是</td></tr>
+      <tr><td>独立 ⇒</td><td>$\varphi_{X+Y}=\varphi_X\varphi_Y$</td><td>$M_{X+Y}=M_X M_Y$</td></tr>
+      <tr><td>与矩关系</td><td>$\varphi^{(k)}(0)=i^k E(X^k)$</td><td>$M^{(k)}(0)=E(X^k)$</td></tr>
+      <tr><td>主要工具</td><td>CLT 证明、独立性证明</td><td>算矩</td></tr>
+    </tbody>
+  </table>
+
+  <h2>9. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">四个常见错误</span>
+    <ul>
+      <li>❌ 把 $\varphi_X(t)=E(e^{itX})$ 中的 $i$ 漏掉——那就是矩母函数，不是特征函数。</li>
+      <li>❌ 求 $\varphi_X'(0)$ 时忘了 $i$——$E(X)=\varphi'(0)/i$，不是 $\varphi'(0)$。</li>
+      <li>❌ 把 $\varphi_X(t)$ 与 $X$ 的特征（median 等）混淆——"特征函数"是 characteristic function，<strong>不是 feature of $X$</strong>。</li>
+      <li>❌ 用矩母函数算 Cauchy 分布的均值——Cauchy 没有 MGF，但有特征函数 $e^{-|t|}$。</li>
+    </ul>
+  </div>
+
+  <h2>10. 自检</h2>
+  <details>
+    <summary>Q1 · 验证 $X\sim\text{Exp}(\lambda)$ 的 $\varphi(0)=1$。</summary>
+    <p>$\varphi(0)=\tfrac{\lambda}{\lambda-0}=1$ ✓。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X\sim B(n,p)$，$\varphi_X(t)=$?</summary>
+    <p>$X=\sum_{i=1}^n X_i$，$X_i\sim B(1,p)$ i.i.d.。$\varphi_X(t)=(q+pe^{it})^n$（独立 ⇒ 特征函数相乘）。</p>
+  </details>
+  <details>
+    <summary>Q3 · Cauchy 分布 $f(x)=\tfrac{1}{\pi(1+x^2)}$ 的 $\varphi(t)=$?</summary>
+    <p>$\varphi(t)=e^{-|t|}$。注意 $M_X(t)$ 不存在（$E(e^{tX})=\infty$），但 $\varphi$ 存在——这正是特征函数的优势。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./08-Wald方程.html"><span class="label">← 上一节</span><span class="title">Wald 方程</span></a>
+    <a href="./10-常见分布的特征函数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">常见分布的特征函数</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

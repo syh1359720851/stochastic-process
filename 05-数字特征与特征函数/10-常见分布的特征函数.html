@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 常见分布的特征函数 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 10</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html" class="current">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>10 · 常见分布的特征函数</h1>
+  <p class="lede">把第 04 讲的 6 个常见分布全部写出特征函数 —— 这是考试/工程中"<strong>查表</strong>"的核心。本页把<strong>特征函数 + 数字特征</strong>做成对照表，便于复习。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>6 个常见分布的特征函数</strong>是考试重点：常数 / Bernoulli / 二项 / Poisson / 指数 / 均匀 / 正态 —— 各自的 $\varphi(t)$ 都有闭式，且与 $E(X),D(X)$ 关联紧密。
+  </div>
+
+  <h2>1. 完整对照表</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>分布</th><th>参数</th><th>$E(X)$</th><th>$D(X)$</th><th>特征函数 $\varphi(t)$</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>常数 $c$</td><td>$c$</td><td>$c$</td><td>$0$</td><td>$e^{itc}$</td>
+      </tr>
+      <tr>
+        <td>Bernoulli $B(1,p)$</td><td>$p$</td><td>$p$</td><td>$pq$</td><td>$q+pe^{it}$</td>
+      </tr>
+      <tr>
+        <td>二项 $B(n,p)$</td><td>$n,p$</td><td>$np$</td><td>$npq$</td><td>$(q+pe^{it})^n$</td>
+      </tr>
+      <tr>
+        <td>Poisson $P(\lambda)$</td><td>$\lambda$</td><td>$\lambda$</td><td>$\lambda$</td><td>$e^{\lambda(e^{it}-1)}$</td>
+      </tr>
+      <tr>
+        <td>均匀 $U[a,b]$</td><td>$a,b$</td><td>$(a+b)/2$</td><td>$(b-a)^2/12$</td><td>$\dfrac{e^{itb}-e^{ita}}{it(b-a)}$</td>
+      </tr>
+      <tr>
+        <td>指数 $\text{Exp}(\lambda)$</td><td>$\lambda$</td><td>$1/\lambda$</td><td>$1/\lambda^2$</td><td>$\dfrac{\lambda}{\lambda-it}=\dfrac{1}{1-it/\lambda}$</td>
+      </tr>
+      <tr>
+        <td>正态 $N(\mu,\sigma^2)$</td><td>$\mu,\sigma^2$</td><td>$\mu$</td><td>$\sigma^2$</td><td>$e^{it\mu-\tfrac{1}{2}\sigma^2 t^2}$</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. 6 个特征函数详解</h2>
+
+  <h3>2.1 常数 $X\equiv c$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=E(e^{itc})=e^{itc}$。</p>
+    <p>$|\varphi(t)|=1$——特征函数在复平面单位圆上（不衰减，是"指纹"中的最简情形）。</p>
+  </div>
+
+  <h3>2.2 Bernoulli $B(1,p)$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=E(e^{itX})=e^{it\cdot 1}p+e^{it\cdot 0}(1-p)=q+pe^{it}$。</p>
+    <p>特点：最简的"两点支撑"特征函数，是二项 / 几何的构造基础。</p>
+  </div>
+
+  <h3>2.3 二项 $B(n,p)$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>由 $X=\sum_{i=1}^n X_i$（$X_i$ i.i.d. Bernoulli$(p)$）和独立性</p>
+    $$\varphi_X(t)=(q+pe^{it})^n$$
+    <p>这是<strong>"i.i.d. ⇒ 特征函数幂"的最直接例子</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">应用 · 二项的 Poisson 极限</span>
+    <p>当 $n\to\infty, p\to 0, np\to\lambda$ 时，</p>
+    $$\varphi_{B(n,p)}(t)=(q+pe^{it})^n=\bigl(1-\tfrac{\lambda}{n}+\tfrac{\lambda}{n}e^{it}+o(\tfrac{1}{n})\bigr)^n\to e^{\lambda(e^{it}-1)}$$
+    <p>即 Poisson 的特征函数 → Poisson 极限定理。</p>
+  </div>
+
+  <h3>2.4 Poisson $P(\lambda)$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=E(e^{itX})=\sum_{k=0}^{\infty}e^{itk}\tfrac{\lambda^k e^{-\lambda}}{k!}$</p>
+    $$=e^{-\lambda}\sum_{k=0}^{\infty}\tfrac{(\lambda e^{it})^k}{k!}=e^{-\lambda}\cdot e^{\lambda e^{it}}=e^{\lambda(e^{it}-1)}$$
+    <p>注意 $|e^{it}-1|=|2\sin(t/2)|\le 2$，故 $|\varphi(t)|=e^{\lambda(\cos t-1)}\le 1$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">应用 · 独立 Poisson 之和</span>
+    <p>$X\sim P(\lambda_1)$，$Y\sim P(\lambda_2)$ 独立。$X+Y$ 的特征函数：</p>
+    $$\varphi_{X+Y}(t)=e^{\lambda_1(e^{it}-1)}\cdot e^{\lambda_2(e^{it}-1)}=e^{(\lambda_1+\lambda_2)(e^{it}-1)}$$
+    <p>所以 $X+Y\sim P(\lambda_1+\lambda_2)$ ——<strong>独立 Poisson 之和仍是 Poisson</strong>。这是第 10 讲 Poisson 过程的核心引理。</p>
+  </div>
+
+  <h3>2.5 均匀 $U[a,b]$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=\int_a^b e^{itx}\cdot\tfrac{1}{b-a}\,dx=\tfrac{1}{b-a}\cdot\tfrac{e^{itx}}{it}\bigg|_a^b=\dfrac{e^{itb}-e^{ita}}{it(b-a)}$</p>
+    <p>改写：$\varphi(t)=e^{i(a+b)t/2}\cdot\tfrac{\sin((b-a)t/2)}{(b-a)t/2}$——一个 $\text{sinc}$ 函数。</p>
+    <p>特点：$|\varphi(t)|$ 在 $t$ 大时震荡衰减，零点 $t_k=2k\pi/(b-a)$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">特例 · $U[-1,1]$</span>
+    <p>$\varphi(t)=\dfrac{e^{it}-e^{-it}}{2it}=\dfrac{\sin t}{t}$（Sinc 函数）。</p>
+    <p>$|\varphi(t)|$ 震荡衰减——直观：均匀分布的密度有"突变点"（在 $\pm 1$），导致特征函数有"震荡尾巴"。</p>
+  </div>
+
+  <h3>2.6 指数 $\text{Exp}(\lambda)$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=\int_0^{\infty}e^{itx}\lambda e^{-\lambda x}\,dx=\lambda\int_0^{\infty}e^{-(\lambda-it)x}\,dx=\dfrac{\lambda}{\lambda-it}$</p>
+    <p>改写：$\varphi(t)=\dfrac{1}{1-it/\lambda}$，这是一个"<strong>有理函数</strong>"特征函数。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">应用 · Gamma 是指数和</span>
+    <p>$X=\sum_{i=1}^n X_i$（$X_i\sim\text{Exp}(\lambda)$ i.i.d.）</p>
+    $$\varphi_X(t)=\bigl(\tfrac{\lambda}{\lambda-it}\bigr)^n=\bigl(1-it/\lambda\bigr)^{-n}$$
+    <p>→ Gamma 分布的特征函数。</p>
+  </div>
+
+  <h3>2.7 正态 $N(\mu,\sigma^2)$</h3>
+  <div class="callout theorem">
+    <span class="label">特征函数</span>
+    <p>$\varphi_X(t)=\int e^{itx}\tfrac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/(2\sigma^2)}\,dx$</p>
+    <p>配方 $e^{itx-(x-\mu)^2/(2\sigma^2)}=e^{-(x-\mu-it\sigma^2)^2/(2\sigma^2)}\cdot e^{it\mu-\sigma^2 t^2/2}$</p>
+    <p>所以 $\varphi_X(t)=e^{it\mu-\sigma^2 t^2/2}$。</p>
+    <p>特点：正态的特征函数也是"<strong>正态形</strong>"——这是 Fourier 变换的自对偶性。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">核心应用 · CLT</span>
+    <p>$X_1,\ldots,X_n$ i.i.d.，$E(X_i)=\mu,D(X_i)=\sigma^2$。标准化</p>
+    $$Z_n=\frac{\sum X_i-n\mu}{\sigma\sqrt{n}}$$
+    <p>特征函数（标准化后）：$\varphi_{Z_n}(t)=\varphi_X(t/\sigma\sqrt{n})^n\cdot e^{-it\mu/\sigma\cdot\sqrt{n}\cdot 1/\sqrt{n}}$</p>
+    $$=\bigl(1-\tfrac{t^2}{2n}+o(\tfrac{1}{n})\bigr)^n\to e^{-t^2/2}$$
+    <p>这是 $N(0,1)$ 的特征函数 → <strong>中心极限定理</strong>。CLT 的现代证明几乎完全基于此。</p>
+  </div>
+
+  <h2>3. 性质速查</h2>
+  <table>
+    <thead>
+      <tr><th>分布</th><th>特征函数的关键性质</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>常数</td><td>$|\varphi|=1$，不衰减</td></tr>
+      <tr><td>Bernoulli</td><td>两点支撑，多项式</td></tr>
+      <tr><td>二项</td><td>幂函数 $(q+pe^{it})^n$</td></tr>
+      <tr><td>Poisson</td><td>$e^{\lambda(e^{it}-1)}$</td></tr>
+      <tr><td>均匀</td><td>$\text{sinc}$ 函数</td></tr>
+      <tr><td>指数</td><td>有理函数 $\lambda/(\lambda-it)$</td></tr>
+      <tr><td>正态</td><td>$e^{it\mu-\sigma^2 t^2/2}$ —— 自对偶</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 与 MGF 的关系速查</h2>
+  <p>对很多"温和"的分布，$M_X(t)=\varphi_X(-it)$。例如：</p>
+  <ul>
+    <li>$M_X(t)$ 对正态 $=e^{\mu t+\sigma^2 t^2/2}$，$\varphi_X(t)=e^{it\mu-\sigma^2 t^2/2}$ ——<strong>把 $t$ 换成 $-it$ 即得 MGF</strong>。</li>
+    <li>但对 $U[a,b]$：$M_X(t)=\tfrac{e^{tb}-e^{ta}}{t(b-a)}$ —— 没有 $i$，是实数！对应 $\varphi$ 中的 $it$ 换成 $-t$。</li>
+  </ul>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">五个常见错误</span>
+    <ul>
+      <li>❌ 把 $\varphi_{aX+b}(t)=e^{itb}\varphi_X(at)$ 中的 $e^{itb}$ 漏掉——常数 $b$ 引入"相位旋转"。</li>
+      <li>❌ 二项特征函数 $\varphi_X(t)=(q+pe^{it})^n$ 中，$q=1-p$——常错写成 $1+pe^{it}$。</li>
+      <li>❌ Poisson 特征函数 $e^{\lambda(e^{it}-1)}$ 错写成 $e^{\lambda e^{it}}$——指数上是 $\lambda(e^{it}-1)$，不是 $\lambda e^{it}$。</li>
+      <li>❌ 正态特征函数 $e^{it\mu-\sigma^2 t^2/2}$ 错写成 $e^{it\mu+\sigma^2 t^2/2}$——指数上的 $-\sigma^2 t^2/2$ 是负的，不能加号。</li>
+      <li>❌ 均匀特征函数 $\dfrac{e^{itb}-e^{ita}}{it(b-a)}$ 漏掉 $i$——分母有 $it$。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 验证 $X\sim B(1,1/2)$ 的 $\varphi''(0)=-E(X^2)=-1/2$。</summary>
+    <p>$\varphi(t)=\tfrac12+\tfrac12e^{it}$。$\varphi''(t)=\tfrac12(ie^{it})^2=-\tfrac12 e^{it}$，$\varphi''(0)=-1/2=-E(X^2)$ ✓。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X\sim N(\mu,\sigma^2)$ 的 $\varphi'(0)=i\mu$？</summary>
+    <p>$\varphi'(t)=i\mu e^{it\mu-\sigma^2 t^2/2}-i\sigma^2 t\cdot e^{\cdots}$，$\varphi'(0)=i\mu$ ✓。由 $\varphi'(0)=iE(X)$，$E(X)=\mu$。</p>
+  </details>
+  <details>
+    <summary>Q3 · $X\sim P(\lambda)$，$\varphi''(0)=$?</summary>
+    <p>$\varphi'(t)=\lambda i e^{it}\cdot e^{\lambda(e^{it}-1)}$，$\varphi''(0)=\lambda i^2 e^{i\cdot 0}\cdot e^0+\lambda i e^{i\cdot 0}\cdot\lambda i e^{i\cdot 0}\cdot e^0=-\lambda-\lambda^2$。
+    所以 $E(X^2)=\lambda+\lambda^2$，$D(X)=E(X^2)-E(X)^2=\lambda+\lambda^2-\lambda^2=\lambda$ ✓。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./09-特征函数.html"><span class="label">← 上一节</span><span class="title">特征函数</span></a>
+    <a href="./动画-分布参数与数字特征联动.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">动画：分布参数与数字特征联动</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

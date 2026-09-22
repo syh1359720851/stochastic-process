@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00 Fourier 变换与复平面 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 00</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-Fourier变换与复平面.html" class="current">00 预备</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>00 · Fourier 变换与复平面（特征函数预备）</h1>
+  <p class="lede">第 09 讲"特征函数"公式 $\varphi_X(t)=E(e^{itX})$ 里有两个"工程基础"暗礁：<strong>复指数 $e^{itX}$</strong> 与 <strong>Fourier 变换</strong>。本页把它们拎出来单独讲透，再回 09 看特征函数就会非常顺。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>复平面</strong> = 用 $(a,b)$ 表示复数 $a+bi$ 的二维坐标；<strong>Euler 公式</strong> $e^{i\theta}=\cos\theta+i\sin\theta$ 让你"在复平面上沿单位圆走"；<strong>Fourier 变换</strong> = 把一个函数"拆"成不同频率正弦/余弦的加权和（频谱）；<strong>特征函数</strong> = 概率密度 $f_X$ 的 Fourier 变换的"概率版推广"。
+  </div>
+
+  <h2>1. 为什么需要这一页？</h2>
+  <div class="callout intuition">
+    <span class="label">动机</span>
+    <ul>
+      <li><strong>复数</strong>看上去是中学选修，但在概率论里频繁出现——任何含 $\varphi(t)=E(e^{itX})$ 的公式都默认你会 $e^{i\theta}=\cos\theta+i\sin\theta$。</li>
+      <li><strong>Fourier 变换</strong>在工程里是"听声音、压图像、解微分方程"的通用工具；在概率论里它是"把分布换成另一种等价、更方便计算的表示"。</li>
+      <li><strong>特征函数 = 概率密度 $f_X$ 的 Fourier 变换</strong>。Lévy 连续性、唯一性定理、CLT 证明等整套理论全依赖 Fourier 分析。</li>
+    </ul>
+  </div>
+
+  <h2>2. 复数与复平面</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>复数</strong> $z=a+bi$（其中 $i^2=-1$）= 一个"二维数字"，由实部 $a=\text{Re}(z)$ 与虚部 $b=\text{Im}(z)$ 共同决定。</li>
+      <li><strong>复平面</strong>：横轴放 $a$（实部 Re），纵轴放 $b$（虚部 Im）。每个复数对应复平面上<strong>唯一</strong>一个点。</li>
+      <li><strong>模</strong> $|z|=\sqrt{a^2+b^2}$：到原点的距离。</li>
+      <li><strong>辐角</strong> $\arg(z)=\theta$：与实轴正方向的夹角，$\tan\theta=b/a$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">几个例子</span>
+    <ul>
+      <li>$3+2i$：复平面上点 $(3,2)$，模 $\sqrt{13}\approx 3.61$，辐角 $\approx 33.7°$。</li>
+      <li>$-1$：复平面上点 $(-1,0)$，模 $1$，辐角 $\pi$。</li>
+      <li>$i$：复平面上点 $(0,1)$，模 $1$，辐角 $\pi/2$。</li>
+      <li><strong>单位圆</strong> $\{z:|z|=1\}$：所有"长度为 1"的复数组成半径 1 的圆。</li>
+    </ul>
+  </div>
+
+  <!-- SVG：复平面 + 单位圆 -->
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 -150 480 300" style="width:100%;height:auto;display:block">
+      <style>
+        .ax{stroke:currentColor;opacity:0.4;fill:none}
+        .axl{fill:currentColor;opacity:0.65;font-size:13px}
+        .ring{fill:none;stroke:var(--c-primary);stroke-width:2}
+        .v{stroke:var(--c-danger);stroke-width:2;fill:none}
+        .dot{fill:var(--c-danger)}
+        .proj{stroke:var(--c-accent);stroke-width:1;stroke-dasharray:4,3;fill:none}
+        .vlab{fill:var(--c-danger);font-size:14px;font-weight:bold}
+        .plab{fill:var(--c-accent);font-size:12px}
+        .arc{fill:none;stroke:var(--c-theorem);stroke-width:1.5}
+        .alab{fill:var(--c-theorem);font-size:13px;font-style:italic}
+        .pt{fill:var(--c-primary)}
+        .pl{fill:var(--c-primary);font-size:11px}
+      </style>
+      <!-- 坐标轴 -->
+      <line class="ax" x1="20" y1="0" x2="460" y2="0"/>
+      <line class="ax" x1="240" y1="-140" x2="240" y2="140"/>
+      <text class="axl" x="458" y="-6" text-anchor="end">Re</text>
+      <text class="axl" x="248" y="-128">Im</text>
+      <!-- 单位圆 -->
+      <circle class="ring" cx="240" cy="0" r="100"/>
+      <text class="axl" x="345" y="-13" font-size="12" fill="var(--c-primary)">|z| = 1</text>
+      <!-- e^{iθ} 向量，θ=π/3，端点 = 中心 + 100*(cosθ, -sinθ) = (290, -86.6) -->
+      <line class="v" x1="240" y1="0" x2="290" y2="-86.6"/>
+      <circle class="dot" cx="290" cy="-86.6" r="4"/>
+      <!-- 投影虚线 -->
+      <line class="proj" x1="290" y1="-86.6" x2="290" y2="0"/>
+      <line class="proj" x1="240" y1="0" x2="290" y2="0"/>
+      <!-- 标签 -->
+      <text class="vlab" x="296" y="-92">e^{iθ}</text>
+      <text class="plab" x="293" y="14">cos θ</text>
+      <text class="plab" x="248" y="-48">sin θ</text>
+      <!-- θ 弧 (从 (290,0) 到 (267.5,-43.3)) -->
+      <path class="arc" d="M 290 0 A 50 50 0 0 0 265 -43.3"/>
+      <text class="alab" x="280" y="-22">θ</text>
+      <!-- 单位圆上的四个标记点 -->
+      <circle class="pt" cx="340" cy="0" r="3"/>
+      <text class="pl" x="345" y="14">1</text>
+      <circle class="pt" cx="140" cy="0" r="3"/>
+      <text class="pl" x="123" y="14">-1</text>
+      <circle class="pt" cx="240" cy="-100" r="3"/>
+      <text class="pl" x="246" y="-104">i</text>
+      <circle class="pt" cx="240" cy="100" r="3"/>
+      <text class="pl" x="246" y="116">-i</text>
+    </svg>
+  </div>
+
+  <h2>3. Euler 公式：复指数的几何含义</h2>
+  <div class="callout theorem">
+    <span class="label">Euler 公式（最重要的恒等式之一）</span>
+    <p>对任意实数 $\theta$：</p>
+    $$\boxed{e^{i\theta} = \cos\theta + i\sin\theta}$$
+    <p>特殊值：$e^{i0}=1$，$e^{i\pi/2}=i$，$e^{i\pi}=-1$，$e^{i2\pi}=1$（转一圈回到原点）。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">几何含义</span>
+    <ul>
+      <li>$e^{i\theta}$ 的<strong>模</strong> $|e^{i\theta}|=\sqrt{\cos^2\theta+\sin^2\theta}=1$——总在单位圆上。</li>
+      <li>$e^{i\theta}$ 的<strong>辐角</strong>恰好就是 $\theta$。</li>
+      <li>所以"$e^{i\theta}$"可以理解成"复平面上绕单位圆逆时针旋转、角度为 $\theta$ 的点"。</li>
+      <li>代入 $\theta=\pi$ 得 $e^{i\pi}=-1$，即 <strong>Euler 恒等式</strong> $e^{i\pi}+1=0$——把 $0,1,i,e,\pi$ 五个最基本常数串到一起。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">直观类比 · 时钟的秒针</span>
+    <p>把秒针视为复数 $e^{i\theta}$：$\theta$ 是从 12 点方向（正实轴）算起的逆时针角度。秒针每 60 秒走一圈（$\theta$ 从 $0$ 增到 $2\pi$），长度始终是 1。</p>
+    <ul>
+      <li>12 点位置 = $e^{i0}=1$</li>
+      <li>3 点位置 = $e^{i\pi/2}=i$</li>
+      <li>6 点位置 = $e^{i\pi}=-1$</li>
+      <li>9 点位置 = $e^{i3\pi/2}=-i$</li>
+    </ul>
+  </div>
+
+  <h2>4. Fourier 变换是什么？</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li>任何看起来"乱七八糟"的函数 $f(x)$（信号、声音、图像、概率密度……）<strong>都可以</strong>写成一组不同频率正弦/余弦的<strong>加权和</strong>。</li>
+      <li>"权重"——也就是"在频率 $\omega$ 处这个函数占多少"——就是 <strong>Fourier 变换</strong> $\hat f(\omega)$。</li>
+      <li><strong>类比 · 棱镜</strong>：白光（混合光）经过棱镜分成红橙黄绿蓝紫（按频率拆开）。Fourier 变换就是"数学棱镜"。</li>
+    </ul>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">Fourier 变换（连续版）</span>
+    <p>设 $f(x)$ 在 $\mathbb{R}$ 上绝对可积，定义它的 Fourier 变换为</p>
+    $$\hat f(\omega) = \int_{-\infty}^{+\infty} f(x)\, e^{-i\omega x}\, dx$$
+    <p>Fourier 逆变换：</p>
+    $$f(x) = \frac{1}{2\pi}\int_{-\infty}^{+\infty} \hat f(\omega)\, e^{i\omega x}\, d\omega$$
+    <p>$f$ 与 $\hat f$ <strong>一一对应</strong>（唯一性）——变换不丢信息，只换表示。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Fourier 变换的几个经典例子</span>
+    <ul>
+      <li><strong>高斯 $f(x)=e^{-x^2/2}$</strong>：$\hat f(\omega)=\sqrt{2\pi}\,e^{-\omega^2/2}$——<strong>还是高斯</strong>（自 Fourier 不变性，这是高斯独有的"魔法"）。</li>
+      <li><strong>矩形脉冲</strong> $f(x)=\mathbb{1}_{[-1,1]}(x)$：$\hat f(\omega)=2\sin\omega/\omega$（<strong>sinc 函数</strong>）。时域"硬边沿" ↔ 频域"缓慢振荡衰减"。</li>
+      <li><strong>冲激 $f(x)=\delta(x)$</strong>：$\hat f(\omega)=1$（平直频谱）。</li>
+      <li><strong>常数 $f(x)=1$</strong>：$\hat f(\omega)=2\pi\delta(\omega)$（Dirac 冲激——极限意义下）。</li>
+    </ul>
+  </div>
+
+  <!-- SVG：棱镜类比 -->
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 480 200" style="width:100%;height:auto;display:block">
+      <style>
+        .ttl{fill:currentColor;font-size:13px;font-weight:bold}
+        .cap{fill:currentColor;font-size:12px;opacity:0.75}
+        .arr{stroke:currentColor;opacity:0.4;fill:none}
+        .mix{fill:#fff;stroke:var(--c-muted);stroke-width:2}
+        .pri{fill:none;stroke:var(--c-muted);stroke-width:1.5}
+        .prn{fill:var(--c-muted);font-size:11px}
+      </style>
+      <text class="ttl" x="240" y="20" text-anchor="middle">Fourier 变换 = 数学棱镜</text>
+      <!-- 左：混合信号 -->
+      <circle class="mix" cx="65" cy="100" r="32"/>
+      <text class="prn" x="65" y="105" text-anchor="middle">混合波</text>
+      <text class="cap" x="65" y="155" text-anchor="middle">时域</text>
+      <!-- 中：棱镜 -->
+      <polygon class="pri" points="155,70 245,100 155,130"/>
+      <text class="prn" x="200" y="106" text-anchor="middle">Fourier</text>
+      <!-- 箭头 -->
+      <line class="arr" x1="100" y1="100" x2="150" y2="100"/>
+      <!-- 右：彩色频谱条（用七色 + 灰） -->
+      <rect x="280" y="55" width="20" height="90" fill="var(--c-danger)"/>
+      <rect x="300" y="55" width="20" height="90" fill="var(--c-warn)"/>
+      <rect x="320" y="55" width="20" height="90" fill="var(--c-theorem)"/>
+      <rect x="340" y="55" width="20" height="90" fill="var(--c-accent)"/>
+      <rect x="360" y="55" width="20" height="90" fill="var(--c-primary)"/>
+      <rect x="380" y="55" width="20" height="90" fill="#8250df"/>
+      <rect x="400" y="55" width="20" height="90" fill="var(--c-danger)"/>
+      <rect x="420" y="55" width="20" height="90" fill="var(--c-muted)"/>
+      <text class="cap" x="360" y="155" text-anchor="middle">频域（各频率成分）</text>
+      <text class="cap" x="290" y="48" text-anchor="middle" font-size="10">低频</text>
+      <text class="cap" x="430" y="48" text-anchor="middle" font-size="10">高频</text>
+    </svg>
+  </div>
+
+  <h2>5. 为什么 Fourier 变换用复指数 $e^{-i\omega x}$？</h2>
+  <div class="callout intuition">
+    <span class="label">看似复杂，其实更简洁</span>
+    <p>"拆函数"最朴素的做法是写成 $\sin+\cos$ 的加权和：</p>
+    $$f(x) = \int_0^\infty \bigl[a(\omega)\cos\omega x + b(\omega)\sin\omega x\bigr]\,d\omega$$
+    <p>这有两个权重 $a(\omega)$、$b(\omega)$，很冗余。利用 Euler 公式 $e^{-i\omega x}=\cos\omega x - i\sin\omega x$，可以<strong>合并成一个复数权重</strong> $\hat f(\omega)=a(\omega)-i\,b(\omega)$：</p>
+    $$\boxed{\hat f(\omega) = \int f(x)\,e^{-i\omega x}\,dx}$$
+    <p>实部还原 $\cos$ 系数，虚部还原 $\sin$ 系数。写法更紧凑，且自带"$\sin$ / $\cos$ 同时编码"的便利。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">Fourier 变换的四条核心性质</span>
+    <ol>
+      <li><strong>线性</strong>：$\widehat{af+bg}=a\hat f+b\hat g$。</li>
+      <li><strong>时移</strong> $\Leftrightarrow$ <strong>频域相位旋转</strong>：$f(x-x_0)\Leftrightarrow e^{-i\omega x_0}\hat f(\omega)$。</li>
+      <li><strong>频移</strong> $\Leftrightarrow$ <strong>时域调制</strong>：$e^{i\omega_0 x}f(x)\Leftrightarrow \hat f(\omega-\omega_0)$。</li>
+      <li><strong>卷积定理</strong>：$\widehat{f\ast g}=\hat f\cdot\hat g$（时域卷积 = 频域乘积）。</li>
+    </ol>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">Parseval 定理（能量守恒）</span>
+    $$\int_{-\infty}^{+\infty}|f(x)|^2\,dx = \frac{1}{2\pi}\int_{-\infty}^{+\infty}|\hat f(\omega)|^2\,d\omega$$
+    <p>"时域的能量 = 频域的能量"——Fourier 变换不损失任何信息，只改变表示。</p>
+  </div>
+
+  <h2>6. Fourier 级数：周期函数版本</h2>
+  <div class="callout intuition">
+    <span class="label">周期函数也能 Fourier 分解</span>
+    <p>若 $f(x)$ 以 $2\pi$ 为周期且分段光滑，则可展成 Fourier 级数：</p>
+    $$f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\bigl[a_n\cos nx + b_n\sin nx\bigr]$$
+    $$a_n = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos nx\,dx,\quad b_n = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin nx\,dx$$
+    <p>用复指数的紧凑写法：</p>
+    $$f(x) = \sum_{n=-\infty}^{+\infty} c_n\, e^{inx},\qquad c_n = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)e^{-inx}\,dx$$
+    <p>Fourier 级数 = 周期函数的"离散 Fourier 变换"；Fourier 变换 = 非周期函数的"连续 Fourier 变换"。两者统一在<strong>调和分析</strong>的大框架下。</p>
+  </div>
+
+  <h2>7. Fourier 变换与概率分布</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 概率密度的 Fourier 变换</span>
+    <p>对概率密度 $f_X(x)$，定义其 Fourier 变换为</p>
+    $$\hat f_X(\omega) = \int_{-\infty}^{+\infty} f_X(x)\, e^{-i\omega x}\, dx$$
+    <p>注意这只对<strong>连续型</strong>分布有意义。离散型要用求和形式 $\hat p(\omega)=\sum_k p_k e^{-i\omega x_k}$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">特征函数（概率版 Fourier 变换，无需密度存在）</span>
+    <p>更一般的定义不要求密度存在（用 R-S 积分）：</p>
+    $$\varphi_X(t) = E(e^{itX}) = \int_{-\infty}^{+\infty} e^{itx}\, dF_X(x)$$
+    <p>对连续型取 $dF_X=f_X\,dx$，则 $\varphi_X(t)$ 恰是 $f_X$ 的 Fourier 变换在 $\omega=-t$ 处的值——<strong>仅相差一个 $t$ 的符号</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 1 · 唯一性</span>
+    <p>分布 $F_X$ 与其特征函数 $\varphi_X$ <strong>一一对应</strong>：$\varphi_X$ 完全决定 $F_X$。这就是"指纹"地位。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 2 · 独立 ↔ 特征函数相乘</span>
+    <p>若 $X,Y$ 独立，则 $\varphi_{X+Y}=\varphi_X\cdot\varphi_Y$。</p>
+    <p><strong>推导关键</strong>：独立 $\Leftrightarrow$ 卷积 $f_{X+Y}=f_X\ast f_Y$ $\xLeftrightarrow{\text{Fourier}}$ 频域乘积。</p>
+  </div>
+
+  <h2>8. 把三者连起来：特征函数的三个身份</h2>
+  <div class="callout theorem">
+    <span class="label">$\varphi_X(t)=E(e^{itX})$ 的三层身份</span>
+    <ol>
+      <li><strong>复数</strong>：$e^{itX}=\cos(tX)+i\sin(tX)$——$\varphi_X(t)$ 一般是复数（含实部与虚部）。</li>
+      <li><strong>Fourier 变换</strong>：对连续型分布，$\varphi_X(t)$ 就是密度 $f_X$ 的 Fourier 变换在 $\omega=-t$ 处。</li>
+      <li><strong>复平面上的曲线</strong>：$t\in\mathbb{R}$ 遍历实数，$\{\varphi_X(t):t\in\mathbb{R}\}$ 是复平面上<strong>一条</strong>曲线。这条曲线被关在单位圆盘 $|\varphi_X(t)|\le 1$ 内。</li>
+    </ol>
+  </div>
+
+  <div class="callout example">
+    <span class="label">正态 $N(0,1)$：$\varphi(t)=e^{-t^2/2}$</span>
+    <p>注意 $e^{-t^2/2}$ 是<strong>纯实数</strong>（虚部为 $0$）——它在复平面上就是实轴上从 $1$ 出发、单调下降到 $0$ 的一条曲线。</p>
+    <ul>
+      <li>$\varphi(0)=1$</li>
+      <li>$\varphi(\pm 1)=e^{-1/2}\approx 0.607$</li>
+      <li>$\varphi(\pm 2)=e^{-2}\approx 0.135$</li>
+      <li>$\varphi(\pm\infty)\to 0$</li>
+    </ul>
+    <p>高斯的特征函数还是高斯——这与"高斯的 Fourier 变换还是高斯"是同一回事。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Bernoulli$(p)$：$\varphi(t)=q+pe^{it}$</span>
+    <p>它<strong>不是</strong>纯实数——含虚部 $p\sin t$。在复平面上它是连接 $(1,0)$ 与 $(q,p\sin t)$ 的曲线（$t$ 走一圈）。</p>
+    <ul>
+      <li>$t=0$：$\varphi=1$（实轴上的 1）</li>
+      <li>$t=\pi$：$\varphi=q-p$（实轴，最左点）</li>
+      <li>$t=2\pi$：$\varphi=1$（回到起点）</li>
+    </ul>
+  </div>
+
+  <h2>9. 速查表 · Fourier 变换 vs 矩母函数 vs 特征函数</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>工具</th><th>公式</th><th>存在条件</th><th>用途</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fourier 变换 $\hat f$</td>
+        <td>$\int f(x)e^{-i\omega x}\,dx$</td>
+        <td>$f$ 绝对可积</td>
+        <td>信号 / 图像 / 微分方程</td>
+      </tr>
+      <tr>
+        <td>矩母函数 $M_X(t)$</td>
+        <td>$E(e^{tX})$</td>
+        <td>某邻域内 $t$ 存在</td>
+        <td>算矩 $E(X^k)$，处理温和分布</td>
+      </tr>
+      <tr>
+        <td>特征函数 $\varphi_X(t)$</td>
+        <td>$E(e^{itX})$</td>
+        <td>永远存在</td>
+        <td>唯一性、CLT、独立性证明</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>10. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">五个常见错误</span>
+    <ul>
+      <li>❌ 把 $e^{i\theta}=\cos\theta+i\sin\theta$ 漏掉 $i$——看上去像实数，导致后续特征函数"是实函数"的错误结论。</li>
+      <li>❌ 看到 $\varphi(t)$ 的绝对值 $|\varphi(t)|\le 1$ 就以为"$t$ 是复数"——$t\in\mathbb{R}$，只是 $\varphi(t)$ 取到复数值。</li>
+      <li>❌ 把 $\varphi_X(t)$ 与"分布的特征"（median 等）混淆——"特征函数" = characteristic function，<strong>不是</strong> "feature of $X$"。</li>
+      <li>❌ 认为 Fourier 变换一定存在——需要 $f$ 绝对可积 $\int|f|dx<\infty$。常数函数 $f=1$ 在通常意义下"不存在" Fourier 变换，要借 Dirac $\delta$ 解释。</li>
+      <li>❌ 以为"$E(e^{itX})$ 中的 $i$ 可以拿掉"——拿掉就是矩母函数 $M_X(t)=E(e^{tX})$，存在性会变差（Cauchy 没有 MGF 但有特征函数 $e^{-|t|}$）。</li>
+    </ul>
+  </div>
+
+  <h2>11. 自检</h2>
+  <details>
+    <summary>Q1 · 写出 $e^{i\pi/3}$ 的实部与虚部。</summary>
+    <p>$\cos(\pi/3)+i\sin(\pi/3)=\tfrac{1}{2}+i\tfrac{\sqrt{3}}{2}$。模 $=1$，辐角 $=\pi/3$。</p>
+  </details>
+  <details>
+    <summary>Q2 · 为什么 $e^{i\pi}=-1$（而不是 $1$）？</summary>
+    <p>$\cos\pi=-1$，$\sin\pi=0$，所以 $e^{i\pi}=-1+0i=-1$。这是从 $+1$ 沿单位圆"走过 $\pi$ 弧度"对应的点。</p>
+  </details>
+  <details>
+    <summary>Q3 · 若 $f(x)=e^{-x^2}$，求 $\hat f(\omega)$。</summary>
+    <p>利用高斯自傅里叶性质（标准化形式）：$\int e^{-\alpha x^2}e^{-i\omega x}dx=\sqrt{\pi/\alpha}\,e^{-\omega^2/(4\alpha)}$。取 $\alpha=1$，得 $\hat f(\omega)=\sqrt{\pi}\,e^{-\omega^2/4}$。</p>
+  </details>
+  <details>
+    <summary>Q4 · $\varphi_X(t)$ 是否可能不在单位圆盘内？</summary>
+    <p>不可能。由 $|e^{itX}|=1$，得 $|\varphi_X(t)|=|E(e^{itX})|\le E|e^{itX}|=1$。</p>
+  </details>
+  <details>
+    <summary>Q5 · 为什么特征函数"永远存在"，而矩母函数不一定？</summary>
+    <p>因为 $|e^{itX}|=1$ 始终有界，所以 $E(e^{itX})$ 一定收敛（哪怕 $X$ 是 Cauchy）。而 $E(e^{tX})$ 对重尾分布可能 $=\infty$。</p>
+  </details>
+  <details>
+    <summary>Q6 · "独立 $\Leftrightarrow$ 特征函数相乘"是充要条件吗？</summary>
+    <p><strong>充分</strong>：若 $X,Y$ 独立，则 $\varphi_{X+Y}=\varphi_X\varphi_Y$（直接算期望）。</p>
+    <p><strong>必要</strong>：若 $\varphi_{X+Y}=\varphi_X\varphi_Y$ <strong>且</strong> $X,Y$ 的特征函数在某邻域连续，则 $X,Y$ 独立。这是特征函数的"判定独立性"能力。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./06-矩与矩母函数.html"><span class="label">← 上一节</span><span class="title">矩与矩母函数</span></a>
+    <a href="./09-特征函数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">特征函数</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

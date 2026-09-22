@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第01讲 · 概率空间（公理化基础） | 随机过程与排队论（融合版）</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{
+    --c-bg:#ffffff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}
+  header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .crumb a:hover{text-decoration:underline}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:30px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{font-size:16px;color:var(--c-muted);margin:8px 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 24px;font-size:13px;color:var(--c-muted)}
+  .meta span{background:var(--c-card);padding:4px 10px;border-radius:6px;border:1px solid var(--c-line)}
+  block{display:block;margin:8px 0}
+  p{margin:10px 0}
+  ul,ol{padding-left:24px}
+  li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  /* Cards / callouts */
+  .card{background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:16px 18px;margin:16px 0}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}
+  .callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}
+  .callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  /* TOC grid for index page */
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:20px 0}
+  .toc-card{display:block;padding:14px 16px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-card);text-decoration:none;color:inherit;transition:transform 0.1s,border-color 0.1s}
+  .toc-card:hover{transform:translateY(-2px);border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .toc-card .num{font-size:12px;color:var(--c-muted);font-weight:600}
+  .toc-card .title{font-weight:600;margin:4px 0;font-size:16px;color:var(--c-fg)}
+  .toc-card .desc{font-size:13px;color:var(--c-muted);line-height:1.5}
+  /* Prev/next */
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  /* Section TOC inside a concept page */
+  section{margin:18px 0}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  /* Animation page controls */
+  .ctrl{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;align-items:center}
+  .ctrl button,.ctrl select{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--c-line);background:var(--c-card);color:var(--c-fg);cursor:pointer}
+  .ctrl button:hover{border-color:var(--c-primary);color:var(--c-primary)}
+  .ctrl label{font-size:14px;color:var(--c-muted)}
+  .ctrl input[type=range]{vertical-align:middle}
+  canvas{border:1px solid var(--c-line);border-radius:6px;background:#fff;max-width:100%}
+  @media (prefers-color-scheme:dark){canvas{background:#0d1117}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a></div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html" class="current">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 随机试验与样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理与概率空间</a>
+    <a href="./04-概率的性质.html">04 概率的性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交（有限/可列/不可列）</a>
+    <a href="./动画-频率收敛.html">动画 频率→概率</a>
+    <a href="./动画-σ-代数构造.html">动画 σ-代数构造</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>第 01 讲 · 概率空间（公理化基础）</h1>
+  <p class="lede">从"掷骰子"到"$(\Omega,\mathcal{F},P)$"——这是整个随机过程课程的<strong>地基</strong>。没有公理化的概率空间，后面要讲的随机过程、马尔可夫链、泊松过程、鞅都站不住脚。</p>
+
+  <div class="meta">
+    <span>📘 来源 · 《随机过程与排队论》第 1 讲</span>
+    <span>📘 参考 · 《随机过程》第 1 次课（彭江燕）</span>
+    <span>📚 教材 · 陈良均《随机过程及应用》第 1 章</span>
+    <span>🎯 难度 · ⭐⭐</span>
+  </div>
+
+  <h2>本讲学习目标</h2>
+  <p>学完本讲，你应该能够：</p>
+  <ol>
+    <li>给出概率空间的严格定义 $(\Omega,\mathcal{F},P)$，并区分三个组成部分</li>
+    <li>对一个具体试验，写出样本空间 $\Omega$、$\sigma$-代数 $\mathcal{F}$ 和概率测度 $P$</li>
+    <li>判断给定的集合类是否构成 $\sigma$-代数</li>
+    <li>运用概率的三条公理（特别是可列可加性）推导常见性质</li>
+    <li>处理古典概型（有限等可能）下的概率计算</li>
+  </ol>
+
+  <h2>知识图谱</h2>
+  <div class="callout intuition">
+    <span class="label">一句话定位</span>
+    概率空间 = <strong>"试验本身"</strong>（$\Omega$）+ <strong>"哪些结果算事件"</strong>（$\mathcal{F}$）+ <strong>"事件发生的可能性"</strong>（$P$）。
+  </div>
+
+  <h2>讲次目录</h2>
+  <div class="toc-grid">
+    <a class="toc-card" href="./01-随机试验与样本空间.html">
+      <div class="num">01</div>
+      <div class="title">随机试验与样本空间</div>
+      <div class="desc">从"掷骰子"开始，引出样本点、样本空间、可重复试验的四条要求</div>
+    </a>
+    <a class="toc-card" href="./02-事件与σ-代数.html">
+      <div class="num">02</div>
+      <div class="title">事件与 σ-代数</div>
+      <div class="desc">什么是事件、为什么要 σ-代数、可测空间 $(\Omega,\mathcal{F})$ 的结构</div>
+    </a>
+    <a class="toc-card" href="./03-概率公理与概率空间.html">
+      <div class="num">03</div>
+      <div class="title">概率公理与概率空间</div>
+      <div class="desc">Kolmogorov 三条公理：从直觉到严格的桥梁</div>
+    </a>
+    <a class="toc-card" href="./04-概率的性质.html">
+      <div class="num">04</div>
+      <div class="title">概率的性质</div>
+      <div class="desc">由公理推出的常用结论：不可能事件、并、单调性、连续性</div>
+    </a>
+    <a class="toc-card" href="./05-古典概型.html">
+      <div class="num">05</div>
+      <div class="title">古典概型</div>
+      <div class="desc">有限等可能样本空间，最常用的一类概率模型</div>
+    </a>
+    <a class="toc-card" href="./06-集合的并与交.html">
+      <div class="num">06</div>
+      <div class="title">并与交（有限/可列/不可列）</div>
+      <div class="desc">三层集合族的运算；为什么 σ-代数只要求"可列"封闭？</div>
+    </a>
+    <a class="toc-card" href="./动画-频率收敛.html">
+      <div class="num">动画</div>
+      <div class="title">频率→概率的收敛</div>
+      <div class="desc">抛硬币 / 掷骰子的实时模拟，看频率如何逼近真实概率</div>
+    </a>
+    <a class="toc-card" href="./动画-σ-代数构造.html">
+      <div class="num">动画</div>
+      <div class="title">σ-代数的构造</div>
+      <div class="desc">从有限集合开始，看 σ-代数是如何逐步"长"出来的</div>
+    </a>
+    <a class="toc-card" href="./自测.html">
+      <div class="num">自测</div>
+      <div class="title">本讲自测</div>
+      <div class="desc">8 道题，覆盖所有要点，自带答案与解析</div>
+    </a>
+  </div>
+
+  <h2>本讲与后续章节的关系</h2>
+  <div class="callout warn">
+    <span class="label">为什么必须把这一讲学扎实？</span>
+    <ul>
+      <li><strong>随机变量</strong>（第 03 讲）本质上是 $(\Omega,\mathcal{F}) \to (\mathbb{R},\mathcal{B}(\mathbb{R}))$ 的<strong>可测函数</strong>——不掌握 σ-代数，"可测"两个字就抓不住。</li>
+      <li><strong>条件概率</strong>（第 02 讲）和 <strong>Bayes 公式</strong>都建立在概率公理之上。</li>
+      <li><strong>随机过程</strong> $\{X(t,\omega),t\in T\}$ 是定义在 $(\Omega,\mathcal{F},P)$ 上的一族随机变量——公理化框架直接决定过程的合法性。</li>
+    </ul>
+  </div>
+
+  <h2>学习建议</h2>
+  <ol>
+    <li><strong>先读概念页</strong>（01-05），每页配"直观含义 → 定义 → 例 → 性质 → 易错点"五段结构。</li>
+    <li><strong>再玩动画</strong>（动画-频率收敛、动画-σ-代数构造），把抽象定义落到可操作画面上。</li>
+    <li><strong>最后自测</strong>，检验是否真懂；如果某题卡住，回到对应概念页重读。</li>
+    <li>记不住的<strong>记忆要点</strong>在每个概念页底部已用方框标出——考前速记。</li>
+  </ol>
+
+  <div class="pager">
+    <a href="../index.html"><span class="label">← 返回</span><span class="title">课程地图</span></a>
+    <a href="./01-随机试验与样本空间.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机试验与样本空间</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 概率空间 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

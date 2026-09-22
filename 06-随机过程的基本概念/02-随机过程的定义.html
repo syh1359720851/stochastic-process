@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 随机过程的定义与样本函数 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 02</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html" class="current">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>02 · 随机过程的定义、样本函数与状态空间</h1>
+  <p class="lede">这一节是本讲的地基。核心只有一个动作：把 $\{X(t,\omega)\}$ 看成<strong>定义在 $T\times\Omega$ 上的二元函数</strong>。只要你抓住"<strong>两个自变量，固定哪个就得到什么</strong>"，后面所有的分布、数字特征都会顺着这个定义自然长出来。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>$X(t,\omega)$ 是二元函数：钉住 $t$ 得到随机变量（横着切），钉住 $\omega$ 得到一条样本函数（竖着切）。</strong>前者回答"某一时刻的分布"，后者回答"这一次实验的过程长什么样"。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <p>把随机过程想成一张<strong>由无数条曲线铺成的"概率地毯"</strong>：</p>
+    <ul>
+      <li><strong>钉住时间 $t$</strong>（竖切一刀）：刀口与所有曲线相交，交点的集合就是 $X(t)$——它是一个随机变量，有分布、有期望、有方差。</li>
+      <li><strong>钉住样本点 $\omega$</strong>（抽走一根线）：抽出的这条完整曲线 $t\mapsto X(t,\omega)$ 叫<strong>样本函数</strong>（也叫样本轨道、实现）。一次完整实验观察到的就是它。</li>
+    </ul>
+    <p>随机过程理论之所以"难"，正是因为<strong>同一张地毯要同时从这两个方向去描述</strong>：一维/有限维分布是"竖着切"，数字特征是"竖着切的统计量"，而样本轨道性质（连续性、单调性）是"抽线看形状"。</p>
+  </div>
+
+  <h2>2. 严格定义</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 随机过程（随机函数）</span>
+    <p>设 $(\Omega,\mathcal F,P)$ 是一个概率空间，$T\subseteq\mathbb R$ 是一个<strong>参数集</strong>。若 $X(t,\omega)$（$t\in T$，$\omega\in\Omega$）是定义在 $T\times\Omega$ 上的二元函数，且<strong>对每一个固定的 $t\in T$，$X(t,\omega)$ 都是 $(\Omega,\mathcal F,P)$ 上的随机变量</strong>，则称随机变量族</p>
+    $$\{\,X(t,\omega),\ t\in T\,\}$$
+    <p>为定义在 $(\Omega,\mathcal F,P)$ 上的<strong>随机过程</strong>（或<strong>随机函数</strong>），简记为 $\{X(t),\ t\in T\}$。其中 $t$ 称为<strong>参数</strong>，$T$ 称为<strong>参数集</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">定义里的三处"必须先说清楚"</span>
+    <ol>
+      <li><strong>$T$ 是提前给定的</strong>：$T=[0,+\infty)$、$T=\{0,1,2,\dots\}$、$T=[a,b]$ 都可以。$T$ 决定了"参数离散还是连续"。</li>
+      <li><strong>随机变量的要求是"逐点"的</strong>：定义只要求"每个固定 $t$ 都是随机变量"，即对每个 $t$、每个 Borel 集 $B$ 都有 $\{\omega:X(t,\omega)\in B\}\in\mathcal F$。它<strong>不</strong>要求"对每个固定 $\omega$，$t\mapsto X(t,\omega)$ 连续可测"——轨道性质要另加条件。</li>
+      <li><strong>$T\times\Omega$ 是乘积集合</strong>：$t$ 与 $\omega$ 是<strong>两个独立的"旋钮"</strong>，各拧各的，互不干涉。这一点是整个"双重视角"的根源。</li>
+    </ol>
+  </div>
+
+  <h2>3. 双重视角：钉住 $t$ 与钉住 $\omega$</h2>
+  <div class="callout theorem">
+    <span class="label">两个方向，两种对象</span>
+    <table>
+      <tr><th>固定哪个</th><th>得到的对象</th><th>数学身份</th><th>研究它回答什么</th></tr>
+      <tr><td>$t\in T$ 固定（竖切）</td><td>$X(t,\cdot)$</td><td>随机变量</td><td>某一时刻的分布、期望、方差</td></tr>
+      <tr><td>$\omega\in\Omega$ 固定（抽线）</td><td>$X(\cdot,\omega)$</td><td>确定性函数 $t\mapsto X(t,\omega)$</td><td>这一次实现的过程形状（连续性、单调性、极值）</td></tr>
+      <tr><td>两者都固定</td><td>$X(t,\omega)=x$</td><td>一个实数</td><td>该时刻该次实现的观测值</td></tr>
+    </table>
+  </div>
+
+  <h3>3.1 状态与状态空间</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 状态、状态空间</span>
+    <p>随机过程在时刻 $t$ 所取的值 $X(t)=x$ 称为过程在时刻 $t$ 处于<strong>状态</strong> $x$；过程所有可能状态的集合称为<strong>状态空间</strong>，记为 $E$，即</p>
+    $$E=\{\,x:\ X(t)=x,\ t\in T\,\}$$
+    <p>$E$ 为离散集（有限或可列）时称状态空间<strong>离散</strong>，$E$ 为区间时称状态空间<strong>连续</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 电梯的"楼层"与"时刻"</span>
+    <p>把大楼里一部电梯看成一个随机过程：<strong>参数集 $T$</strong> 是"什么时候看"（可以只在整点看 → $T$ 离散；也可以连续盯着 → $T$ 连续）；<strong>状态空间 $E$</strong> 是"电梯能停在几层"（$E=\{1,2,\dots,20\}$，离散）。<br>
+    "每隔 5 分钟记录一次电梯楼层" = 离散参数 + 离散状态；"连续记录电梯位置" = 连续参数 + 离散状态（楼层仍是离散的，只是观测连续）。<strong>参数集和状态空间是两件独立的事</strong>——这正是第 03 节分类表的由来。</p>
+  </div>
+
+  <h2>4. 三个必会例题</h2>
+
+  <h3>4.1 例 1 · 随机相位正弦波</h3>
+  <div class="callout example">
+    <span class="label">例 1</span>
+    <p>设 $X(t,\omega)=a\cos(bt+\Theta)$，其中 $a,b$ 为常数，$\Theta\sim U(0,2\pi)$。求过程的样本函数族与状态空间。</p>
+    <p><strong>解</strong> 这里 $\Omega$ 就是 $\Theta$ 的取值集合 $[0,2\pi)$，每个 $\omega$ 对应一个具体的相位 $\theta$。因此对每个固定的 $\theta$，</p>
+    $$x_\theta(t)=a\cos(bt+\theta),\qquad t\in\mathbb R$$
+    <p>就是一条样本函数。<strong>因为 $[0,2\pi)$ 中有不可列多个 $\theta$，所以这个过程有不可列无穷多条样本函数</strong>——相位稍微变一点，曲线整体平移一点。</p>
+    <p>取值恒在 $[-|a|,|a|]$ 内，故状态空间 $E=[-|a|,|a|]$（连续）。</p>
+  </div>
+
+  <p>下图画出 $\theta=0,\ \pi/2,\ \pi$ 三条样本函数（取 $a=b=1$，横轴 $t\in[0,2\pi]$）——同一个过程、同一条"命运公式"，只是起点相位不同：</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 250" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>随机相位正弦波的三条样本函数</title>
+      <desc>横轴为时间 t 从零到二派，纵轴为取值，画出相位分别为零、二分之派、派时的三条余弦曲线，显示同相位不同则曲线整体平移。</desc>
+      <line x1="40" y1="120" x2="640" y2="120" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="60" y1="40" x2="60" y2="200" stroke="#57606a" stroke-width="0.8"/>
+      <text x="600" y="112" font-size="12" fill="#57606a">+a</text>
+      <text x="600" y="208" font-size="12" fill="#57606a">−a</text>
+      <polyline points="60,50 95,55.3 130,70.5 165,93.2 200,120 235,146.8 270,169.5 305,184.7 340,190 375,184.7 410,169.5 445,146.8 480,120 515,93.2 550,70.5 585,55.3 620,50" fill="none" stroke="#0969da" stroke-width="1.4"/>
+      <polyline points="60,120 95,146.8 130,169.5 165,184.7 200,190 235,184.7 270,169.5 305,146.8 340,120 375,93.2 410,70.5 445,55.3 480,50 515,55.3 550,70.5 585,93.2 620,120" fill="none" stroke="#8250df" stroke-width="1.4"/>
+      <polyline points="60,190 95,184.7 130,169.5 165,146.8 200,120 235,93.2 270,70.5 305,55.3 340,50 375,55.3 410,70.5 445,93.2 480,120 515,146.8 550,169.5 585,184.7 620,190" fill="none" stroke="#1a7f37" stroke-width="1.4"/>
+      <text x="60" y="215" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="200" y="215" font-size="11" fill="#57606a" text-anchor="middle">π/2</text>
+      <text x="340" y="215" font-size="11" fill="#57606a" text-anchor="middle">π</text>
+      <text x="480" y="215" font-size="11" fill="#57606a" text-anchor="middle">3π/2</text>
+      <text x="620" y="215" font-size="11" fill="#57606a" text-anchor="middle">2π</text>
+      <text x="630" y="238" font-size="12" fill="#57606a">t</text>
+      <text x="70" y="34" font-size="12" fill="#0969da">θ = 0</text>
+      <text x="290" y="34" font-size="12" fill="#8250df">θ = π/2</text>
+      <text x="500" y="34" font-size="12" fill="#1a7f37">θ = π</text>
+    </svg>
+  </div>
+
+  <h3>4.2 例 2 · 抛一次硬币定义的过程</h3>
+  <div class="callout example">
+    <span class="label">例 2</span>
+    <p>抛一次硬币，用一个"开关"决定输出哪条曲线：出现正面接子系统 1，输出 $x(\omega_1,t)=\cos\pi t$；出现反面接子系统 2，输出 $x(\omega_2,t)=2t$。设正反面概率各为 $\tfrac12$，写出 $X(t)$ 的全部样本函数。</p>
+    <p><strong>解</strong> 记 $\omega_1=\{\text{出现正面}\}$，$\omega_2=\{\text{出现反面}\}$，则样本空间 $\Omega=\{\omega_1,\omega_2\}$，$X(t)$ 的全部样本函数恰好<strong>两条</strong>：</p>
+    $$x(\omega_1,t)=\cos\pi t,\qquad x(\omega_2,t)=2t$$
+    <p>这个例子的价值在于：<strong>样本空间可以是有限的</strong>。随机过程并不要求 $\Omega$ 有多大，只要求"对每个 $t$，$X(t)$ 是随机变量"。<br>
+    顺便得到一维分布：$P\{X(t)=\cos\pi t\}=\tfrac12$，$P\{X(t)=2t\}=\tfrac12$——<strong>每个时刻只有两个可能值，且概率各 $\tfrac12$</strong>。</p>
+  </div>
+
+  <h3>4.3 例 3 · 独立重复抛硬币（样本空间是"无穷积集"）</h3>
+  <div class="callout example">
+    <span class="label">例 3</span>
+    <p>独立重复抛一枚均匀硬币，定义 $X(n)=\begin{cases}1,&amp;\text{第 }n\text{ 次出现正面}\\ -1,&amp;\text{第 }n\text{ 次出现反面}\end{cases}$，$n=1,2,3,\dots$。</p>
+    <p><strong>解</strong> 把第 $n$ 次试验记为 $E_n$，其样本空间 $\Omega_n=\{1,-1\}$。整串试验的样本空间是<strong>无穷乘积集</strong></p>
+    $$\Omega=\Omega_1\times\Omega_2\times\cdots=\prod_{n=1}^{\infty}\{1,-1\}$$
+    <p>$\Omega$ 中的每个样本点是一条无穷序列 $(\omega_1,\omega_2,\omega_3,\dots)$（例如 $(1,-1,1,1,-1,\dots)$），它对应 $X(n)$ 的<strong>一条样本函数</strong>。因为序列有无穷多种，所以这个过程有<strong>无穷多条样本函数</strong>（而且是不可列无穷多条）。</p>
+    <p>每个 $X(n)$ 都是随机变量：$P\{X(n)=1\}=P\{X(n)=-1\}=\tfrac12$，状态空间 $E=\{1,-1\}$（离散、有限）。</p>
+  </div>
+
+  <h2>5. 从定义出发能立刻得到的三个结论</h2>
+  <div class="callout theorem">
+    <span class="label">推论</span>
+    <ol>
+      <li><strong>样本函数的条数 = 样本空间 $\Omega$ 的"大小"</strong>。$\Omega$ 有限 → 有限条；$\Omega$ 可列或不可列 → 无穷多条。（例 2 两条，例 1 不可列多条，例 3 不可列多条。）</li>
+      <li><strong>"样本函数"是函数，"状态"是数</strong>。$x(\omega_1,t)=\cos\pi t$ 是样本函数；$\cos\pi t$ 在 $t=1$ 处的值 $-1$ 是状态。</li>
+      <li><strong>一维分布只是"某个 $\theta$"的横切</strong>。由定义只能直接得到"每个固定 $t$ 的分布"，两个不同时刻之间的关联<strong>必须额外给出</strong>——这就是第 04 节的有限维分布。</li>
+    </ol>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把 $X(t,\omega)$ 的两个自变量搞混</strong>。写成 $X(t)$ 时省掉的是 $\omega$，此时它<strong>仍是随机变量</strong>（只是简记），不是确定值。想表示某条轨道必须写 $X(t,\omega_0)$ 或 $x(t)$。</li>
+      <li>❌ <strong>以为"样本函数连续"是定义的一部分</strong>。定义<strong>完全没管轨道的连续性</strong>。计数过程 $X(t)$ 的轨道是阶梯、维纳过程的轨道连续但处处不可微——都是合法的随机过程。</li>
+      <li>❌ <strong>把状态空间 $E$ 与参数集 $T$ 混淆</strong>。$E$ 装的是<strong>取值</strong>（纵轴），$T$ 装的是<strong>参数</strong>（横轴）。写 $E=\{\text{所有可能的 }X(t)\text{ 的值}\}$，绝不写成 $\{t\}$。</li>
+      <li>❌ <strong>认为"无穷多条样本函数"意味着"无穷多个 $\omega$"就一定不可列</strong>。$\Omega$ 可列也可以有可列无穷多条轨道（如例 3 的序列空间其实不可列，但有限状态、可列参数的过程可构造出可列条轨道）；<strong>条数由 $\Omega$ 的势决定，与 $T$ 的势无关</strong>。</li>
+      <li>❌ <strong>用 $X(t)$ 的记号去讨论"过程"的性质</strong>。讨论"均值函数 $m(t)$"时 $t$ 是自由的（得到函数）；讨论"$E(X(3))$"时 $t$ 被钉死（得到数）。<strong>看在讨论什么，决定 $t$ 是变量还是常数。</strong></li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 随机过程的定义中，"对每个固定的 $t$，$X(t,\omega)$ 是随机变量"这句话起什么作用？</summary>
+    <p>它保证<strong>$P\{X(t)&lt;x\}$ 有意义</strong>——否则一维分布无从谈起。<strong>注意它只管"逐点可测"，不管轨道的任何正则性</strong>。也正因为要求如此之弱，"随机过程"这个概念才足够宽，能容纳计数过程（阶梯轨道）和维纳过程（连续但不可微轨道）这样形态迥异的对象。</p>
+  </details>
+  <details>
+    <summary>Q2 · 上文的例 2（抛硬币）中，$X(0.5)$ 与 $X(1)$ 各取什么值？</summary>
+    <p>$X(0.5)$：正面 → $\cos(\tfrac{\pi}{2})=0$，反面 → $2\times0.5=1$，各 $\tfrac12$。<br>
+    $X(1)$：正面 → $\cos\pi=-1$，反面 → $2\times1=2$，各 $\tfrac12$。<br>
+    <strong>接下来的关键问题</strong>：$(X(0.5),X(1))$ 取 $(0,-1)$ 和 $(1,2)$ 各 $\tfrac12$，还是四种组合都能出现各 $\tfrac14$？<strong>这取决于"两次观察是否用同一次抛掷结果"</strong>——同一个 $X(t)$，一维分布完全一样，二维分布却可以不同。第 04 节会展开这个反例。</p>
+  </details>
+  <details>
+    <summary>Q3 · 计数过程 $X(t)$（$[0,t)$ 内呼入次数）的参数集、状态空间、样本函数各是什么？</summary>
+    <p>参数集 $T=[0,+\infty)$（连续）；状态空间 $E=\{0,1,2,\dots\}$（离散、可列）；样本函数是<strong>单调不减、右连续、每次只跳 1 的阶梯函数</strong>，由一串"呼入时刻" $0&lt;\tau_1&lt;\tau_2&lt;\cdots$ 完全确定。</p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么说"随机函数"这个别名比"随机过程"更贴切？</summary>
+    <p>因为定义只用到 $T$ 与 $\Omega$ 的乘积结构，<strong>根本没用到"$t$ 是时间"</strong>。$t$ 可以是空间位置、频率、世代数、温度……只要 $T\subseteq\mathbb R$ 且"每个固定 $t$ 是随机变量"，理论就成立。"随机函数"强调"它是<strong>取函数值为随机变量</strong>的函数"，正好点出本质。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./01-随机过程的引入.html"><span class="label">← 上一节</span><span class="title">随机过程的引入</span></a>
+    <a href="./03-随机过程的分类.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机过程的分类</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

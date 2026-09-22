@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 均匀分布 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html">03 Poisson</a>
+    <a href="./04-均匀分布.html" class="current">04 均匀</a>
+    <a href="./05-指数分布.html">05 指数</a>
+    <a href="./06-Gamma与正态分布.html">06 Gamma / 正态</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>04 · 均匀分布</h1>
+  <p class="lede">"<strong>同等可能</strong>"的数学化——离散均匀是古典概型的母体，连续均匀是 Monte Carlo 模拟的<strong>基石</strong>。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>均匀分布 = 在某个范围内，每个位置被取到的概率相同</strong>。
+    <ul>
+      <li><strong>离散均匀</strong>：$n$ 个值，每个概率 $1/n$——古典概型的标准形式。</li>
+      <li><strong>连续均匀</strong> $U(a,b)$：在区间 $[a,b]$ 内取到任何点的"概率密度相同"——区间长度决定概率。</li>
+      <li>均匀分布的"无记忆"信息——只知道"<strong>在这个范围内</strong>"，没有任何偏向。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li>掷一颗公平的骰子：点数 $X$ 服从 $\{1,2,3,4,5,6\}$ 上的<strong>离散均匀</strong>分布。</li>
+      <li>公交车到站时刻在 $[0,10]$ 分钟内随机且不偏向——$X\sim U(0,10)$。</li>
+      <li>随机选一个 $[0,1]$ 之间的实数（如散列表的位置）——$X\sim U(0,1)$。</li>
+      <li>工厂在某段时间内故障发生的时刻——若完全不可预测，则均匀。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 离散均匀分布</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 离散均匀分布 $D_U(n,m)$</span>
+    <p>设 $X$ 取值于 $\{a,a+1,\dots,b\}$（$n=b-a+1$ 个整数），分布列为</p>
+    $$\boxed{P(X=k)=\frac{1}{n}=\frac{1}{b-a+1},\quad k=a,a+1,\dots,b}$$
+    <p>记作 $X\sim D_U(n)$ 或 $X\sim U\{a,a+1,\dots,b\}$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">特例 · 掷骰子</span>
+    <p>$X\in\{1,2,3,4,5,6\}$，$P(X=k)=1/6$，$k=1,\dots,6$。</p>
+  </div>
+
+  <h3>2.2 连续均匀分布</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 连续均匀分布 $U(a,b)$</span>
+    <p>设 $X$ 在区间 $[a,b]$ 上取值，密度函数为</p>
+    $$f(x)=\begin{cases}\dfrac{1}{b-a},& a\le x\le b\\ 0,& \text{其他}\end{cases}$$
+    <p>记作 $X\sim U(a,b)$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">分布函数</span>
+    $$F(x)=\begin{cases}0,& x&lt;a\\ \dfrac{x-a}{b-a},& a\le x\le b\\ 1,& x&gt;b\end{cases}$$
+    <p>$F(x)$ 是线性函数——这正是"均匀"的直观体现。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">关键公式</span>
+    <ul>
+      <li>对 $[c,d]\subseteq[a,b]$：$P(c\le X\le d)=\dfrac{d-c}{b-a}$（区间长度比）。</li>
+      <li>特别地：$P(X\le x_0)=\dfrac{x_0-a}{b-a}$，$a\le x_0\le b$。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 关键性质</h2>
+
+  <h3>3.1 数字特征</h3>
+  <div class="callout theorem">
+    <span class="label">数字特征</span>
+    <table>
+      <tr><th>分布</th><th>期望</th><th>方差</th></tr>
+      <tr><td>$D_U(n)$（$X\in\{1,\dots,n\}$）</td><td>$(n+1)/2$</td><td>$(n^2-1)/12$</td></tr>
+      <tr><td>$U(a,b)$</td><td>$(a+b)/2$</td><td>$(b-a)^2/12$</td></tr>
+    </table>
+    <p>连续均匀：均值是区间<strong>中点</strong>，方差与区间长度<strong>平方</strong>成正比。</p>
+  </div>
+
+  <h3>3.2 标准化</h3>
+  <div class="callout theorem">
+    <span class="label">标准化</span>
+    <p>若 $X\sim U(a,b)$，则</p>
+    $$Y=\frac{X-a}{b-a}\sim U(0,1)$$
+    <p>反之，若 $Y\sim U(0,1)$，$X=a+(b-a)Y\sim U(a,b)$。所有均匀分布都可由 $U(0,1)$ <strong>线性变换</strong>得到。</p>
+  </div>
+
+  <h3>3.3 $U(0,1)$ 的核心地位</h3>
+  <div class="callout intuition">
+    <span class="label">为什么 $U(0,1)$ 重要？</span>
+    <ul>
+      <li>计算机能生成 $U(0,1)$ 的伪随机数（PRNG）；</li>
+      <li>其他分布的随机数通过<strong>逆变换法</strong>由 $U(0,1)$ 抽样：$X=F^{-1}(U)$，其中 $F$ 是目标分布的分布函数；</li>
+      <li>这是<strong>Monte Carlo 模拟</strong>的起点。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 典型例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 公交等候</span>
+    <p>某线路公交车每 10 分钟一班，乘客随机到站。设 $X$ = 等待时间，$X\sim U(0,10)$。求"等不超过 3 分钟"的概率。</p>
+    <p>$P(X\le 3)=\dfrac{3-0}{10-0}=0.3$。</p>
+    <p>$P(2&lt;X\le 5)=\dfrac{5-2}{10}=0.3$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 连续均匀的"分位数"</span>
+    <p>$X\sim U(0,1)$，求上 $\alpha$ 分位数（即 $P(X\ge c)=\alpha$ 的 $c$）。</p>
+    <p>$P(X\ge c)=1-c=\alpha$，故 $c=1-\alpha$。</p>
+    <p>特例：$\alpha=0.05$ 时 $c=0.95$（即 $P(X\ge 0.95)=0.05$）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 离散均匀求和</span>
+    <p>掷两枚公平的骰子，$Z=X_1+X_2$。求 $P(Z=7)$。</p>
+    <p>使 $Z=7$ 的组合：$(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)$——共 6 种，总 $6\times 6=36$ 种。</p>
+    <p>$P(Z=7)=6/36=1/6$。这是骰子游戏中"<strong>7 最容易出</strong>"的来源。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 圆周上随机点</span>
+    <p>在周长 $L=10$ 的圆周上随机选一点，弧长 $X\sim U(0,10)$。求"该点距离某固定点的弧长 $\in[2,4]$"的概率。</p>
+    <p>$P(2\le X\le 4)=\dfrac{4-2}{10}=0.2$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 易错点</h2>
+
+  <div class="callout danger">
+    <span class="label">致命错误 · "$U(a,b)$ 是闭区间"</span>
+    <p>$U(a,b)$ 定义在<strong>闭区间</strong> $[a,b]$ 上——$P(X=a)=P(X=b)=0$（因为是连续型），但作为"区间端点"通常包含在内。计算 $P(c\le X\le d)$ 时把 $c=a$ 或 $d=b$ 也算上是合规的。</p>
+    <p>但有些教材用 $(a,b)$ 开区间——记号要看清。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · $U(0,1)$ 不等于"任意 $[0,1]$ 之间均匀"</label>
+    <p>$U(0,1)$ 的密度是常数 $1$——在 $[0,1]$ 上积分 $\int_0^1 1\,dx=1$，归一 ✓。若题目问"$X$ 在 $[0,2]$ 上均匀"，则密度 $f(x)=1/2$，不是 $1$。</p>
+    <p><strong>区间长度变化时密度也要变</strong>——"均匀"≠"密度为 1"。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · "均匀" 不等于 "无偏"</label>
+    <p>$U(0,1)$ 的均值是 $1/2$，"无偏"是说"在 $[0,1]$ 中点"。$U(-1,1)$ 均值是 $0$，也是"无偏"（中心对称）。但 $U(0,2)$ 均值是 $1$——不是无偏，只是均匀分布。</p>
+    <p>"均匀"是"分布形状"，"无偏"是"均值位置"——两者不同。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $X\sim U(0,4)$，求 $P(X\le 1)$，$P(X\ge 2)$，$P(1&lt;X\le 3)$。</summary>
+    <p>$P(X\le 1)=1/4$；$P(X\ge 2)=(4-2)/4=1/2$；$P(1&lt;X\le 3)=(3-1)/4=1/2$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 离散均匀 $D_U(6)$（掷骰子），求 $E(X)$，$D(X)$。</summary>
+    <p>$E(X)=(1+6)/2=3.5$；$D(X)=(6^2-1)/12=35/12\approx 2.917$。</p>
+    <p>直觉：均值 3.5（中点），方差反映"6 个值在均值附近的离散程度"。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 由 $U(0,1)$ 抽样 $U(-2,5)$。</summary>
+    <p>若 $Y\sim U(0,1)$，$X=-2+7Y$。验证：$X$ 取值 $[-2,-2+7]=[-2,5]$，密度 $f_X(x)=1/7$（$U(-2,5)$ 应有）。</p>
+    <p>一般公式：$X=a+(b-a)Y$。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 离散均匀 $D_U(n)$ 与二项分布 $B(n,1/n)$ 的关系？</summary>
+    <p>设 $X\sim D_U(n)$（$X\in\{1,\dots,n\}$），$Y=$"把 $X$ 视为 $\{1,\dots,n\}$ 的索引"。$Y$ 是<strong>离散</strong>随机变量，不是二项。</p>
+    <p>但 $B(n,p)$ 在 $p=1/n$ 时 $P(Y=k)=\binom{n}{k}(1/n)^k(1-1/n)^{n-k}$——这是 $n$ 个独立的"是否被选中"的乘积，<strong>不是均匀</strong>。</p>
+    <p>区别：均匀是"<strong>1 个</strong>随机变量等可能"，二项是"$n$ 个独立 Bernoulli 成功次数"。</p>
+  </details>
+
+  <details>
+    <summary>Q5 · $U(0,1)$ 为什么是 Monte Carlo 的基石？</summary>
+    <p>几乎所有<strong>伪随机数发生器</strong>（PRNG）都以 $U(0,1)$ 为基本输出。通过<strong>逆变换法</strong>（用 $U$ 反解目标分布的 $F^{-1}$）生成任意分布的随机数。</p>
+    <p>这是<strong>第 13 / 14 讲排队论模拟</strong>的基础。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>均匀分布：离散 $D_U(n)$ 每个值概率 $1/n$；连续 $U(a,b)$ 密度 $1/(b-a)$，$F(x)=(x-a)/(b-a)$；均值 $(a+b)/2$，方差 $(b-a)^2/12$。$U(0,1)$ 是 Monte Carlo 的基本随机源。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./03-Poisson分布.html"><span class="label">← 上一节</span><span class="title">Poisson 分布</span></a>
+    <a href="./05-指数分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">指数分布</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 04 均匀分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

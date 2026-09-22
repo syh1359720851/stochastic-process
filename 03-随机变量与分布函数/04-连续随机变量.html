@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 连续随机变量 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  pre.svg{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:13px;overflow-x:auto;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html" class="current">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>04 · 连续型随机变量</h1>
+  <p class="lede">$X$ 的取值是一段<strong>区间</strong>——这时描述它的不是"每个点的概率"（都为 0），而是<strong>密度函数 $f(x)$</strong>：$P(X\in[a,b])=\int_a^b f(x)\,dx$。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>连续型 = $X$ 取一段连续区间里的任意实数值</strong>（如身高、温度、等待时间）。
+    <ul>
+      <li>任何单点的概率都是 $0$：$P(X=x)=0$（这与"几乎不可能"无关，而是数学上严格为 0）。</li>
+      <li>但<strong>区间</strong>有正概率：$P(a&lt;X&lt;b)=\int_a^b f(x)\,dx$，其中 $f(x)$ 是<strong>密度</strong>。</li>
+      <li>$f(x)$ 越大，$X$ 取该值附近的概率越大；$f$ 是"概率的<strong>密度</strong>"——不是"概率"。</li>
+      <li>典型的连续型：均匀分布 $U(a,b)$、指数分布 $\text{Exp}(\lambda)$、正态分布 $N(\mu,\sigma^2)$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 身高</span>
+    人的身高可以取 $150.00,\ 150.01,\ 150.001\ldots$ 等无穷多个值。问"身高恰好是 $151\ \text{cm}$ 整"的概率——<strong>理论上为 0</strong>。但"身高在 $[150,160]$ 之间"的概率约 $0.6$——这就是"区间概率"。把它对长度求平均，就得到"概率密度"。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 连续型随机变量</span>
+    <p>若随机变量 $X$ 的分布函数 $F(x)$ 可以写成</p>
+    $$\boxed{F(x)=\int_{-\infty}^{x} f(t)\,dt,\quad x\in\mathbb{R}}$$
+    <p>其中 $f(x)$ 是非负函数，则称 $X$ 为<strong>连续型随机变量</strong>，$f(x)$ 称为 $X$ 的<strong>概率密度函数</strong>（probability density function, PDF）。</p>
+    <p>密度 $f(x)$ 满足：</p>
+    <ol>
+      <li><strong>非负</strong>：$f(x)\ge 0$；</li>
+      <li><strong>归一</strong>：$\int_{-\infty}^{+\infty} f(x)\,dx=1$。</li>
+    </ol>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">注意 · "$f(x)$ 不是概率"</span>
+    <p>$f(x)$ 是"概率<strong>密度</strong>"——可以大于 1。例如 $U(0,1/2)$ 上的均匀分布密度为 $f(x)=2$，对所有 $x\in[0,1/2]$。但 $\int_0^{1/2} 2\,dx=1$——密度可以 $>1$，但<strong>积分必须为 1</strong>。</p>
+    <p>实际含义：$f(x)$ 是"$X$ 落在 $x$ 附近单位区间内的概率"<strong>密度</strong>，而不是"$X$ 恰好取 $x$"的概率（后者恒为 0）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 由 $F$ 与 $f$ 互相转化</h2>
+
+  <div class="callout theorem">
+    <span class="label">公式 · 积分-微分关系</span>
+    <ul>
+      <li>$F(x)=\displaystyle\int_{-\infty}^x f(t)\,dt$（<strong>积分</strong>得到 $F$）；</li>
+      <li>在 $F$ 可导的点，$f(x)=F'(x)$（<strong>微分</strong>得到 $f$）；</li>
+      <li>对任意 $a&lt;b$：$P(a&lt;X\le b)=F(b)-F(a)=\int_a^b f(x)\,dx$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 指数分布（Exponential）</span>
+    <p>设 $X\sim\text{Exp}(\lambda)$，密度</p>
+    $$f(x)=\begin{cases}\lambda e^{-\lambda x},& x\ge 0\\ 0,& x&lt;0\end{cases}$$
+    <p>分布函数：</p>
+    $$F(x)=\int_{-\infty}^x f(t)\,dt=\int_0^x \lambda e^{-\lambda t}\,dt=\begin{cases}1-e^{-\lambda x},& x\ge 0\\ 0,& x&lt;0\end{cases}$$
+    <p>验证：$F'(x)=\lambda e^{-\lambda x}=f(x)$（在 $x&gt;0$ 处）。✓</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 几何直观 · 标准正态 $N(0,1)$ 为例</h2>
+
+  <p>下图展示连续型随机变量最典型的形态：标准正态分布 $X\sim N(0,1)$ 的<strong>概率密度</strong> $f(x)$ 与<strong>分布函数</strong> $F(x)$。拖动滑块改变 $a,b$，观察上方面板的<strong>阴影面积</strong>与下方面板的<strong>纵坐标差</strong> $F(b)-F(a)$ 如何同步变化——它们<strong>始终相等</strong>，这正是微积分基本定理 $F(b)-F(a)=\int_a^b f(x)\,dx$ 的直观呈现。</p>
+
+  <style>
+    .norm-viz{background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:16px;margin:18px 0}
+    .norm-viz svg{display:block;width:100%;height:auto;background:var(--c-bg);border-radius:6px}
+    .norm-viz .panel-bg{fill:var(--c-bg);stroke:var(--c-line);stroke-width:1}
+    .norm-viz .axis{stroke:var(--c-fg);stroke-width:1;fill:none}
+    .norm-viz .grid{stroke:var(--c-line);stroke-width:0.5;stroke-dasharray:2 3;opacity:.6}
+    .norm-viz .pdf-curve{stroke:var(--c-primary);stroke-width:2.5;fill:none}
+    .norm-viz .cdf-curve{stroke:var(--c-accent);stroke-width:2.5;fill:none}
+    .norm-viz .marker-a{fill:var(--c-danger);stroke:var(--c-bg);stroke-width:1.5}
+    .norm-viz .marker-b{fill:var(--c-theorem);stroke:var(--c-bg);stroke-width:1.5}
+    .norm-viz .guide-a{stroke:var(--c-danger);stroke-width:1.2;stroke-dasharray:5 3;opacity:.7;fill:none}
+    .norm-viz .guide-b{stroke:var(--c-theorem);stroke-width:1.2;stroke-dasharray:5 3;opacity:.7;fill:none}
+    .norm-viz .label-title{fill:var(--c-fg);font-size:17px;font-weight:700}
+    .norm-viz .label-sub{fill:var(--c-muted);font-size:12px}
+    .norm-viz .label-muted{fill:var(--c-muted);font-size:11px}
+    .norm-viz .label-f{fill:var(--c-primary);font-size:18px;font-weight:700;font-style:italic}
+    .norm-viz .label-F{fill:var(--c-accent);font-size:18px;font-weight:700;font-style:italic}
+    .norm-viz .label-int{fill:var(--c-fg);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+    .norm-viz .label-fn{fill:var(--c-fg);font-size:12px}
+    .norm-viz .controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;padding:14px 6px 4px;font-size:14px}
+    .norm-viz .controls label{display:inline-flex;align-items:center;gap:8px;color:var(--c-muted)}
+    .norm-viz .controls input[type=range]{width:170px;accent-color:var(--c-primary)}
+    .norm-viz .controls .val{color:var(--c-fg);font-weight:700;font-variant-numeric:tabular-nums;min-width:46px}
+    .norm-viz .controls .result{margin-left:auto;color:var(--c-muted)}
+    .norm-viz .controls .result strong{color:var(--c-primary);font-size:18px;font-variant-numeric:tabular-nums}
+    .norm-viz .preset{padding:5px 12px;border-radius:14px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-size:13px;font-family:inherit;transition:.15s}
+    .norm-viz .preset:hover{border-color:var(--c-primary);background:var(--c-primary-bg);color:var(--c-primary)}
+    .norm-viz .preset:active{transform:translateY(1px)}
+  </style>
+
+  <div class="norm-viz" id="normViz">
+    <svg viewBox="0 0 920 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="标准正态分布的概率密度与分布函数交互图">
+      <defs>
+        <linearGradient id="pdfFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0969da" stop-opacity=".50"/>
+          <stop offset="100%" stop-color="#0969da" stop-opacity=".08"/>
+        </linearGradient>
+        <linearGradient id="cdfFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a7f37" stop-opacity=".30"/>
+          <stop offset="100%" stop-color="#1a7f37" stop-opacity=".04"/>
+        </linearGradient>
+        <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--c-fg)"/>
+        </marker>
+      </defs>
+
+      <!-- 标题 -->
+      <text class="label-title" x="460" y="28" text-anchor="middle">标准正态分布 N(0, 1)</text>
+      <text class="label-sub" x="460" y="48" text-anchor="middle">上：概率密度 f(x)　　下：分布函数 F(x)　　P(a ≤ X ≤ b) = F(b) − F(a) = ∫ₐᵇ f(x) dx</text>
+
+      <!-- ====================== -->
+      <!-- 上方面板 · 概率密度 -->
+      <!-- ====================== -->
+      <rect class="panel-bg" x="80" y="68" width="800" height="200"/>
+      <text class="label-f" x="46" y="90">f(x)</text>
+
+      <!-- 网格 / 坐标轴 -->
+      <g id="pdfGrid"></g>
+      <line class="axis" x1="80" y1="68" x2="80" y2="268"/>
+      <line class="axis" x1="80" y1="268" x2="880" y2="268"/>
+      <g id="pdfYTicks"></g>
+
+      <!-- 阴影面积（动态） -->
+      <path id="pdfShade" fill="url(#pdfFill)" d=""/>
+
+      <!-- 钟形曲线 -->
+      <path id="pdfCurve" class="pdf-curve" d=""/>
+
+      <!-- 垂直引导线 -->
+      <line id="pdfGuideA" class="guide-a" y1="68" y2="268"/>
+      <line id="pdfGuideB" class="guide-b" y1="68" y2="268"/>
+
+      <!-- x 轴上的端点标记 -->
+      <circle id="pdfMarkerA" class="marker-a" r="5"/>
+      <circle id="pdfMarkerB" class="marker-b" r="5"/>
+
+      <!-- 标注峰值 -->
+      <text class="label-fn" id="pdfPeakLabel" x="0" y="0" text-anchor="middle">f(0) ≈ 0.399</text>
+
+      <!-- x 轴刻度（动态填充） -->
+      <g id="pdfXTicks"></g>
+
+      <!-- ====================== -->
+      <!-- 下方面板 · 分布函数 -->
+      <!-- ====================== -->
+      <rect class="panel-bg" x="80" y="320" width="800" height="200"/>
+      <text class="label-F" x="46" y="342">F(x)</text>
+
+      <g id="cdfGrid"></g>
+      <line class="axis" x1="80" y1="320" x2="80" y2="520"/>
+      <line class="axis" x1="80" y1="520" x2="880" y2="520"/>
+      <g id="cdfYTicks"></g>
+
+      <!-- F(b) − F(a) 矩形高亮 -->
+      <rect id="cdfDiffRect" fill="url(#cdfFill)" x="0" y="0" width="0" height="0"/>
+
+      <!-- S 形曲线 -->
+      <path id="cdfCurve" class="cdf-curve" d=""/>
+
+      <!-- 水平 / 垂直引导 -->
+      <line id="cdfGuideA" class="guide-a"/>
+      <line id="cdfGuideB" class="guide-b"/>
+      <line id="cdfVertA" class="guide-a" y1="320" y2="520"/>
+      <line id="cdfVertB" class="guide-b" y1="320" y2="520"/>
+
+      <!-- 端点圆点 -->
+      <circle id="cdfDotA" class="marker-a" r="5"/>
+      <circle id="cdfDotB" class="marker-b" r="5"/>
+
+      <!-- 差值标签 -->
+      <text id="cdfDiffLabel" class="label-int" text-anchor="middle"></text>
+
+      <g id="cdfXTicks"></g>
+    </svg>
+
+    <div class="controls">
+      <label>
+        <span style="color:var(--c-danger);font-weight:700">a =</span>
+        <input type="range" id="sliderA" min="-3" max="3" step="0.05" value="-1"/>
+        <span class="val" id="valA">-1.00</span>
+      </label>
+      <label>
+        <span style="color:var(--c-theorem);font-weight:700">b =</span>
+        <input type="range" id="sliderB" min="-3" max="3" step="0.05" value="1"/>
+        <span class="val" id="valB">1.00</span>
+      </label>
+      <button class="preset" data-a="-1" data-b="1">±1σ（≈68.27%）</button>
+      <button class="preset" data-a="-2" data-b="2">±2σ（≈95.45%）</button>
+      <button class="preset" data-a="-3" data-b="3">±3σ（≈99.73%）</button>
+      <span class="result">P(a ≤ X ≤ b) = <strong id="valP">0.6827</strong></span>
+    </div>
+  </div>
+
+  <div class="callout example">
+    <span class="label">用法 · 拖动观察</span>
+    <ul>
+      <li>把滑块从 ±1σ 拖到 ±3σ，能直接看出"<strong>3σ 原则</strong>"——几乎所有概率质量都集中在 $[\mu-3\sigma,\mu+3\sigma]$。</li>
+      <li>对比上面板阴影面积与下面板 $F(b)-F(a)$，它们<strong>每一帧都相等</strong>——这是 $F(b)-F(a)=\int_a^b f(x)\,dx$ 的可视化证明。</li>
+      <li>注意下方面板的 $F$ 曲线在 $|x|&gt;2.5$ 之后几乎贴住 $0$ 或 $1$，对应"$P(X&gt;2.5\sigma)\approx 0.006$"这类<strong>小概率事件</strong>。</li>
+    </ul>
+  </div>
+
+  <script>
+  (function(){
+    'use strict';
+    // ---------- 1. 正态分布的 PDF / CDF ----------
+    const SQRT_2PI = Math.sqrt(2*Math.PI);
+    const pdf = x => Math.exp(-x*x/2) / SQRT_2PI;
+
+    // Abramowitz & Stegun 7.1.26 的 erf 近似，误差 < 1.5e-7
+    function erf(x){
+      const a1=0.254829592,a2=-0.284496736,a3=1.421413741,
+            a4=-1.453152027,a5=1.061405429,p=0.3275911;
+      const s = x < 0 ? -1 : 1; x = Math.abs(x);
+      const t = 1.0 / (1.0 + p*x);
+      const y = 1.0 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t * Math.exp(-x*x);
+      return s*y;
+    }
+    const cdf = x => 0.5 * (1 + erf(x / Math.SQRT2));
+
+    // ---------- 2. 坐标映射 ----------
+    const xMin=-4, xMax=4;
+    const plotL=80, plotR=880;
+    const pdfTop=68, pdfBot=268, pdfYMax=0.45;
+    const cdfTop=320, cdfBot=520;
+    const x2px  = x => plotL + (x-xMin)/(xMax-xMin) * (plotR-plotL);
+    const pdfY  = y => pdfBot - y/pdfYMax * (pdfBot-pdfTop);
+    const cdfY  = y => cdfBot - y * (cdfBot-cdfTop);
+
+    const SVG = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs, parent){
+      const e = document.createElementNS(SVG, tag);
+      if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // ---------- 3. 静态网格 / 刻度 ----------
+    // 上方面板：y 网格 0.1, 0.2, 0.3, 0.4
+    const pdfGrid = document.getElementById('pdfGrid');
+    const pdfYTicks = document.getElementById('pdfYTicks');
+    for (let y=0.1; y<=0.4+1e-9; y+=0.1){
+      el('line', {class:'grid', x1:plotL, x2:plotR, y1:pdfY(y), y2:pdfY(y)}, pdfGrid);
+      el('text', {class:'label-muted', x:plotL-8, y:pdfY(y)+4, 'text-anchor':'end'}, pdfYTicks).textContent = y.toFixed(1);
+    }
+
+    // 下方面板：y 网格 0.25, 0.5, 0.75, 1.0
+    const cdfGrid = document.getElementById('cdfGrid');
+    const cdfYTicks = document.getElementById('cdfYTicks');
+    [0.25, 0.5, 0.75, 1.0].forEach(y => {
+      el('line', {class:'grid', x1:plotL, x2:plotR, y1:cdfY(y), y2:cdfY(y)}, cdfGrid);
+      el('text', {class:'label-muted', x:plotL-8, y:cdfY(y)+4, 'text-anchor':'end'}, cdfYTicks).textContent = y.toFixed(2);
+    });
+
+    // x 轴刻度（两面板共用一组）
+    const pdfXTicks = document.getElementById('pdfXTicks');
+    const cdfXTicks = document.getElementById('cdfXTicks');
+    for (let x=-4; x<=4; x++){
+      const px = x2px(x);
+      el('line', {class:'axis', x1:px, x2:px, y1:pdfBot, y2:pdfBot+4}, pdfXTicks);
+      el('text', {class:'label-muted', x:px, y:pdfBot+18, 'text-anchor':'middle'}, pdfXTicks).textContent = x;
+      el('line', {class:'axis', x1:px, x2:px, y1:cdfBot, y2:cdfBot+4}, cdfXTicks);
+      el('text', {class:'label-muted', x:px, y:cdfBot+18, 'text-anchor':'middle'}, cdfXTicks).textContent = x;
+    }
+
+    // ---------- 4. 静态曲线（PDF 钟形 / CDF S 形） ----------
+    let pdfD = '', cdfD = '';
+    for (let x=xMin; x<=xMax+1e-9; x+=0.02){
+      const px = x2px(x);
+      pdfD += (pdfD?'L':'M') + px.toFixed(2)+','+pdfY(pdf(x)).toFixed(2)+' ';
+      cdfD += (cdfD?'L':'M') + px.toFixed(2)+','+cdfY(cdf(x)).toFixed(2)+' ';
+    }
+    document.getElementById('pdfCurve').setAttribute('d', pdfD);
+    document.getElementById('cdfCurve').setAttribute('d', cdfD);
+
+    // 峰高标注
+    const peakLabel = document.getElementById('pdfPeakLabel');
+    peakLabel.setAttribute('x', x2px(0));
+    peakLabel.setAttribute('y', pdfY(0.399) + 14);
+
+    // ---------- 5. 交互更新 ----------
+    const sliderA = document.getElementById('sliderA');
+    const sliderB = document.getElementById('sliderB');
+    const valA = document.getElementById('valA');
+    const valB = document.getElementById('valB');
+    const valP = document.getElementById('valP');
+
+    const pdfShade   = document.getElementById('pdfShade');
+    const pdfGuideA  = document.getElementById('pdfGuideA');
+    const pdfGuideB  = document.getElementById('pdfGuideB');
+    const pdfMarkerA = document.getElementById('pdfMarkerA');
+    const pdfMarkerB = document.getElementById('pdfMarkerB');
+
+    const cdfGuideA  = document.getElementById('cdfGuideA');
+    const cdfGuideB  = document.getElementById('cdfGuideB');
+    const cdfVertA   = document.getElementById('cdfVertA');
+    const cdfVertB   = document.getElementById('cdfVertB');
+    const cdfDotA    = document.getElementById('cdfDotA');
+    const cdfDotB    = document.getElementById('cdfDotB');
+    const cdfDiffRect= document.getElementById('cdfDiffRect');
+    const cdfDiffLbl = document.getElementById('cdfDiffLabel');
+
+    function fmt(v){ return (v>=0?'+':'')+v.toFixed(2); }
+
+    function update(){
+      let a = parseFloat(sliderA.value);
+      let b = parseFloat(sliderB.value);
+      if (a > b){ const t=a; a=b; b=t; sliderA.value=a; sliderB.value=b; }
+
+      valA.textContent = fmt(a);
+      valB.textContent = fmt(b);
+
+      // ----- 上方面板阴影面积 -----
+      let d = 'M'+x2px(a).toFixed(2)+','+pdfBot.toFixed(2)+' ';
+      for (let x=a; x<=b+1e-9; x+=0.02){
+        d += 'L'+x2px(x).toFixed(2)+','+pdfY(pdf(x)).toFixed(2)+' ';
+      }
+      d += 'L'+x2px(b).toFixed(2)+','+pdfBot.toFixed(2)+' Z';
+      pdfShade.setAttribute('d', d);
+
+      // ----- 上方面板端点标记 / 引导线 -----
+      const apx = x2px(a), bpx = x2px(b);
+      pdfGuideA.setAttribute('x1', apx); pdfGuideA.setAttribute('x2', apx);
+      pdfGuideB.setAttribute('x1', bpx); pdfGuideB.setAttribute('x2', bpx);
+      pdfMarkerA.setAttribute('cx', apx); pdfMarkerA.setAttribute('cy', pdfBot);
+      pdfMarkerB.setAttribute('cx', bpx); pdfMarkerB.setAttribute('cy', pdfBot);
+
+      // ----- 下方面板：CDF -----
+      const Fa = cdf(a), Fb = cdf(b);
+      const Fapx = cdfY(Fa), Fbpx = cdfY(Fb);
+
+      // 水平引导：从曲线上的点水平延伸到右轴
+      cdfGuideA.setAttribute('x1', apx); cdfGuideA.setAttribute('x2', plotR);
+      cdfGuideA.setAttribute('y1', Fapx); cdfGuideA.setAttribute('y2', Fapx);
+      cdfGuideB.setAttribute('x1', bpx); cdfGuideB.setAttribute('x2', plotR);
+      cdfGuideB.setAttribute('y1', Fbpx); cdfGuideB.setAttribute('y2', Fbpx);
+
+      // 垂直引导：从 x 轴垂直延伸到曲线点
+      cdfVertA.setAttribute('x1', apx); cdfVertA.setAttribute('x2', apx);
+      cdfVertB.setAttribute('x1', bpx); cdfVertB.setAttribute('x2', bpx);
+
+      // 端点圆点
+      cdfDotA.setAttribute('cx', apx); cdfDotA.setAttribute('cy', Fapx);
+      cdfDotB.setAttribute('cx', bpx); cdfDotB.setAttribute('cy', Fbpx);
+
+      // F(b) − F(a) 高亮矩形（颜色与阴影一致）
+      cdfDiffRect.setAttribute('x', apx);
+      cdfDiffRect.setAttribute('y', Fbpx);
+      cdfDiffRect.setAttribute('width', bpx - apx);
+      cdfDiffRect.setAttribute('height', Fapx - Fbpx);
+
+      // Δ 数值（矩形中央）
+      const diff = Fb - Fa;
+      cdfDiffLbl.setAttribute('x', (apx+bpx)/2);
+      cdfDiffLbl.setAttribute('y', (Fapx+Fbpx)/2 + 5);
+      cdfDiffLbl.textContent = 'Δ = ' + diff.toFixed(4);
+
+      // 底部概率读数
+      valP.textContent = diff.toFixed(4);
+    }
+
+    sliderA.addEventListener('input', update);
+    sliderB.addEventListener('input', update);
+
+    // 预设按钮
+    document.querySelectorAll('.norm-viz .preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sliderA.value = btn.dataset.a;
+        sliderB.value = btn.dataset.b;
+        update();
+      });
+    });
+
+    update();
+  })();
+  </script>
+
+  <!-- ============================================ -->
+  <h2>5. 课件例题 · 三角形区域</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 课件 sjgc0-2 第 24-25 页</span>
+    <p>$(X,Y)$ 在三角形</p>
+    $$D=\{(x,y):0\le x\le 1,\ 0\le y\le \tfrac{x}{2}\}$$
+    <p>上均匀分布（联合密度 $f(x,y)=2$，因为区域面积 $=1/2$）。求 $f_X(x)$，$f_{Y\mid X}(y\mid x)$。</p>
+    <p><strong>解</strong>：</p>
+    $$f_X(x)=\int_0^{x/2}2\,dy = x,\quad 0\le x\le 1$$
+    <p>由条件密度公式（详见 §7）：</p>
+    $$f_{Y\mid X}(y\mid x)=\frac{f(x,y)}{f_X(x)}=\frac{2}{x},\quad 0\le y\le \tfrac{x}{2}$$
+    <p>几何：在 $X=x$ 的"竖直线"上，$f_{Y\mid X}$ 是均匀分布在 $[0,x/2]$ 上（密度 $2/x$，长度 $x/2$，乘积 $=1$）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 连续型常见的"陷阱"</h2>
+
+  <h3>6.1 $P(X=a)=0$ 但 $X$ 可以等于 $a$</h3>
+  <div class="callout warn">
+    <span class="label">易错点 · 单点零概率 ≠ 单点不可能</span>
+    <p>$P(X=a)=0$ 不代表"事件 $\{X=a\}$ 不可能"——只是说它<strong>测度为 0</strong>。举例：</p>
+    <ul>
+      <li>标准正态 $X\sim N(0,1)$：$P(X=0)=0$，但每次实验都可能取到 0。</li>
+      <li>抛硬币（离散）：$P(\text{正面})=1/2$，不是 0——所以离散情形 $P(X=a)$ <strong>不为 0</strong>。</li>
+    </ul>
+    <p>直观：连续型把概率分散到无穷多个点上，每个点的"概率质量"被<strong>无限稀释</strong>为 0；但<strong>可列个点的总质量仍是 0</strong>，剩下的 1 全部分布在"区间"上。</p>
+  </div>
+
+  <h3>6.2 改变单点的密度值不影响 $F$</h3>
+  <p>由于 $P(X=a)=0$，所以把 $f(x)$ 在某个单点 $a$ 处改成别的值（甚至改成 $\infty$），$F$ 仍然不变——因为积分只关心"几乎处处"（a.e.）。这就是为什么"$f$ 在 $f$ 不连续点不唯一"——但 $F$ 是唯一的。</p>
+
+  <h3>6.3 不要混淆"密度"和"分布函数"</h3>
+  <div class="callout danger">
+    <span class="label">致命错误 · 不要把 $F(x)$ 当成概率</span>
+    <p>$F(x)=P(X\le x)$ 是概率——值在 $[0,1]$；</p>
+    <p>$f(x)$ 是密度——可以大于 $1$，必须积分才能得到概率。</p>
+    <p>例：$U(0,1/2)$ 的 $f(x)=2$（不是 $0.5$！），但 $F(1/4)=\int_0^{1/4}2\,dx=1/2$（这是概率）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $f(x)=2\sin x,\ x\in[0,\pi/2]$ 是合法的密度吗？</summary>
+    <p>不是。$f(x)\ge 0$ ✓，但 $\int_0^{\pi/2}2\sin x\,dx=2\neq 1$。正确归一化：$f(x)=\frac{4}{\pi}\sin^2 x\cdot ?$ 不对——$\sin^2 x$ 才是非负且积分归一。简言之，$\sin x$ 在 $[0,\pi/2]$ 上是正的，但积分 $=1$ 需系数 $1/1$——这里系数 2 超出，故不归一。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 已知 $f(x)=cx,\ x\in[0,2]$，求 $c$ 与 $P(X&gt;1)$。</summary>
+    <p>归一：$\int_0^2 cx\,dx=2c=1 \Rightarrow c=1/2$。$P(X&gt;1)=\int_1^2 \tfrac{1}{2}x\,dx=\tfrac{1}{2}\cdot\tfrac{3}{2}=\tfrac{3}{4}$。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 连续型的 $F(x)$ 一定是连续的吗？</summary>
+    <p>是。连续型 $F(x)=\int_{-\infty}^x f(t)\,dt$ 由积分给出，积分函数<strong>绝对连续</strong>，所以 $F$ 不仅连续，<strong>还是连续的</strong>。这是连续型与离散型 $F$ 的关键区别。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 为什么 $P(X\le a)=F(a)$ 而不是 $F(a)-F(a-0)$？</summary>
+    <p>连续型 $F$ 在每个点都连续——$F(a-0)=F(a)$，所以两者相等。这与离散型不同：离散型 $F$ 在跳跃点 $a$ 处 $F(a-0)&lt;F(a)$，差就是 $p_k$。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>连续型 $X$：存在 $f(x)\ge 0$ 使 $F(x)=\int_{-\infty}^x f(t)\,dt$；$f$ 不必 $\le 1$，但 $\int f=1$；$P(a&lt;X\le b)=\int_a^b f(x)\,dx$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./03-离散随机变量.html"><span class="label">← 上一节</span><span class="title">离散型随机变量</span></a>
+    <a href="./05-混合型随机变量.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">混合型随机变量</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 04 连续型随机变量 · 融合版课件</footer>
+</div>
+</body>
+</html>

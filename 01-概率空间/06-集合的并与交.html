@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 集合的并与交（有限 / 可列 / 不可列） | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;letter-spacing:0.5px}
+  .pill.fin{background:#ddf4ff;color:#0969da}
+  .pill.cnt{background:#dafbe1;color:#1a7f37}
+  .pill.unc{background:#fff8c5;color:#9a6700}
+  @media (prefers-color-scheme:dark){
+    .pill.fin{background:#051d4d;color:#58a6ff}
+    .pill.cnt{background:#0f2419;color:#3fb950}
+    .pill.unc{background:#341a00;color:#d29922}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html">03 概率公理</a>
+    <a href="./04-概率的性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html" class="current">06 并与交（有限/可列/不可列）</a>
+    <a href="./动画-频率收敛.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · 集合的并与交：有限 / 可列 / 不可列</h1>
+  <p class="lede">把"几个集合"扩到"无穷多个集合"时，并/交就有了不同<strong>层次</strong>的封闭性。这一页把"有限 ↔ 可列 ↔ 不可列"三层讲清楚——这是理解 σ-代数第三条公理（"可列封闭"）的关键。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 三种"无穷"的层次</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    "无穷"内部其实有好几层。最小的"无穷"叫<strong>可列</strong>（countable），它和<strong>不可列</strong>（uncountable）是两个完全不同的量级。区分这两层，是概率论从"古典（有限）"走向"现代（连续）"的入口。
+  </div>
+
+  <h3>1.1 三种集合（按元素个数）</h3>
+  <table>
+    <tr><th>名称</th><th>记号</th><th>含义</th><th>典型例子</th></tr>
+    <tr><td><span class="pill fin">有限集</span></td><td>$|A| = n \in \mathbb{N}$</td><td>元素个数是有限的</td><td>$\{1,2,3,4,5,6\}$；一年的天数</td></tr>
+    <tr><td><span class="pill cnt">可列集（可数集）</span></td><td>$|A| = \aleph_0$</td><td>元素可与自然数 $\mathbb{N}$ 一一对应，"排成一列"排得完</td><td>$\mathbb{N}, \mathbb{Z}, \mathbb{Q}$；抛硬币直到首次出现正面的次数</td></tr>
+    <tr><td><span class="pill unc">不可列集</span></td><td>$|A| = \mathfrak{c}$（连续统）</td><td>元素与 $\mathbb{R}$ 等势，<strong>排</strong>不完</td><td>$\mathbb{R}, [0,1]$；灯泡寿命 $(0,\infty)$</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">"可数" 与 "可列"</span>
+    这两个词<strong>完全同义</strong>——都是 countable。教材里偶尔把它们做区分（"可数" = finite ∪ countable，"可列" = 只算 countable），但<strong>本课程统一用"可列"= countable 无限</strong>这一种含义。
+  </div>
+
+  <h3>1.2 "可列"意味着什么？</h3>
+  <p>一个集合 $A$ <strong>可列</strong>当且仅当存在一个<strong>满射</strong> $f: \mathbb{N} \to A$。也就是说，可以把 $A$ 写成</p>
+  $$A = \{a_1, a_2, a_3, \dots\} \quad \text{（注意：可以重复，但每个 } a \in A \text{ 都会出现）}$$
+
+  <p>这给了我们一个"按编号"的写法——这是后面写"可列并 / 可列交"的基础：</p>
+
+  $$\bigcup_{n=1}^{\infty} A_n, \qquad \bigcap_{n=1}^{\infty} A_n$$
+
+  <h3>1.3 "不可列" 意味着什么？</h3>
+  <p>$A$ 不可列 $\Leftrightarrow$ $A$ 不是有限也不是可列 $\Leftrightarrow$ 任何满射 $\mathbb{N} \to A$ 都不可能。</p>
+  <p>经典例子（教材重点）：</p>
+  <ul>
+    <li>$\mathbb{R}$ 上的所有实数——任何想给每个实数"编个号"的做法都会漏掉某些实数（<strong>Cantor 对角线论证</strong>）。</li>
+    <li>任何非空开区间 $(a,b)$ 都与 $\mathbb{R}$ 等势。</li>
+    <li>不可列集的元素个数比可列集"多得多"——记为 $|\mathbb{R}| = \mathfrak{c} = 2^{\aleph_0}$。</li>
+  </ul>
+
+  <!-- ============================================ -->
+  <h2>2. 三种"并"与三种"交"</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 集合族 $\{A_i\}$ 上的并与交</span>
+      $$\bigcup_{i \in I} A_i = \{x : \exists\, i \in I, x \in A_i\}$$
+      $$\bigcap_{i \in I} A_i = \{x : \forall\, i \in I, x \in A_i\}$$
+      其中 $I$ 是<strong>指标集</strong>（用来"编号"的集合）。
+  </div>
+
+  <p>关键差别在 $I$ 的大小：</p>
+  <table>
+    <tr><th>运算</th><th>指标集 $I$</th><th>写法</th><th>名字</th></tr>
+    <tr><td>有限并</td><td>$|I| = n$（有限）</td><td>$A_1 \cup A_2 \cup \cdots \cup A_n$</td><td><span class="pill fin">有限</span></td></tr>
+    <tr><td>可列并</td><td>$|I| = \aleph_0$（可列）</td><td>$\bigcup_{n=1}^{\infty} A_n$</td><td><span class="pill cnt">可列</span></td></tr>
+    <tr><td>不可列并</td><td>$|I| = \mathfrak{c}$ 或更多</td><td>$\bigcup_{x \in \mathbb{R}} A_x$</td><td><span class="pill unc">不可列</span></td></tr>
+  </table>
+
+  <p>交也类似。教材里几乎只关心<strong>有限</strong>与<strong>可列</strong>——因为 σ-代数就要求这两层封闭。</p>
+
+  <!-- ============================================ -->
+  <h2>3. 现实例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex 1 · "今天吃了第几顿饭"（可列）</span>
+    <p>一个人从今天起每天吃 3 顿饭。问："<strong>至少一顿</strong>吃撑了"的事件 $A_n$（$n$ = 第几天）。</p>
+    <p>"迟早会有一天吃撑"的概率可写为</p>
+    $$P(\text{总有一天吃撑}) = P\!\left(\bigcup_{n=1}^{\infty} A_n\right)$$
+    <p>这里指标集 $I = \mathbb{N}$（所有日期）——是<strong>可列</strong>并。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex 2 · 灯泡寿命（不可列）</span>
+    <p>一颗灯泡寿命是连续随机变量 $T \in (0, \infty)$。问"寿命恰好落在某个小数 $x$"的事件 $B_x$。</p>
+    <p>"寿命落在 $(0,\infty)$ 内某个值"的概率可写为</p>
+    $$P(0 < T < \infty) = P\!\left(\bigcup_{x \in (0,\infty)} B_x\right)$$
+    <p>但 $(0,\infty)$ 是<strong>不可列</strong>集——这个写法虽然正确，但<strong>不能直接用 σ-代数 / 概率的有限 / 可列公理</strong>处理。需要概率密度函数。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex 3 · 维恩图的局限</span>
+    <p>维恩图（Venn diagram）只对<strong>两三个集合</strong>的交并直观。画到第 4 个集合就很难，第 5 个集合几乎不可能——这正反映了"有限个"的并交可以靠图形理解，"无穷多个"必须靠数学符号。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 关键性质</h2>
+
+  <h3>4.1 De Morgan 定律（推广到任意层）</h3>
+  <div class="callout theorem">
+    <span class="label">De Morgan 定律（一般形式）</span>
+    对<strong>任意</strong>集合族 $\{A_i\}_{i \in I}$（$I$ 是有限、可列、不可列都行）：
+    $$\left(\bigcup_{i \in I} A_i\right)^c = \bigcap_{i \in I} A_i^c, \qquad \left(\bigcap_{i \in I} A_i\right)^c = \bigcup_{i \in I} A_i^c$$
+    <p>关键：这套公式对<strong>所有层</strong>都成立——只是 $I$ 大时，证明要用到<strong>选择公理</strong>。</p>
+  </div>
+
+  <h3>4.2 σ-代数为什么要求"可列封闭"而不是"任意封闭"？</h3>
+  <div class="callout intuition">
+    <span class="label">回答</span>
+    <p>假设 σ-代数要求"对任意并封闭"——即对<strong>不可列</strong>个集合的并也封闭。会出什么问题？</p>
+    <p>反例：取 $\Omega = \mathbb{R}$，考虑所有"可测"集合。</p>
+    <ul>
+      <li>如果对不可列并封闭 → 每个 $\mathbb{R}$ 中的点 $\omega$ 都必须自己算一个集合，因为 $\mathbb{R} = \bigcup_{\omega \in \mathbb{R}} \{\omega\}$。</li>
+      <li>但 $\{\omega\}$ 不可测时会出问题（Vitali 集）。</li>
+      <li>而且概率 $P$ 会被强行拆成"每个点的概率之和"——可列可加性（公理 3）已经够用，没必要再加这一层。</li>
+    </ul>
+    <p>所以教材中 σ-代数的第三条公理是"对<strong>可列</strong>并封闭"——刚好对应概率可列可加性的边界，<strong>不要求不可列</strong>并的封闭性。</p>
+  </div>
+
+  <h3>4.3 集合族的"层"对比表</h3>
+  <table>
+    <tr><th>层</th><th>指标集 $I$ 大小</th><th>并交能定义吗？</th><th>σ-代数要它封闭吗？</th></tr>
+    <tr><td><span class="pill fin">有限</span></td><td>$1, 2, \dots, n$</td><td>✅</td><td>✅（由可列推出）</td></tr>
+    <tr><td><span class="pill cnt">可列</span></td><td>$\aleph_0$（与 $\mathbb{N}$ 等势）</td><td>✅</td><td>✅（公理 3 明确要求）</td></tr>
+    <tr><td><span class="pill unc">不可列</span></td><td>$\mathfrak{c}, 2^{\mathfrak{c}}, \dots$</td><td>✅（但无操作性）</td><td>❌（也不需要）</td></tr>
+  </table>
+
+  <!-- ============================================ -->
+  <h2>5. 一个直观的几何图</h2>
+
+  <div class="callout intuition">
+    <span class="label">维恩图级别的"演化"</span>
+    <pre style="font-family:ui-monospace,Consolas,monospace;font-size:14px;line-height:1.6;margin:0">
+       2 个集合                 n 个集合                  可列无穷个
+   ┌─────────┐           ┌─────────┐           ┌─────────┐
+   │ ╱╲   ╱╲ │           │n 个圆盘 │           │ · · · · │
+   │╱  ╲ ╱  ╲│           │交叠复杂 │           │ 排成一列 │
+   │╲  ╱ ╲  ╱│           │ 但有限  │           │ 但写不完 │
+   │ ╲╱   ╲╱ │           │  可以画 │           │  只能想  │
+   └─────────┘           └─────────┘           └─────────┘
+     2 维可画              越来越难               只能写 ∪ₙ Aₙ
+    </pre>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 常见易错点</h2>
+
+  <div class="callout warn">
+    <span class="label">易错点一箩筐</span>
+    <ul>
+      <li><strong>"无穷" ≠ "可列"</strong>。$\mathbb{R}$ 是无穷集，但不可列；$\mathbb{N}$ 是无穷集且可列。两者的"无穷"不在一个层次。</li>
+      <li><strong>"可列" = "可列无穷"</strong>。注意区分"可列"和"可数"——有的教材"可数 = 有限 ∪ 可列"，但本课程"可列"特指可列无穷。</li>
+      <li><strong>"不可列个集合的并" ≠ "并起来还是不可列个"</strong>。比如 $\bigcup_{x \in \mathbb{R}} \{x\} = \mathbb{R}$——左边是<strong>不可列</strong>多个集合的并，右边只有 1 个集合（$\mathbb{R}$ 本身）。</li>
+      <li><strong>维恩图只能画有限个</strong>。不要试图画"无穷多个圆圈"——超出 3-4 个就基本失效，必须改用符号 $\bigcup_{n=1}^\infty$。</li>
+      <li><strong>σ-代数的"可列"是公理，不是"可推出来的"</strong>。如果换成"有限封闭"，会丢掉 Borel σ-代数等关键例子。</li>
+      <li><strong>有限集的可列并=有限集</strong>。把 100 个有限集合并起来还是有限集——不要被"可列"这个词吓到。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 下列哪个是<strong>可列</strong>集？A) $\mathbb{N}$  B) $\{1,2,3,4,5\}$  C) $[0,1]$  D) $\{\text{所有有限二进制序列}\}$
+    </summary>
+    <p>A ✅ 可列无限。B ❌ 有限。C ❌ 不可列（连续统势）。D ❌<strong>注意陷阱</strong>：每个有限序列都能"按长度 + 字典序"编号（1 位的有 2 个，2 位的有 4 个……总共可列个），所以 $\{$所有有限序列$\}$ 居然是<strong>可列</strong>的！这是一个反直觉结论。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 写出 $\bigcup_{n=1}^\infty [n, n+1]$ 的结果。</summary>
+    <p>$[1,2] \cup [2,3] \cup [3,4] \cup \cdots = [1, +\infty)$。</p>
+    <p>注意每个端点 $n+1$ 处取 $\cup$，所以是闭区间连续。注意这是个<strong>可列</strong>并（指标 $n = 1, 2, 3, \dots$）。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $\bigcap_{n=1}^\infty (0, 1/n) = ?$</summary>
+    <p>$= \varnothing$（空集）。</p>
+    <p>直观：$(0, 1/n)$ 越来越短，最终"挤空"了——除了 $x = 0$（不在 $(0, 1/n)$ 里）。所以没有点属于所有 $(0, 1/n)$。</p>
+    <p>这是一个<strong>可列交</strong>得到空集的例子——空集永远是 $\sigma$-代数的成员，不会有矛盾。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 为什么 σ-代数只要求"可列封闭"，不要求"不可列封闭"？</summary>
+    <p>两个理由：</p>
+    <ol>
+      <li><strong>数学上不必要</strong>。Kolmogorov 概率公理 3 已经要求"可列可加性"，这背后只需要可列封闭。</li>
+      <li><strong>集合论上的坎</strong>。要求不可列并封闭，会让 ∅-代数必须包含所有 Vitali 集之类的"病态"集合——而这些集合根本无法给概率。降到"可列"刚好绕开这个坑。</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary>Q5 · 为什么 De Morgan 公式对可列交/并成立？</summary>
+    <p>把有限版本逐步推广：</p>
+    <p>先证明 $(\bigcup_{n=1}^N A_n)^c = \bigcap_{n=1}^N A_n^c$（有限情形归纳）。</p>
+    <p>然后让 $N \to \infty$。两侧都用<strong>单调集合序列的极限性质</strong>：</p>
+    <ul>
+      <li>$B_N = \bigcup_{n=1}^N A_n$ 单调递增，$B_N \uparrow \bigcup_{n=1}^\infty A_n$。</li>
+      <li>$C_N = \bigcap_{n=1}^N A_n^c$ 单调递减，$C_N \downarrow \bigcap_{n=1}^\infty A_n^c$。</li>
+      <li>由 De Morgan，$B_N^c = C_N$。两端求极限 → $(\bigcup A_n)^c = \bigcap A_n^c$。</li>
+    </ul>
+    <p>不可列版本需要选择公理才能严格证明，所以教材一般<strong>不要求</strong>。</p>
+  </details>
+
+  <details>
+    <summary>Q6 · $\bigcup_{x \in [0,1]} \{x\}$ 和 $[0,1]$ 是什么关系？</summary>
+    <p><strong>相等</strong>：$\bigcup_{x \in [0,1]} \{x\} = [0,1]$。</p>
+    <p>这是一个<strong>不可列多个集合的并</strong>，结果是<strong>一个</strong>集合。这是技术上完全合法的运算——只是这种写法一般不操作，因为：</p>
+    <ul>
+      <li>无法用 σ-代数的公理一步步推导出来；</li>
+      <li>概率也无从计算（除非用密度函数积分）。</li>
+    </ul>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>三层：<span class="pill fin">有限</span> <span class="pill cnt">可列</span> <span class="pill unc">不可列</span>。σ-代数只关心到"可列"，因为可列刚好对应概率的"可列可加性"边界。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./05-古典概型.html"><span class="label">← 上一节</span><span class="title">古典概型</span></a>
+    <a href="./02-事件与σ-代数.html" style="text-align:right"><span class="label">回到 →</span><span class="title">事件与 σ-代数</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 06 集合的并与交 · 融合版课件</footer>
+</div>
+</body>
+</html>

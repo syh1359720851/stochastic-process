@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 随机过程的引入 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 01</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html" class="current">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>01 · 随机过程的引入</h1>
+  <p class="lede">前面五讲研究的都是"<strong>某个时刻</strong>的一次观察"——抛一次硬币、量一次温度、摸一次球。但现实里我们关心的往往不是"某一瞬间是多少"，而是"<strong>它随时间怎么变</strong>"：一天里电话打了多少个、微粒飘到了哪里、股价走成了什么形状。把"一族的随机变量"当成一个整体来研究，这就是随机过程。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>随机变量是"一个会变的数"，随机过程是"一条会随机长出来的曲线"</strong>。研究随机过程，就是研究"这族曲线的概率统计规律"。
+  </div>
+
+  <h2>1. 直观含义：为什么"一族"不等于"一堆"</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <p>假设你每隔 1 分钟记录一次机房温度，共记 $n$ 次，得到 $X(t_1),\dots,X(t_n)$。这 $n$ 个随机变量和"独立测 $n$ 个互不相干的房间"有本质区别：</p>
+    <ul>
+      <li><strong>有内在关联</strong>：这一分钟 25.3 ℃，下一分钟几乎不可能是 40 ℃。相邻时刻的读数被"惯性"绑在一起。</li>
+      <li><strong>量的类型不同</strong>：温度是连续量，记的是曲线；如果记的是"每分钟电话呼入次数"，取值只能是 $0,1,2,\dots$，记的是一条"阶梯曲线"。</li>
+      <li><strong>关注的对象不同</strong>：我们不再只问"某一刻的分布是什么"，而是要问<strong>"一族曲线的整体规律"</strong>——平均走势、波动幅度、前后相关性、什么时候会越界。</li>
+    </ul>
+    <p>把时间轴铺开、把"一族随机变量"作为整体来看，研究对象就从"点"升级成了"曲线族"。这就是随机过程理论的全部出发点。</p>
+  </div>
+
+  <p>下面这张图是随机过程最核心的一张图，请务必看懂：<strong>左</strong>是同一过程的多条实现（每一根曲线对应一次"完整实验"，即一个样本点 $\omega$）；<strong>右</strong>把时间钉死在 $t_1$，所有曲线被切出若干个点——这些点凑起来就是<strong>一个普通的随机变量</strong> $X(t_1)$。</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 268" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>随机过程的双重视角：一族样本函数与固定时刻的截面</title>
+      <desc>左侧画出五条样本函数曲线并标出固定时刻 t1 处的五个交点，右侧把这些交点画成一条数轴上的点并配上分布形态，说明固定时刻得到的是一个随机变量。</desc>
+      <line x1="50" y1="215" x2="440" y2="215" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="50" y1="215" x2="50" y2="36" stroke="#57606a" stroke-width="0.8"/>
+      <text x="446" y="220" font-size="12" fill="#57606a">t</text>
+      <text x="34" y="34" font-size="12" fill="#57606a">X(t)</text>
+      <path d="M50,114 C82,114 113,68 145,68 C177,68 208,102 240,102 C272,102 303,153 335,153 C367,153 398,182 430,182" fill="none" stroke="#0969da" stroke-width="1.2"/>
+      <path d="M50,159 C82,159 113,136 145,136 C177,136 208,74 240,74 C272,74 303,97 335,97 C367,97 398,114 430,114" fill="none" stroke="#8250df" stroke-width="1.2"/>
+      <path d="M50,63 C82,63 113,108 145,108 C177,108 208,142 240,142 C272,142 303,80 335,80 C367,80 398,57 430,57" fill="none" stroke="#1a7f37" stroke-width="1.2"/>
+      <path d="M50,193 C82,193 113,165 145,165 C177,165 208,119 240,119 C272,119 303,136 335,136 C367,136 398,91 430,91" fill="none" stroke="#9a6700" stroke-width="1.2"/>
+      <path d="M50,91 C82,91 113,57 145,57 C177,57 208,68 240,68 C272,68 303,74 335,74 C367,74 398,148 430,148" fill="none" stroke="#cf222e" stroke-width="1.2"/>
+      <line x1="240" y1="40" x2="240" y2="215" stroke="#57606a" stroke-width="0.6" stroke-dasharray="4 4"/>
+      <text x="240" y="232" font-size="12" fill="#57606a" text-anchor="middle">t₁（固定）</text>
+      <circle cx="240" cy="102" r="3.5" fill="#0969da"/>
+      <circle cx="240" cy="74" r="3.5" fill="#8250df"/>
+      <circle cx="240" cy="142" r="3.5" fill="#1a7f37"/>
+      <circle cx="240" cy="119" r="3.5" fill="#9a6700"/>
+      <circle cx="240" cy="68" r="3.5" fill="#cf222e"/>
+      <text x="436" y="186" font-size="11" fill="#57606a">ω₁</text>
+      <text x="436" y="118" font-size="11" fill="#57606a">ω₂</text>
+      <text x="436" y="61" font-size="11" fill="#57606a">ω₃</text>
+      <text x="436" y="95" font-size="11" fill="#57606a">ω₄</text>
+      <text x="436" y="152" font-size="11" fill="#57606a">ω₅</text>
+      <text x="240" y="252" font-size="12" fill="#57606a" text-anchor="middle">左：一族样本函数（每个 ω 一条轨道）</text>
+      <line x1="480" y1="40" x2="480" y2="215" stroke="#57606a" stroke-width="0.8"/>
+      <polygon points="480,45 492,45 509,65 535,85 559,105 570,125 559,145 535,165 509,185 492,205 480,205" fill="#ddf4ff" stroke="#0969da" stroke-width="0.8"/>
+      <circle cx="480" cy="102" r="3.5" fill="#0969da"/>
+      <circle cx="480" cy="74" r="3.5" fill="#8250df"/>
+      <circle cx="480" cy="142" r="3.5" fill="#1a7f37"/>
+      <circle cx="480" cy="119" r="3.5" fill="#9a6700"/>
+      <circle cx="480" cy="68" r="3.5" fill="#cf222e"/>
+      <text x="470" y="34" font-size="12" fill="#57606a">X(t₁) 的取值分布</text>
+      <text x="520" y="252" font-size="12" fill="#57606a" text-anchor="middle">右：固定 t₁，X(t₁) 是随机变量</text>
+    </svg>
+  </div>
+
+  <h2>2. 课件里的四个经典背景</h2>
+
+  <div class="callout example">
+    <span class="label">背景 1 · 生物群体</span>
+    <p>设某生物群体第 $n$ 代的个数为 $X(n)$。对固定的 $n$，$X(n)$ 取非负整数值 $0,1,2,\dots$，是一个随机变量；而 $\{X(n),\ n=0,1,2,\dots\}$ 是一族随机变量——一个随机过程。</p>
+    <p><strong>参数集</strong>是离散的（$n=0,1,2,\dots$），<strong>状态空间</strong>也是离散的（$\{0,1,2,\dots\}$）。这类过程在生物数学里叫"分枝过程"，是后面 Markov 链的直接素材。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">背景 2 · 电话呼入（排队论的起点）</span>
+    <p>设 $X(t)$ 表示某电话台在 $[0,t)$ 内收到的用户呼唤次数。对固定的 $t\ge 0$，$X(t)$ 是随机变量，可取任意非负整数；当 $t$ 变化时得到一族随机变量 $\{X(t),\ t\ge 0\}$。</p>
+    <p>这里<strong>参数集连续</strong>（$t\ge 0$）、<strong>状态空间离散</strong>（$0,1,2,\dots$），且 $X(t)$ 随 $t$ 单调不减、只跳跃——这就是<strong>计数过程</strong>，第 10 节（Poisson 过程）的主角。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">背景 3 · 布朗运动</span>
+    <p>悬浮在液体中的微粒因分子随机碰撞而不规则运动。设 $X(t)$ 为 $t$ 时刻微粒位置的横坐标，则 $\{X(t),\ t\ge 0\}$ 是一族随机变量。<strong>参数集与状态空间都连续</strong>，轨道连续但处处不可微——第 12 节（维纳过程）的主角。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">背景 4 · 热噪声</span>
+    <p>电子元件内部电子随机热运动引起的端电压 $X(t)$ 称为<strong>热噪声电压</strong>。对固定 $t$，$X(t)$ 是随机变量；随 $t$ 变化得到随机过程。这是随机过程理论<strong>最早的工程来源之一</strong>（统计物理），也是通信、信号处理里最常见的随机过程模型。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">换个今天能碰到的说法</span>
+    <p>这四个例子离生活其实不远，只是换了名字：</p>
+    <ul>
+      <li><strong>股价 / 汇率</strong>：$S(t)$ 是连续参数、连续状态的随机过程（第 12 节会看到它的第一版模型）。</li>
+      <li><strong>食堂排队人数</strong>：$\{L(t),t\ge0\}$ 连续参数、离散状态——排队论（第 13 / 14 节）。</li>
+      <li><strong>一天内的光伏发电功率</strong>：连续参数、连续状态，还带有明显的日周期——"平稳性"讨论的典型反例。</li>
+      <li><strong>GPU 集群里每秒的请求数</strong>：连续参数、离散状态；服务系统的容量规划就看它的峰值。</li>
+    </ul>
+    <p>凡是"<strong>随时间演变的动态系统 + 随机性</strong>"，都是随机过程的用武之地。</p>
+  </div>
+
+  <h2>3. 随机过程要研究什么？</h2>
+  <div class="callout theorem">
+    <span class="label">四个层次的问题（本讲的路线图）</span>
+    <ol>
+      <li><strong>它是什么？</strong>——把"一族随机变量"写成严格的数学对象（第 02 节定义、第 03 节分类）。</li>
+      <li><strong>它的概率规律怎么描述？</strong>——不能只给"某一时刻的分布"，必须给<strong>所有有限个时刻的联合分布</strong>，即<strong>有限维分布族</strong>（第 04 / 05 节）。</li>
+      <li><strong>怎么用几个数概括它？</strong>——均值函数 $m(t)$、方差函数 $D(t)$、相关函数 $R(s,t)$、协方差函数 $C(s,t)$（第 06 / 07 / 08 节）。</li>
+      <li><strong>有哪些"结构好"的特例？</strong>——独立过程、独立增量过程、正态过程、维纳过程（第 09 ~ 12 节）。</li>
+    </ol>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错点</span>
+    <ul>
+      <li>❌ <strong>把"随机过程"理解成"很多个独立的随机变量"</strong>。恰恰相反，随机过程的全部难度与价值都在于<strong>各时刻不独立、彼此关联</strong>。若各时刻真的独立，那就退化成第 09 节的"独立过程"，几乎没有研究价值。</li>
+      <li>❌ <strong>以为只要知道每个 $t$ 的分布就能定下整个过程</strong>。不行——一维分布相同、二维分布不同的过程太多了（第 04 节会给反例）。</li>
+      <li>❌ <strong>把"参数 $t$"一律当成时间</strong>。$t$ 只是参数集 $T$ 里的一个元素，物理含义可以是时间、空间位置、世代数、频率……"随机函数"这个别名就是提醒这一点。</li>
+      <li>❌ <strong>把"样本函数"当成一个数</strong>。样本函数是<strong>一条完整的曲线</strong>（函数），不是曲线上某点的值。</li>
+    </ul>
+  </div>
+
+  <h2>4. 自检</h2>
+  <details>
+    <summary>Q1 · 为什么说"随机过程是一族随机变量"，而不是"一个随机变量的推广"？</summary>
+    <p>因为它把<strong>整个时间轴</strong>纳入了研究对象。单看某一个 $t$，$X(t)$ 确实是普通随机变量（第 02 节会给出严格定义）；但随机过程的<strong>新信息</strong>在于不同 $t$ 之间的<strong>关联结构</strong>，这只有把"一族"作为整体才能描述。</p>
+  </details>
+  <details>
+    <summary>Q2 · 下面哪些是随机过程？指出参数集与状态空间。(1) 抛 10 次硬币，记录正面累计次数；(2) 某路口一整天每 5 分钟的车流量；(3) 某产品质检的重量。</summary>
+    <p>(1) <strong>是</strong>。参数集 $\{0,1,\dots,10\}$（离散），状态空间 $\{0,1,\dots,10\}$（离散）——二项计数过程，第 09 节例子。<br>
+    (2) <strong>是</strong>。参数集离散（每 5 分钟），状态空间 $\{0,1,2,\dots\}$（离散）。<br>
+    (3) <strong>不是</strong>。只做一次观察，只有一个随机变量，没有"随参数变化"的维度。</p>
+  </details>
+  <details>
+    <summary>Q3 · 电话呼入次数 $X(t)$ 为什么不可能取负值、也不可能在某时刻"下降"？</summary>
+    <p>因为 $X(t)$ 是 $[0,t)$ 内呼入次数的<strong>累计量</strong>，是单调不减的阶梯函数。这提示我们：<strong>"状态空间"和"轨道形态"是两件事</strong>——状态空间只说明"能取哪些值"，单调性、连续性这些属于<strong>轨道的形态性质</strong>，需要通过具体过程的定义去刻画（如第 12 节会证明维纳过程的轨道连续但处处不可微）。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./00-n维随机变量与协方差阵.html"><span class="label">← 上一节</span><span class="title">n 维随机变量与协方差阵</span></a>
+    <a href="./02-随机过程的定义.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机过程的定义</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

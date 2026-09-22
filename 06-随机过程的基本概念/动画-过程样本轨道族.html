@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · 过程样本轨道族与数字特征 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .panel{border:1px solid var(--c-line);border-radius:8px;background:var(--c-card);padding:14px 16px;margin:16px 0}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .tabs button{font:inherit;font-size:14px;padding:6px 14px;border-radius:16px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer}
+  .tabs button.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 20px}
+  .ctrl label{display:flex;justify-content:space-between;font-size:13px;color:var(--c-muted);margin-bottom:2px}
+  .ctrl input[type=range]{width:100%;accent-color:var(--c-primary)}
+  .btns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+  .btns button{font:inherit;font-size:14px;padding:6px 14px;border-radius:8px;border:1px solid var(--c-primary);background:var(--c-primary-bg);color:var(--c-primary);cursor:pointer}
+  #cv{width:100%;height:390px;display:block;border-radius:8px}
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px;font-size:14px}
+  .readout div{background:var(--c-bg);border:1px solid var(--c-line);border-radius:8px;padding:8px 12px}
+  .readout b{color:var(--c-primary);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html" class="current">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 一族样本轨道 ↔ 均值函数 ↔ 均方差带</h1>
+  <p class="lede">这是第 01 节那张"双重视角"图的<strong>可操作版</strong>：画出 $N$ 条样本函数（每个 $\omega$ 一条），叠上红色的均值函数 $m(t)$ 与浅蓝色的 $m(t)\pm\sigma(t)$ 带。<strong>拖滑块、切模式，看三者如何同步变化</strong>；再用光标 $t^*$ 把"理论值"与"从这 $N$ 条轨道统计出来的经验值"当场对照。</p>
+
+  <div class="callout intuition">
+    <span class="label">如何读图</span>
+    <ul>
+      <li><strong>紫细线 = 样本轨道</strong>：每一条对应一个样本点 $\omega$，即"一次完整实验"。它们是随机的、互不相同的。</li>
+      <li><strong>红虚线 = 均值函数 $m(t)=E[X(t)]$</strong>：把 $N$ 条轨道在每个时刻取平均<b>并让 $N$ 变大</b>，就会越来越贴近它——这是大数定律的可视化。</li>
+      <li><strong>浅蓝带 = $m(t)\pm\sigma(t)$</strong>：只画一个标准差宽（约 68% 覆盖）。<strong>注意带子随时间的变化规律</strong>：正弦波是常数宽；二项游动按 $\sqrt{n}$ 张开；维纳过程按 $\sqrt{t}$ 张开（比线性慢）。</li>
+      <li><strong>橙色竖线 = 光标 $t^*$</strong>：右下方实时显示该时刻的<strong>理论</strong> $m(t^*),D(t^*)$ 与<strong>经验</strong>均值/方差，是否接近就看你把 $N$ 调到多大。</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <div class="tabs" id="tabs">
+      <button data-mode="sine" class="active">随机相位正弦波</button>
+      <button data-mode="binom">二项随机游动（计数过程）</button>
+      <button data-mode="wiener">维纳过程（布朗运动）</button>
+    </div>
+
+    <div class="ctrls">
+      <div class="ctrl">
+        <label><span>轨道条数 N</span><span id="vN">12</span></label>
+        <input type="range" id="sN" min="1" max="60" step="1" value="12">
+      </div>
+      <div class="ctrl">
+        <label><span>光标位置 t*</span><span id="vT">50%</span></label>
+        <input type="range" id="sT" min="0" max="100" step="1" value="50">
+      </div>
+      <div class="ctrl" id="wrapP1">
+        <label><span id="lP1">相位斜率 b</span><span id="vP1">1.0</span></label>
+        <input type="range" id="sP1" min="50" max="300" step="5" value="100">
+      </div>
+      <div class="ctrl" id="wrapP2">
+        <label><span id="lP2">正面概率 p</span><span id="vP2">0.50</span></label>
+        <input type="range" id="sP2" min="10" max="90" step="1" value="50">
+      </div>
+    </div>
+
+    <div class="btns">
+      <button id="resample">重新采样</button>
+      <button id="toggleBand">显示 / 隐藏 ±σ 带</button>
+    </div>
+
+    <canvas id="cv" style="margin-top:12px"></canvas>
+
+    <div class="readout" id="readout"></div>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">三种模式对应的理论公式</span>
+    <table>
+      <tr><th>模式</th><th>均值函数 $m(t)$</th><th>方差函数 $D(t)$</th><th>相关/协方差</th></tr>
+      <tr><td>随机相位正弦波 $X(t)=a\cos(bt+\Theta)$，$a=1$</td><td>$0$</td><td>$a^2/2=0.5$（常数）</td><td>$C(s,t)=\frac{a^2}{2}\cos b(s-t)$</td></tr>
+      <tr><td>二项计数过程 $Y(n)\sim B(n,p)$</td><td>$np$</td><td>$npq$</td><td>$C(m,n)=pq\min(m,n)$</td></tr>
+      <tr><td>维纳过程 $W(t)\sim N(0,\sigma^2t)$</td><td>$0$</td><td>$\sigma^2t$</td><td>$C(s,t)=\sigma^2\min(s,t)$</td></tr>
+    </table>
+    <p><strong>把三行的 $D(t)$ 并排看</strong>：常数、线性、线性——而 $\sigma(t)=\sqrt{D(t)}$ 分别是<strong>常数</strong>、$\sqrt{n}$ 型、$\sqrt{t}$ 型。<strong>"方差关于时间是几阶"直接决定了过程的"不确定性能涨多快"。</strong></p>
+  </div>
+
+  <h2>动手建议（三组实验）</h2>
+  <ol>
+    <li><strong>验证"均值函数不是任何一条轨道"</strong>：选正弦波，把 $N$ 拉到 60。红虚线 $m(t)=0$ 恒定，但<strong>每条紫轨道都在上下摆动</strong>——没有任何一条等于 $m(t)$。</li>
+    <li><strong>观察"$\sqrt{t}$ vs $t$"</strong>：先在二项游动里把 $n$ 拉到最大，看带子按 $\sqrt n$ 张开；再切到维纳过程，看带子按 $\sqrt t$ 张开。<strong>两者的"张开速度"都明显慢于线性</strong>——如果带子是直线张开（线性），那就不是"无记忆累积"，而是"斜率随机"型过程（如 $X_0+Vt$）。</li>
+    <li><strong>大数定律的现场示范</strong>：把 $t^*$ 固定在 70%，$N$ 从 3 一路拉到 60，观察右下角的"经验均值"逐渐逼近理论 $m(t^*)$、而"经验方差"逐渐逼近 $D(t^*)$。<strong>注意收敛速度不快</strong>——因为样本方差本身的波动与 $\sqrt{N}$ 成反比，这是统计推断里"要多少样本才够"的直观来源。</li>
+  </ol>
+
+  <div class="callout warn">
+    <span class="label">看动画时最容易产生的两个误解</span>
+    <ul>
+      <li>❌ <strong>"带子里应该包含所有轨道"</strong>。$\pm\sigma$ 只覆盖约 68% 的概率，$N$ 一大就必然有轨道跑到带外。想要覆盖 95% 得画 $\pm2\sigma$；<strong>带子窄不等于过程"不会出格"</strong>。</li>
+      <li>❌ <strong>"轨道多了，带子应该变窄"</strong>。带子画的是<strong>理论</strong> $\pm\sigma(t)$，与 $N$ 无关。$N$ 只影响"经验统计量离理论值有多近"（右下角的读数），不影响带子本身。<strong>这是"重复实验"与"过程的随机性"两件事——前者随 $N$ 收敛，后者不随 $N$ 变。</strong></li>
+    </ul>
+  </div>
+
+  <div class="pager">
+    <a href="./12-维纳过程.html"><span class="label">← 上一节</span><span class="title">维纳过程（布朗运动）</span></a>
+    <a href="./自测.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">本讲自测</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+
+<script>
+(function(){
+var cvs=document.getElementById('cv'), ctx=cvs.getContext('2d');
+var MAXN=60, M=400, STEP=60;
+
+var state={mode:'sine',N:12,tstar:0.5,b:1.0,p:0.5,band:true,seed:20260922};
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+var rnd=mulberry32(state.seed);
+
+function normals(n){var out=[],i,u1,u2,r;
+  for(i=0;i<n;i++){u1=Math.max(rnd(),1e-12);u2=rnd();r=Math.sqrt(-2*Math.log(u1));
+    out.push(r*Math.cos(2*Math.PI*u2)); if(out.length<n){out.push(r*Math.sin(2*Math.PI*u2));}}
+  return out.slice(0,n);}
+
+var DATA={sine:[], binom:[], wiener:[]};
+
+function build(){
+  var i,k,acc,cum;
+  // sine: 每个样本点一个相位
+  DATA.sine=[];
+  for(i=0;i<MAXN;i++) DATA.sine.push(rnd()*2*Math.PI);
+  // binom: 每个样本点一条 0/1 增量序列
+  DATA.binom=[];
+  for(i=0;i<MAXN;i++){var us=[];for(k=0;k<STEP;k++)us.push(rnd());DATA.binom.push(us);}
+  // wiener: 每个样本点一条 N(0,1/M) 增量序列 + 累积和
+  DATA.wiener=[];
+  for(i=0;i<MAXN;i++){
+    var inc=normals(M),scale=Math.sqrt(1/M),cs=[0];
+    acc=0;
+    for(k=0;k<M;k++){acc+=inc[k]*scale;cs.push(acc);}
+    DATA.wiener.push(cs);
+  }
+}
+
+function theme(){var s=getComputedStyle(document.documentElement);
+  function g(n){return s.getPropertyValue(n).trim();}
+  return {fg:g('--c-fg'),muted:g('--c-muted'),line:g('--c-line'),card:g('--c-card'),
+          primary:g('--c-primary'),primaryBg:g('--c-primary-bg'),accent:g('--c-accent'),
+          theorem:g('--c-theorem'),warn:g('--c-warn'),danger:g('--c-danger'),bg:g('--c-bg')};}
+
+function fitCanvas(){
+  var r=cvs.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  cvs.width=Math.round(r.width*dpr); cvs.height=Math.round(r.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {W:r.width,H:r.height};
+}
+
+function draw(){
+  var T=theme(), dim=fitCanvas(), W=dim.W, H=dim.H;
+  var pl=56, pr=18, pt=26, pb=42;
+  var pw=W-pl-pr, ph=H-pt-pb;
+  ctx.clearRect(0,0,W,H);
+
+  var mode=state.mode, N=state.N, xs=[],paths=[],mu=[],sd=[],t,i,k;
+
+  if(mode==='sine'){
+    var nSeg=240, Tmax=4*Math.PI;
+    for(i=0;i<=nSeg;i++)xs.push(Tmax*i/nSeg);
+    for(i=0;i<N;i++){var pv=[];for(k=0;k<xs.length;k++)pv.push(Math.cos(state.b*xs[k]+DATA.sine[i]));paths.push(pv);}
+    for(k=0;k<xs.length;k++){mu.push(0);sd.push(Math.SQRT1_2);}
+  } else if(mode==='binom'){
+    for(i=0;i<=STEP;i++)xs.push(i);
+    for(i=0;i<N;i++){var pv2=[0],c=0;for(k=0;k<STEP;k++){if(DATA.binom[i][k]<state.p)c++;pv2.push(c);}paths.push(pv2);}
+    for(k=0;k<xs.length;k++){mu.push(state.p*xs[k]);sd.push(Math.sqrt(state.p*(1-state.p)*Math.max(xs[k],0)));}
+  } else {
+    for(i=0;i<=M;i++)xs.push(i/M);
+    for(i=0;i<N;i++)paths.push(DATA.wiener[i].map(function(v){return v;}));
+    for(k=0;k<xs.length;k++){mu.push(0);sd.push(Math.sqrt(Math.max(xs[k],0)));}
+  }
+
+  // y 范围
+  var yMin=Infinity,yMax=-Infinity;
+  for(k=0;k<xs.length;k++){
+    yMin=Math.min(yMin,mu[k]-sd[k]); yMax=Math.max(yMax,mu[k]+sd[k]);
+  }
+  for(i=0;i<paths.length;i++)for(k=0;k<xs.length;k++){
+    yMin=Math.min(yMin,paths[i][k]); yMax=Math.max(yMax,paths[i][k]);
+  }
+  if(!isFinite(yMin)){yMin=-1;yMax=1;}
+  var span=(yMax-yMin)||1; yMin-=span*0.08; yMax+=span*0.08;
+  var Tmax2=xs[xs.length-1];
+
+  function X(t){return pl+(t/Tmax2)*pw;}
+  function Y(v){return pt+ph-((v-yMin)/(yMax-yMin))*ph;}
+
+  // 网格与坐标轴
+  ctx.strokeStyle=T.line; ctx.lineWidth=0.5;
+  for(i=0;i<=4;i++){var yy=pt+ph*i/4;ctx.beginPath();ctx.moveTo(pl,yy);ctx.lineTo(pl+pw,yy);ctx.stroke();}
+  var ticks,labels;
+  if(mode==='binom'){
+    ticks=[0,10,20,30,40,50,60]; labels=['0','10','20','30','40','50','60'];
+  } else if(mode==='sine'){
+    ticks=[0,Math.PI,2*Math.PI,3*Math.PI,4*Math.PI]; labels=['0','π','2π','3π','4π'];
+  } else {
+    ticks=[0,0.25,0.5,0.75,1]; labels=['0','0.25','0.5','0.75','1'];
+  }
+  ctx.strokeStyle=T.muted; ctx.lineWidth=0.5;
+  for(i=0;i<ticks.length;i++){var xx=X(ticks[i]);
+    ctx.beginPath();ctx.moveTo(xx,pt);ctx.lineTo(xx,pt+ph);ctx.stroke();}
+  // 坐标轴
+  ctx.strokeStyle=T.fg; ctx.lineWidth=0.8;
+  var y0=Math.min(Math.max(Y(0),pt),pt+ph);
+  ctx.beginPath();ctx.moveTo(pl,y0);ctx.lineTo(pl+pw,y0);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pl,pt);ctx.lineTo(pl,pt+ph);ctx.stroke();
+
+  // y 轴刻度值
+  ctx.fillStyle=T.muted; ctx.font='11px -apple-system,Segoe UI,sans-serif';
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(i=0;i<=4;i++){var vv=yMin+(yMax-yMin)*(1-i/4);ctx.fillText(vv.toFixed(1),pl-6,pt+ph*i/4);}
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  for(i=0;i<ticks.length;i++)ctx.fillText(labels[i],X(ticks[i]),pt+ph+8);
+  ctx.textAlign='left'; ctx.fillText(mode==='binom'?'n':'t',pl+pw+4,pt+ph+8);
+  ctx.save(); ctx.translate(14,pt-8); ctx.textAlign='left'; ctx.fillText('X',0,0); ctx.restore();
+
+  // ±σ 带
+  if(state.band){
+    ctx.beginPath();
+    ctx.moveTo(X(xs[0]),Y(mu[0]+sd[0]));
+    for(k=1;k<xs.length;k++)ctx.lineTo(X(xs[k]),Y(mu[k]+sd[k]));
+    for(k=xs.length-1;k>=0;k--)ctx.lineTo(X(xs[k]),Y(mu[k]-sd[k]));
+    ctx.closePath();
+    ctx.fillStyle=T.primaryBg; ctx.globalAlpha=0.9; ctx.fill(); ctx.globalAlpha=1;
+    ctx.strokeStyle=T.primary; ctx.lineWidth=0.5; ctx.stroke();
+  }
+
+  // 样本轨道
+  ctx.lineWidth=1; ctx.strokeStyle=T.theorem; ctx.globalAlpha=0.75;
+  for(i=0;i<paths.length;i++){
+    ctx.beginPath();
+    for(k=0;k<xs.length;k++){var px=X(xs[k]),py=Y(paths[i][k]);k?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  // 均值函数
+  ctx.strokeStyle=T.danger; ctx.lineWidth=1.8; ctx.setLineDash([7,5]);
+  ctx.beginPath();
+  for(k=0;k<xs.length;k++){var mx=X(xs[k]),my=Y(mu[k]);k?ctx.lineTo(mx,my):ctx.moveTo(mx,my);}
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // 光标
+  var ts=state.tstar*Tmax2, cx=X(ts);
+  ctx.strokeStyle=T.warn; ctx.lineWidth=1.2; ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(cx,pt);ctx.lineTo(cx,pt+ph);ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=T.warn;
+  var dm=mu[Math.min(Math.round(ts/(Tmax2/xs.length)),xs.length-1)];
+  ctx.beginPath();ctx.arc(cx,Y(dm),4,0,2*Math.PI);ctx.fill();
+
+  // 图例
+  ctx.font='12px -apple-system,Segoe UI,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  var lx=pl+8, ly=pt+10;
+  ctx.fillStyle=T.theorem; ctx.fillRect(lx,ly-1,18,2.4);
+  ctx.fillStyle=T.muted; ctx.fillText('样本轨道',lx+24,ly);
+  ctx.fillStyle=T.danger; ctx.fillRect(lx+108,ly-1,18,2.4);
+  ctx.fillStyle=T.muted; ctx.fillText('均值函数 m(t)',lx+132,ly);
+  ctx.fillStyle=T.primaryBg; ctx.strokeStyle=T.primary; ctx.lineWidth=0.5;
+  ctx.fillRect(lx+248,ly-6,18,12); ctx.strokeRect(lx+248,ly-6,18,12);
+  ctx.fillStyle=T.muted; ctx.fillText('m(t) ± σ(t) 带',lx+272,ly);
+
+  updateReadout(xs,paths,ts,Tmax2);
+}
+
+function pickIdx(xs,ts){var Tmax=xs[xs.length-1],r=ts/Tmax*(xs.length-1);return Math.max(0,Math.min(xs.length-1,Math.round(r)));}
+
+function updateReadout(xs,paths,ts,Tmax){
+  var idx=pickIdx(xs,ts), vals=[], i;
+  for(i=0;i<paths.length;i++)vals.push(paths[i][idx]);
+  var n=vals.length, m=0, v=0;
+  for(i=0;i<n;i++)m+=vals[i]; m/=n;
+  for(i=0;i<n;i++)v+=(vals[i]-m)*(vals[i]-m); v = n>1 ? v/(n-1) : 0;
+
+  var mm,dd,unit;
+  if(state.mode==='sine'){mm=0; dd=0.5; unit='';}
+  else if(state.mode==='binom'){mm=state.p*ts; dd=state.p*(1-state.p)*ts; unit='';}
+  else {mm=0; dd=ts; unit='';}
+
+  var tlab = state.mode==='sine' ? ts.toFixed(2)+' rad' : (state.mode==='binom' ? ts.toFixed(1)+' 步' : ts.toFixed(3));
+  document.getElementById('readout').innerHTML=
+    '<div>光标 $t^*$ = <b>'+tlab+'</b>，共 <b>'+n+'</b> 条轨道</div>'+
+    '<div>理论均值 $m(t^*)$ = <b>'+mm.toFixed(4)+'</b></div>'+
+    '<div>经验均值 = <b>'+m.toFixed(4)+'</b></div>'+
+    '<div>理论方差 $D(t^*)$ = <b>'+dd.toFixed(4)+'</b></div>'+
+    '<div>经验方差 = <b>'+v.toFixed(4)+'</b></div>'+
+    '<div>理论 $\sigma(t^*)$ = <b>'+Math.sqrt(dd).toFixed(4)+'</b></div>';
+  if(window.renderMathInElement){try{renderMathInElement(document.getElementById('readout'),{delimiters:[{left:'$',right:'$',display:false}],throwOnError:false});}catch(e){}}
+}
+
+function syncControls(){
+  var m=state.mode;
+  document.getElementById('vN').textContent=state.N;
+  document.getElementById('vT').textContent=Math.round(state.tstar*100)+'%';
+  document.getElementById('wrapP1').style.display = (m==='sine')?'':'none';
+  document.getElementById('wrapP2').style.display = (m==='binom')?'':'none';
+  document.getElementById('lP1').textContent='相位斜率 b';
+  document.getElementById('vP1').textContent=state.b.toFixed(1);
+  document.getElementById('lP2').textContent='正面概率 p';
+  document.getElementById('vP2').textContent=state.p.toFixed(2);
+  var tabs=document.querySelectorAll('#tabs button');
+  for(var i=0;i<tabs.length;i++)tabs[i].className = (tabs[i].getAttribute('data-mode')===m)?'active':'';
+}
+
+function bind(){
+  var tabs=document.querySelectorAll('#tabs button');
+  for(var i=0;i<tabs.length;i++)tabs[i].addEventListener('click',function(){
+    state.mode=this.getAttribute('data-mode'); syncControls(); draw();});
+  document.getElementById('sN').addEventListener('input',function(){state.N=+this.value;syncControls();draw();});
+  document.getElementById('sT').addEventListener('input',function(){state.tstar=+this.value/100;syncControls();draw();});
+  document.getElementById('sP1').addEventListener('input',function(){state.b=+this.value/100;syncControls();draw();});
+  document.getElementById('sP2').addEventListener('input',function(){state.p=+this.value/100;syncControls();draw();});
+  document.getElementById('resample').addEventListener('click',function(){
+    state.seed=(state.seed*1664525+1013904223)%4294967296; rnd=mulberry32(state.seed); build(); draw();});
+  document.getElementById('toggleBand').addEventListener('click',function(){state.band=!state.band;draw();});
+  window.addEventListener('resize',function(){draw();});
+}
+
+build(); syncControls(); bind(); draw();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){draw();});
+})();
+</script>
+</body>
+</html>

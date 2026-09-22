@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08 Wald 方程 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 08</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html" class="current">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>08 · Wald 方程</h1>
+  <p class="lede">"<strong>随机个随机变量之和</strong>"的期望——Wald 方程（Wald's Equation）是处理这类问题的核心工具，由统计学家 Abraham Wald（1940）提出。它在现代 AI/ML 中有惊喜般的应用：从 LLM 的 Perplexity 到 GAN 的损失估计。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    Wald 方程：$E\!\left(\sum_{i=1}^N X_i\right)=E(N)\cdot E(X)$——"<strong>和的期望 = 个数的期望 × 单个的期望</strong>"，前提是 $X_i$ i.i.d. 且与停止时间 $N$ 独立。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>"随机个"是什么意思？</strong> 例：抛硬币直到正面出现为止，总抛次数 $N$ 是随机的（服从几何分布）；把每次正面出现的"奖金额"记为 $X_i$，则总奖金 $S=\sum_{i=1}^N X_i$ 是"<strong>随机个随机变量之和</strong>"。</li>
+      <li><strong>朴素的猜想</strong>：$E(S)=E(N)\cdot E(X)$——这就是 Wald 方程。</li>
+      <li><strong>为什么对？</strong> $X_i$ 独立同分布，且与 $N$ 独立（$N$ 只取决于"是否停止"，不影响 $X_i$ 的分布）。用全期望公式：$E(S\mid N)=N\cdot E(X)$，再取期望得 $E(S)=E(N)E(X)$。</li>
+      <li><strong>什么时候不对？</strong> 如果 $X_i$ 与 $N$ 不独立（例如看到正面的"奖金额"取决于 $N$），则公式失效。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 抓娃娃</span>
+    <p>夹娃娃机每次花费 1 元，$p=0.1$ 抓中一个（价值 $v$ 元）。你一直玩直到抓中为止。</p>
+    <ul>
+      <li>$N$ = 抓到娃娃所需的次数（$N\sim G(p)$），$E(N)=1/p=10$。</li>
+      <li>$X_i$ = 第 $i$ 次抓中得到的奖金，$E(X_i)=v$（独立同分布）。</li>
+      <li>总奖金 $S=\sum_{i=1}^N X_i$，$E(S)=10v$。</li>
+      <li>实际花费 $10$ 元，期望净收益 $=10v-10$——若 $v&gt;1$ 就赚钱。</li>
+    </ul>
+  </div>
+
+  <h2>2. 严格陈述</h2>
+
+  <div class="callout theorem">
+    <span class="label">定理 · Wald 方程（Wald's Equation）</span>
+    <p>设 $X_1,X_2,\ldots$ i.i.d.，$E(|X_i|)&lt;\infty$。$N$ 为取值于正整数的随机变量，与 $\{X_i\}$ 独立，$E(N)&lt;\infty$。则</p>
+    $$E\!\left(\sum_{i=1}^{N}X_i\right)=E(N)\cdot E(X_1)$$
+    <p>更一般的版本不要求 $N$ 与 $X_i$ 独立，但要求 $\{X_i\}$ 构成 "<strong>鞅差序列</strong>" 且 $N$ 是"停止时间"——本课程用上述独立版本即可。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">证明 · 用全期望</span>
+    <p>由全期望公式：</p>
+    $$E\!\left(\sum_{i=1}^{N}X_i\right)=E\!\left[E\!\left(\sum_{i=1}^{N}X_i\Bigm|N\right)\right]$$
+    <p>条件 $N$ 下，$\sum_{i=1}^N X_i$ 的和是 $N$ 项独立的 $X_i$ 之和（$X_i$ 与 $N$ 独立），所以</p>
+    $$E\!\left(\sum_{i=1}^{N}X_i\Bigm|N\right)=\sum_{i=1}^{N}E(X_i)=N\cdot E(X_1)$$
+    <p>取期望：$E(N\cdot E(X_1))=E(N)E(X_1)$。</p>
+  </div>
+
+  <h2>3. Wald 方程的方差版本</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · Wald 方程（方差版）</span>
+    <p>同样条件下，若 $D(X_i)&lt;\infty$，则</p>
+    $$D\!\left(\sum_{i=1}^{N}X_i\right)=E(N)\cdot D(X_1)+[E(X_1)]^2\cdot D(N)$$
+    <p>注意不是简单的 $E(N)\cdot D(X_1)$——<strong>多了一项</strong>，因为 $N$ 本身有波动，<br/>$N\cdot E(X)$ 的方差还要把 $N$ 的方差算进去。</p>
+  </div>
+
+  <h2>4. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · 几何分布的两种"诱导"求法（错用示范）</span>
+    <p>设 $X\sim G(p)$（独立重复 Bernoulli$(p)$ 试验中<strong>首次成功</strong>的试验次数，$X\in\{1,2,3,\ldots\}$，$E(X)=1/p$）。下面两种把 Wald 方程套到 $X$ 上的尝试，<strong>都不算成功</strong>，值得记一下。</p>
+
+    <p><strong>❌ 尝试 A · 把 $X$ 写成"无限指示和"</strong></p>
+    <p>一种直观写法：每次试验"是否失败"用</p>
+    $$Y_i=\mathbf{1}_{\{\text{第 } i \text{ 次试验失败}\}}$$
+    <p>指示。那么"<strong>首次成功之前</strong>的失败总数"是</p>
+    $$X-1=\sum_{i=1}^{\infty}Y_i,\qquad \text{其中 }i>X\text{ 时 }Y_i\equiv 0$$
+    <p>如果机械地"<strong>把期望搬进求和</strong>"：</p>
+    $$E(X-1)\;\overset{\text{错}}{=}\;\sum_{i=1}^{\infty}E(Y_i)=\sum_{i=1}^{\infty}(1-p)=\infty$$
+    <p>但 $E(X)=1/p$ 是<strong>有限</strong>的，矛盾。<strong>错在哪？</strong>——$Y_1,Y_2,\ldots$ <strong>并不 i.i.d.</strong>：它们是 stopping time $X$ 控制的（一旦首次成功，剩下的 $Y_i$ 都恒为 0）。这<strong>不满足 Wald 方程的 i.i.d. 条件</strong>，所以"交换 $E$ 与 $\sum$"这一步<strong>不合法</strong>。</p>
+
+    <p><strong>❌ 尝试 B · 把 $N$ 取成 $X$ 自己</strong></p>
+    <p>取随机停止时间 $N=X$，令 $X_i\equiv 1$（常数）。则恒等式</p>
+    $$X=\sum_{i=1}^{N}X_i=\sum_{i=1}^{X}1=X$$
+    <p>技术上 Wald 方程可用：$E\!\left(\sum_{i=1}^{N}X_i\right)=E(N)\cdot E(X_i)=\dfrac{1}{p}\cdot 1=\dfrac{1}{p}=E(X)$。<strong>但只是恒等式</strong>，没有推出任何新信息。</p>
+
+    <div style="background:var(--c-warn-bg);border-left:4px solid var(--c-warn);border-radius:8px;padding:12px 16px;margin-top:12px">
+      <strong>⚠️ 小结</strong><br/>
+      Wald 方程的"<strong>威力</strong>"来自 <strong>$N$ 与 $\{X_i\}$ 独立</strong>。一旦 $N$ 本身就是 $\{X_i\}$ 的函数（比如 $N=X$，或"首次成功时的试验次数"），公式要么<strong>不适用</strong>（尝试 A：i.i.d. 条件被打破），要么<strong>沦为恒等式</strong>（尝试 B）。真正"用上 Wald"的场景，$N$ 必须是<strong>外部的、与 $X_i$ 无关</strong>的随机变量——比如下一节例 3 的复合 Poisson，$N\sim P(\lambda)$（一年地震次数）与 $X_i$（每次震级）互相独立。
+    </div>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · 抓娃娃（续）</span>
+    <p>$N\sim G(p)$，$X_i$ i.i.d.，$X_i$ 与 $N$ 独立。$E(\sum X_i)=E(N)E(X)=10v$。</p>
+    <p>$D(\sum X_i)=E(N)D(X)+[E(X)]^2 D(N)=10\cdot\sigma^2+v^2\cdot\tfrac{1-p}{p^2}$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · 复合 Poisson</span>
+    <p>$N\sim P(\lambda)$（一年地震次数），$X_i$ i.i.d.（每次震级）。</p>
+    <p>$S=\sum_{i=1}^N X_i$（总能量）。$E(S)=E(N)E(X)=\lambda E(X)$。</p>
+    <p>$D(S)=\lambda E(X^2)$（复合 Poisson 方差公式）—— Wald 方差版的特例。</p>
+  </div>
+
+  <h2>5. AI/ML 应用 · LLM 的 Perplexity</h2>
+  <div class="callout intuition">
+    <span class="label">AI 应用 · LLM Perplexity</span>
+    <p>语言模型的<strong>困惑度</strong>（Perplexity）定义为</p>
+    $$\text{PPL}=\exp\!\left(-\frac{1}{N}\sum_{i=1}^{N}\log p_i\right)$$
+    <p>其中 $p_i=P(\text{token}_i\mid\text{前文})$ 是模型预测的真实 token 的概率。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">用 Wald 视角理解</span>
+    <p>设 $X_i=-\log p_i$（每个 token 的"信息量"），$\bar X_N=\tfrac{1}{N}\sum X_i$ 是平均信息量。</p>
+    <p>由 <strong>大数定律</strong>，$\bar X_N\to E(X)$ a.s.——这就是模型在长文上"平均每个 token 的信息量"。</p>
+    <p>$\text{PPL}=e^{\bar X_N}$ 是把"平均信息量"翻成"等效分叉数"：PPL=10 意味着模型在每步等效于"在 10 个选项中等概率猜"。</p>
+    <p>Wald 方程告诉我们：若序列长度 $N$ 是<strong>随机的</strong>（如生成到 `max_tokens` 提前终止），$E(\text{PPL})$ 仍然是有限的——只要 $E(X_i)$ 存在。</p>
+  </div>
+
+  <h2>6. AI/ML 应用 · GAN 与强化学习</h2>
+  <div class="callout intuition">
+    <span class="label">AI 应用 · GAN 损失</span>
+    <p>GAN 中每 epoch / batch 的损失</p>
+    $$L=\frac{1}{N}\sum_{i=1}^{N}\ell(x_i)$$
+    <p>其中 $N$=batch size（确定）或随机。如果 batch 是随机采样（$N$ 随机，与 $x_i$ 独立），则 $E(L)=E(\ell)$——直接由 Wald 方程。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">AI 应用 · 强化学习 episode</span>
+    <p>一个 episode 持续 $N$ 步，每步奖励 $R_i$。总回报 $G=\sum_{i=1}^N R_i$。</p>
+    <p>如果 $R_i$ i.i.d. 且 $N$ 与 $R_i$ 独立（合理的 Markov 假设下不一定成立），$E(G)=E(N)E(R)$。</p>
+    <p>实际 RL 中，$R_i$ 之间往往<strong>不独立</strong>（状态相关），所以更一般的 Wald 方程需要"鞅差"条件。</p>
+  </div>
+
+  <h2>7. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">五个常见错误</span>
+    <ul>
+      <li>❌ "$\sum X_i$ 期望等于 $E(N)\cdot E(X)$"——错的！这是恒等式（不需要 Wald）。Wald 方程说的是"$\sum_{i=1}^N X_i$"——<strong>$N$ 在求和上限里</strong>。</li>
+      <li>❌ 忘了独立性要求——如果 $X_i$ 与 $N$ 不独立，公式失效。</li>
+      <li>❌ 要求 $E(|X|)&lt;\infty$——有些重尾分布（如 Cauchy）下，Wald 方程不成立。</li>
+      <li>❌ 方差版写成 $E(N)D(X)$——少了 $[E(X)]^2 D(N)$ 项！</li>
+      <li>❌ 把 $N$ 替换为确定常数 $n$——退化情形就是 $E(\sum_{i=1}^n X_i)=nE(X)$，Wald 方程的特例。</li>
+    </ul>
+  </div>
+
+  <h2>8. 自检</h2>
+  <details>
+    <summary>Q1 · $N\sim G(p)$，$X_i$ i.i.d.，$X_i$ 与 $N$ 独立。$E(\sum X_i)$ 是？</summary>
+    <p>$E(N)\cdot E(X)=\tfrac{1}{p}\cdot E(X)$。</p>
+  </details>
+  <details>
+    <summary>Q2 · $N\sim P(\lambda)$，$X_i\equiv 1$（常数）。$D(\sum X_i)=$?</summary>
+    <p>$D(N)\cdot 1^2 + E(N)\cdot 0^2=\lambda$。Wald 方差版：$E(N)\cdot D(X)+[E(X)]^2 D(N)=\lambda\cdot 0+\lambda=\lambda$。</p>
+  </details>
+  <details>
+    <summary>Q3 · LLM 的 PPL 公式里 $-\tfrac{1}{N}\sum\log p_i$ 怎么理解？</summary>
+    <p>$-\log p_i$ 是"模型在该位置上的惊讶度"（自信息）。平均 = Wald 视角下"平均信息量"。指数化 = 等效分叉数。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./07-条件期望与全期望公式.html"><span class="label">← 上一节</span><span class="title">条件期望与全期望公式</span></a>
+    <a href="./09-特征函数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">特征函数</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

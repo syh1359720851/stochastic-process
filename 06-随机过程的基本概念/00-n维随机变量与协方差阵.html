@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00 n 维随机变量与协方差阵（前置）| 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 00</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html" class="current">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>00 · n 维随机变量与协方差阵（前置准备）</h1>
+  <p class="lede">随机过程的定义里藏着一句话："对每个 $t$，$X(t)$ 是随机变量"；而"随机过程的 $n$ 维分布"这个词组，本质就是在问 $(X(t_1),\dots,X(t_n))$ 这个 <strong>$n$ 维随机变量</strong>服从什么分布。所以先把 $n$ 维随机变量、协方差矩阵、$n$ 维正态这三样工具备齐，后面每一页都会轻松很多。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>把 $n$ 个随机变量打包成一个"随机向量"，一元的一切概念都平移到向量版本</strong>：分布函数变"联合分布函数"，方差变"协方差矩阵"，正态变"$n$ 维正态"。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li>一个随机变量 $X$ 是"一个会随机取值的数"；<strong>$n$ 维随机变量 $\boldsymbol X=(X_1,\dots,X_n)$ 就是"$n$ 个会随机取值的数凑成的一支箭头"</strong>。</li>
+      <li>它的分布不再是"一条曲线"，而是 $\mathbb R^n$ 上的一团<strong>概率云</strong>。$n=2$ 时你还能把它画成平面上的等高线；$n\ge 3$ 时只能靠数字刻画。</li>
+      <li>关键新增概念是 <strong>协方差矩阵</strong>：它把"每个分量各自的散布"和"分量之间的联动"一起装进一个方阵。随机过程的相关函数 $R(s,t)$ 正是"无穷维版本"的协方差矩阵。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">现实例子 · 一栋楼里的三个传感器</span>
+    <p>某机房放 3 个温度传感器，同一时刻读数 $(X_1,X_2,X_3)$ 就是一个 3 维随机变量。空调出风口附近的两个（$X_1,X_2$）读数高度同步——它们协方差大；角落那个 $X_3$ 几乎独立——它和谁协方差都接近 0。<strong>协方差矩阵的对角线是"各自多吵"，非对角线是"谁跟着谁一起动"</strong>。随机过程只是把"3 个传感器"换成"同一个传感器在 $n$ 个时刻的读数"。</p>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 $n$ 维随机变量与联合分布函数</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 维随机变量与联合分布函数</span>
+    <p>设 $X_1,\dots,X_n$ 是定义在同一概率空间 $(\Omega,\mathcal F,P)$ 上的随机变量，称 $\boldsymbol X=(X_1,\dots,X_n)$ 为 <strong>$n$ 维随机变量</strong>（随机向量）。称</p>
+    $$F(x_1,\dots,x_n)=P\{X_1&lt;x_1,\ X_2&lt;x_2,\ \dots,\ X_n&lt;x_n\},\qquad x_k\in\mathbb R$$
+    <p>为 $\boldsymbol X$ 的 <strong>联合分布函数</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 · 联合分布函数的四条基本性质</span>
+    <ol>
+      <li><strong>对每个变量单调不减</strong>：$x_k$ 增大时 $F$ 不减。</li>
+      <li><strong>对每个变量右连续</strong>：$F(\dots,x_k+0,\dots)=F(\dots,x_k,\dots)$。</li>
+      <li><strong>归一</strong>：$F(+\infty,\dots,+\infty)=1$，且只要有一个变量取 $-\infty$ 则 $F=0$。</li>
+      <li><strong>$n$ 维矩形增量非负</strong>：对任意 $a_k&lt;b_k$，
+      $$\sum_{\varepsilon_1,\dots,\varepsilon_n\in\{0,1\}}(-1)^{n-\sum\varepsilon_k}F\bigl(a_1+\varepsilon_1(b_1-a_1),\dots,a_n+\varepsilon_n(b_n-a_n)\bigr)\ \ge\ 0$$
+      这正是二维情形 $F(b_1,b_2)-F(a_1,b_2)-F(b_1,a_2)+F(a_1,a_2)\ge 0$ 的推广。</li>
+    </ol>
+  </div>
+
+  <h3>2.2 $n$ 维概率密度</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 维概率密度</span>
+    <p>若存在非负可积函数 $f(x_1,\dots,x_n)$ 使得对一切 $x_k$ 有</p>
+    $$F(x_1,\dots,x_n)=\int_{-\infty}^{x_1}\!\!\cdots\int_{-\infty}^{x_n} f(u_1,\dots,u_n)\,du_n\cdots du_1$$
+    <p>则称 $f$ 为 $\boldsymbol X$ 的 <strong>$n$ 维概率密度</strong>。此时 $f=\dfrac{\partial^n F}{\partial x_1\cdots\partial x_n}$（在连续点处）。</p>
+  </div>
+
+  <h3>2.3 边缘分布与独立性</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 边缘分布</span>
+    <p>令 $F$ 中除 $x_k$ 外的所有变量都取 $+\infty$，得到 $X_k$ 的<strong>边缘分布函数</strong>：</p>
+    $$F_{X_k}(x_k)=F(+\infty,\dots,+\infty,\ x_k,\ +\infty,\dots,+\infty)$$
+    <p>连续型情形对"不要的变量"在 $(-\infty,+\infty)$ 上积分即可：$f_{X_k}(x_k)=\displaystyle\int_{\mathbb R^{n-1}} f\,du_1\cdots du_{k-1}du_{k+1}\cdots du_n$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 相互独立</span>
+    <p>若对一切 $x_1,\dots,x_n$ 有</p>
+    $$F(x_1,\dots,x_n)=F_{X_1}(x_1)\,F_{X_2}(x_2)\cdots F_{X_n}(x_n)$$
+    <p>则称 $X_1,\dots,X_n$ <strong>相互独立</strong>。连续型等价于 $f(x_1,\dots,x_n)=\prod_k f_{X_k}(x_k)$。</p>
+    <p><strong>实用判据</strong>：若联合密度能<strong>分解</strong>成 $f=g_1(x_1)\cdots g_n(x_n)$ 的形式（$g_k$ 非负，且不需要是密度），则 $X_1,\dots,X_n$ 相互独立，且 $f_{X_k}\propto g_k$（差一个常数因子）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 1 · 判独立</span>
+    <p>设 $(X,Y)$ 的联合密度为 $f(x,y)=6e^{-2x-3y}$（$x&gt;0,y&gt;0$）。因</p>
+    $$f(x,y)=\underbrace{2e^{-2x}}_{g_1(x)}\cdot\underbrace{3e^{-3y}}_{g_2(y)}$$
+    <p>可分解，故 $X\perp Y$，且 $X\sim\mathrm{Exp}(2)$、$Y\sim\mathrm{Exp}(3)$。<br>
+    反过来，$f(x,y)=8xy$（$0&lt;x&lt;y&lt;1$）中 $x,y$ 被"捆"在不等式 $x&lt;y$ 里，区域不是乘积形，<strong>不能分解</strong> → 不独立。</p>
+  </div>
+
+  <h3>2.4 协方差矩阵</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 协方差矩阵</span>
+    <p>设 $\boldsymbol X=(X_1,\dots,X_n)^T$，$E(X_k)=m_k$ 存在，$c_{ij}=\mathrm{Cov}(X_i,X_j)=E\bigl[(X_i-m_i)(X_j-m_j)\bigr]$。称 $n\times n$ 矩阵</p>
+    $$C=\bigl(c_{ij}\bigr)_{n\times n}=E\bigl[(\boldsymbol X-\boldsymbol m)(\boldsymbol X-\boldsymbol m)^T\bigr]$$
+    <p>为 $\boldsymbol X$ 的 <strong>协方差矩阵</strong>，$\boldsymbol m=(m_1,\dots,m_n)^T$ 为<strong>均值向量</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">性质 · 协方差矩阵的三条铁律</span>
+    <ol>
+      <li><strong>对称</strong>：$c_{ij}=c_{ji}$，即 $C=C^T$。</li>
+      <li><strong>对角线是方差</strong>：$c_{kk}=D(X_k)$。</li>
+      <li><strong>非负定</strong>：对任意实向量 $\boldsymbol a=(a_1,\dots,a_n)^T$，
+      $$\boldsymbol a^T C\boldsymbol a=D\Bigl(\textstyle\sum_{k=1}^n a_k X_k\Bigr)\ \ge\ 0$$
+      证明：$\boldsymbol a^T C\boldsymbol a=\boldsymbol a^T E[(\boldsymbol X-\boldsymbol m)(\boldsymbol X-\boldsymbol m)^T]\boldsymbol a=E\bigl[\bigl(\boldsymbol a^T(\boldsymbol X-\boldsymbol m)\bigr)^2\bigr]\ge 0$。
+      <br><em>这一条是后面 $n$ 维正态密度里 $|C|&gt;0$ 的前提，也是随机过程"协方差函数非负定"的同一个道理。</em></li>
+    </ol>
+  </div>
+
+  <p>把每个 $c_{ij}$ 除以 $\sigma_i\sigma_j$ 就得到 <strong>相关系数矩阵</strong> $R=(\rho_{ij})$，其对角线全为 $1$，每个元素 $\rho_{ij}\in[-1,1]$。</p>
+
+  <h3>2.5 $n$ 维正态分布</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 维正态分布</span>
+    <p>若 $\boldsymbol X$ 的联合密度为</p>
+    $$f(\boldsymbol x)=\frac{1}{(2\pi)^{n/2}|C|^{1/2}}\exp\Bigl[-\tfrac12(\boldsymbol x-\boldsymbol m)^T C^{-1}(\boldsymbol x-\boldsymbol m)\Bigr],\qquad \boldsymbol x\in\mathbb R^n$$
+    <p>则称 $\boldsymbol X$ 服从 <strong>$n$ 维正态分布</strong>，记 $\boldsymbol X\sim N(\boldsymbol m,C)$，其中 $|C|&gt;0$（$C$ 正定）。其特征函数为</p>
+    $$\varphi(\boldsymbol u)=E\bigl(e^{i\boldsymbol u^T\boldsymbol X}\bigr)=\exp\Bigl(i\,\boldsymbol u^T\boldsymbol m-\tfrac12\boldsymbol u^T C\boldsymbol u\Bigr)$$
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定理 · $n$ 维正态的四条核心性质</span>
+    <ol>
+      <li><strong>由 $\boldsymbol m$ 与 $C$ 完全决定</strong>：两个 $n$ 维正态同分布 $\iff$ 均值向量与协方差矩阵都相同。（随机过程里"正态过程由 $m(t),C(s,t)$ 完全决定"直接来自这里。）</li>
+      <li><strong>线性变换封闭</strong>：$A$ 为 $k\times n$ 常数矩阵，$\boldsymbol b\in\mathbb R^k$，则 $A\boldsymbol X+\boldsymbol b\sim N(A\boldsymbol m+\boldsymbol b,\ ACA^T)$。</li>
+      <li><strong>正态性的等价刻画</strong>：$\boldsymbol X$ 服从 $n$ 维正态 $\iff$ 对任意 $\boldsymbol a\in\mathbb R^n$，$\boldsymbol a^T\boldsymbol X$ 服从一维正态（允许退化）。</li>
+      <li><strong>不相关 ⇒ 独立</strong>：$n$ 维正态的"两两不相关"（$C$ 为对角阵）等价于"相互独立"。<em>一般分布没有这条性质</em>（第 08 节会给出反例）。</li>
+    </ol>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · 二元正态的协方差矩阵</span>
+    <p>设 $X\sim N(m_1,\sigma_1^2)$、$Y\sim N(m_2,\sigma_2^2)$，$\rho_{XY}=\rho$，则</p>
+    $$C=\begin{pmatrix}\sigma_1^2 &amp; \rho\sigma_1\sigma_2\\ \rho\sigma_1\sigma_2 &amp; \sigma_2^2\end{pmatrix},\qquad |C|=\sigma_1^2\sigma_2^2(1-\rho^2)$$
+    <p>当 $|\rho|=1$ 时 $|C|=0$，协方差矩阵退化，$(X,Y)$ 落在一条直线上——这就是"$C$ 必须正定"的原因。</p>
+  </div>
+
+  <p>下面这张图把 $\rho$ 的作用画出来了：$n=2$、两个分量都标准化时，二维正态的概率等高线是一个椭圆，椭圆的<strong>倾斜方向就是相关方向</strong>，越扁说明相关性越强。</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 190" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>二元正态概率等高线随相关系数变化</title>
+      <desc>三个面板分别对应相关系数负零点八、零、正零点八时二维正态分布的等高线椭圆形态。</desc>
+      <text x="130" y="22" text-anchor="middle" font-size="13" fill="#57606a">ρ = -0.8（负相关）</text>
+      <text x="340" y="22" text-anchor="middle" font-size="13" fill="#57606a">ρ = 0（不相关）</text>
+      <text x="550" y="22" text-anchor="middle" font-size="13" fill="#57606a">ρ = +0.8（正相关）</text>
+      <g stroke="#0969da" fill="none" stroke-width="0.8">
+        <ellipse cx="130" cy="105" rx="80" ry="34" transform="rotate(-42 130 105)"/>
+        <ellipse cx="130" cy="105" rx="56" ry="24" transform="rotate(-42 130 105)"/>
+        <ellipse cx="130" cy="105" rx="32" ry="14" transform="rotate(-42 130 105)"/>
+      </g>
+      <g stroke="#57606a" stroke-width="0.5" stroke-dasharray="3 3">
+        <line x1="70" y1="60" x2="190" y2="150"/>
+      </g>
+      <line x1="130" y1="35" x2="130" y2="175" stroke="#1f2328" stroke-width="0.5"/>
+      <line x1="40" y1="105" x2="220" y2="105" stroke="#1f2328" stroke-width="0.5"/>
+      <text x="228" y="109" font-size="12" fill="#57606a">x₁</text>
+      <text x="122" y="32" font-size="12" fill="#57606a">x₂</text>
+      <g stroke="#0969da" fill="none" stroke-width="0.8">
+        <circle cx="340" cy="105" r="70"/>
+        <circle cx="340" cy="105" r="49"/>
+        <circle cx="340" cy="105" r="28"/>
+      </g>
+      <line x1="340" y1="35" x2="340" y2="175" stroke="#1f2328" stroke-width="0.5"/>
+      <line x1="250" y1="105" x2="430" y2="105" stroke="#1f2328" stroke-width="0.5"/>
+      <text x="438" y="109" font-size="12" fill="#57606a">x₁</text>
+      <text x="332" y="32" font-size="12" fill="#57606a">x₂</text>
+      <g stroke="#0969da" fill="none" stroke-width="0.8">
+        <ellipse cx="550" cy="105" rx="80" ry="34" transform="rotate(42 550 105)"/>
+        <ellipse cx="550" cy="105" rx="56" ry="24" transform="rotate(42 550 105)"/>
+        <ellipse cx="550" cy="105" rx="32" ry="14" transform="rotate(42 550 105)"/>
+      </g>
+      <g stroke="#57606a" stroke-width="0.5" stroke-dasharray="3 3">
+        <line x1="490" y1="150" x2="610" y2="60"/>
+      </g>
+      <line x1="550" y1="35" x2="550" y2="175" stroke="#1f2328" stroke-width="0.5"/>
+      <line x1="460" y1="105" x2="640" y2="105" stroke="#1f2328" stroke-width="0.5"/>
+      <text x="648" y="109" font-size="12" fill="#57606a">x₁</text>
+      <text x="542" y="32" font-size="12" fill="#57606a">x₂</text>
+    </svg>
+  </div>
+
+  <h2>3. 为什么这一页对随机过程是"必备"的？</h2>
+  <div class="callout intuition">
+    <span class="label">三处直接对应</span>
+    <table>
+      <tr><th>本页的 $n$ 维随机变量工具</th><th>第 06 讲后面出现的对象</th></tr>
+      <tr><td>联合分布函数 $F(x_1,\dots,x_n)$</td><td>随机过程的 $n$ 维分布函数 $F(t_1,\dots,t_n;x_1,\dots,x_n)$——多了一组"时刻参数"</td></tr>
+      <tr><td>协方差矩阵 $C=(c_{ij})$</td><td>协方差函数 $C(s,t)$——把下标 $i,j$ 换成连续参数 $s,t$，矩阵变成"无穷维双参数函数"</td></tr>
+      <tr><td>$n$ 维正态 $N(\boldsymbol m,C)$ 由 $\boldsymbol m,C$ 决定</td><td><strong>正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 11 节）</td></tr>
+    </table>
+  </div>
+
+  <h2>4. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把边缘分布当成"信息更全"</strong>。恰恰相反：边缘分布只描述单个分量的行为，<strong>丢掉了全部相关性信息</strong>。知道 $X,Y$ 各自的分布推不出联合分布（除非独立）。</li>
+      <li>❌ <strong>混淆"边缘正态"与"联合正态"</strong>。$(X,Y)$ 的两个边缘都是正态，联合<strong>未必</strong>是二元正态。经典反例：取 $X\sim N(0,1)$，再独立地掷一枚硬币，令 $Y=X$ 或 $Y=-X$ 各 $\tfrac12$——则 $Y\sim N(0,1)$、$X\sim N(0,1)$，但 $(X,Y)$ 只落在两条直线上，不是二元正态。</li>
+      <li>❌ <strong>认为非负定 $=$ 正定</strong>。非负定允许 $|C|=0$（退化，落在低维子空间上）；写 $n$ 维正态密度时才额外要求 $|C|&gt;0$。</li>
+      <li>❌ <strong>把 $C$ 与相关系数矩阵 $R$ 混用</strong>。$C$ 的对角线是 $\sigma_k^2$，$R$ 的对角线恒为 $1$；协方差带量纲，相关系数无量纲。</li>
+      <li>❌ 密度可分解判独立时，<strong>忘了先看支撑区域</strong>。区域必须是"长方体"（各分量的取值范围互不牵连），否则不能分解。</li>
+    </ul>
+  </div>
+
+  <h2>5. 自检</h2>
+  <details>
+    <summary>Q1 · 知道 $X\sim N(0,1)$、$Y\sim N(0,1)$，能确定 $(X,Y)$ 的分布吗？</summary>
+    <p><strong>不能</strong>。$(X,Y)$ 可以是 $X\perp Y$（协方差阵为 $I$），也可以是 $Y=X$（协方差阵为全 $1$ 阵）——边缘一模一样，联合分布天差地别。<strong>只有补上 $C$（即相关性），二元正态才唯一确定</strong>；而一般分布连"补上 $C$"都不够。</p>
+  </details>
+  <details>
+    <summary>Q2 · 对任意 $\boldsymbol a$ 有 $\boldsymbol a^T C\boldsymbol a\ge 0$，这个结论的期望学解释是什么？</summary>
+    <p>$\boldsymbol a^T C\boldsymbol a=D(\sum_k a_k X_k)\ge 0$——$C$ 的非负定，说的就是"<strong>任意线性组合的方差非负</strong>"。这也是为什么随机过程的协方差函数也必须非负定（第 07 节）。</p>
+  </details>
+  <details>
+    <summary>Q3 · 设 $\boldsymbol X\sim N(\boldsymbol m,C)$，$\boldsymbol Y=A\boldsymbol X+\boldsymbol b$，求 $E(\boldsymbol Y)$ 与 $\mathrm{Cov}(\boldsymbol Y)$。</summary>
+    <p>$E(\boldsymbol Y)=A\boldsymbol m+\boldsymbol b$，$\mathrm{Cov}(\boldsymbol Y)=A\,C\,A^T$。<br>
+    <strong>这是全讲最常用的一步</strong>：第 11 节证明 $X(t)=X_0+Vt$ 是正态过程，用的就是"$(X_0,V)$ 是二维正态，$X(t)$ 是它的线性变换"。</p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么说协方差矩阵是"随机过程相关函数的有限维投影"？</summary>
+    <p>取 $\boldsymbol X=(X(t_1),\dots,X(t_n))$，则 $c_{ij}=\mathrm{Cov}(X(t_i),X(t_j))=C(t_i,t_j)$。所以"$n$ 个时刻的协方差矩阵"就是把双参数函数 $C(s,t)$ 限制在 $n\times n$ 个格点上取样。<strong>过程是无穷维的，我们只能通过所有有限维投影去认识它</strong>——这就是下一节"有限维分布族"的思想。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./index.html"><span class="label">← 上一节</span><span class="title">讲次首页</span></a>
+    <a href="./01-随机过程的引入.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机过程的引入</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

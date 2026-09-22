@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 分布函数 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 02</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html" class="current">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>02 · 分布函数</h1>
+  <p class="lede">刻画一个随机变量最<strong>统一</strong>的工具——分布函数 $F(x)=P(X\le x)$。无论 $X$ 是离散、连续、还是混合型，<strong>都能</strong>用 $F$ 描述。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>$F(x)$ = "随机变量 $X$ 取值不超过 $x$"的累积概率。</strong>
+    <ul>
+      <li>把 $x$ 从 $-\infty$ 推到 $+\infty$，$F$ 从 $0$ 单调爬升到 $1$。</li>
+      <li>任何区间的概率 = $F$ 在端点的差：$P(a&lt;X\le b)=F(b)-F(a)$。</li>
+      <li>无论 $X$ 是"几个点取值"还是"一片区间取值"，$F$ 都能完整描述——这就是它"统一"的根本。</li>
+      <li>一个随机变量的<strong>所有概率信息</strong>都被 $F$ 编码。给出 $F$ 就等价于给出 $X$ 的完整分布。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 身高分布</span>
+    假设某班学生的身高 $X$（单位 cm）。$F(170)$ 就是"身高不超过 170 cm"的学生比例。$F(160)=0.2$ 意味着"$20\%$ 的学生身高 $\le 160$"。从 $-\infty$ 推到 $+\infty$，$F$ 从 $0$ 单调升到 $1$——表示"全班"必然出现。这就是"分布函数"——<strong>累积分布</strong>。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义与四条性质</h2>
+
+  <h3>2.1 定义</h3>
+  <div class="callout theorem">
+    <span class="label">定义 1.1.4（课件原文 · sjgc0-2随机变量-2.pdf 第 10 页）</span>
+    <p>设 $X$ 是概率空间 $(\Omega,\mathcal{F},P)$ 上的随机变量，函数</p>
+    $$\boxed{F(x)=P(X\le x)=P\bigl(\{\omega:X(\omega)\le x\}\bigr),\quad x\in\mathbb{R}}$$
+    <p>称为 $X$ 的<strong>分布函数</strong>（cumulative distribution function, CDF）。</p>
+  </div>
+
+  <h3>2.2 四条基本性质</h3>
+  <div class="callout theorem">
+    <span class="label">定理 1.1.1 · 分布函数的性质</span>
+    <p>任何分布函数 $F(x)$ 都满足：</p>
+    <ol>
+      <li><strong>单调不减</strong>：若 $x_1&lt;x_2$，则 $F(x_1)\le F(x_2)$；</li>
+      <li><strong>值域</strong>：$0\le F(x)\le 1$，且 $\lim_{x\to-\infty}F(x)=0,\ \lim_{x\to+\infty}F(x)=1$；</li>
+      <li><strong>右连续</strong>：$\forall x_0,\ \lim_{x\to x_0^+}F(x)=F(x_0)$，即 $F(x_0+0)=F(x_0)$；</li>
+      <li><strong>区间概率</strong>：$\forall a&lt;b,\ P(a&lt;X\le b)=F(b)-F(a)$。</li>
+    </ol>
+    <p>反之，任何满足这四条性质的函数 $F:\mathbb{R}\to[0,1]$ <strong>都是某个随机变量的分布函数</strong>。</p>
+  </div>
+
+  <h3>2.3 证明骨架（折叠）</h3>
+  <details>
+    <summary>展开：四条性质的证明</summary>
+    <p><strong>单调性</strong>：$x_1&lt;x_2 \Rightarrow \{X\le x_1\}\subseteq\{X\le x_2\}$，由概率单调性立得。</p>
+    <p><strong>值域</strong>：$F$ 是概率自然在 $[0,1]$。$\lim_{x\to-\infty}F(x)=P(\bigcap_n\{X\le -n\})=P(\{X=-\infty\})=0$（$\Omega$ 中 $X$ 取有限值）；$\lim_{x\to+\infty}F(x)=P(\bigcup_n\{X\le n\})=P(\Omega)=1$。</p>
+    <p><strong>右连续</strong>：$F(x_n)\downarrow F(x_0)$ 当 $x_n\downarrow x_0$，由概率的<strong>下连续性</strong>得 $\lim F(x_n)=P(\bigcap_n\{X\le x_n\})=P(\{X\le x_0\})=F(x_0)$。</p>
+    <p><strong>区间概率</strong>：$\{a&lt;X\le b\}=\{X\le b\}\setminus\{X\le a\}$，再用差事件公式。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <h2>3. 由 $F$ 求其它概率</h2>
+
+  <div class="callout theorem">
+    <span class="label">性质 · 区间概率的"左闭右开"技巧</span>
+    <p>记住分布函数的定义是 $<strong>\le</strong>$（左开右闭），则：</p>
+    <table>
+      <tr><th>区间</th><th>用 $F$ 表示</th></tr>
+      <tr><td>$P(X\le b)$</td><td>$F(b)$</td></tr>
+      <tr><td>$P(a&lt;X\le b)$</td><td>$F(b)-F(a)$</td></tr>
+      <tr><td>$P(a\le X\le b)$</td><td>$F(b)-F(a-0)$</td></tr>
+      <tr><td>$P(a&lt;X&lt;b)$</td><td>$F(b-0)-F(a)$</td></tr>
+      <tr><td>$P(X=a)$</td><td>$F(a)-F(a-0)$</td></tr>
+    </table>
+    <p>其中 $F(x-0)=\lim_{y\to x^-}F(y)$ 为<strong>左极限</strong>。注意 $F$ 只保证<strong>右连续</strong>——左极限可能不等于函数值（这就是离散型 $F$ 在跳跃点的情况，详见 §3）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 已知 $F$，求 $P(X=2)$</span>
+    <p>设 $F(x)=\dfrac{1}{2}+\dfrac{1}{\pi}\arctan(x)$。问 $P(X=2)=?$</p>
+    <p>$P(X=2)=F(2)-F(2-0)=\dfrac{1}{2}+\dfrac{1}{\pi}\arctan(2)-\lim_{x\to 2^-}\Big[\dfrac{1}{2}+\dfrac{1}{\pi}\arctan(x)\Big]=0$。</p>
+    <p>——因为 $\arctan$ 在 $\mathbb{R}$ 上连续，左极限 = 函数值。所以 $F$ 没有跳跃，$P(X=2)=0$。这种 $F$ 描述的是<strong>连续型</strong>随机变量。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. $F$ 与密度 / 分布列的关系</h2>
+
+  <h3>4.1 连续型：$f(x)=F'(x)$</h3>
+  <p>若 $X$ 是<strong>连续型</strong>，存在非负函数 $f(x)$ 使 $F(x)=\int_{-\infty}^x f(t)\,dt$。在 $F$ 可导的点，$f(x)=F'(x)$。详见 §4。</p>
+
+  <h3>4.2 离散型：$F$ 是阶梯函数</h3>
+  <p>若 $X$ 的取值最多可数 $\{x_k\}$，则</p>
+  $$F(x)=\sum_{x_k\le x} P(X=x_k)$$
+  <p>在每个 $x_k$ 处 $F$ 跳跃 $p_k$，形成<strong>阶梯函数</strong>。详见 §3。</p>
+
+  <h3>4.3 统一视角（Lebesgue–Stieltjes 积分）</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · $F$ 是"通用语言"</span>
+    <p>设 $F$ 是任意分布函数（不一定离散或连续），则对任意"良好"函数 $g$，</p>
+    $$E[g(X)]=\int_{-\infty}^{+\infty} g(x)\,dF(x)$$
+    <p>其中 $dF$ 是<strong>Lebesgue–Stieltjes 测度</strong>：</p>
+    <ul>
+      <li>若 $X$ 离散，$dF$ 退化为<strong>求和</strong> $\sum_k g(x_k)p_k$；</li>
+      <li>若 $X$ 连续，$dF$ 退化为<strong>积分</strong> $\int g(x)f(x)\,dx$；</li>
+      <li>若 $X$ 混合型，$dF$ 既有<strong>离散部分</strong>也有<strong>连续部分</strong>。</li>
+    </ul>
+    <p>这就是 $F$ 的<strong>真正威力</strong>——一个公式统一所有情形。详细推导属于 R-S 积分（参考资料：sjgc0.1R-S积分简介.pdf）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 反例：不是每个"累积函数"都是 $F$</h2>
+
+  <div class="callout warn">
+    <span class="label">易错点 · 缺少右连续会失败</span>
+    <p>下面给一个"看似合理、实际不行"的反例：</p>
+    $$G(x)=\begin{cases}0,& x\le 0\\ 1,& x&gt;0\end{cases}$$
+    <p>逐条检验分布函数的四条性质：</p>
+    <ul>
+      <li><strong>单调不减</strong> ✓（从 $0$ 跳到 $1$，不下降）</li>
+      <li><strong>值域</strong> $0\le G\le 1$ ✓</li>
+      <li><strong>极限</strong> $\lim_{x\to-\infty}G(x)=0,\ \lim_{x\to+\infty}G(x)=1$ ✓</li>
+      <li><strong>右连续</strong>：在 $x=0$ 处 $G(0)=0$ 但 $\lim_{x\to 0^+}G(x)=1$——<strong>右连续失败</strong> ✗</li>
+    </ul>
+    <p>所以 $G$ <strong>不是</strong>任何随机变量的分布函数。</p>
+    <p><strong>为什么 $G$ 对应不到任何 $X$？</strong></p>
+    <p>若假设 $G(x)=P(X\le x)$，则：</p>
+    <ul>
+      <li>$G(0)=P(X\le 0)=0$ 意味着"$X$ 取 $\le 0$ 的概率为 $0$"；</li>
+      <li>$\lim_{x\to 0^+}G(x)=1$ 意味着"对任意 $\epsilon>0$，$P(X\le \epsilon)=1$"——$X$ 几乎必然落在 $(0,\epsilon]$ 内。</li>
+      <li>由<strong>测度的连续性（从上方）</strong>，$\lim_{x\to 0^+}P(X\le x)=P(X=0)$，所以 $P(X=0)=1$。</li>
+    </ul>
+    <p>于是 $P(X=0)=1$——但 $G(0)=P(X\le 0)=0$，与 $P(X=0)=1$ 矛盾！没有随机变量能同时满足。</p>
+    <p>结论：如果取消"右连续"，就会冒出这种自相矛盾的 $G$——所以<strong>右连续是四条性质中不可省略的一条</strong>。</p>
+  </div>
+
+  <div class="callout danger">
+    <span class="label">关键：右连续必不可少</span>
+    <p>"右连续"看似技术细节，实则保证 $\{X\le x\}$ 是"左闭右开"区间，能与可列次 $\sigma$-运算对接。如果去掉右连续，$F$ 就不对应任何概率测度。</p>
+    <p>实用结论：考试中看到 $F$ 的题，先检查这四条性质是否满足——<strong>少一条都不对</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 几何直观</h2>
+
+  <pre style="font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:13px;overflow-x:auto;line-height:1.5;color:var(--c-fg)">
+   F(x)
+    1.0 ┤                              ●●●●●●●●●●●●●●●
+        │                          ●●●
+        │                       ●●●
+        │                     ●●●
+    0.5 ┤                  ●●●
+        │                ●●
+        │              ●●
+        │            ●●
+        │          ●●
+        │        ●●
+        │      ●●
+    0.0 ┤●●●●●●
+        └────┬────┬────┬────┬────┬────► x
+            -2   -1    0    1    2
+
+        F 是单调不减、右连续的"爬坡函数"，
+        整体形如 S 曲线或阶梯函数。
+  </pre>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 为什么 $F$ 的定义用 "$X\le x$" 而不是 "$X&lt;x$"？</summary>
+    <p>用 $\le$ 是<strong>人为约定</strong>，目的是让 $F$ <strong>右连续</strong>。若定义成 $G(x)=P(X&lt;x)$，则 $G$ 是<strong>左连续</strong>的——两者只差 $F(x)-F(x-0)=P(X=x)$。本课程全部用 $<strong>\le</strong>$，与教材一致。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 已知 $F(x)$，如何求 $P(X&gt;a)$？</summary>
+    <p>$P(X&gt;a)=1-P(X\le a)=1-F(a)$。注意 $P(X\ge a)=1-P(X&lt;a)=1-F(a-0)$。两者通常不等（$X$ 取 $a$ 的概率就是它们的差）。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $F(x)$ 可以是离散的吗？例如 $F(x)=\mathbf{1}\{x\ge 0\}$。</summary>
+    <p>可以。这是<strong>退化随机变量</strong> $X\equiv 0$ 的分布函数：$P(X=0)=1$，$F(x)=0$ 当 $x&lt;0$，$F(x)=1$ 当 $x\ge 0$。这是离散型的一种特殊情况，详见 §5（混合型也会用到）。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · $F$ 的左极限 $F(x-0)$ 一定存在吗？</summary>
+    <p>一定。单调函数<strong>处处</strong>有左、右极限（即使不连续）。所以 $F(x-0)$ 和 $F(x+0)$ 都存在，且 $F(x-0)\le F(x)\le F(x+0)$（$<strong>右连续</strong>意味着 $F(x+0)=F(x)$）。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>分布函数 $F(x)=P(X\le x)$，四条性质：单调不减、$F(-\infty)=0,F(+\infty)=1$、右连续、$P(a&lt;X\le b)=F(b)-F(a)$。$F$ 是描述随机变量的<strong>统一语言</strong>。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./01-随机变量的定义.html"><span class="label">← 上一节</span><span class="title">随机变量的定义</span></a>
+    <a href="./03-离散随机变量.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">离散型随机变量</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 02 分布函数 · 融合版课件</footer>
+</div>
+</body>
+</html>

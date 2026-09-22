@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 维纳过程（布朗运动）| 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 12</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html" class="current">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>12 · 维纳过程（布朗运动）</h1>
+  <p class="lede">本讲的压轴。维纳过程是<strong>第一个被严格数学化、也是应用最广</strong>的连续时间随机过程。它是"随机游动的连续极限"：把二项计数过程的时间步长与跳跃幅度以特定比例一起收到 0，极限就是它。它一身兼三职——<strong>平稳独立增量过程 + 正态过程 + Markov 过程</strong>，本讲学过的所有工具在这里汇合。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>维纳过程 = 起点为 0 + 零均值 + 平稳独立增量 + 增量为正态。</strong>于是立刻得到 $W(t)\sim N(0,\sigma^2t)$、$C(s,t)=\sigma^2\min(s,t)$；它的轨道<strong>连续但处处不可微</strong>。
+  </div>
+
+  <h2>1. 来历与直观</h2>
+  <div class="callout example">
+    <span class="label">历史</span>
+    <p>英国植物学家 <strong>Brown（1827）</strong>观察到悬浮在液体中的花粉微粒在不停地做极不规则的运动，后人称之为<strong>布朗运动</strong>。1918 年 <strong>Wiener</strong> 给出了布朗运动的精确数学公式，所以布朗运动又称<strong>维纳过程</strong>。</p>
+    <p>它是"应用概率论中最有用的随机过程之一"，已在<strong>股票价格、通信理论、生物学、管理科学</strong>等领域获得大量应用。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">直观含义 · 三个层次</span>
+    <ul>
+      <li><strong>物理层</strong>：微粒被四面八方的分子不断撞击，每一次撞击给一个随机小位移。因为撞击次数极多、每次位移极小，中心极限定理生效——<strong>总位移是正态的</strong>。</li>
+      <li><strong>数学层</strong>：把随机游动 $Y(n)$（第 09 节）按"时间步长 $\to0$、跳跃幅度 $\to0$ 但比值固定"缩放，极限就是维纳过程。这也解释了为什么<strong>方差必须正比于时间</strong>（$D=\sigma^2t$）：随机游动 $n$ 步的方差是 $npq$，与步数成正比。</li>
+      <li><strong>为什么"处处不可微"</strong>：把时间步长缩小一半，方差只减半，所以位移 $\sim\sqrt{\Delta t}$，而斜率 $\sim\dfrac{\sqrt{\Delta t}}{\Delta t}=\dfrac{1}{\sqrt{\Delta t}}\to\infty$。<strong>轨道越放大越抖</strong>——这就是它的分形性。</li>
+    </ul>
+  </div>
+
+  <h2>2. 定义</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 维纳过程（布朗运动）</span>
+    <p>如果随机过程 $\{W(t),t\ge0\}$ 满足下列条件：</p>
+    <ol>
+      <li>$W(0)=0$；</li>
+      <li>$E[W(t)]=0$（对一切 $t\ge0$）；</li>
+      <li>具有<strong>平稳独立增量</strong>；</li>
+      <li>对 $t&gt;0$，$W(t)\sim N(0,\sigma^2t)$，其中 $\sigma&gt;0$ 为常数。</li>
+    </ol>
+    <p>则称 $\{W(t),t\ge0\}$ 是<strong>参数为 $\sigma^2$ 的维纳过程</strong>（或布朗运动）。当 $\sigma^2=1$ 时称为<strong>标准维纳过程</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">四个条件要一起读</span>
+    <ul>
+      <li><strong>条件 1 是规范化的起点</strong>：不要求 $W(0)=0$ 就只是"带初值的布朗运动"，后面所有公式都要加截距。</li>
+      <li><strong>条件 2 与条件 4 有重叠</strong>，但保留它们更清晰：条件 4 已经蕴含 $E[W(t)]=0$。有些教材把条件 4 换成"增量 $W(t)-W(s)\sim N(0,\sigma^2(t-s))$"，与这里完全等价（因为条件 3 的平稳性 + $W(0)=0$ 把 $W(t)$ 的分布与增量分布对齐）。</li>
+      <li><strong>条件 3 是全部"结构"的来源</strong>：它把无穷多的高维分布压缩成"一维分布 + 增量分布"。少了它，条件 4 只是说了"每个时刻的边缘分布"，过程完全没定（第 04 节的反例）。</li>
+      <li><strong>轨道连续性没写在定义里</strong>——它是可以<strong>推出</strong>的（Kolmogorov 连续性定理），但需要更深的工具。工程上我们把它当成维纳过程的公认特征记住即可。</li>
+    </ul>
+  </div>
+
+  <h2>3. 概率分布与数字特征</h2>
+  <div class="callout theorem">
+    <span class="label">一维分布、密度、特征函数、增量分布</span>
+    $$W(t)\sim N\bigl(0,\ \sigma^2t\bigr)$$
+    <p>一维概率密度（$t&gt;0$）：</p>
+    $$f(t,x)=\frac{1}{\sqrt{2\pi\sigma^2t}}\exp\Bigl[-\frac{x^2}{2\sigma^2t}\Bigr]$$
+    <p>一维特征函数：</p>
+    $$\varphi^{(1)}(t;u)=E\bigl(e^{iuW(t)}\bigr)=\exp\Bigl[-\frac{\sigma^2t\,u^2}{2}\Bigr]$$
+    <p><strong>增量分布</strong>：对任意 $s&lt;t$，由平稳性与正态性，</p>
+    $$W(t)-W(s)\ \sim\ N\bigl(0,\ \sigma^2(t-s)\bigr)$$
+    <p><strong>协方差函数</strong>（由第 10 节定理，$a=0$、$\sigma^2$ 即定理中的 $\sigma^2$）：</p>
+    $$C(s,t)=R(s,t)=\sigma^2\min(s,t)$$
+    <p><strong>直接验证</strong>（设 $s&lt;t$）：把 $W(t)$ 拆成 $W(s)+\bigl[W(t)-W(s)\bigr]$，</p>
+    $$\mathrm{Cov}(W(s),W(t))=\mathrm{Cov}\bigl(W(s),W(s)\bigr)+\mathrm{Cov}\bigl(W(s),W(t)-W(s)\bigr)=\sigma^2s+0=\sigma^2s$$
+    <p>第二步用了增量独立性（$W(s)$ 与 $W(t)-W(s)$ 独立）。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">二维与 $n$ 维概率分布</span>
+    <p><strong>二维</strong>：$(W(s),W(t))^T\sim N(\boldsymbol\mu,C)$，其中</p>
+    $$\boldsymbol\mu=\begin{pmatrix}0\\0\end{pmatrix},\qquad
+    C=\begin{pmatrix}\sigma^2\min(s,s)&amp;\sigma^2\min(s,t)\\ \sigma^2\min(s,t)&amp;\sigma^2\min(t,t)\end{pmatrix}
+    =\sigma^2\begin{pmatrix}s&amp;\min(s,t)\\ \min(s,t)&amp;t\end{pmatrix}$$
+    <p>若 $s&lt;t$，则 $|C|=\sigma^4s(t-s)&gt;0$（$s&gt;0$），二维密度存在：</p>
+    $$f(s,t;x,y)=\frac{1}{2\pi\sigma^2\sqrt{s(t-s)}}\exp\Bigl[-\frac{tx^2-2sxy+sy^2}{2\sigma^2s(t-s)}\Bigr]$$
+    <p><strong>$n$ 维</strong>：$\boldsymbol\mu=\boldsymbol 0$，$C=\bigl(\sigma^2\min(t_i,t_j)\bigr)_{n\times n}$，$n$ 维特征函数</p>
+    $$\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=\exp\Bigl[-\frac{\sigma^2}{2}\boldsymbol u^TC\boldsymbol u\Bigr]
+    =\exp\Bigl[-\frac{\sigma^2}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}u_iu_j\min(t_i,t_j)\Bigr]$$
+  </div>
+
+  <p>下面画出三条维纳过程轨道（$\sigma^2=1$，$t\in[0,1]$），浅蓝带子是 $m(t)\pm\sigma(t)=0\pm\sqrt{t}$。请特别注意两点：<strong>轨道是连续但锯齿状的</strong>（把任意一小段放大，抖动的程度都<strong>不会变小</strong>——这就是"处处不可微"），而<strong>带子按 $\sqrt{t}$ 张开（比线性慢）</strong>：</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 250" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>维纳过程的三条样本轨道与均方差带</title>
+      <desc>横轴为时间从零到一，纵轴为取值，画出三条锯齿状的连续轨道，浅蓝色带子表示零均值上下一个均方差的范围，宽度随时间按根号增长。</desc>
+      <line x1="55" y1="130" x2="645" y2="130" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="60" y1="40" x2="60" y2="220" stroke="#57606a" stroke-width="0.8"/>
+      <text x="34" y="42" font-size="12" fill="#57606a">W(t)</text>
+      <polygon points="60,130 200,95 340,80.5 480,69.4 620,60 620,200 480,190.6 340,179.5 200,165 60,130" fill="#ddf4ff" stroke="#0969da" stroke-width="0.5"/>
+      <polyline points="60,130 88,117.4 116,126.5 144,109 172,121.6 200,140.5 228,133.5 256,114.6 284,98.5 312,109 340,123 368,142.6 396,154.5 424,138.4 452,119.5 480,103.4 508,116 536,126.5 564,147.5 592,161.5 620,173.4" fill="none" stroke="#0969da" stroke-width="1.2"/>
+      <polyline points="60,130 88,138.4 116,149.6 144,137 172,124.4 200,109 228,119.5 256,133.5 284,149.6 312,165 340,152.4 368,137 396,121.6 424,105.5 452,117.4 480,128.6 508,112.5 536,96.4 564,109 592,123 620,135.6" fill="none" stroke="#8250df" stroke-width="1.2"/>
+      <polyline points="60,130 88,112.5 116,100.6 144,110.4 172,123 200,135.6 228,151 256,140.5 284,126.5 312,110.4 340,95 368,107.6 396,119.5 424,137 452,152.4 480,142.6 508,128.6 536,145.4 564,161.5 592,151 620,166.4" fill="none" stroke="#1a7f37" stroke-width="1.2"/>
+      <text x="60" y="235" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="200" y="235" font-size="11" fill="#57606a" text-anchor="middle">0.25</text>
+      <text x="340" y="235" font-size="11" fill="#57606a" text-anchor="middle">0.5</text>
+      <text x="480" y="235" font-size="11" fill="#57606a" text-anchor="middle">0.75</text>
+      <text x="620" y="235" font-size="11" fill="#57606a" text-anchor="middle">1</text>
+    </svg>
+  </div>
+
+  <h2>4. 维纳过程的三条性质</h2>
+  <div class="callout theorem">
+    <span class="label">性质一览</span>
+    <ol>
+      <li><strong>维纳过程是平稳独立增量过程</strong>——直接来自定义条件 3。</li>
+      <li><strong>维纳过程是正态过程</strong>——见下方证明。</li>
+      <li><strong>维纳过程是 Markov 过程</strong>——见下方证明。</li>
+    </ol>
+    <p><strong>注意</strong>：这三条<strong>不是"三者择一"</strong>，而是同时成立。<strong>"维纳过程属于哪一类"这个问法本身就不对</strong>，正确问法是"它满足哪些性质"——它同时是独立增量过程、正态过程、Markov 过程（第 03 节强调过的读表方式）。</p>
+  </div>
+
+  <h3>4.1 证明：$W(t)$ 是正态过程</h3>
+  <div class="callout theorem">
+    <span class="label">证明</span>
+    <p>设 $\{W(t),t\ge0\}$ 是参数为 $\sigma^2$ 的维纳过程，任取 $0&lt;t_1&lt;t_2&lt;\cdots&lt;t_n$，记 $t_0=0$，令</p>
+    $$X_k=W(t_k)-W(t_{k-1})\ \sim\ N\bigl(0,\ \sigma^2(t_k-t_{k-1})\bigr),\qquad k=1,2,\dots,n$$
+    <p>由增量独立性，$X_1,X_2,\dots,X_n$ <strong>相互独立</strong>且都是正态，所以 $(X_1,\dots,X_n)^T$ 服从 $n$ 维正态。</p>
+    <p>又因为</p>
+    $$W(t_k)=X_1+X_2+\cdots+X_k$$
+    <p>即</p>
+    $$\begin{pmatrix}W(t_1)\\ W(t_2)\\ \vdots\\ W(t_n)\end{pmatrix}
+    =\underbrace{\begin{pmatrix}1&amp;0&amp;\cdots&amp;0\\ 1&amp;1&amp;\cdots&amp;0\\ \vdots&amp;\vdots&amp;\ddots&amp;\vdots\\ 1&amp;1&amp;\cdots&amp;1\end{pmatrix}}_{L}
+    \begin{pmatrix}X_1\\ X_2\\ \vdots\\ X_n\end{pmatrix}$$
+    <p>$L$ 是常数下三角矩阵，所以 $(W(t_1),\dots,W(t_n))^T$ 是 $n$ 维正态向量的<strong>线性变换</strong>，仍服从 $n$ 维正态（第 00 节性质 2）。</p>
+    <p>由 $n$ 与 $t_1,\dots,t_n$ 的任意性，$\{W(t)\}$ 是<strong>正态过程</strong>。$\blacksquare$</p>
+    <p><strong>顺便得到协方差矩阵</strong>：$\mathrm{Cov}(W(t_i),W(t_j))=\sigma^2\min(t_i,t_j)$，与第 10 节定理一致。<strong>把两个定理合起来看</strong>：第 10 节给了"均值线性 + 方差线性 + 协方差取 min"，本节给了"正态性"，两者合起来就<strong>完全确定</strong>了维纳过程的分布（第 11 节：正态过程由 $m(t)$ 与 $C(s,t)$ 决定）。</p>
+  </div>
+
+  <h3>4.2 证明：$W(t)$ 是 Markov 过程</h3>
+  <div class="callout theorem">
+    <span class="label">证明思路（"只认现在"）</span>
+    <p>取 $0&lt;t_1&lt;\cdots&lt;t_{n-1}&lt;t_n$，要证</p>
+    $$P\{W(t_n)&lt;x\ \big|\ W(t_1),\dots,W(t_{n-1})\}=P\{W(t_n)&lt;x\ \big|\ W(t_{n-1})\}$$
+    <p>做拆分 $W(t_n)=W(t_{n-1})+\bigl[W(t_n)-W(t_{n-1})\bigr]$。</p>
+    <p>因为 $W(t_n)-W(t_{n-1})$ 是增量、与 $W(t_1),\dots,W(t_{n-1})$ <strong>相互独立</strong>，所以在给定全部历史时，它的条件分布<strong>仍是</strong> $N\bigl(0,\sigma^2(t_n-t_{n-1})\bigr)$，与历史无关。</p>
+    <p>于是给定历史时，$W(t_n)$ 的条件分布是"<strong>一个固定的已知数 $W(t_{n-1})$ 加上一个与历史无关的正态增量</strong>"，即</p>
+    $$N\bigl(W(t_{n-1}),\ \sigma^2(t_n-t_{n-1})\bigr)$$
+    <p>这个条件分布只通过 $W(t_{n-1})$ 依赖历史，因此与只给定 $W(t_{n-1})$ 时完全相同。$\blacksquare$</p>
+    <p><strong>一句话理解</strong>：<strong>增量的独立性把"全部历史"降维成"当前值"</strong>。这也是"独立增量过程（在轨道右连续等条件下）一定是 Markov 过程"这条一般结论的具体实例。</p>
+  </div>
+
+  <h2>5. 延伸：轨道的"古怪"性质</h2>
+  <div class="callout warn">
+    <span class="label">课本之外，但考试常问"是什么样"</span>
+    <table>
+      <tr><th>性质</th><th>内容</th><th>直观</th></tr>
+      <tr><td>轨道连续</td><td>$t\mapsto W(t,\omega)$ 几乎必然处处连续</td><td>不会"跳"，但抖得没边</td></tr>
+      <tr><td><strong>处处不可微</strong></td><td>几乎必然在任何点都不可微</td><td>放大任意倍数都还是锯齿，没有"局部斜率"</td></tr>
+      <tr><td><strong>无穷变差</strong></td><td>$[0,t]$ 上的全变差无穷大</td><td>路程无限长，走不出有限距离</td></tr>
+      <tr><td><strong>二次变差有限</strong></td><td>$\sum\bigl(W(t_k)-W(t_{k-1})\bigr)^2\to\sigma^2t$（细分极限）</td><td>这正是 Itô 积分的基石：$dW^2=\sigma^2dt$</td></tr>
+      <tr><td>自相似</td><td>$\{W(ct)/\sqrt{c}\}$ 与 $\{W(t)\}$ 同分布</td><td>放大时间轴再压扁纵轴，看起来一模一样</td></tr>
+    </table>
+  </div>
+
+  <div class="callout example">
+    <span class="label">应用 · 从维纳过程到股价</span>
+    <p>股价不能直接用维纳过程（维纳过程会取负值，而股价不能为负）。标准做法是<strong>几何布朗运动</strong>：</p>
+    $$S(t)=S(0)\exp\Bigl[\bigl(\mu-\frac{\sigma^2}{2}\bigr)t+\sigma W(t)\Bigr]$$
+    <p>取指数保证了 $S(t)&gt;0$；$W(t)$ 提供随机波动，$\mu$ 提供漂移。这就是 Black–Scholes 期权定价模型的出发点。<strong>注意</strong>：$S(t)$ 不再是正态过程（它是对数正态），但它的<strong>对数</strong>是维纳过程——所以维纳过程的所有公式都能用上。</p>
+    <p><strong>其他应用</strong>：通信系统中的热噪声与信道模型、生物学中的粒子扩散、管理科学中的库存与投资组合波动、机器学习中的扩散模型（Diffusion Model）——后者的前向过程就是把图像数据"渐变成标准维纳过程"。</p>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把 $W(t)\sim N(0,\sigma^2t)$ 写成 $N(0,\sigma^2)$</strong>。方差<strong>随时间增长</strong>，$t$ 是密度里的关键参数。</li>
+      <li>❌ <strong>说"维纳过程是平稳过程"</strong>。它是"<strong>平稳增量</strong>过程"，但过程本身不平稳（$D(t)=\sigma^2t$ 在变）。第 03 / 09 节反复强调过这条。</li>
+      <li>❌ <strong>把 $\mathrm{Cov}(W(s),W(t))$ 算成 $\sigma^2st$ 或 $\sigma^2(t-s)$</strong>。协方差是 $\sigma^2\min(s,t)$；而 $W(t)-W(s)$ 的<strong>方差</strong>才是 $\sigma^2(t-s)$。两者别混。</li>
+      <li>❌ <strong>以为"轨道连续"蕴含"可微"</strong>。维纳过程恰好是"连续但处处不可微"的经典例子。</li>
+      <li>❌ <strong>把独立增量当成"$W(s)$ 与 $W(t)$ 独立"</strong>。增量独立，但 $W(s)$ 与 $W(t)$ 高度相关（$\rho(s,t)=\dfrac{\min(s,t)}{\sqrt{st}}=\sqrt{s/t}$，$s&lt;t$ 时相当大）。</li>
+      <li>❌ <strong>忘记 $s=t$ 时协方差阵退化</strong>。$|C|=\sigma^4s(t-s)$ 在 $s=t$ 时为 0，二维密度不存在（只有分布）。</li>
+      <li>❌ <strong>在定义里漏掉"平稳"</strong>。只有"独立增量 + 正态增量 + $W(0)=0$"还不叫维纳过程——因为缺少平稳性，$D[W(t)]$ 可以不等于 $\sigma^2t$（可以是任意随时间变化的函数）。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 设 $\{W(t)\}$ 是标准维纳过程。求 $P\{W(4)&lt;0\}$、$D[W(4)]$、$\mathrm{Cov}(W(2),W(5))$ 与 $\rho(2,5)$。</summary>
+    <ul>
+      <li>$W(4)\sim N(0,4)$，分布关于 0 对称，故 $P\{W(4)&lt;0\}=1/2$。</li>
+      <li>$D[W(4)]=4$。</li>
+      <li>$\mathrm{Cov}(W(2),W(5))=\min(2,5)=2$。</li>
+      <li>$\rho(2,5)=\dfrac{2}{\sqrt{2\cdot5}}=\dfrac{2}{\sqrt{10}}=\sqrt{\dfrac{2}{5}}\approx0.632$。</li>
+    </ul>
+    <p><strong>记住 $\rho(s,t)=\sqrt{s/t}$（$s&lt;t$）这个漂亮公式</strong>：它只依赖时间比，与 $\sigma^2$ 无关。相隔越远越不相关，但<strong>永远不会到 0</strong>——这是维纳过程"记忆无限长"的体现。</p>
+  </details>
+  <details>
+    <summary>Q2 · $W(5)-W(3)$ 与 $W(2)$ 独立吗？$W(5)$ 与 $W(3)$ 独立吗？</summary>
+    <p><strong>$W(5)-W(3)$ 与 $W(2)$ 独立</strong>：因为 $[0,2]$ 与 $[3,5]$ 不相交，增量独立。</p>
+    <p><strong>$W(5)$ 与 $W(3)$ 不独立</strong>：$\mathrm{Cov}(W(3),W(5))=3\ne0$，且 $W(5)=W(3)+$（增量），必然含 $W(3)$ 的信息。</p>
+    <p><strong>这条对比是理解"独立增量"最有用的抓手</strong>：独立性只发生在<strong>不相交时段</strong>上；一旦两个时刻有重叠的"共同经历"，就一定相关。<strong>"$\min(s,t)$"就是共同经历的长度。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · 若把条件 4 改成"$W(t)\sim N(0,\ t^2)$"（方差是 $t^2$ 而非 $t$），还能叫维纳过程吗？</summary>
+    <p><strong>不能。</strong>原因有二：</p>
+    <ol>
+      <li><strong>与平稳性冲突</strong>：$D[W(t)]=t^2$ 不是 $t$ 的线性函数。而第 10 节定理证明：平稳独立增量 + $W(0)=0$ <strong>必然</strong>推出 $D(t)=\sigma^2t$。所以"平稳独立增量"与"方差 $\propto t^2$"不能同时成立。</li>
+      <li><strong>轨道的正则性也会变</strong>：$D\propto t^2$ 意味着位移量级是 $t$（而非 $\sqrt t$），斜率量级是常数——轨道会光滑得多（如 Fractional Brownian Motion 的 $H=1$ 极限，那是一族直线）。</li>
+    </ol>
+    <p><strong>结论</strong>：<strong>$\sqrt{t}$ 标度是维纳过程的定义性特征</strong>，不是可以随便改的细节。若真想做"更光滑"或"更粗糙"的推广，就得放弃"平稳独立增量"，转用分数布朗运动 $B_H(t)$（$H\ne1/2$，其增量<strong>不独立但有长记忆</strong>）。</p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么说"第 10 节 + 第 11 节 = 维纳过程的完整刻画"？</summary>
+    <p>因为两条定理拼起来正好覆盖了正态过程的两个身份证明：</p>
+    <ul>
+      <li><strong>第 10 节</strong>（平稳独立增量 + $X(0)=0$）⇒ $m(t)=0$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$。这里给出了 $m(t)$ 与 $C(s,t)$ 的<strong>具体形式</strong>，但还没说过程是正态的。</li>
+      <li><strong>第 11 节</strong>（正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定）⇒ 一旦知道它是正态过程，$m(t)$ 与 $C(s,t)$ 就把<strong>全套有限维分布</strong>锁死了。</li>
+      <li><strong>本节 4.1</strong> 补上中间的缺口：由"增量独立且正态 + $W(0)=0$"证明它是<strong>正态过程</strong>。</li>
+    </ul>
+    <p>三步合起来：<strong>三条公理（平稳独立增量 + 正态增量 + 起点为 0）⇒ 完整的分布结构</strong>。这就是为什么维纳过程"看起来只需要四个条件，其实已经把一切都定好了"。</p>
+  </details>
+
+  <div class="callout tip">
+    <span class="label">📌 第 06 讲收束</span>
+    <p>到这里，随机过程的基本框架已经搭完：<strong>定义（第 02 节）→ 分类（第 03 节）→ 分布（第 04 / 05 节）→ 数字特征（第 06 / 07 / 08 节）→ 三类重要过程（第 09 / 11 / 12 节）</strong>。</p>
+    <p>留下的伏笔，也就是下一讲的主题：<strong>把"独立增量"换成"Markov 性"</strong>（只认现在、不认历史），就得到 <strong>Markov 链</strong>；再加上"计数 + 平稳性"，就得到 <strong>Poisson 过程</strong>——而这两者正是排队论的基石。</p>
+  </div>
+
+  <div class="pager">
+    <a href="./11-正态过程.html"><span class="label">← 上一节</span><span class="title">正态过程（高斯过程）</span></a>
+    <a href="./动画-过程样本轨道族.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">动画 · 过程样本轨道族</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

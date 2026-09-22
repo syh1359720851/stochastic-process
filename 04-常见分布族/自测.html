@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自测 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .qbox{border:1px solid var(--c-line);border-radius:8px;padding:14px 18px;margin:16px 0;background:var(--c-card)}
+  .qbox h4{margin:0 0 8px;color:var(--c-primary);font-size:16px}
+  .qbox .meta{font-size:12px;color:var(--c-muted);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 自测</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html">03 Poisson</a>
+    <a href="./04-均匀分布.html">04 均匀</a>
+    <a href="./05-指数分布.html">05 指数</a>
+    <a href="./06-Gamma与正态分布.html">06 Gamma / 正态</a>
+    <a href="./自测.html" class="current">自测</a>
+  </nav>
+
+  <h1>本讲自测 · 10 题</h1>
+  <p class="lede">覆盖：Bernoulli / 二项 / 几何 / 负二项 / Poisson / 均匀 / 指数 / Gamma / 正态——共 9 个常见分布的定义、性质、计算与典型场景。建议先做完所有题，再点击对答案。</p>
+
+  <div class="callout intuition">
+    <span class="label">使用建议</span>
+    1) 先不看答案，凭理解作答；2) 点开每题下方的"答案与解析"自查；3) 错题回到对应概念页重读；4) 难题标 ★，可与同学讨论。
+  </div>
+
+  <!-- Q1 -->
+  <div class="qbox">
+    <h4>Q1 · Bernoulli 与二项（基础）</h4>
+    <div class="meta">来源：§1 · 难度 ⭐</div>
+    <p>某零件次品率 $p=0.05$。抽检 10 件，求"恰好 1 件次品"的概率。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$X\sim B(10,0.05)$，$P(X=1)=\binom{10}{1}(0.05)^1(0.95)^9=10\times 0.05\times 0.6302\approx 0.3151$。</p>
+      <p>直观：10 件抽 1 件次品的位置有 10 种选择，每种概率 $(0.05)(0.95)^9$。</p>
+    </details>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qbox">
+    <h4>Q2 · 几何分布 · 无记忆性（基础）</h4>
+    <div class="meta">来源：§2 · 难度 ⭐</div>
+    <p>投篮命中率 $p=0.4$。投了 3 次都没中，求"第 4 次才中"的概率。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>由<strong>无记忆性</strong>：$P(X=4\mid X&gt;3)=P(X=1)=0.4$。</p>
+      <p>也直接算：$P(X=4)=(0.6)^3\cdot 0.4=0.216\times 0.4=0.0864$，$P(X&gt;3)=(0.6)^3=0.216$，条件概率 $0.0864/0.216=0.4$ ✓。</p>
+      <p>含义：前 3 次未中与未来<strong>独立</strong>——"过去的失败对未来没影响"。</p>
+    </details>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qbox">
+    <h4>Q3 · Poisson 罕见事件近似（核心）</h4>
+    <div class="meta">来源：§3 · 难度 ⭐⭐</div>
+    <p>某医院一周内接生 $\lambda=7$ 名婴儿。求"恰好 10 名"的概率。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$X\sim P(7)$，$P(X=10)=\dfrac{7^{10}}{10!}\,e^{-7}$。</p>
+      <p>$7^{10}=282475249$，$10!=3628800$，$e^{-7}\approx 0.0009119$。</p>
+      <p>$P(X=10)\approx \dfrac{282475249}{3628800}\times 0.0009119\approx 77.85\times 0.0009119\approx 0.0710$。</p>
+      <p>（用计算器或查 Poisson 表确认精确值约 $0.0710$。）</p>
+    </details>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qbox">
+    <h4>Q4 · 连续均匀（基础）</h4>
+    <div class="meta">来源：§4 · 难度 ⭐</div>
+    <p>$X\sim U(-1,3)$，求 $P(X\le 0)$，$P(X^2\le 1)$，$E(X)$，$D(X)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$a=-1,\ b=3,\ b-a=4$。</p>
+      <p>$P(X\le 0)=\dfrac{0-(-1)}{4}=\dfrac{1}{4}$。</p>
+      <p>$P(X^2\le 1)=P(-1\le X\le 1)=\dfrac{1-(-1)}{4}=\dfrac{1}{2}$。</p>
+      <p>$E(X)=(a+b)/2=1$，$D(X)=(b-a)^2/12=16/12=4/3$。</p>
+    </details>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qbox">
+    <h4>Q5 · 指数分布 · 无记忆性（核心）</h4>
+    <div class="meta">来源：§5 · 难度 ⭐⭐</div>
+    <p>某设备寿命 $X\sim\text{Exp}(\lambda=1/1000)$（平均 1000 小时）。已工作 800 小时未坏，求"再工作 500 小时以上"的概率。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>由<strong>无记忆性</strong>：$P(X&gt;800+500\mid X&gt;800)=P(X&gt;500)=e^{-500/1000}=e^{-1/2}\approx 0.6065$。</p>
+      <p>直观：指数分布"无老化"——已用多久对未来寿命没影响。</p>
+      <p><strong>思考</strong>：实际设备有老化（用越久越易坏），指数假设是一种简化——若数据不符，需用 Weibull / Gamma 替代。</p>
+    </details>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qbox">
+    <h4>Q6 · Gamma / Erlang 分布（核心）</h4>
+    <div class="meta">来源：§6 · 难度 ⭐⭐</div>
+    <p>银行平均 1 分钟到达 2 位顾客（指数间隔）。求"第 3 位顾客到达时间 $S_3$ 的期望与方差"，以及 "$S_3$ 的分布"。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$X_i\sim\text{Exp}(2)$（$\lambda=2$/min），$S_3=X_1+X_2+X_3\sim\Gamma(3,2)$（Erlang）。</p>
+      <p>$E(S_3)=3/2=1.5$ 分钟。</p>
+      <p>$D(S_3)=3/4=0.75$，标准差 $\sqrt{0.75}\approx 0.866$ 分钟。</p>
+      <p>密度：$f_{S_3}(t)=\dfrac{2^3}{2!}t^2 e^{-2t}=4t^2e^{-2t}$，$t\ge 0$。</p>
+      <p>直观：第 3 位顾客平均 1.5 分钟到达（每位 30 秒）——与"$\lambda=2$"对应。</p>
+    </details>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qbox">
+    <h4>Q7 · 正态标准化（基础）</h4>
+    <div class="meta">来源：§6 · 难度 ⭐</div>
+    <p>$X\sim N(100,25)$，求 $P(X&gt;110)$，$P(85&lt;X\le 115)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$\sigma=\sqrt{25}=5$。</p>
+      <p>$P(X&gt;110)=P\!\left(Z&gt;\dfrac{110-100}{5}\right)=P(Z&gt;2)=1-\Phi(2)\approx 1-0.9772=0.0228$。</p>
+      <p>$P(85&lt;X\le 115)=P(-3&lt;Z\le 3)=\Phi(3)-\Phi(-3)=2\Phi(3)-1\approx 2\times 0.9987-1=0.9974$。</p>
+      <p>由 $3\sigma$ 原则，$[\mu-3\sigma,\mu+3\sigma]$ 覆盖 99.73% ✓。</p>
+    </details>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qbox">
+    <h4>Q8 · 3σ 原则（核心）</h4>
+    <div class="meta">来源：§6 · 难度 ⭐⭐</div>
+    <p>某生产线产品长度 $X\sim N(50,0.1^2)$ mm。规格为 $[49.7, 50.3]$ mm。求"不合格率"。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$P(X&lt;49.7)=P\!\left(Z&lt;\dfrac{49.7-50}{0.1}\right)=P(Z&lt;-3)=1-\Phi(3)\approx 0.00135$。</p>
+      <p>$P(X&gt;50.3)=P\!\left(Z&gt;\dfrac{50.3-50}{0.1}\right)=P(Z&gt;3)\approx 0.00135$。</p>
+      <p>不合格率 $\approx 2\times 0.00135=0.0027=0.27\%$。</p>
+      <p>由 $3\sigma$ 原则：超出 $3\sigma$（即 $[\mu-3\sigma,\mu+3\sigma]=[49.7,50.3]$）的单边概率约 $0.135\%$，双边约 $0.27\%$ ✓。</p>
+    </details>
+  </div>
+
+  <!-- Q9 -->
+  <div class="qbox">
+    <h4>Q9 · 分布识别（进阶）★</h4>
+    <div class="meta">来源：综合 · 难度 ⭐⭐⭐</div>
+    <p>下列场景各对应什么分布？写出参数。</p>
+    <p>(a) 抛硬币 10 次，正面次数 $X$。</p>
+    <p>(b) 一小时内到达银行的顾客数 $Y$（平均 30 人）。</p>
+    <p>(c) 灯泡寿命 $Z$（平均 1000 小时，无老化）。</p>
+    <p>(d) 1000 名学生考试分数 $W$（平均 75，标准差 10）。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>(a) $X\sim B(10,0.5)$，二项分布。</p>
+      <p>(b) $Y\sim P(30)$，Poisson 分布（$\lambda=30$/h）。</p>
+      <p>(c) $Z\sim\text{Exp}(1/1000)$，指数分布（$\lambda=1/1000$/h，"无老化"对应指数假设）。</p>
+      <p>(d) $W\sim N(75,10^2)$，正态分布（$\mu=75$，$\sigma=10$）。</p>
+      <p><strong>训练要点</strong>：从场景读出"成功/失败型"→ 二项；"稀疏计数"→ Poisson；"无老化等待时间"→ 指数；"钟形聚集"→ 正态。</p>
+    </details>
+  </div>
+
+  <!-- Q10 -->
+  <div class="qbox">
+    <h4>Q10 · 综合计算（挑战）★</h4>
+    <div class="meta">来源：综合 · 难度 ⭐⭐⭐</div>
+    <p>某服务系统：顾客按 Poisson 到达（$\lambda=5$/h），每位顾客服务时间 $S\sim\text{Exp}(\mu=8$/h$)$。求：</p>
+    <p>(a) 间隔 6 分钟内<strong>无</strong>顾客到达的概率；</p>
+    <p>(b) 第 5 位顾客到达时间 $T_5$ 的分布与期望；</p>
+    <p>(c) 5 位顾客<strong>总服务时间</strong> $S_5$ 的分布。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>(a) 间隔 $X\sim\text{Exp}(5)$，单位 h。6 min = 0.1 h。$P(X&gt;0.1)=e^{-5\times 0.1}=e^{-0.5}\approx 0.6065$。</p>
+      <p>(b) $T_5=X_1+\dots+X_5\sim\Gamma(5,5)$（Erlang），$E(T_5)=5/5=1$ h，$D(T_5)=5/25=0.2$，标准差 $\sqrt{0.2}\approx 0.447$ h。</p>
+      <p>(c) $S_i\sim\text{Exp}(8)$ i.i.d.，$S_5\sim\Gamma(5,8)$，$E(S_5)=5/8=0.625$ h，$D(S_5)=5/64\approx 0.078$，标准差 $\approx 0.280$ h。</p>
+      <p><strong>拓展</strong>（第 13 讲排队论 M/M/1）：利用率 $\rho=\lambda/\mu=5/8=0.625$，系统稳定。平均队长 $L=\rho/(1-\rho)\approx 1.67$ 人。</p>
+    </details>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">📌 评分参考</span>
+    <ul>
+      <li>9–10 题正确：本讲已完全掌握，可进入第 05 讲"数字特征与特征函数"</li>
+      <li>7–8 题正确：基础扎实，建议把错题对应的概念页再过一遍</li>
+      <li>5–6 题正确：需要回到 §1–§3 把"离散族（Bernoulli/二项/几何/Poisson）"重新梳理</li>
+      <li>≤4 题正确：从 §1 重新开始；重点搞清"无记忆性"、"Poisson 定理"、"3σ 原则"三个核心考点</li>
+    </ul>
+  </div>
+
+  <div class="pager">
+    <a href="./06-Gamma与正态分布.html"><span class="label">← 上一节</span><span class="title">Gamma 与正态分布</span></a>
+    <a href="../05-数字特征与特征函数/" style="text-align:right"><span class="label">下一讲 →</span><span class="title">第 05 讲 · 数字特征与特征函数</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 自测 · 融合版课件</footer>
+</div>
+</body>
+</html>

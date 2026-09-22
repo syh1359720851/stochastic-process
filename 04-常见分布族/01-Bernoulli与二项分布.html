@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 Bernoulli 与二项分布 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 01</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html" class="current">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html">03 Poisson</a>
+    <a href="./04-均匀分布.html">04 均匀</a>
+    <a href="./05-指数分布.html">05 指数</a>
+    <a href="./06-Gamma与正态分布.html">06 Gamma / 正态</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>01 · Bernoulli 与二项分布</h1>
+  <p class="lede">所有"成功/失败"型试验的<strong>原子</strong>。Bernoulli 是单次试验，二项是 $n$ 次独立试验的"成功次数"——后者由前者<strong>加和</strong>生成。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>Bernoulli 试验</strong> = 一次只关心"<strong>成功 / 失败</strong>"两种结果的随机试验，结果用 $0/1$ 数值化。
+    <ul>
+      <li>每次试验<strong>只有两个结果</strong>：成功（$X=1$）概率 $p$，失败（$X=0$）概率 $q=1-p$。</li>
+      <li>把 $n$ 次<strong>独立</strong>的 Bernoulli 试验<strong>加起来</strong>，得到"<strong>成功次数</strong>"——这就是<strong>二项分布</strong> $B(n,p)$。</li>
+      <li>这是所有"二分类 / 是非题 / 抛硬币 / 产品合格 / 到达 / 感染 / 答题正确"问题的<strong>统一建模语言</strong>。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li>抛一次硬币：正面成功，反面失败，$p=1/2$。</li>
+      <li>产品检验：合格 $X=1$，不合格 $X=0$，$p=0.97$。</li>
+      <li>投篮：进球 $X=1$，未进 $X=0$，$p$ 视球员水平而定。</li>
+      <li>网站点击：点击 $X=1$，未点 $X=0$——A/B 实验中 $p$ 不同导致"转化率"不同。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 Bernoulli 分布（0-1 分布）</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · Bernoulli 分布 $B(1,p)$</span>
+    <p>随机变量 $X$ 只取 $0,1$ 两个值，分布列为</p>
+    $$P(X=1)=p,\qquad P(X=0)=1-p=q$$
+    <p>记作 $X\sim B(1,p)$ 或 $X\sim\text{Bernoulli}(p)$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">Bernoulli 的指示表示</span>
+    <p>设 $A$ 是一个事件，$P(A)=p$，定义</p>
+    $$\mathbf{1}_A(\omega)=\begin{cases}1,& \omega\in A\\ 0,& \omega\notin A\end{cases}$$
+    <p>则 $\mathbf{1}_A\sim B(1,p)$。<strong>任何 Bernoulli 变量都等价于某个事件的指示</strong>。</p>
+  </div>
+
+  <h3>2.2 二项分布 $B(n,p)$</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 二项分布 $B(n,p)$</span>
+    <p>设 $X_1,\dots,X_n$ 独立同分布（i.i.d.），$X_i\sim B(1,p)$，令</p>
+    $$X=X_1+X_2+\cdots+X_n$$
+    <p>则 $X$ 服从<strong>二项分布</strong> $B(n,p)$，分布列为</p>
+    $$\boxed{P(X=k)=\binom{n}{k}p^k(1-p)^{n-k},\quad k=0,1,\dots,n}$$
+    <p>其中 $\displaystyle\binom{n}{k}=\frac{n!}{k!\,(n-k)!}$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">物理解释</span>
+    <p>在 $n$ 次独立重复试验中，<strong>恰好</strong>有 $k$ 次"成功"的概率——要选哪 $k$ 次成功（$\binom{n}{k}$ 种）$\times$ 每种的具体序列概率（$p^k(1-p)^{n-k}$）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 关键性质</h2>
+
+  <div class="callout theorem">
+    <span class="label">性质 · $n$ 个独立 Bernoulli 之和</span>
+    <p>若 $X\sim B(m,p)$，$Y\sim B(n,p)$，且 $X,Y$<strong>独立</strong>，则</p>
+    $$X+Y\sim B(m+n,p)$$
+    <p>即二项分布对"<strong>独立求和</strong>"封闭。这称为<strong>可加性（reproductive property）</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">数字特征（数值记一下，第 05 讲系统推导）</span>
+    <table>
+      <tr><th>分布</th><th>期望 $E(X)$</th><th>方差 $D(X)$</th></tr>
+      <tr><td>Bernoulli $B(1,p)$</td><td>$p$</td><td>$p(1-p)$</td></tr>
+      <tr><td>二项 $B(n,p)$</td><td>$np$</td><td>$np(1-p)$</td></tr>
+    </table>
+    <p>二项的方差等于 $n$ 倍 Bernoulli 方差——因为求和方差按独立项相加。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">归一性验证（关键恒等式）</span>
+    $$\sum_{k=0}^n\binom{n}{k}p^k(1-p)^{n-k}=(p+(1-p))^n=1$$
+    <p>这正是<strong>二项式定理</strong>——把分布列加起来等于 $1$，与概率公理一致。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 典型例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 抛硬币 10 次正面次数</span>
+    <p>$X\sim B(10,0.5)$，求 $P(X=5),\ P(X\ge 8)$。</p>
+    <p>$P(X=5)=\binom{10}{5}(0.5)^{10}=\dfrac{252}{1024}\approx 0.246$。</p>
+    <p>$P(X\ge 8)=\displaystyle\sum_{k=8}^{10}\binom{10}{k}(0.5)^{10}=\dfrac{\binom{10}{8}+\binom{10}{9}+\binom{10}{10}}{1024}=\dfrac{45+10+1}{1024}\approx 0.0547$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 抽样检验（王庆先第 1 讲 slide 26）</span>
+    <p>一批产品有 $20\%$ 不合格率。抽 $10$ 件，求"恰好 $2$ 件不合格"的概率。</p>
+    <p>设 $X$ = 不合格件数，$X\sim B(10,0.2)$：</p>
+    $$P(X=2)=\binom{10}{2}(0.2)^2(0.8)^8=45\times 0.04\times 0.1678\approx 0.3020$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 篮球命中率</span>
+    <p>球员每球命中率 $p=0.6$，投 $5$ 球。设 $Y$ = 进球数，$Y\sim B(5,0.6)$。问"至少进 4 球"的概率。</p>
+    <p>$P(Y\ge 4)=P(Y=4)+P(Y=5)=\binom{5}{4}(0.6)^4(0.4)+\binom{5}{5}(0.6)^5$</p>
+    <p>$=5\cdot 0.1296\cdot 0.4+0.07776=0.2592+0.07776\approx 0.337$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 重要变形与推广</h2>
+
+  <h3>5.1 模式 1：至多 / 至少</h3>
+  <div class="callout warn">
+    <span class="label">易错 · 写"$\le$"还是"$<$"</span>
+    <p>"至多 $k$ 次成功"=$P(X\le k)$（含 $k$）；"少于 $k$ 次"=$P(X&lt;k)=P(X\le k-1)$（不含 $k$）。考研题常在此设陷阱。</p>
+    <p>例：抛 10 次硬币，"正面次数<strong>不超过</strong> 5"=$P(X\le 5)$；"正面次数<strong>少于</strong> 5"=$P(X\le 4)$。</p>
+  </div>
+
+  <h3>5.2 模式 2：分段求和（互补事件）</h3>
+  <p>当 $p$ 较小，$n$ 较大时，直接求和会很繁琐。可用</p>
+  $$P(X\le k)=1-P(X\ge k+1)$$
+  <p>把"<strong>至少 $k+1$</strong>"换成"<strong>至多 $k$</strong>"的补——选哪边更短就用哪边。</p>
+
+  <h3>5.3 模式 3：$B(n,p)$ 与 $B(n,1-p)$ 的对称性</h3>
+  <div class="callout theorem">
+    <span class="label">对称性</span>
+    <p>若 $X\sim B(n,p)$，则 $n-X\sim B(n,1-p)$。</p>
+    <p>直观：把"成功"重新定义为"失败"——参数 $p\to 1-p$，成功次数变成失败次数。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 易错点</h2>
+
+  <div class="callout danger">
+    <span class="label">致命错误 · 二项分布的"独立"前提</span>
+    <p>$B(n,p)$ 的核心假设是 $n$ 次试验<strong>相互独立且每次成功概率都是 $p$</strong>。若试验不独立（如"不放回抽样"），则<strong>不能用二项分布</strong>，要用<strong>超几何分布</strong>（见 §2 / §3 后续介绍）。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · 别把"组合数 $\binom{n}{k}$"写成 $A_n^k$</span>
+    <p>$\binom{n}{k}=C_n^k=\dfrac{n!}{k!(n-k)!}$ 是<strong>组合数</strong>（不计顺序）。$\binom{n}{k}=A_n^k/k!$ 也成立，但考试写 $A_n^k$（排列数）会<strong>直接失分</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · $P(X=k)$ 取最大值的位置</span>
+    <p>$B(n,p)$ 在 $k=\lfloor (n+1)p\rfloor$ 处达到最大值。粗略记"在 $np$ 附近"——这是最概取值（mode）。例：$n=10,p=0.5$，最概值是 $k=5$（两侧各 1 个 $k$ 概率相等）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $X\sim B(3,0.4)$，求 $P(X=0),P(X=2),P(X\ge 1)$。</summary>
+    <p>$P(X=0)=(0.6)^3=0.216$；$P(X=2)=\binom{3}{2}(0.4)^2(0.6)=3\cdot 0.16\cdot 0.6=0.288$；$P(X\ge 1)=1-P(X=0)=0.784$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 抛 5 次硬币，"正面数 $\ge$ 反面数"的概率？</summary>
+    <p>正面数 $\ge$ 反面数 $\Leftrightarrow X\ge 5/2 \Leftrightarrow X\ge 3$。$P(X\ge 3)=\dfrac{\binom{5}{3}+\binom{5}{4}+\binom{5}{5}}{32}=\dfrac{10+5+1}{32}=\dfrac{16}{32}=\dfrac{1}{2}$。直观上对称！</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 一批零件 $5\%$ 不合格，抽 20 件检查，发现 $\ge 2$ 件不合格的概率？</summary>
+    <p>$X\sim B(20,0.05)$，$P(X\ge 2)=1-P(X=0)-P(X=1)=1-(0.95)^{20}-20\cdot 0.05\cdot(0.95)^{19}$</p>
+    <p>$\approx 1-0.3585-0.3774\approx 0.2641$。</p>
+    <p>（注：当 $n$ 较大 $p$ 较小时，本题可用 Poisson 近似：$\lambda=np=1$，$P(X\ge 2)\approx 1-e^{-1}-e^{-1}=1-2/e\approx 0.2642$——几乎一致！）</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 二项分布的可加性意味着什么？</summary>
+    <p>若 $X\sim B(m,p)$ 与 $Y\sim B(n,p)$ <strong>独立</strong>，$X+Y\sim B(m+n,p)$。换言之：把 $m+n$ 次独立 Bernoulli 试验可以"分组"为 $m$ 次和 $n$ 次，两组的成功数加起来还是二项分布。</p>
+    <p>注意：可加性要求 $p$<strong>相同</strong>；如果 $p$ 不同则要用 Poisson 二项分布（超出本课程范围）。</p>
+  </details>
+
+  <details>
+    <summary>Q5 · 为什么 $n-X\sim B(n,1-p)$？</summary>
+    <p>因为"$n-X$"是"$n$ 次试验中<strong>失败</strong>的次数"，而每次失败的概率是 $1-p$，独立重复 $n$ 次——正是 $B(n,1-p)$。这道题考你对"<strong>对称性</strong>"的直觉。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>Bernoulli 是单次"成功/失败"（参数 $p$）；二项 $B(n,p)$ 是 $n$ 次独立 Bernoulli 之和；分布列 $\binom{n}{k}p^k(1-p)^{n-k}$；均值 $np$，方差 $np(1-p)$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./index.html"><span class="label">← 返回</span><span class="title">讲次首页</span></a>
+    <a href="./02-几何与负二项分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">几何与负二项分布</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 01 Bernoulli 与二项分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

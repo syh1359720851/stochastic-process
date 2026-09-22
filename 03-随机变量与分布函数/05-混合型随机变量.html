@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 混合型随机变量 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 05</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html" class="current">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>05 · 混合型随机变量</h1>
+  <p class="lede">不是所有随机变量都能"非此即彼"地归入离散或连续。<strong>混合型</strong>既有"原子"（离散部分）又有"涂抹"（连续部分）——它的 $F$ 既会<strong>跳跃</strong>也会<strong>连续增长</strong>。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 为什么需要混合型？</h2>
+
+  <div class="callout intuition">
+    <span class="label">问题 · 离散和连续之外的第三种</span>
+    <p>前面 §3、§4 把随机变量分成了离散和连续<strong>两种</strong>。但实际中有第三种：</p>
+    <ul>
+      <li>以 $p_0$ 概率"恰好等于 0"（离散部分）；</li>
+      <li>以 $1-p_0$ 概率落在一段连续区间上（连续部分）。</li>
+    </ul>
+    <p>例如：保险索赔金额 $X$ = 0（不出险）的概率很高，$X$ &gt; 0 时服从某个连续分布（指数 / Gamma / Pareto）。这种 $X$ 既<strong>不是离散</strong>（$X$ 可以取区间内任意值）也<strong>不是连续</strong>（$P(X=0)=p_0&gt;0$）。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">注意 · 这是考试易错点</span>
+    <p>看到"$P(X=a)&gt;0$"立即断定"<strong>$X$ 是离散的</strong>"——是错的！正确说法：<strong>$X$ 含离散部分</strong>（不一定是纯离散）。只有"取值最多可数"才是纯离散型。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 混合型随机变量</span>
+    <p>设 $X$ 是随机变量。若 $X$ <strong>既不是</strong>离散型（取值含不可数部分），<strong>也不是</strong>连续型（$F$ 至少有一处跳跃），则称 $X$ 为<strong>混合型随机变量</strong>。</p>
+    <p>等价地：存在非空离散集 $A=\{a_1,a_2,\dots\}\subset\mathbb{R}$ 和非负函数 $f(x)$，使得</p>
+    $$F(x)=F_d(x)+\int_{-\infty}^x f(t)\,dt$$
+    <p>其中 $F_d(x)=\sum_{a_k\le x}P(X=a_k)$ 是<strong>纯离散部分</strong>，$f$ 是<strong>连续密度</strong>。两部分都不恒为 0。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 标准例子 · "0-跳跃 + 指数尾巴"</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 两段混合</span>
+    <p>设 $X$ 的分布函数为</p>
+    $$F(x)=\begin{cases}0,& x&lt;0\\ \tfrac{1}{2},& 0\le x&lt;1\\ \tfrac{1}{2}+\tfrac{1}{2}(1-e^{-(x-1)}),& x\ge 1\end{cases}$$
+    <p>分析：</p>
+    <ul>
+      <li>$P(X=0)=F(0)-F(0-)=\tfrac{1}{2}-0=\tfrac{1}{2}$ ——<strong>离散部分</strong>（在 $x=0$ 跳跃 $1/2$）；</li>
+      <li>$P(0&lt;X\le 1)=F(1)-F(0)=\tfrac{1}{2}-\tfrac{1}{2}=0$；</li>
+      <li>当 $x&gt;1$ 时 $F$ 连续增长，斜率 $f(x)=\tfrac{1}{2}e^{-(x-1)}$ ——<strong>连续部分</strong>（指数分布 $X-1\sim\text{Exp}(1)$，权重 $1/2$）；</li>
+      <li>$X$ <strong>既非离散也非连续</strong>——取 $X=0$ 的概率为 $1/2$，但 $X&gt;1$ 时可取任意值。</li>
+    </ul>
+  </div>
+
+  <h3>3.1 几何直观</h3>
+  <pre style="font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:13px;overflow-x:auto;line-height:1.4;color:var(--c-fg)">
+   F(x)
+   1.0 ┤            ●─────────●
+       │            ┃  ╱
+       │            ┃╱      ← 连续爬升段
+   0.5 ┤●━━━━━━━━━━━┛
+       ┃           ↑
+       ┃           跳跃 1/2（在 x=0）
+   0.0 ┤━━
+       └───┬───┬───┬────► x
+       -1   0   1   2
+
+   F 在 x=0 处跳 1/2（离散），之后连续增长（连续）
+   </pre>
+
+  <!-- ============================================ -->
+  <h2>4. 经典反例 · Cantor 分布</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · Cantor 分布（奇异连续）</span>
+    <p>这是<strong>连续型但又不像连续型</strong>的奇怪反例——技术上属于"奇异连续"，是连续型的"病态"边界情形：</p>
+    <ul>
+      <li>$X$ 几乎必然落在<strong>Cantor 集</strong>（一个不可数、零测度、连续统基数的集合）中。</li>
+      <li>$X$ 的分布函数 $F$ 是<strong>连续</strong>的——$P(X=x)=0$ 对所有 $x$；</li>
+      <li>但 $F$<strong>不是</strong>任何 $f(x)$ 的积分——它是<strong>奇异连续</strong>（没有密度）。</li>
+      <li>$F$ 的图像是一条从 $0$ 升到 $1$ 的<strong>连续单调曲线</strong>，但<strong>几乎处处不可导</strong>（导数为 0 的点的测度为 1）。</li>
+    </ul>
+    <p>Cantor 分布告诉读者：连续型也分"正常连续（有密度）"和"奇异连续（无密度）"——本课程主要关注前者。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 期望：用 R-S 积分统一处理</h2>
+
+  <div class="callout theorem">
+    <span class="label">公式 · 混合型的期望</span>
+    <p>设 $X$ 混合型，分布函数 $F$ 可分解为</p>
+    $$F(x)=F_d(x)+F_c(x)$$
+    <p>其中 $F_d$ 是纯离散部分（带权重 $p_k$），$F_c$ 是连续部分（带密度 $f(x)$），则对良好函数 $g$：</p>
+    $$E[g(X)]=\sum_k g(x_k)\,p_k+\int_{-\infty}^{+\infty} g(x)\,f(x)\,dx$$
+    <p>——<strong>求和 + 积分</strong>同时出现。这是 Lebesgue–Stieltjes 积分的具体展开（详见课件 sjgc0.1R-S积分简介.pdf）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 上面 §3 例子的期望</span>
+    <p>对上面 §3 的例子：$E(X)=?$</p>
+    <p>离散部分：$X=0$，权重 $1/2$ → 贡献 $0\cdot\frac{1}{2}=0$。</p>
+    <p>连续部分：$X-1\sim\text{Exp}(1)$，权重 $1/2$ → 贡献 $\int_1^\infty (x)\cdot\tfrac{1}{2}e^{-(x-1)}\,dx$。</p>
+    <p>计算：$\int_1^\infty x\cdot\tfrac{1}{2}e^{-(x-1)}\,dx=\tfrac{1}{2}\int_0^\infty (y+1)e^{-y}\,dy$（换元 $y=x-1$）$= \tfrac{1}{2}(1+1)=1$。</p>
+    <p>所以 $E(X)=0+1=1$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 三类随机变量的对比</h2>
+
+  <table>
+    <tr><th>类型</th><th>$F(x)$ 形态</th><th>分布描述</th><th>期望公式</th></tr>
+    <tr><td><strong>纯离散</strong></td><td>阶梯函数（只在 $x_k$ 处跳）</td><td>$p_k$，$\sum p_k=1$</td><td>$\sum_k x_k p_k$</td></tr>
+    <tr><td><strong>纯连续</strong></td><td>连续函数（无处跳）</td><td>$f(x)$，$\int f=1$</td><td>$\int x f(x)\,dx$</td></tr>
+    <tr><td><strong>混合型</strong></td><td>既跳又连续增长</td><td>$p_k+f(x)$</td><td>$\sum x_k p_k+\int x f(x)\,dx$</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">重要 · 离散 ∪ 连续 ≠ 全部</span>
+    <p>任何随机变量都属于这<strong>三类之一</strong>（离散 / 连续 / 混合）——这三类是<strong>穷尽</strong>且<strong>互斥</strong>的（奇异连续属于"连续"的子分类）。所以当我们说"随机变量分为离散和连续"时，是<strong>不严谨</strong>的说法——正确说法是"随机变量分<strong>为</strong>离散、连续、混合三种"。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $P(X=0)&gt;0$ 能推出 $X$ 是离散的吗？</summary>
+    <p><strong>不能</strong>。$P(X=0)&gt;0$ 只能推出"$X$ 有离散部分"，但 $X$ 还可能在其它区间取值——这时是<strong>混合型</strong>。要 $X$ 是纯离散型，需要"$X$ 的取值范围可数"。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · $F$ 既连续又有"跳跃"是不可能的——对吗？</summary>
+    <p>不对。混合型的 $F$ 正是<strong>二者兼有</strong>：在离散点处跳 $p_k$，在区间内连续增长。前面 §3 的例子就是这种。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 一个混合型 $X$ 的方差能直接用 $E(X^2)-[E(X)]^2$ 算吗？</summary>
+    <p>可以——但要先按 §5 公式算 $E(X)$ 和 $E(X^2)$（即把求和与积分分开）。这与离散型、连续型的公式<strong>形式一致</strong>——只是 $E$ 的计算本身要分段处理。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · $X$ 取 $0$ 或 $[1,\infty)$ 中的值，$P(X=0)=1/2$，$X\mid X\ge 1\sim\text{Exp}(1)$。$X$ 的分布函数是什么？</summary>
+    <p>$F(x)=0$ 当 $x&lt;0$；$F(0)=1/2$（在 $0$ 处跳跃 $1/2$）；当 $x\ge 1$，$F(x)=1/2+\tfrac{1}{2}(1-e^{-(x-1)})$；在 $[0,1)$ 上 $F(x)=1/2$（常数，无跳跃也无增长）。这就是 §3 的例子。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>混合型 $X$：既有离散点（$P(X=a_k)&gt;0$）又有连续区间上的密度；$F$ 既跳又连续；期望 = 求和 + 积分。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./04-连续随机变量.html"><span class="label">← 上一节</span><span class="title">连续型随机变量</span></a>
+    <a href="./06-二维随机变量与联合分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">二维随机变量与联合分布</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 05 混合型随机变量 · 融合版课件</footer>
+</div>
+</body>
+</html>

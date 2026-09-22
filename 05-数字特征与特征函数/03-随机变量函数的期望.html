@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 随机变量函数的期望 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html" class="current">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · 随机变量函数的期望</h1>
+  <p class="lede">已知 $X$ 的分布，要求 $Y=g(X)$ 的期望——<strong>不需要先求 $Y$ 的分布</strong>，直接对 $X$ 的分布算 $E[g(X)]$。这是概率论中<strong>最常考</strong>的技巧之一。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    $E[g(X)]=\int g(x)\,dF_X(x)$——"把 $X$ 的分布喂给 $g$，加权求和 / 积分"。<strong>永远不需要先求 $g(X)$ 的分布</strong>。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <p>求 $E[g(X)]$ 的"朴素思路"是：</p>
+    <ol>
+      <li>先求 $Y=g(X)$ 的分布 $F_Y$；</li>
+      <li>再用 $E(Y)=\int y\,dF_Y(y)$。</li>
+    </ol>
+    <p>但<strong>第一步往往很麻烦</strong>（要分段、反函数、卷积……）。<strong>公式 $E[g(X)]=\int g(x)\,dF_X(x)$ 一步跳过第一步</strong>——只要 $X$ 的分布已知，直接代入 $g$ 即可。</p>
+    <p>物理含义：<strong>$g$ 只是"重新标记"了 $X$ 的取值</strong>，概率质量 $dF_X$ 不变——所以直接用 $g(x)$ 替代 $x$ 即可。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <p>抛一枚不公平硬币，正面概率 $p=0.7$，赌局规则：</p>
+    <ul>
+      <li>正面赢 $10$ 元，反面输 $3$ 元。</li>
+      <li>设 $X=1$ 表示正面（概率 $0.7$），$X=0$ 表示反面（概率 $0.3$），$Y=g(X)=13X-3$。</li>
+    </ul>
+    <p><strong>朴素做法</strong>：先求 $Y$ 的分布——$Y=10$ 概率 $0.7$，$Y=-3$ 概率 $0.3$，再算 $E(Y)$。</p>
+    <p><strong>直接代入</strong>：$E(Y)=E(13X-3)=13\cdot 0.7-3=6.1$——一样。</p>
+    <p>当 $g$ 更复杂（比如 $g(X)=X^2$，$X$ 的范围 $[0,10]$）时，直接代入优势巨大。</p>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 一维情形</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · 一维函数期望</span>
+    <p>设 $X$ 的分布函数为 $F_X(x)$，$g(x)$ 为 Borel 函数。若 $\int_{-\infty}^{+\infty}|g(x)|\,dF_X(x)&lt;\infty$，则</p>
+    $$E[g(X)]=\int_{-\infty}^{+\infty} g(x)\,dF_X(x)$$
+    <p>特别地：</p>
+    <ul>
+      <li>$X$ 取 $x_k$ 概率 $p_k$：$E[g(X)]=\sum_k g(x_k)\,p_k$。</li>
+      <li>$X$ 连续密度 $f_X$：$E[g(X)]=\int_{-\infty}^{+\infty} g(x)\,f_X(x)\,dx$。</li>
+    </ul>
+  </div>
+
+  <h3>2.2 二维情形</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · 二维函数期望</span>
+    <p>设 $(X,Y)$ 的联合分布为 $F(x,y)$，$g(x,y)$ Borel。若积分有限，则</p>
+    $$E[g(X,Y)]=\int_{-\infty}^{+\infty}\!\!\int_{-\infty}^{+\infty} g(x,y)\,dF(x,y)$$
+    <p>对应：</p>
+    <ul>
+      <li>$X,Y$ 离散：$E[g(X,Y)]=\sum_i\sum_j g(x_i,y_j)\,P(X=x_i,Y=y_j)$。</li>
+      <li>$X,Y$ 连续密度 $f(x,y)$：$E[g(X,Y)]=\iint g(x,y)\,f(x,y)\,dx\,dy$。</li>
+    </ul>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">证明思路 · 不需要求 $Y$ 的分布</span>
+    <p>设 $Y=g(X)$，分布函数 $F_Y(y)=P(Y\le y)=P(g(X)\le y)$。把积分改写：</p>
+    $$\int y\,dF_Y(y)=\int g(x)\,dF_X(x)$$
+    <p>左端是 $E(Y)$，右端是 $E[g(X)]$——同一回事。这个等式的证明用到测度变换 / 分布函数的单调变换，详见附录。</p>
+  </div>
+
+  <h2>3. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · $X\sim U[0,1]$，求 $E(X^2)$</span>
+    <p>直接代入：</p>
+    $$E(X^2)=\int_0^1 x^2\cdot 1\,dx=\frac{1}{3}$$
+    <p>无需先求 $Y=X^2$ 的分布（其密度在 $[0,1]$ 上是 $\frac{1}{2\sqrt{y}}$）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · $X$ 取 $\pm 1$ 各概率 $1/2$，求 $E(X^3)$</span>
+    <p>$E(X^3)=1^3\cdot\tfrac12+(-1)^3\cdot\tfrac12=0$。</p>
+    <p>注意 $X^3$ 与 $X$ 同分布，所以 $E(X^3)=E(X)=0$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · 二维 · $X,Y$ 独立同为 $U[0,1]$，求 $E(|X-Y|)$</span>
+    <p>直接用联合密度 $f(x,y)=1$（$0\le x,y\le 1$）：</p>
+    $$E(|X-Y|)=\iint_{[0,1]^2}|x-y|\,dx\,dy=\tfrac13$$
+    <p>（几何上等于 $[0,1]^2$ 内对角线两侧三角形面积 $\times 2$：$\int_0^1 2\cdot\tfrac{x^2}{2}\,dx=1/3$。）</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 4 · 指示变量（重要技巧）</span>
+    <p>事件 $A$ 的指示 $\mathbf{1}_A$ 满足 $\mathbf{1}_A^2=\mathbf{1}_A$，所以</p>
+    $$E(\mathbf{1}_A)=1\cdot P(A)+0\cdot P(A^c)=P(A)$$
+    $$E(\mathbf{1}_A^2)=E(\mathbf{1}_A)=P(A)$$
+    <p>这个"用指示变量代替事件"的技巧，<strong>是推导方差、不等式、概率不等式的核心工具</strong>。</p>
+  </div>
+
+  <h2>4. 条件期望的早期版本</h2>
+  <div class="callout theorem">
+    <span class="label">$E[g(Y)\mid X=x]$</span>
+    <p>设 $(X,Y)$ 联合连续，$f_{Y\mid X}(y\mid x)$ 是条件密度，则</p>
+    $$E[g(Y)\mid X=x]=\int_{-\infty}^{+\infty} g(y)\,f_{Y\mid X}(y\mid x)\,dy$$
+    <p>这是<strong>条件期望</strong>的严格定义——下一节 §7 会详细讲。</p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">四个常见错误</span>
+    <ul>
+      <li>❌ 求 $E(g(X))$ 时<strong>忘记换元</strong>——$X$ 的密度是 $f_X(x)$，不是 $f_Y(y)$。</li>
+      <li>❌ 二维情形把 $\iint g(x,y)\,dF(x,y)$ 写成 $\int g(x)\,dx\cdot\int g(y)\,dy$——需要<strong>独立性</strong>才能拆。</li>
+      <li>❌ 对 $g$ 非单调时仍套用单调公式 $f_Y(y)=f_X(g^{-1}(y))/|g'(g^{-1}(y))|$——应该用本节<strong>期望公式</strong>绕过。</li>
+      <li>❌ 求 $E(\max(X,Y))$ 时先去求 $\max$ 的分布——直接用 $\max(x,y)=\tfrac{1}{2}(x+y+|x-y|)$ 反而更简单。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · $X\sim P(\lambda)$（Poisson），求 $E(X^2)$。</summary>
+    <p>$E(X^2)=\sum_{k=0}^{\infty}k^2\cdot\tfrac{\lambda^k e^{-\lambda}}{k!}$。利用 $k^2=k(k-1)+k$，得 $=E(X(X-1))+E(X)=\lambda^2+\lambda$。这是求 Poisson 二阶矩的经典技巧。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X\sim U[0,a]$，$Y=X^2$，$E(Y)=$?</summary>
+    <p>$E(Y)=E(X^2)=\int_0^a x^2\cdot\tfrac{1}{a}\,dx=\tfrac{a^2}{3}$。</p>
+  </details>
+  <details>
+    <summary>Q3 · 抛两枚公平硬币，$X$=正面次数，$Y=$第一枚正面次数。$E(XY)=$?</summary>
+    <p>列出 $(X,Y)$：$(0,0),(1,0),(1,1),(2,1)$，概率 $\tfrac14,\tfrac14,\tfrac14,\tfrac14$。$E(XY)=0+0+\tfrac14\cdot 1+\tfrac14\cdot 2=\tfrac34$。注意 $X,Y$ 不独立（$Y\le X$）——所以不能拆 $E(X)E(Y)$。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./02-数学期望.html"><span class="label">← 上一节</span><span class="title">数学期望</span></a>
+    <a href="./04-方差.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">方差</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

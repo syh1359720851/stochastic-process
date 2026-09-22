@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 条件期望与全期望公式 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 07</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html" class="current">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>07 · 条件期望与全期望公式</h1>
+  <p class="lede">条件期望把"在某个事件发生的前提下"这件事<strong>翻译成期望</strong>。它既是从条件概率到期望的桥梁，也是 Wald 方程（第 8 节）和后续随机过程理论的基石。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    $E(Y\mid X=x)=$ "在 $X=x$ 条件下 $Y$ 的条件期望"。<strong>全期望公式</strong>：$E(X)=E[E(X\mid Y)]$ —— "从外往里算"或"从里往外算"都一样。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>条件期望 vs 条件概率</strong>：条件概率 $P(A\mid B)$ 是一个数；条件期望 $E(Y\mid X=x)$ 是一个<strong>关于 $x$ 的函数</strong>——把 $X$ 的每个取值对应到 $Y$ 在该条件下的均值。</li>
+      <li><strong>"分两步平均"</strong>：$E(X)=E[E(X\mid Y)]$ ——先在 $Y$ 固定时算 $X$ 的均值，再对 $Y$ 取期望。</li>
+      <li><strong>全概率公式的期望版</strong>：把 $P(A)=\sum P(A\mid B_i)P(B_i)$ 中 $A$ 替换为 $X$，$B_i$ 替换为 $Y$，就得到全期望公式。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>考试成绩</strong>：$X$ 是班级成绩，$Y$ 是班级类型（"实验班"或"普通班"）。$E(X)$ = 全年级平均；$E(X\mid Y=\text{实验班})$ = 实验班平均分；全期望公式：<strong>全年级平均</strong> = 实验班平均 × 概率 + 普通班平均 × 概率。</li>
+      <li><strong>顾客等待时间</strong>：$X$ 是每位顾客等待时间，$Y$ 是当天的"忙/闲"标记。$E(X\mid Y=\text{忙})$ 是忙日等待时间，$E(X\mid Y=\text{闲})$ 是闲日等待时间。全期望公式把二者综合为"全天平均等待"。</li>
+    </ul>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 条件期望 $E(Y\mid X=x)$</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 离散-离散</span>
+    <p>若 $(X,Y)$ 离散，联合分布 $P(X=x_i,Y=y_j)$，边缘 $P_X(x_i)=p_i&gt;0$，条件分布 $P(Y=y_j\mid X=x_i)=p_{ij}/p_i$，则</p>
+    $$E(Y\mid X=x_i)=\sum_{j} y_j\,P(Y=y_j\mid X=x_i)$$
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定义 · 连续-连续</span>
+    <p>若 $(X,Y)$ 联合连续，条件密度 $f_{Y\mid X}(y\mid x)=f(x,y)/f_X(x)$，则</p>
+    $$E(Y\mid X=x)=\int_{-\infty}^{+\infty} y\,f_{Y\mid X}(y\mid x)\,dy$$
+  </div>
+
+  <h3>2.2 条件期望 $E(Y\mid X)$ 作为随机变量</h3>
+  <div class="callout theorem">
+    <span class="label">关键观点</span>
+    <p>$E(Y\mid X=x)$ 是 $x$ 的函数；把 $x$ 替换为随机变量 $X$，就得到<strong>随机变量</strong> $E(Y\mid X)$。</p>
+    <p>$E(Y\mid X)$ 是 $X$ 的函数（measurable w.r.t. $\sigma(X)$）。</p>
+  </div>
+
+  <h3>2.3 抽象定义（避免循环论证）</h3>
+  <div class="callout theorem">
+    <span class="label">抽象定义 · 无需条件分布</span>
+    <p>$Z=E(Y\mid X)$ 是<strong>满足以下两个条件的随机变量</strong>：</p>
+    <ol>
+      <li>$Z$ 是 $X$ 的函数（即 $Z$ 关于 $\sigma(X)$ 可测）。</li>
+      <li>对任意 Borel 集 $B$，$E(Y\,\mathbf{1}_{\{X\in B\}})=E(Z\,\mathbf{1}_{\{X\in B\}})$。</li>
+    </ol>
+    <p>这样的 $Z$ 唯一（a.s.）存在，且就是 $g(X)=E(Y\mid X=x)$。</p>
+  </div>
+
+  <h2>3. 全期望公式（重期望公式）</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · 全期望公式</span>
+    <p>设 $E(Y)$ 存在，则</p>
+    $$E(Y)=E\!\bigl[E(Y\mid X)\bigr]$$
+    <p>推广：对任意 $X,Z$，$E(Z)=E[E(Z\mid X)]$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">证明 · 离散情形</span>
+    <p>$$E\!\bigl[E(Y\mid X)\bigr]=\sum_iE(Y\mid X=x_i)\,P(X=x_i)=\sum_i\!\left[\sum_j y_j P(Y=y_j\mid X=x_i)\right]P(X=x_i)$$
+    $$=\sum_j y_j\!\left[\sum_i P(Y=y_j\mid X=x_i)P(X=x_i)\right]=\sum_j y_j P(Y=y_j)=E(Y)$$</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定理 · 全方差公式</span>
+    <p>$$D(Y)=E\!\bigl[D(Y\mid X)\bigr]+D\!\bigl[E(Y\mid X)\bigr]$$
+    <p>即"总方差 = 条件内方差的均值 + 条件均值的方差"。这是 ANOVA（方差分析）的理论基础。</p>
+  </div>
+
+  <h2>4. 条件期望的性质</h2>
+  <div class="callout theorem">
+    <span class="label">五条核心</span>
+    <ol>
+      <li><strong>线性</strong>：$E(a_1 Y_1+a_2 Y_2\mid X)=a_1 E(Y_1\mid X)+a_2 E(Y_2\mid X)$（无需要求独立性）。</li>
+      <li><strong>取出</strong>：$E[g(X)\mid X]=g(X)$（$X$ 的函数在 $X$ 条件下是确定的）。</li>
+      <li><strong>独立 ⇒ 普通期望</strong>：若 $Y$ 与 $X$ 独立，则 $E(Y\mid X)=E(Y)$。</li>
+      <li><strong>塔法则</strong>：$E[E(Y\mid X_1)\mid X_1,X_2]=E(Y\mid X_1)$（细条件比粗条件更"细"）。</li>
+      <li><strong>贝叶斯</strong>：$E(Y\mid X)=\dfrac{E(XY)}{E(X)}$ 当 $X,Y$ 独立且 $X$ 为指示变量类特殊情形。</li>
+    </ol>
+  </div>
+
+  <h2>5. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · 摸球（彭江燕课件原例）</span>
+    <p>袋中 3 白 2 红。不放回摸两次，$X$ = 第 1 次红球数，$Y$ = 第 2 次红球数。求 $E(Y)$。</p>
+    <p>用全期望公式：</p>
+    $$E(Y)=E\!\bigl[E(Y\mid X)\bigr]=P(X=0)\,E(Y\mid X=0)+P(X=1)\,E(Y\mid X=1)$$
+    $$=\tfrac{3}{5}\cdot\tfrac{2}{4}+\tfrac{2}{5}\cdot\tfrac{1}{4}=\tfrac{6}{20}+\tfrac{2}{20}=\tfrac{8}{20}=\tfrac{2}{5}$$
+    <p>直觉：第 2 次抽到红球概率 = 第 1 次红球"先放回"的概率 = $2/5$。与方法无关，全期望公式给出了统一做法。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · 几何与全期望</span>
+    <p>$X\sim G(p)$（首次成功试验次数）。求 $E(X)$。</p>
+    <p>用全期望公式，设 $Y$=第 1 次试验结果（$1$ = 成功，$0$ = 失败）：</p>
+    $$E(X)=E\!\bigl[E(X\mid Y)\bigr]=p\cdot 1+(1-p)(1+E(X))$$
+    <p>解出 $E(X)=1/p$——只用一次重期望，不用求和。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · 连续情形 · 指数混合</span>
+    <p>设 $Y\mid X=x\sim\text{Exp}(x)$（速率随机）。$X\sim\text{Exp}(1)$，且 $X,Y$ 满足某种独立性。求 $E(Y)$。</p>
+    <p>$$E(Y)=E\!\bigl[E(Y\mid X)\bigr]=E\!\bigl[1/X\bigr]=\int_0^{\infty}\tfrac{1}{x}\cdot e^{-x}\,dx=\infty$$
+    <p>即 $E(Y)$ 不存在——重期望公式可以揭示"看似正常的随机变量其实没有有限期望"。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 4 · 指数分布的条件期望（无记忆性）</span>
+    <p>$X\sim\text{Exp}(\lambda)$，求 $E(X\mid X&gt;t)$。</p>
+    <p>$$E(X\mid X&gt;t)=t+\tfrac{1}{\lambda}$$
+    <p>——过了 $t$ 时刻后"剩余寿命"仍服从 $\text{Exp}(\lambda)$，这就是<strong>无记忆性</strong>。</p>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">四个常见错误</span>
+    <ul>
+      <li>❌ "条件期望 $\le$ 普通期望"——错！条件期望可以大于或小于普通期望。</li>
+      <li>❌ $E(Y\mid X)$ 与 $X,Y$ 独立时的 $E(Y)$ 混淆——独立时相等，但不独立时是 $X$ 的函数。</li>
+      <li>❌ 把全期望公式 $E(X)=E[E(X\mid Y)]$ 中的 $Y$ 替换为 $X$ 的函数 $g(X)$ 时，$E[g(X)]=E[E(g(X)\mid X)]=E[g(X)]$——这是平凡等式，<strong>无用</strong>。全期望公式只有在"从外往里"能化简时才有用。</li>
+      <li>❌ 对 $X,Y$ 不独立时直接用 $E(XY\mid Y)=E(X\mid Y)E(Y\mid Y)$——拆不出，必须用条件密度的定义。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 袋中 5 红 5 白球，有放回摸两次。$X$=第 1 次红球数，$Y$=第 2 次红球数。$E(Y)=$?</summary>
+    <p>独立 → $E(Y\mid X)=E(Y)=1/2$，$E(Y)=1/2$。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X\sim B(n,p)$（独立 Bernoulli 和），用全期望求 $E(X)$。</summary>
+    <p>$X=\sum_{i=1}^n X_i$。$E(X)=E[E(X\mid X_n)]=E[X-X_n+X_1]=E(X)-p+p=E(X)$——循环。
+    更聪明做法：$E(X\mid X_n)=X_n\cdot\tfrac{p_n}{p_n}$，但需用 $X_n$ 替换后。直接：$E(X)=np$。</p>
+  </details>
+  <details>
+    <summary>Q3 · 若 $X,Y$ 独立，$E(XY\mid X)=$?</summary>
+    <p>$E(XY\mid X)=X\cdot E(Y\mid X)=X\cdot E(Y)$（独立）。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./06-矩与矩母函数.html"><span class="label">← 上一节</span><span class="title">矩与矩母函数</span></a>
+    <a href="./08-Wald方程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">Wald 方程</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

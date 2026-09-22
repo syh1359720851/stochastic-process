@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 数学期望 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 02</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html" class="current">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>02 · 数学期望</h1>
+  <p class="lede">把随机变量 $X$ 的全部概率信息<strong>压缩成一个数</strong>——这就是数学期望 $E(X)$。它是分布的<strong>重心</strong>，也是后续所有数字特征的基础。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    $E(X)=$ "<strong>用 $X$ 的取值作为权重，乘以它取到该值的概率，再求和 / 积分</strong>"——即 $\int x\,dF(x)$。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · 三种视角</span>
+    <ul>
+      <li><strong>重心视角</strong>：把 $X$ 的分布看成一根"密度棒"，$E(X)$ 就是支起这根棒让它<strong>平衡</strong>的那个支点。</li>
+      <li><strong>加权平均视角</strong>：$E(X)=\sum x_k\cdot P(X=x_k)$（离散）或 $\int x\,f_X(x)\,dx$（连续）——值大的样本概率大，拉高均值。</li>
+      <li><strong>重复试验视角</strong>：若把 $X$ 独立重复 $n$ 次得到 $X_1,\ldots,X_n$，则 $\bar{X}_n=\tfrac{1}{n}\sum X_i \xrightarrow{P} E(X)$（大数定律）——期望是"长期平均值"。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>考试平均分</strong>：班级 100 人，60 分 20 人、80 分 50 人、90 分 30 人——平均分 $=60\cdot 0.2+80\cdot 0.5+90\cdot 0.3=80$。</li>
+      <li><strong>彩票期望收益</strong>：买一张彩票 2 元，有 $1/1000$ 概率中 5000 元——期望收益 $=\tfrac{1}{1000}\cdot 5000 + \tfrac{999}{1000}\cdot 0 = 5$ 元——花的 2 元赚回 5 元，但波动巨大。</li>
+      <li><strong>保险精算</strong>：每辆车的年事故损失 $\sim \text{Exp}(\lambda)$，公司对每辆车收 $E(X)+\text{管理费}$ 才能不赔本。</li>
+    </ul>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 离散型</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 离散型期望</span>
+    <p>设离散型 $X$ 的分布列为 $P(X=x_k)=p_k$，且 $\sum_k |x_k|\,p_k &lt; \infty$，则定义</p>
+    $$E(X)=\sum_{k=1}^{\infty} x_k\,p_k$$
+    <p>若级数<strong>绝对收敛</strong>，则 $E(X)$ 存在；否则 $E(X)$ 不存在。</p>
+  </div>
+
+  <h3>2.2 连续型</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 连续型期望</span>
+    <p>设连续型 $X$ 的密度为 $f_X(x)$，且 $\int_{-\infty}^{+\infty}|x|\,f_X(x)\,dx &lt; \infty$，则定义</p>
+    $$E(X)=\int_{-\infty}^{+\infty} x\,f_X(x)\,dx$$
+  </div>
+
+  <h3>2.3 一般形式（R-S 积分）</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 统一写法</span>
+    <p>设 $X$ 的分布函数为 $F(x)$，若 $\int_{-\infty}^{+\infty}|x|\,dF(x)&lt;\infty$，则</p>
+    $$E(X)=\int_{-\infty}^{+\infty} x\,dF(x)$$
+    <p>这个写法<strong>统一</strong>了离散与连续——离散时退化为求和，连续时退化为 Riemann 积分。</p>
+  </div>
+
+  <h2>3. 存在性条件</h2>
+  <div class="callout warn">
+    <span class="label">为什么要求"绝对收敛"？</span>
+    <p>$E(X)$ 存在需要<strong>绝对收敛</strong>，不能只条件收敛。原因：</p>
+    <ul>
+      <li>如果 $\sum x_k p_k$ 条件收敛（正负抵消），调换求和顺序会得到不同结果——这违背"期望唯一"的物理直觉。</li>
+      <li>反例：$P(X=x_k)=\frac{2}{3}\cdot\bigl(\frac{1}{3}\bigr)^{k-1}$，$x_k=(-1)^{k+1}\cdot 3^k$——求和不绝对收敛，$E(X)$ 不存在。</li>
+    </ul>
+  </div>
+
+  <h2>4. 期望的基本性质</h2>
+  <div class="callout theorem">
+    <span class="label">五条核心性质</span>
+    <ol>
+      <li><strong>常数</strong>：$E(c)=c$（$c$ 是常数）。</li>
+      <li><strong>线性</strong>：$E(c_1 X+c_2)=c_1 E(X)+c_2$（<strong>不需要独立性！</strong>）。</li>
+      <li><strong>单调性</strong>：若 $X\le Y$（逐点），则 $E(X)\le E(Y)$。</li>
+      <li><strong>非负性</strong>：若 $X\ge 0$，则 $E(X)\ge 0$。</li>
+      <li><strong>乘法</strong>：若 $X,Y$<strong>独立</strong>，则 $E(XY)=E(X)E(Y)$（独立性才能拆开）。</li>
+    </ol>
+  </div>
+
+  <div class="callout danger">
+    <span class="label">最常考 · 线性 vs 乘法</span>
+    <ul>
+      <li>$E(X+Y)=E(X)+E(Y)$ — <strong>总是成立</strong>（哪怕 $X,Y$ 相关！）</li>
+      <li>$E(XY)=E(X)E(Y)$ — <strong>仅在独立时成立</strong>。不独立时不能拆。</li>
+    </ul>
+    <p>这一点是后续方差公式 $D(X\pm Y)=D(X)+D(Y)\pm 2\,\text{Cov}(X,Y)$ 的根源——<strong>非零协方差是"不独立带来的修正项"</strong>。</p>
+  </div>
+
+  <h2>5. 常见分布的期望速算</h2>
+  <table>
+    <thead>
+      <tr><th>分布</th><th>参数</th><th>$E(X)$</th><th>直观</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bernoulli $B(1,p)$</td><td>$p$</td><td>$p$</td><td>单次成功概率</td></tr>
+      <tr><td>二项 $B(n,p)$</td><td>$n,p$</td><td>$np$</td><td>$n$ 次独立 Bernoulli 之和</td></tr>
+      <tr><td>几何 $G(p)$</td><td>$p$</td><td>$1/p$</td><td>首次成功平均等待</td></tr>
+      <tr><td>Poisson $P(\lambda)$</td><td>$\lambda$</td><td>$\lambda$</td><td>单位时间平均到达数</td></tr>
+      <tr><td>均匀 $U(a,b)$</td><td>$a,b$</td><td>$(a+b)/2$</td><td>区间中点</td></tr>
+      <tr><td>指数 $\text{Exp}(\lambda)$</td><td>$\lambda$</td><td>$1/\lambda$</td><td>平均到达间隔</td></tr>
+      <tr><td>正态 $N(\mu,\sigma^2)$</td><td>$\mu,\sigma^2$</td><td>$\mu$</td><td>对称中心</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">五个易错</span>
+    <ul>
+      <li>❌ 求和 $\sum x_k p_k$ 时<strong>忘记验证绝对收敛</strong>——条件收敛的级数不能当 $E(X)$。</li>
+      <li>❌ 连续型把 $\int x\,f(x)\,dx$ 写成 $\int x\,F(x)\,dx$——应该是 $f$ 不是 $F$。</li>
+      <li>❌ 对相关变量用 $E(XY)=E(X)E(Y)$。</li>
+      <li>❌ 把"$\ge 0$" 与"$\le Y$"混淆——$E(X)\ge 0$ 要求 $X\ge 0$ <strong>对所有样本点成立</strong>。</li>
+      <li>❌ 把期望与"最可能取值"（众数）混淆——$E(X)$ 是重心，不是峰值。例：$X$ 取 $0$ 概率 $0.5$、取 $10$ 概率 $0.5$ 时 $E(X)=5$ 但最可能取 $0$ 或 $10$。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 设 $X\sim B(1,1/2)$，求 $E(X),E(X^2),E(3X+2)$。</summary>
+    <p>$E(X)=1/2$；$E(X^2)=0^2\cdot 1/2+1^2\cdot 1/2=1/2$；$E(3X+2)=3\cdot 1/2+2=7/2$。</p>
+  </details>
+  <details>
+    <summary>Q2 · 设 $X$ 取 $-1$ 概率 $1/2$、$1$ 概率 $1/2$，$E(X)=?$</summary>
+    <p>$E(X)=(-1)\cdot 1/2+1\cdot 1/2=0$。注意 $X^2$ 恒为 $1$，所以 $E(X^2)=1$。</p>
+  </details>
+  <details>
+    <summary>Q3 · 设 $X\sim\text{Exp}(\lambda)$，求 $E(X)$。</summary>
+    <p><strong>答</strong>：$E(X) = \dfrac{1}{\lambda}$。直观：参数 $\lambda$ 是"速率"，平均间隔 $=1/\lambda$。</p>
+
+    <p><strong style="color:var(--c-primary)">📐 推导过程（分部积分 5 步）</strong></p>
+
+    <p><strong>目标</strong>：</p>
+    $$E(X) = \int_0^{+\infty} x \cdot \lambda e^{-\lambda x}\,dx$$
+
+    <p><strong>步骤 1 · 拆 $u, dv$</strong>（"<strong>多项式进 $u$，指数进 $dv$</strong>"原则）</p>
+    $$u = x, \qquad dv = \lambda e^{-\lambda x}\,dx$$
+    $$du = dx, \qquad v = \int \lambda e^{-\lambda x}\,dx = -e^{-\lambda x}$$
+
+    <p><strong>步骤 2 · 套公式 $\int u\,dv = [u\,v]_a^b - \int v\,du$</strong></p>
+    $$E(X) = \Big[-x e^{-\lambda x}\Big]_0^{+\infty} + \int_0^{+\infty} e^{-\lambda x}\,dx$$
+
+    <p><strong>步骤 3 · 边界项 $= 0$</strong>（这一步最关键 —— 为什么 $\lim x e^{-\lambda x} = 0$？）</p>
+    <p>直观：$e^{\lambda x}$ <strong>指数</strong>增长，$x$ <strong>线性</strong>增长——指数永远跑赢线性。</p>
+    <p>严谨（洛必达）：</p>
+    $$\lim_{x\to+\infty}\frac{x}{e^{\lambda x}} \;\stackrel{\text{L'H}}{=}\; \lim_{x\to+\infty}\frac{1}{\lambda e^{\lambda x}} = 0$$
+    <p>所以 $\Big[-xe^{-\lambda x}\Big]_0^{+\infty} = 0 - 0 = 0$。</p>
+
+    <p><strong>步骤 4 · 算剩下的积分</strong></p>
+    $$\int_0^{+\infty} e^{-\lambda x}\,dx = \Big[-\tfrac{1}{\lambda}e^{-\lambda x}\Big]_0^{+\infty} = 0 - (-\tfrac{1}{\lambda}) = \tfrac{1}{\lambda}$$
+
+    <p><strong>步骤 5 · 合起来</strong></p>
+    $$E(X) = 0 + \tfrac{1}{\lambda} = \boxed{\tfrac{1}{\lambda}}\ \checkmark$$
+
+    <p style="margin-top:10px;padding:8px 12px;background:var(--c-primary-bg);border-radius:6px;border-left:3px solid var(--c-primary);font-size:14px">
+      💡 <strong>套路总结</strong>：求 $\int_0^{+\infty} x^k \lambda e^{-\lambda x}\,dx$，就一招"多项式进 $u$，指数进 $dv$"。分部一次 $k$ 降 1，最终化到 $\int e^{-\lambda x}\,dx = 1/\lambda$。完整版（含方差推导 $D(X)=1/\lambda^2$）见第 04 讲 <a href="../04-常见分布族/05-指数分布.html" style="color:var(--c-primary)">05-指数分布.html §3.1</a>。
+    </p>
+  </details>
+
+  <div class="pager">
+    <a href="./01-R-S积分简介.html"><span class="label">← 上一节</span><span class="title">R-S 积分简介</span></a>
+    <a href="./03-随机变量函数的期望.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">随机变量函数的期望</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

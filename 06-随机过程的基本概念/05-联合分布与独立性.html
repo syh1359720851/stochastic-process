@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 联合分布、独立性与 n 维特征函数 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 05</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html" class="current">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>05 · 过程的联合分布、独立性与 $n$ 维特征函数</h1>
+  <p class="lede">上一节只讨论了"一个过程内部"的分布。这一节把视野扩大两格：<strong>两个过程之间</strong>是什么关系（联合分布、相互独立），以及用一个更趁手的工具——<strong>$n$ 维特征函数</strong>——来替代分布函数做计算。后者是第 10 节证明"独立增量过程的有限维分布由一维分布决定"的关键武器。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>两个过程"相互独立"就是"任何一个时刻组合的联合分布都能拆成乘积"</strong>；而 <strong>$n$ 维特征函数 $\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=E\exp(i\sum_k u_kX(t_k))$ 与 $n$ 维分布一一对应</strong>，所以"证明两个过程的分布相同"往往改成"算特征函数"。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>联合分布</strong>：把两个过程 $\{X(t)\}$ 与 $\{Y(t)\}$ 的若干时刻<strong>混在一起</strong>当做一个大的随机向量，问它的联合分布。它横跨了两条时间轴。</li>
+      <li><strong>相互独立</strong>：如果"$X$ 这条线上的事情"和"$Y$ 那条线上的事情"<strong>完全互不提供信息</strong>，联合分布就能拆成两个边缘分布相乘。就像两个互不相干的机房温度传感器。</li>
+      <li><strong>$n$ 维特征函数</strong>：把"分布函数"这个笨重的积分对象换成"$E(e^{i\cdots})$"这个乘法友好、求导友好的对象。<strong>独立性在特征函数里表现为"乘积"，在分布函数里表现为"卷积"</strong>——这就是要用它的理由。</li>
+    </ul>
+  </div>
+
+  <h2>2. 两个过程的 $n+m$ 维联合分布</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 联合分布函数</span>
+    <p>设 $\{X(t),t\in T\}$ 与 $\{Y(t),t\in T\}$ 是两个随机过程。对任意 $s_1,\dots,s_n\in T$ 与 $t_1,\dots,t_m\in T$，把 $n+m$ 维随机变量</p>
+    $$\bigl(X(s_1),\dots,X(s_n),\ Y(t_1),\dots,Y(t_m)\bigr)$$
+    <p>的联合分布函数</p>
+    $$F_{XY}(s_1,\dots,s_n,t_1,\dots,t_m;x_1,\dots,x_n,y_1,\dots,y_m)$$
+    $$=P\{X(s_1)&lt;x_1,\dots,X(s_n)&lt;x_n,\ Y(t_1)&lt;y_1,\dots,Y(t_m)&lt;y_m\}$$
+    <p>称为 $\{X(t)\}$ 与 $\{Y(t)\}$ 的 <strong>$n+m$ 维联合分布函数</strong>。若存在非负可积函数 $f_{XY}(s_1,\dots,s_n,t_1,\dots,t_m;x_1,\dots,x_n,y_1,\dots,y_m)$ 使 $F_{XY}$ 为其 $n+m$ 重积分，则称 $f_{XY}$ 为<strong>联合概率密度</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">记号的作用域规则</span>
+    <p>$F_{XY}$ 里<strong>分号前面是"时刻参数"</strong>（共 $n+m$ 个），<strong>分号后面是"阈值"</strong>（也是 $n+m$ 个）。<br>
+    因为 $X$ 与 $Y$ 定义在<strong>同一个参数集 $T$</strong> 上（通常如此），$s$ 与 $t$ 的字母差别只是习惯上区分"来自 $X$ 的"还是"来自 $Y$ 的"。<strong>别把 $s,t$ 当成两种不同的参数集</strong>。</p>
+  </div>
+
+  <h2>3. 相互独立的随机过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · 两个过程相互独立</span>
+    <p>设 $\{X(t),t\in T\}$ 与 $\{Y(t),t\in T\}$ 是两个随机过程。若对任意 $n,m\ge1$ 及任意时刻组合，其 $n+m$ 维联合分布满足</p>
+    $$F_{XY}(s_1,\dots,s_n,t_1,\dots,t_m;x_1,\dots,x_n,y_1,\dots,y_m)$$
+    $$=F_X(s_1,\dots,s_n;x_1,\dots,x_n)\cdot F_Y(t_1,\dots,t_m;y_1,\dots,y_m)$$
+    <p>或（连续型时）其 $n+m$ 维联合密度满足</p>
+    $$f_{XY}(s_1,\dots,s_n,t_1,\dots,t_m;x_1,\dots,x_n,y_1,\dots,y_m)$$
+    $$=f_X(s_1,\dots,s_n;x_1,\dots,x_n)\cdot f_Y(t_1,\dots,t_m;y_1,\dots,y_m)$$
+    <p>则称 $\{X(t),t\in T\}$ 与 $\{Y(t),t\in T\}$ <strong>相互独立</strong>。</p>
+  </div>
+
+  <div class="callout danger">
+    <span class="label">注意"任意 $n,m$"是硬要求</span>
+    <p>定义里的 "<strong>对任意 $n,m\ge1$</strong>" 不能省。只验证"某一对时刻独立"远远不够——独立性要求<strong>任意维数、任意时刻组合</strong>的联合分布都能拆成乘积。</p>
+    <p>换句话说：<strong>"逐时刻独立" ⇒ "整个过程独立" 这一步是免费的</strong>；反过来"逐时刻独立"这个条件本身就很强（它要求 $X(s)$ 与 $Y(t)$ 对<strong>所有</strong> $s,t$ 都独立），一旦对所有 $s,t$ 成立，高维的联合分布自然也能逐项拆开。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">现实例子 · 两个独立机房的温度</span>
+    <p>若 $X(t)$ 是 A 机房（空调独立供电）温度、$Y(t)$ 是 B 机房温度，两个机房物理上完全隔离，则两个过程相互独立。此时"<strong>A 机房此刻温度和 B 机房半小时后温度</strong>"的联合分布 = 两个一维分布相乘，所以 $E[X(s)Y(t)]=E[X(s)]\,E[Y(t)]$——这正是第 08 节"互不相关"所依赖的性质。</p>
+    <p><strong>反之</strong>若两个机房共用一台外机，则它们联动，独立性立刻失效。</p>
+  </div>
+
+  <h2>4. $n$ 维特征函数与有限维特征函数族</h2>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 维特征函数</span>
+    <p>随机过程 $\{X(t),t\in T\}$ 的 <strong>$n$ 维特征函数</strong>定义为</p>
+    $$\varphi(t_1,t_2,\dots,t_n;u_1,u_2,\dots,u_n)=E\Bigl[\exp\Bigl(i\sum_{k=1}^{n}u_kX(t_k)\Bigr)\Bigr]$$
+    <p>其中 $t_1,\dots,t_n\in T$，$u_1,\dots,u_n\in\mathbb R$。把 $n=1,2,3,\dots$ 的全部 $n$ 维特征函数收集起来，</p>
+    $$\bigl\{\,\varphi(t_1,\dots,t_n;u_1,\dots,u_n):\ t_1,\dots,t_n\in T,\ n\ge1\,\bigr\}$$
+    <p>称为 $\{X(t),t\in T\}$ 的<strong>有限维特征函数族</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">三条实用性质</span>
+    <ol>
+      <li><strong>一一对应（唯一性定理的推广）</strong>：有限维特征函数族与有限维分布族<strong>互相唯一决定</strong>。所以要证明"两个过程的有限维分布相同"，算特征函数并比较即可。</li>
+      <li><strong>独立性 ⇔ 积性</strong>：若 $X(t_1),\dots,X(t_n)$ 相互独立，则
+      $$\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=\prod_{k=1}^{n}\varphi^{(1)}(t_k;u_k)$$
+      其中 $\varphi^{(1)}(t_k;u_k)=E\bigl(e^{iu_kX(t_k)}\bigr)$ 是一维特征函数。<strong>分布函数层面的"卷积"在特征函数层面变成了"乘法"</strong>——这是特征函数的头号用途。</li>
+      <li><strong>与矩的联系</strong>：$\varphi$ 在原点对 $u_k$ 求偏导可得各阶混合矩（如 $\partial^2\varphi/\partial u_1\partial u_2\big|_{u=0}=i^2E[X(t_1)X(t_2)]$），这为下一节的相关函数铺路。</li>
+    </ol>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 · 用特征函数验证"独立平稳过程"的分布</span>
+    <p>设 $\{X(t),t\ge0\}$ 是独立过程，且每个 $X(t)\sim\mathrm{Exp}(\lambda)$（不同 $t$ 同分布）。求二维特征函数。</p>
+    <p><strong>解</strong> 由独立性，$\varphi(t_1,t_2;u_1,u_2)=\varphi^{(1)}(t_1;u_1)\,\varphi^{(1)}(t_2;u_2)$。一维特征函数为 $\varphi^{(1)}(t;u)=\dfrac{\lambda}{\lambda-iu}$，故</p>
+    $$\varphi(t_1,t_2;u_1,u_2)=\frac{\lambda}{\lambda-iu_1}\cdot\frac{\lambda}{\lambda-iu_2}$$
+    <p><strong>注意右端完全不含 $t_1,t_2$</strong>——这说明该过程的二维分布与"看哪两个时刻"无关。<strong>这正是第 09 节"独立过程"的典型特征</strong>，也是第 03 节末尾说的"平稳性"的一个强版本。</p>
+  </div>
+
+  <h2>5. 本节的四个概念怎么串起来</h2>
+  <div class="callout theorem">
+    <span class="label">一张关系表</span>
+    <table>
+      <tr><th>要问的问题</th><th>用哪个工具</th><th>在哪一节用到</th></tr>
+      <tr><td>单个过程在各时刻的分布</td><td>有限维分布族 / 有限维特征函数族</td><td>第 04 节（本节并行给出特征函数版）</td></tr>
+      <tr><td>两个过程之间有没有关系</td><td>$n+m$ 维联合分布、联合特征函数</td><td>本节、第 08 节（互相关）</td></tr>
+      <tr><td>两个过程是否完全无关</td><td>独立性（联合 = 乘积）</td><td>本节、第 08 节（独立 ⇒ 互不相关）</td></tr>
+      <tr><td>怎么把"分布相同"算出来</td><td>比较特征函数（乘法比卷积好算）</td><td>第 10 节（独立增量过程的核心定理）</td></tr>
+    </table>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把"两个过程独立"与"同一过程在不同时刻独立"混为一谈</strong>。前者说 $\{X\}$ 与 $\{Y\}$ 两族变量互不相干（第 08 节），后者说同一个过程内部各时刻互不相干（第 09 节的"独立过程"）。<strong>两个完全不同的概念。</strong></li>
+      <li>❌ <strong>以为"边缘分布 + 独立性"总能凑出联合分布</strong>。只有在<strong>确实独立</strong>时才成立。两个过程若相关，联合分布必须额外给出。</li>
+      <li>❌ <strong>在特征函数里丢掉了 $i$</strong>。是 $E(e^{iuX})$ 而不是 $E(e^{uX})$——少了 $i$ 就变成矩母函数 $M_X(u)$（第 05 讲讲过），两者存在性条件完全不同（矩母函数可能不存在）。</li>
+      <li>❌ <strong>把 $n$ 维特征函数写成"一维特征函数的 $n$ 次方"</strong>。$E[\exp(i\sum u_kX(t_k))]\neq\prod E(e^{iu_kX(t_k)})$，除非各时刻独立。</li>
+      <li>❌ <strong>混淆"相互独立过程"与"互不相关过程"</strong>。独立要求整个分布可分解（强），互不相关只要求二阶混合矩可分解（弱）。第 08 节会给出"不相关但不独立"的例子。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 要证明两个过程相互独立，需要检验多少组分布？</summary>
+    <p><strong>无穷多组</strong>——定义要求"对任意 $n,m\ge1$ 及任意时刻组合"都成立。实操中不会真的逐一检验，而是<strong>从构造上保证</strong>：例如"$X(t)$ 与 $Y(t)$ 分别由两组互不相干的独立随机源生成"，就自动满足定义。<br>
+    本课程后面遇到的独立性，几乎都是"<strong>构造性独立</strong>"而非"检验式独立"。</p>
+  </details>
+  <details>
+    <summary>Q2 · 若两个过程的 $n+m$ 维联合密度可写成 $g(s_1,\dots,s_n;x_1,\dots,x_n)\cdot h(t_1,\dots,t_m;y_1,\dots,y_m)$，能否断言它们相互独立？</summary>
+    <p><strong>不能直接断言</strong>，还要确认 $g,h$ 恰好是对应的<strong>边缘密度</strong>（即乘积可归一）。但有一个实用判据：因为联合密度<strong>必须归一化到 1</strong>，如果 $g\cdot h$ 已经是密度形式且各自的积分为 $c_1,c_2$、$c_1c_2=1$，则 $g/h$ 就是边缘密度。<br>
+    更常用的做法是：<strong>把联合密度按"变量可分离"整理，若支撑区域是乘积形且能分离，就独立</strong>（与第 00 节"判别独立"的判据完全一致）。</p>
+  </details>
+  <details>
+    <summary>Q3 · 为什么说"特征函数把卷积变成乘法"对随机过程特别重要？</summary>
+    <p>因为随机过程的核心定理几乎都涉及"<strong>把多个时刻的分布拼起来</strong>"。以独立增量过程为例：$X(t_n)=Y_1+Y_2+\cdots+Y_n$（各增量独立），若在原分布函数层面处理，就要做 $n$ 重卷积；而在特征函数层面只需</p>
+    $$\varphi=E\Bigl[e^{i\sum_k v_kY_k}\Bigr]=\prod_k E\bigl[e^{iv_kY_k}\bigr]$$
+    <p>一行就完成了。<strong>第 10 节的"有限维分布由一维分布与增量分布决定"就是靠这一步证明的</strong>——它也顺带说明了为什么 Poisson 过程、维纳过程这类"独立增量过程"只需声明一维分布就能被完全确定。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./04-有限维分布.html"><span class="label">← 上一节</span><span class="title">有限维分布</span></a>
+    <a href="./06-均值函数与方差函数.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">均值函数与方差函数</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

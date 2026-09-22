@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第06讲自测 | 随机过程的基本概念</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 24px;font-size:13px;color:var(--c-muted)}
+  .meta span{background:var(--c-card);padding:4px 10px;border-radius:6px;border:1px solid var(--c-line)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .qbox{border:1px solid var(--c-line);border-radius:8px;padding:14px 18px;margin:14px 0;background:var(--c-card)}
+  .qbox .qtitle{font-weight:600;color:var(--c-primary);margin-bottom:6px}
+  .qbox .qmeta{font-size:13px;color:var(--c-muted);margin-bottom:10px}
+  .answer{margin-top:10px;padding:10px 14px;background:var(--c-accent-bg);border-left:3px solid var(--c-accent);border-radius:6px;font-size:14px}
+  .answer .label{font-weight:600;color:var(--c-accent);margin-bottom:4px;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 自测</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html" class="current">自测</a>
+  </nav>
+
+  <h1>第 06 讲 · 自测 10 题</h1>
+  <p class="lede">覆盖随机过程的定义与分类、有限维分布、均值/方差/相关/协方差、独立过程与独立增量过程、正态过程与维纳过程。每题含<strong>答案与详细解析</strong>——先自己在纸上做，再展开看答案。</p>
+
+  <div class="meta">
+    <span>📝 10 题</span>
+    <span>⏱ 建议时间 100 分钟</span>
+    <span>🎯 难度 ⭐⭐ ~ ⭐⭐⭐⭐</span>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q1 · 基本概念辨析与分类</div>
+    <div class="qmeta">★ 基础 · 02 / 03 节</div>
+    <p>判断下列对象是否为随机过程；若是，写出参数集 $T$ 与状态空间 $E$，并指出它在"四象限"中的位置。</p>
+    <ol>
+      <li>独立抛 10 次硬币，记录正面累计次数 $X(n)$，$n=0,1,\dots,10$。</li>
+      <li>某路口一整天每 5 分钟记录一次车流量 $X(n)$。</li>
+      <li>某产品做一次重量质检，得重量 $X$。</li>
+      <li>连续记录某实验室的室温 $X(t)$，$t\in[0,24]$（小时）。</li>
+      <li>每周五记录的某股票收盘价 $S(k)$，$k=1,2,3,\dots$。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        (1) <strong>是</strong>。$T=\{0,1,\dots,10\}$（离散），$E=\{0,1,\dots,10\}$（离散）→ <strong>离散参数链</strong>。这是二项计数过程的一个截断版本，独立增量。
+        <br><br>
+        (2) <strong>是</strong>。$T$ 离散（每 5 分钟一点），$E=\{0,1,2,\dots\}$（离散）→ <strong>离散参数链</strong>。轨道是<strong>一串点</strong>（不是阶梯！阶梯需要参数连续）。
+        <br><br>
+        (3) <strong>不是</strong>。只做一次观察，只有一个随机变量，没有"随参数演变"的维度。
+        <br><br>
+        (4) <strong>是</strong>。$T=[0,24]$（连续），$E\subseteq\mathbb R$（连续）→ <strong>连续参数、连续状态</strong>，即狭义"随机过程"。轨道是一条连续曲线。
+        <br><br>
+        (5) <strong>是</strong>。$T$ 离散（每周），$E\subseteq(0,+\infty)$（连续）→ <strong>离散参数、连续状态</strong>，习惯叫<strong>随机序列</strong>（不叫"链"，因为状态不离散）。
+        <br><br>
+        <strong>结论回顾</strong>：判定分两步——① 有没有"随参数变化"的维度（有没有才是过程）；② 有的话，参数集与状态空间各自离散还是连续（四象限）。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q2 · 样本函数与一维分布</div>
+    <div class="qmeta">★★ 进阶 · 02 节 · 课件例 2</div>
+    <p>抛一次硬币定义随机过程：出现正面时 $X(t)=\cos\pi t$，出现反面时 $X(t)=2t$，$t\in[0,1]$，正反面概率各 $\tfrac12$。</p>
+    <ol>
+      <li>写出 $X(t)$ 的全部样本函数，并指出样本函数的条数；</li>
+      <li>求一维分布函数 $F(0.5,x)$ 与 $F(1,x)$；</li>
+      <li>说明参数集与状态空间。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        (1) $\Omega=\{\omega_1,\omega_2\}$，样本函数恰好 <strong>两条</strong>：$x(\omega_1,t)=\cos\pi t$ 与 $x(\omega_2,t)=2t$。<strong>条数 = 样本空间的元素个数</strong>。
+        <br><br>
+        (2) 由定义直接代入：
+        $$X(0.5)=\begin{cases}0&amp;\text{正面}\\ 1&amp;\text{反面}\end{cases}\ \text{各 }\tfrac12,\qquad
+        X(1)=\begin{cases}-1&amp;\text{正面}\\ 2&amp;\text{反面}\end{cases}\ \text{各 }\tfrac12$$
+        因为 $X(t)$ 只取两个值且概率各 $\tfrac12$，分布函数是只在两个跳跃点上台阶的阶梯函数：
+        $$F(0.5,x)=\begin{cases}0,&amp;x\le 0\\ 0.5,&amp;0&lt;x\le 1\\ 1,&amp;x&gt;1\end{cases}\qquad
+        F(1,x)=\begin{cases}0,&amp;x\le -1\\ 0.5,&amp;-1&lt;x\le 2\\ 1,&amp;x&gt;2\end{cases}$$
+        <br>
+        (3) $T=[0,1]$（<strong>连续</strong>）；状态空间是"两条轨道取值范围的并" $E=[-1,2]$（<strong>连续</strong>）——因为 $\cos\pi t\in[-1,1]$、$2t\in[0,2]$，合起来是 $[-1,2]$。
+        <br><br>
+        <strong>易错提醒</strong>：$E$ 是<strong>取值的集合</strong>，不是时刻的集合。写 $E=[-1,2]$ 对，写 $E=[0,1]$ 就变成参数集了。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q3 · 二维分布函数与"同一个过程、两种分布"</div>
+    <div class="qmeta">★★★ 难 · 04 节 · 本讲核心反例</div>
+    <p>承接 Q2 的过程，求 $F(0.5,1;x,y)=P\{X(0.5)&lt;x,\ X(1)&lt;y\}$ 在下面两种定义下的取值（重点看 $0&lt;x\le1$、$-1&lt;y\le2$ 这个矩形上）：</p>
+    <ol>
+      <li><strong>版本甲</strong>：两个时刻各自独立抛一次硬币；</li>
+      <li><strong>版本乙</strong>：两个时刻由<strong>同一次</strong>抛硬币决定（正面走 $\cos$ 分支，反面走 $2t$ 分支）。</li>
+    </ol>
+    <p>并说明这说明了什么。</p>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>版本甲（独立）</strong>：四种组合 $(X(0.5),X(1))=(0,-1),(0,2),(1,-1),(1,2)$ 各 $\tfrac14$。在 $0&lt;x\le1$、$-1&lt;y\le2$ 里，只有 $X(0.5)=0$ 且 $X(1)=-1$ 这一种情形被算到，故
+        $$F(0.5,1;x,y)=0.25$$
+        <br>
+        <strong>版本乙（同一次抛掷）</strong>：只有两种组合：$(0,-1)$ 与 $(1,2)$ 各 $\tfrac12$。同样矩形里只有 $(0,-1)$ 被算到，故
+        $$F(0.5,1;x,y)=0.5$$
+        <br>
+        <strong>结论</strong>：两个版本的<strong>一维分布完全相同</strong>（Q2 已算出，都是 $0/1$ 与 $-1/2$ 各半），但<strong>二维分布不同</strong>（$0.25$ vs $0.5$）。
+        <br><br>
+        <strong>这说明</strong>：① 一维分布族<strong>决定不了</strong>随机过程；② 定义一个过程时，"各时刻是否共用同一个 $\omega$"必须在定义里写清楚——<strong>"随机性的耦合方式"是过程定义的一部分</strong>，不是可以事后随意补充的细节。
+        <br><br>
+        <strong>延伸</strong>：这也解释了为什么 Poisson 过程、维纳过程的定义里一定要专门写上"<strong>具有独立增量</strong>"——那就是在补足二维及更高维的信息。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q4 · 均值 / 方差 / 相关 / 协方差（随机振幅）</div>
+    <div class="qmeta">★★ 进阶 · 06 / 07 节</div>
+    <p>设 $X(t)=A\cos\omega t$，$t\in\mathbb R$，其中 $\omega$ 为常数，$A\sim N(0,\sigma^2)$。求 $m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$ 与 $\rho(s,t)$。</p>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>均值</strong>：$m(t)=E(A)\cos\omega t=0$。
+        <br><br>
+        <strong>方差</strong>：$E[X^2(t)]=E(A^2)\cos^2\omega t=\sigma^2\cos^2\omega t$，故
+        $$D(t)=E[X^2(t)]-m^2(t)=\sigma^2\cos^2\omega t$$
+        <br>
+        <strong>相关函数</strong>（因 $m\equiv0$，故协方差 $=$ 相关）：
+        $$R(s,t)=E\bigl[A^2\cos\omega s\cos\omega t\bigr]=\sigma^2\cos\omega s\cos\omega t=C(s,t)$$
+        <br>
+        <strong>相关系数</strong>：
+        $$\rho(s,t)=\frac{\sigma^2\cos\omega s\cos\omega t}{\sqrt{\sigma^2\cos^2\omega s\cdot\sigma^2\cos^2\omega t}}
+        =\frac{\cos\omega s\cos\omega t}{|\cos\omega s\cos\omega t|}=\pm1$$
+        <br>
+        <strong>三个必须抓住的点</strong>：
+        <ul>
+          <li>$D(t)$ <strong>随 $t$ 变化</strong>，且在 $\cos\omega t=0$ 的时刻<strong>归零</strong>——那些时刻"没有不确定性"（因为 $A$ 被乘上了 0）。</li>
+          <li>$\rho(s,t)=\pm1$ 意味着 $X(s)$ 与 $X(t)$ <strong>完全线性相关</strong>。这很自然：两人都是同一个 $A$ 的确定性倍数，$X(t)=\dfrac{\cos\omega t}{\cos\omega s}X(s)$。</li>
+          <li>该过程<strong>不是</strong>平稳过程：$D(t)$ 随 $t$ 变，$R(s,t)$ 也不只依赖 $s-t$。<strong>随机性放在"振幅"上会破坏平稳性；放在"相位"上才不破坏</strong>（对比 Q5）。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q5 · 随机相位正弦波的四个数字特征与平稳性</div>
+    <div class="qmeta">★★★ 难 · 06 / 07 节 · 课件例 6</div>
+    <p>设 $X(t)=a\cos(bt+\Theta)$，$-\infty&lt;t&lt;+\infty$，$a,b$ 为常数，$\Theta\sim U(0,2\pi)$。求 $m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$、$\rho(s,t)$，并判断它是否为宽平稳过程、是否为独立增量过程。</p>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1) 均值</strong>：$\Theta$ 的密度为 $\dfrac{1}{2\pi}$，故
+        $$m(t)=\frac{a}{2\pi}\int_0^{2\pi}\cos(bt+\theta)\,d\theta=0$$
+        （$\cos$ 在一个完整周期上积分为 0。）
+        <br><br>
+        <strong>(2) 方差</strong>：用 $\cos^2u=\dfrac{1+\cos 2u}{2}$，
+        $$E[X^2(t)]=\frac{a^2}{2\pi}\int_0^{2\pi}\frac{1+\cos(2bt+2\theta)}{2}d\theta=\frac{a^2}{2}
+        \ \Longrightarrow\ D(t)=\frac{a^2}{2}$$
+        是<strong>常数</strong>。
+        <br><br>
+        <strong>(3) 相关函数</strong>：用积化和差 $\cos A\cos B=\dfrac{\cos(A-B)+\cos(A+B)}{2}$，取 $A=bs+\Theta$、$B=bt+\Theta$：
+        $$R(s,t)=\frac{a^2}{2}E\bigl[\cos b(s-t)\bigr]+\frac{a^2}{2}E\bigl[\cos\bigl(b(s+t)+2\Theta\bigr)\bigr]=\frac{a^2}{2}\cos b(s-t)$$
+        （第二项对 $\Theta$ 积分仍为 0。）
+        <br><br>
+        <strong>(4) 协方差</strong>：$m\equiv0$，故 $C(s,t)=R(s,t)=\dfrac{a^2}{2}\cos b(s-t)$。验证：$C(t,t)=\dfrac{a^2}{2}=D(t)$ ✓
+        <br><br>
+        <strong>(5) 相关系数</strong>：$\rho(s,t)=\dfrac{C(s,t)}{\sqrt{D(s)D(t)}}=\cos b(s-t)$，取值 $[-1,1]$。时间差为<strong>整周期</strong>时 $\rho=1$，<strong>半周期</strong>时 $\rho=-1$。
+        <br><br>
+        <strong>结论</strong>：
+        <ul>
+          <li><strong>是宽平稳过程</strong>。因为 $m(t)$ 为常数、$R(s,t)$ 只依赖 $s-t$（这是宽平稳的判据）。<em>更严格地说，它的有限维分布对时间平移也不变，所以还是严平稳的。</em></li>
+          <li><strong>不是独立增量过程</strong>。相邻时段的增量高度相关（$X(t)$ 在 $t$ 附近是连续振荡的），且增量本身有明显结构。</li>
+        </ul>
+        <strong>记忆要点</strong>：<strong>随机相位 ⇒ 平稳；随机振幅 ⇒ 不平稳（Q4）</strong>。相位只做"整体平移"，不改变统计规律；振幅会乘上时变系数 $\cos\omega t$，把统计规律也乘变了。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q6 · 独立过程：伯努利随机序列</div>
+    <div class="qmeta">★★ 进阶 · 09 节</div>
+    <p>设 $X(n)$（$n=1,2,3,\dots$）是相互独立的伯努利变量，$P\{X(n)=1\}=p$、$P\{X(n)=0\}=q=1-p$。求 $m(n)$、$D(n)$、$R(m,n)$、$C(m,n)$，并说明它是独立过程还是仅独立增量过程。</p>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>均值与方差</strong>：$m(n)=E[X(n)]=1\cdot p+0\cdot q=p$；$D(n)=E[X^2(n)]-m^2(n)=p-p^2=pq$。
+        <br><br>
+        <strong>相关函数</strong>：分两种情况。
+        <ul>
+          <li>$m=n$：$R(n,n)=E[X^2(n)]=E[X(n)]=p$（因为 $X\in\{0,1\}$，有 $X^2=X$）。</li>
+          <li>$m\ne n$：由独立性，$R(m,n)=E[X(m)]E[X(n)]=p\cdot p=p^2$。</li>
+        </ul>
+        $$R(m,n)=\begin{cases}p,&amp;m=n\\ p^2,&amp;m\ne n\end{cases}$$
+        <br>
+        <strong>协方差函数</strong>：
+        $$C(m,n)=R(m,n)-m(m)m(n)=\begin{cases}p-p^2=pq,&amp;m=n\\ p^2-p^2=0,&amp;m\ne n\end{cases}$$
+        <br>
+        <strong>判断</strong>：它是<strong>独立过程</strong>（从而必然是<strong>独立增量过程</strong>）。注意 $C(m,n)$ 只在 $m=n$ 处非零——<strong>这正是"各时刻完全互不通气"在二阶量上的体现：协方差矩阵是对角阵</strong>。
+        <br><br>
+        <strong>易错提醒</strong>：$C(m,n)=0$（$m\ne n$）看起来像"不相关"，但这里其实是更强的<strong>独立</strong>。反过来，遇到"不相关"的结论时不要自动升级成"独立"（第 08 节）。另外 $0/1$ 变量有 $E(X^2)=E(X)$ 的便利，容易在 $R(n,n)$ 处算成 $p^2$，请留意。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q7 · 二项计数过程：一维分布、协方差与验证</div>
+    <div class="qmeta">★★★ 难 · 09 节 · 课件例 3</div>
+    <p>设 $Y(n)=X(1)+\cdots+X(n)$，$Y(0)=0$，其中 $X(k)$ 相互独立同分布，$P\{X(k)=1\}=p=0.5$。取 $p=q=0.5$：</p>
+    <ol>
+      <li>写出 $Y(4)$ 的分布；</li>
+      <li>求 $m(4)$、$D(4)$；</li>
+      <li>求 $C(2,4)$、$R(2,4)$ 与 $\rho(2,4)$；</li>
+      <li>验证 $C(4,4)=D(4)$；</li>
+      <li>求 $P\{Y(2)=1,\ Y(4)=3\}$。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> $Y(4)\sim B(4,0.5)$，即 $P\{Y(4)=k\}=\dbinom{4}{k}\Bigl(\dfrac12\Bigr)^4=\dfrac{\binom4k}{16}$，$k=0,1,2,3,4$。
+        <br><br>
+        <strong>(2)</strong> $m(4)=np=4\times0.5=2$；$D(4)=npq=4\times0.5\times0.5=1$。
+        <br><br>
+        <strong>(3)</strong> 协方差函数为 $C(m,n)=pq\min(m,n)=0.25\min(m,n)$，故
+        $$C(2,4)=0.25\times2=0.5$$
+        $$R(2,4)=C(2,4)+m(2)m(4)=0.5+(2\times0.5)(4\times0.5)=0.5+1\times2=2.5$$
+        $$\rho(2,4)=\frac{C(2,4)}{\sqrt{D(2)D(4)}}=\frac{0.5}{\sqrt{0.5\times1}}=\frac{0.5}{\sqrt{0.5}}\approx0.707$$
+        （一般公式 $\rho(m,n)=\dfrac{\min(m,n)}{\sqrt{mn}}=\dfrac{2}{\sqrt8}=\dfrac{1}{\sqrt2}$，与 $p$ 无关。）
+        <br><br>
+        <strong>(4)</strong> $C(4,4)=0.25\times4=1=D(4)$ ✓ <strong>协方差函数的对角线必须是方差</strong>——这是最快的自检。
+        <br><br>
+        <strong>(5)</strong> 把 $(Y(2),Y(4))$ 拆成"前 2 步"与"后 2 步"两段独立部分（$i=1$、$j=3$、$j-i=2$）：
+        $$P\{Y(2)=1,Y(4)=3\}=\binom21\Bigl(\tfrac12\Bigr)^2\cdot\binom22\Bigl(\tfrac12\Bigr)^2=\frac12\cdot\frac14=\frac18$$
+        <strong>解读</strong>：前 2 步中恰好 1 次正面（概率 $\tfrac12$），后 2 步全正面（概率 $\tfrac14$），两段独立所以相乘。
+        <br><br>
+        <strong>顺带纠正一个常见误判</strong>：$P\{Y(2)=1\}P\{Y(4)=3\}=\tfrac12\cdot\tfrac14=\tfrac18$，与上面相等看起来像"独立"——<strong>这只是巧合</strong>。换一组就会发现不相等：$P\{Y(2)=2,Y(4)=0\}=0$，但 $P\{Y(2)=2\}P\{Y(4)=0\}=\tfrac14\cdot\tfrac1{16}\ne0$（$Y$ 单调不减，4 步后不可能是 0）。<strong>$Y(2)$ 与 $Y(4)$ 明显不独立。</strong>
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q8 · 平稳独立增量过程的性质定理</div>
+    <div class="qmeta">★★★ 难 · 10 节 · 本讲核心定理</div>
+    <p>设 $\{X(t),t\ge0\}$ 是平稳独立增量过程，$X(0)=0$，已知 $E[X(1)]=3$、$D[X(1)]=2$。求：</p>
+    <ol>
+      <li>$m(t)$、$D(t)$、$C(s,t)$、$R(s,t)$；</li>
+      <li>$R(2,5)$；</li>
+      <li>说明为什么"$m(t)$ 一定是直线"这一步只用到了平稳性，而"$D(t)$ 一定是直线"还用到了独立性。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> 由定理，$a=m(1)=3$、$\sigma^2=D(1)=2$，故
+        $$m(t)=3t,\qquad D(t)=2t,\qquad C(s,t)=2\min(s,t)$$
+        $$R(s,t)=C(s,t)+m(s)m(t)=2\min(s,t)+9st$$
+        <br>
+        <strong>(2)</strong>
+        $$R(2,5)=2\min(2,5)+9\times2\times5=4+90=94$$
+        （也可分两步：$C(2,5)=4$，$m(2)m(5)=6\times15=90$，合计 94。）
+        <br><br>
+        <strong>(3)</strong> <strong>均值那条</strong>：证明用到的关键等式是
+        $$E\bigl[X(t+s)-X(s)\bigr]=E[X(t)]$$
+        这<strong>只有平稳性</strong>（增量分布只依赖段长），不需要独立性。于是得到可加方程 $m(t+s)=m(t)+m(s)$，连续解必为 $m(t)=at$。
+        <br><br>
+        <strong>方差那条</strong>：证明用到的是
+        $$D\bigl[U+V\bigr]=D[U]+D[V]$$
+        而这条<strong>只在 $U,V$ 不相关时成立</strong>。是"增量独立"（从而不相关）保证了交叉项 $2\mathrm{Cov}(U,V)$ 消失。没有独立性，方差就不能相加，可加性推不出来。
+        <br><br>
+        <strong>方法论提炼</strong>：<strong>"期望线性"是免费的（无需任何假设）；"方差可加"是要付费的（需要不相关/独立）。</strong>这是本讲最值得带走的一句话。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q9 · 维纳过程（布朗运动）计算</div>
+    <div class="qmeta">★★★ 难 · 12 节</div>
+    <p>设 $\{W(t),t\ge0\}$ 是标准维纳过程（$\sigma^2=1$）。求：</p>
+    <ol>
+      <li>$D[W(4)]$、$P\{W(4)&lt;0\}$；</li>
+      <li>$D[W(5)-W(2)]$；</li>
+      <li>$\mathrm{Cov}(W(2),W(5))$ 与 $\rho(2,5)$；</li>
+      <li>$P\{-1&lt;W(1)&lt;1\}$；</li>
+      <li>判断"$W(t)$ 是平稳过程"与"$W(t)$ 是平稳独立增量过程"哪一句对。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> $W(4)\sim N(0,4)$，故 $D[W(4)]=4$；分布关于 0 对称，故 $P\{W(4)&lt;0\}=\dfrac12$。
+        <br><br>
+        <strong>(2)</strong> 由增量分布 $W(t)-W(s)\sim N\bigl(0,t-s\bigr)$，得 $D[W(5)-W(2)]=5-2=3$。
+        <br><br>
+        <strong>(3)</strong> $\mathrm{Cov}(W(2),W(5))=\min(2,5)=2$。
+        $$\rho(2,5)=\frac{2}{\sqrt{D(2)D(5)}}=\frac{2}{\sqrt{2\times5}}=\sqrt{\frac25}\approx0.632$$
+        （一般地 $s&lt;t$ 时 $\rho(s,t)=\sqrt{s/t}$，<strong>只依赖时间比，与 $\sigma^2$ 无关</strong>。）
+        <br><br>
+        <strong>(4)</strong> $W(1)\sim N(0,1)$，故
+        $$P\{-1&lt;W(1)&lt;1\}=\Phi(1)-\Phi(-1)=2\Phi(1)-1\approx2\times0.8413-1=0.6826$$
+        这正是"$\pm1\sigma$ 覆盖约 68%"的标准结果。
+        <br><br>
+        <strong>(5)</strong> <strong>"是平稳独立增量过程"对，"是平稳过程"错。</strong>
+        <br>理由：$D[W(t)]=t$ 随 $t$ 变化，一维分布 $N(0,t)$ 随 $t$ 变化，不可能对时间平移不变 → <strong>过程本身不平稳</strong>；但增量 $W(t)-W(s)$ 的分布只依赖 $t-s$ → <strong>增量平稳</strong>。
+        <br><br>
+        <strong>这个坑出现率极高</strong>：看到"平稳"二字先问"<strong>修饰的是谁</strong>"——增量还是过程本身。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q10 · 综合 · 正态过程、独立性判定</div>
+    <div class="qmeta">★★★★ 难 · 11 / 12 节综合</div>
+    <p>设 $X_0$ 与 $V$ 是相互独立的标准正态随机变量，定义 $X(t)=X_0+Vt$，$t\ge0$。</p>
+    <ol>
+      <li>证明 $\{X(t),t\ge0\}$ 是正态过程；</li>
+      <li>写出 $m(t)$、$D(t)$、$C(s,t)$、$R(s,t)$、$\rho(s,t)$；</li>
+      <li>求 $D[X(1)]$、$\mathrm{Cov}(X(1),X(2))$、$\rho(1,2)$；</li>
+      <li>$X(1)$ 与 $X(2)$ 独立吗？不相关吗？</li>
+      <li>有人问："这个过程的分布是不是可以只用两个函数就完全确定？"请回答并说明理由。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> 任取 $0\le t_1&lt;t_2&lt;\cdots&lt;t_n$，有
+        $$\begin{pmatrix}X(t_1)\\ \vdots\\ X(t_n)\end{pmatrix}
+        =\begin{pmatrix}1&amp;t_1\\ \vdots&amp;\vdots\\ 1&amp;t_n\end{pmatrix}
+        \begin{pmatrix}X_0\\ V\end{pmatrix}$$
+        右端是<strong>二维正态向量 $(X_0,V)^T$ 的线性变换</strong>，故 $(X(t_1),\dots,X(t_n))^T$ 服从 $n$ 维正态。由 $n$ 与 $t_1,\dots,t_n$ 的任意性，$\{X(t)\}$ 是<strong>正态过程</strong>。
+        <br><br>
+        <strong>(2)</strong>
+        $$m(t)=E(X_0)+tE(V)=0$$
+        $$D(t)=E\bigl[(X_0+Vt)^2\bigr]=1+t^2$$
+        $$C(s,t)=R(s,t)=E\bigl[(X_0+Vs)(X_0+Vt)\bigr]=1+st$$
+        $$\rho(s,t)=\frac{1+st}{\sqrt{(1+s^2)(1+t^2)}}$$
+        <br>
+        <strong>(3)</strong> $D[X(1)]=1+1=2$；$\mathrm{Cov}(X(1),X(2))=1+1\times2=3$；
+        $$\rho(1,2)=\frac{3}{\sqrt{2\times5}}=\frac{3}{\sqrt{10}}\approx0.949$$
+        <br>
+        <strong>(4)</strong> <strong>不相关？否。独立？否。</strong><br>
+        因为 $\mathrm{Cov}(X(1),X(2))=3\ne0$，所以<strong>相关</strong>（更谈不上不相关）。而 $X(1)$ 与 $X(2)$ 都依赖同一组 $(X_0,V)$，显然<strong>不独立</strong>。
+        <br><br>
+        <strong>注意这里的逻辑方向</strong>：本题是"相关且依赖"。要考"不相关但不独立"，看第 08 节的 $Y(t)=X^2(t)$ 反例；要考"正态下不相关就独立"，得先构造出不相关的情形（如取 $C$ 为分块对角）。
+        <br><br>
+        <strong>(5)</strong> <strong>可以。</strong>因为 $\{X(t)\}$ 是正态过程，而正态过程的<strong>全部有限维分布都由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 11 节核心结论）：任意有限维的均值向量与协方差矩阵都是从这两个函数上"采样"得到的。
+        <br><br>
+        <strong>本题的意义</strong>：它是一道"把一个过程压缩成两个函数"的示范题——$X(t)=X_0+Vt$ 的随机性只来自<strong>两个</strong>随机变量，所以它的"身份证明"只有两个函数，而特征函数里恰好也只剩两个平方项：
+        $$\varphi=\exp\Bigl[-\frac{1}{2}\Bigl(\Bigl(\sum_ju_j\Bigr)^2+\Bigl(\sum_ju_jt_j\Bigr)^2\Bigr)\Bigr]$$
+        <strong>随机源的个数 = 特征函数指数的"平方项个数"</strong>，这是正态过程最好用的"读数法"。
+      </div>
+    </details>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">📌 自测总结</span>
+    <p>本 10 题覆盖第 06 讲全部核心：</p>
+    <ul>
+      <li><strong>Q1</strong>：过程判定 + 四象限分类</li>
+      <li><strong>Q2 / Q3</strong>：样本函数 + 一维/二维分布 + "一维分布不够"的核心反例</li>
+      <li><strong>Q4 / Q5</strong>：四个数字特征的两类模板（随机振幅 vs 随机相位）+ 平稳性判据</li>
+      <li><strong>Q6 / Q7</strong>：独立过程与独立增量过程 + 协方差的对角线自检</li>
+      <li><strong>Q8</strong>：核心定理 $m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$ + "期望免费、方差付费"</li>
+      <li><strong>Q9</strong>：维纳过程全套计算 + "平稳增量 ≠ 平稳过程"</li>
+      <li><strong>Q10</strong>：正态过程判定 + "$m(t)$ 与 $C(s,t)$ 完全决定分布"</li>
+    </ul>
+    <p><strong>一句话带走</strong>：<strong>随机过程 = 一族随机变量；它的完整描述是有限维分布族；它的可操作替代是 $m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$ 四个函数；而"独立增量 + 正态"这两把钥匙，分别打开了 Poisson 过程与维纳过程两道大门。</strong></p>
+  </div>
+
+  <div class="pager">
+    <a href="./12-维纳过程.html"><span class="label">← 上一节</span><span class="title">维纳过程（布朗运动）</span></a>
+    <a href="./index.html" style="text-align:right"><span class="label">返回 →</span><span class="title">第 06 讲讲次首页</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

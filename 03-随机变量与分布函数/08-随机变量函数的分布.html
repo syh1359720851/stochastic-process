@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08 随机变量函数的分布 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 08</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html" class="current">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>08 · 随机变量函数的分布</h1>
+  <p class="lede">已知 $X$ 的分布，求 $Y=g(X)$ 的分布——这是把"已知的随机变量"加工成"新的随机变量"。本节给出<strong>三种方法</strong>：分布函数法、单调公式法、二维 Jacobi 矩阵法。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>$Y=g(X)$ 是一个"加工后的"随机变量。</strong>同一个 $X$，不同的 $g$ 给出不同的 $Y$。
+    <ul>
+      <li>$X$ 是"今天最高气温"，$Y=X^2$ 是"气温的平方"——形状变化但信息保留。</li>
+      <li>$X$ 是"电压"，$Y=\log X$ 是"分贝"——非线性变换。</li>
+      <li>$X,Y$ 独立，$Z=X+Y$ 是"总电压"——这就是<strong>卷积</strong>的来源。</li>
+      <li>$M=\max(X,Y)$ 是"最大测量值"——四则运算之外的常见变换。</li>
+    </ul>
+    <p>关键是：<strong>由 $X$ 的分布推出 $Y$ 的分布</strong>，而不是反过来——后者一般不可逆。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 方法一 · 分布函数法（万能）</h2>
+
+  <div class="callout theorem">
+    <span class="label">公式 · 分布函数法</span>
+    <p>求 $Y=g(X)$ 的分布，分两步：</p>
+    <ol>
+      <li>写 $Y$ 的分布函数 $F_Y(y)=P(g(X)\le y)$；</li>
+      <li>把 $\{g(X)\le y\}$ 用 $\{X$ 的区间 $\}$ 表示，化为 $X$ 的概率。</li>
+    </ol>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · $Y=X^2$，$X\sim N(0,1)$</span>
+    <p>$X$ 标准正态，$Y=X^2$。</p>
+    <p>$F_Y(y)=P(X^2\le y)$（$y\ge 0$）。</p>
+    <p>$X^2\le y \Leftrightarrow -\sqrt{y}\le X\le \sqrt{y}$。</p>
+    <p>$$F_Y(y)=F_X(\sqrt{y})-F_X(-\sqrt{y})=2F_X(\sqrt{y})-1$$</p>
+    <p>对 $y$ 求导（$F_X'(x)=\phi(x)=\tfrac{1}{\sqrt{2\pi}}e^{-x^2/2}$）：</p>
+    $$f_Y(y)=2\phi(\sqrt{y})\cdot \tfrac{1}{2\sqrt{y}}=\frac{\phi(\sqrt{y})}{\sqrt{y}}=\frac{1}{\sqrt{2\pi y}}e^{-y/2}$$
+    <p>——这就是<strong>$\chi^2$ 分布（1 自由度）</strong>的密度！</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 方法二 · 单调公式法（连续型特供）</h2>
+
+  <div class="callout theorem">
+    <span class="label">定理 · 单调公式（课件 sjgc0-3 第 4 页）</span>
+    <p>设 $X$ 连续型，密度 $f_X(x)$，$g$ 在 $(a,b)$ 上严格单调（$g'$ 不变号），$g(a)=\alpha,\ g(b)=\beta$。令 $h=g^{-1}$，则 $Y=g(X)$ 的密度为</p>
+    $$\boxed{f_Y(y)=\begin{cases}f_X(h(y))\cdot |h'(y)|,& y\in[\min(\alpha,\beta),\max(\alpha,\beta)]\\ 0,& \text{else}\end{cases}}$$
+    <p>关键：<strong>Jacobian 行列式 $h'(y)$ 取绝对值</strong>——单调性影响方向，但密度永远非负。</p>
+  </div>
+
+  <h3>3.1 分段单调公式</h3>
+  <div class="callout theorem">
+    <span class="label">推广 · 分段单调</span>
+    <p>若 $g$ 在 $(a,b)$ 上分成 $k$ 段 $I_1,\dots,I_k$，每段严格单调，则</p>
+    $$f_Y(y)=\sum_{i=1}^k f_X\bigl(h_i(y)\bigr)\,|h_i'(y)|,\quad y\in\text{值域}$$
+    <p>其中 $h_i$ 是 $g$ 在 $I_i$ 上的反函数。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · $Y=X^2$，$X\sim N(0,1)$（用单调公式）</span>
+    <p>$g(x)=x^2$ 在 $(-\infty,0]$ 单调递减，$[\in,+\infty)$ 单调递增。</p>
+    <p>对 $y&gt;0$，两个反函数：$h_1(y)=-\sqrt{y}$，$h_2(y)=\sqrt{y}$。</p>
+    <p>$$f_Y(y)=f_X(-\sqrt{y})\cdot|{-}\tfrac{1}{2\sqrt{y}}|+f_X(\sqrt{y})\cdot|\tfrac{1}{2\sqrt{y}}|=\tfrac{1}{2\sqrt{y}}\bigl[f_X(\sqrt{y})+f_X(-\sqrt{y})\bigr]$$</p>
+    <p>由于 $N(0,1)$ 对称 $f_X(-x)=f_X(x)$：</p>
+    $$f_Y(y)=\tfrac{1}{\sqrt{y}}f_X(\sqrt{y})=\tfrac{1}{\sqrt{2\pi y}}e^{-y/2}$$
+    <p>和 §2 分布函数法结果一致 ✓。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 课件 sjgc0-3 第 8 页 · $X(t)=A\cos(t+\Theta)$</span>
+    <p>$\Theta\sim U(0,2\pi)$，$A=a$（确定）。$Y_t=a\cos(t+\Theta)$。</p>
+    <p>固定 $t$，$g(\theta)=a\cos(t+\theta)$ 关于 $\theta$ 在 $(0,2\pi)$ 上<strong>不是单调</strong>的——$g$ 的值域 $[-a,a]$ 内每个 $y$ 对应两个 $\theta$。</p>
+    <p>反函数：$\theta_1=t^{-1}(\arccos(y/a))-t$，$\theta_2=-\arccos(y/a)-t$（两个反函数都在 $(0,2\pi)$ 内）。</p>
+    <p>$$f_Y(y)=\sum_{i=1}^2 f_\Theta(h_i(y))|h_i'(y)|=\sum_{i=1}^2 \tfrac{1}{2\pi}\cdot\tfrac{1}{\sqrt{a^2-y^2}}=\frac{1}{\pi\sqrt{a^2-y^2}}$$</p>
+    <p>（$y\in[-a,a]$）——这就是<strong>反正弦分布</strong>的密度（出现在随机相位正弦信号、布朗运动最大值等问题中）。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 方法三 · 二维 Jacobi 矩阵法</h2>
+
+  <div class="callout theorem">
+    <span class="label">定理 1.3.1（课件 sjgc0-3 第 9 页）</span>
+    <p>设 $(X_1,X_2)$ 联合密度 $f(x_1,x_2)$，变换 $y_1=g_1(x_1,x_2),\ y_2=g_2(x_1,x_2)$ 满足：</p>
+    <ul>
+      <li>反函数存在：$x_1=x_1(y_1,y_2),\ x_2=x_2(y_1,y_2)$；</li>
+      <li>Jacobian 矩阵
+        $$J=\begin{vmatrix}\partial x_1/\partial y_1 & \partial x_1/\partial y_2\\ \partial x_2/\partial y_1 & \partial x_2/\partial y_2\end{vmatrix}\neq 0$$
+      </li>
+    </ul>
+    <p>则 $(Y_1,Y_2)$ 的联合密度：</p>
+    $$\boxed{f_Y(y_1,y_2)=f\bigl(x_1(y_1,y_2),x_2(y_1,y_2)\bigr)\cdot|J|}$$
+    <p>——和一维单调公式<strong>完全类似</strong>，只是 Jacobian 变成了<strong>矩阵的行列式</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · $Y_1=X_1+X_2,\ Y_2=X_1$（课件 sjgc0-3 第 11 页）</span>
+    <p>$y_1=x_1+x_2,\ y_2=x_1$ → $x_1=y_2,\ x_2=y_1-y_2$。</p>
+    <p>Jacobian：$J=\begin{vmatrix}\partial x_1/\partial y_1 & \partial x_1/\partial y_2\\ \partial x_2/\partial y_1 & \partial x_2/\partial y_2\end{vmatrix}=\begin{vmatrix}0 & 1\\ 1 & -1\end{vmatrix}=-1$，$|J|=1$。</p>
+    <p>所以 $f_{Y_1,Y_2}(y_1,y_2)=f(x_1,x_2)|J|=f(y_2,y_1-y_2)$。</p>
+    <p>特别：$X_1,X_2$ 独立时 $f=f_{X_1}\cdot f_{X_2}$，$f_{Y_1,Y_2}(y_1,y_2)=f_{X_1}(y_2)f_{X_2}(y_1-y_2)$。</p>
+    <p>取 $Y_1$ 的边缘（对 $y_2$ 积分）：</p>
+    $$f_{Y_1}(y_1)=\int f_{X_1}(y_2)\,f_{X_2}(y_1-y_2)\,dy_2$$
+    <p>——这就是<strong>卷积公式</strong>！</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 四个最常见的二元变换</h2>
+
+  <h3>5.1 和 $Z=X+Y$（独立情形）</h3>
+  <div class="callout theorem">
+    <span class="label">卷积公式</span>
+    $$\boxed{f_Z(z)=\int_{-\infty}^{+\infty} f_X(x)\,f_Y(z-x)\,dx=\int_{-\infty}^{+\infty} f_X(z-y)\,f_Y(y)\,dy}$$
+    <p>记作 $f_Z=f_X * f_Y$（卷积）。<strong>独立</strong>是前提。</p>
+  </div>
+
+  <h3>5.2 商 $Z=X/Y$（独立情形）</h3>
+  <div class="callout theorem">
+    <span class="label">商的密度</span>
+    $$f_Z(z)=\int_{-\infty}^{+\infty} |y|\,f_X(zy)\,f_Y(y)\,dy$$
+  </div>
+
+  <h3>5.3 最大 $M=\max(X,Y)$（独立情形）</h3>
+  <div class="callout theorem">
+    <span class="label">最大</span>
+    $$F_M(m)=F_X(m)\cdot F_Y(m),\quad f_M(m)=f_X(m)F_Y(m)+F_X(m)f_Y(m)$$
+    <p>直觉：$M\le m$ 当且仅当 $X\le m$ <strong>且</strong> $Y\le m$。</p>
+  </div>
+
+  <h3>5.4 最小 $N=\min(X,Y)$（独立情形）</h3>
+  <div class="callout theorem">
+    <span class="label">最小</span>
+    $$F_N(n)=1-[1-F_X(n)][1-F_Y(n)],\quad f_N(n)=f_X(n)[1-F_Y(n)]+[1-F_X(n)]f_Y(n)$$
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错点 · 独立性要求</label>
+    <p>以上 max / min / sum / quotient 公式<strong>全部</strong>要求 $X,Y$ <strong>独立</strong>。若 $X,Y$ 不独立，需回到 Jacobi 矩阵法或条件分布推导。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $Y=aX+b$（线性变换）的密度公式是什么？</summary>
+    <p>若 $X$ 密度 $f_X$，$Y=aX+b$（$a\neq 0$），则 $f_Y(y)=\tfrac{1}{|a|}f_X\bigl(\tfrac{y-b}{a}\bigr)$。这是单调公式法最简情形：$h(y)=(y-b)/a$，$|h'(y)|=1/|a|$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · $Y=X^2$ 在 $X\sim U(-1,1)$ 下是什么分布？</summary>
+    <p>$Y\in[0,1]$，$f_X(x)=1/2$（$-1\le x\le 1$）。$h_1(y)=-\sqrt{y},\ h_2(y)=\sqrt{y}$，$|h_i'(y)|=1/(2\sqrt{y})$。</p>
+    <p>$f_Y(y)=\tfrac{1}{2}\cdot\tfrac{1}{2\sqrt{y}}+\tfrac{1}{2}\cdot\tfrac{1}{2\sqrt{y}}=\tfrac{1}{2\sqrt{y}}$，$0&lt;y\le 1$。</p>
+    <p>验证归一：$\int_0^1 \tfrac{1}{2\sqrt{y}}\,dy=\sqrt{y}\big|_0^1=1$ ✓。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 卷积公式 $f_Z=f_X * f_Y$ 和 "乘积的 Fourier 变换 = Fourier 变换的乘积"有什么关系？</summary>
+    <p>卷积定理：$\widehat{f_Z}=\widehat{f_X}\cdot\widehat{f_Y}$，其中 $\widehat{f}(\omega)=\int e^{-i\omega x}f(x)\,dx$。<strong>独立的和</strong>在频域变<strong>乘积</strong>——这是 Fourier 分析的核心应用之一，也是第 05 讲特征函数的来源。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · $X,Y$ 不独立时，"和 $X+Y$ 的密度"能用卷积吗？</summary>
+    <p>不能。卷积公式<strong>仅在独立时成立</strong>。不独立时要回到 Jacobi 矩阵法：$(Y_1,Y_2)=(X_1+X_2,X_1)$，$f_{Y_1,Y_2}(y_1,y_2)=f_{X_1,X_2}(y_2,y_1-y_2)$，再对 $y_2$ 求边缘。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>$Y=g(X)$ 的密度 = $f_X(h(y))|h'(y)|$（一维）或 $f(x_1,x_2)|J|$（二维）；和 / 商 / max / min 的常用公式都要求 $X,Y$ <strong>独立</strong>。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./07-边缘分布与条件分布.html"><span class="label">← 上一节</span><span class="title">边缘分布与条件分布</span></a>
+    <a href="./动画-分布函数演化.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">动画 · 分布函数演化</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 08 随机变量函数的分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

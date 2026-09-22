@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 平稳独立增量过程的性质 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 10</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html" class="current">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>10 · 平稳独立增量过程的性质（本讲的核心定理）</h1>
+  <p class="lede">这一节是本讲<strong>含金量最高的一页</strong>。它回答了一个关键问题：如果只知道"增量独立 + 增量平稳 + $X(0)=0$"，我们能不能把过程的均值、方差、协方差<strong>全部算出来</strong>？答案是——<strong>能，而且形式极其简洁</strong>：$m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$。这个结果同时解释了为什么 Poisson 过程与维纳过程可以"只用两个参数"被完全刻画。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>平稳独立增量 + $X(0)=0$ ⇒ 均值线性、方差线性、协方差取"较小者"。</strong>三个结论都来自同一个技巧：<strong>把 $X(t+s)$ 拆成"前一段 + 后一段"，独立性让方差可加，平稳性让分布只认段长。</strong>
+  </div>
+
+  <h2>1. 直观含义：为什么结论一定这么简单？</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>均值为什么是直线 $at$？</strong>把时间 $t+s$ 切成两段：走完前一段的期望 + 后一段的期望。平稳性说"<strong>后一段的期望只跟段长有关</strong>"，于是"期望"变成一个可加函数——而<strong>可加函数必是线性函数</strong>。</li>
+      <li><strong>方差为什么是直线 $\sigma^2t$？</strong>同理，但这次还多用了<strong>增量独立</strong>（独立才能让方差相加，没有交叉项）。所以时间越长，不确定性按<strong>线性</strong>累积——注意不是指数、不是平方，而是线性。这是"无记忆累积"的指纹。</li>
+      <li><strong>协方差为什么取 $\min$？</strong>两个时刻 $s,t$ 共有的"共同经历"长度恰好是 $\min(s,t)$。多出来的那段时间只有一个时刻经历过，对两者的<strong>共同</strong>波动没有贡献。所以协方差先随 $\min$ 上升、到较短时刻后<strong>就平掉了</strong>。</li>
+      <li><strong>这条 $\min$ 形态有多重要？</strong>维纳过程的 $C(s,t)=\sigma^2\min(s,t)$、二项计数过程的 $C(m,n)=pq\min(m,n)$（第 09 节）——都是同一个定理的不同化身。</li>
+    </ul>
+  </div>
+
+  <h2>2. 核心定理</h2>
+  <div class="callout theorem">
+    <span class="label">定理 · 平稳独立增量过程的数字特征</span>
+    <p>如果 $\{X(t),t\ge0\}$ 是<strong>平稳独立增量过程</strong>，且 $X(0)=0$，则</p>
+    <ol>
+      <li>均值函数 $m(t)=at$，其中 $a$ 为常数（$a=m(1)=E[X(1)]$）；</li>
+      <li>方差函数 $D(t)=\sigma^2t$，其中 $\sigma^2$ 为正常数（$\sigma^2=D(1)$）；</li>
+      <li>协方差函数 $C(s,t)=\sigma^2\min(s,t)$，从而相关函数
+      $$R(s,t)=C(s,t)+m(s)m(t)=\sigma^2\min(s,t)+a^2st$$</li>
+    </ol>
+    <p>此外，<strong>独立增量过程的有限维分布由一维分布与增量分布共同决定</strong>。</p>
+  </div>
+
+  <p>下图是 $C(s,t)=\sigma^2\min(s,t)$ 的形态（取 $\sigma^2=1$）：固定 $s=2$ 与 $s=5$，横轴扫 $t$。两条曲线都是"<strong>先沿 45° 上升，到 $t=s$ 后水平</strong>"：</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 250" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>平稳独立增量过程的协方差函数形态</title>
+      <desc>横轴为时刻 t 从零到六，纵轴为协方差取值，固定 s 等于二与 s 等于五时，协方差先线性上升到 s 再保持水平。</desc>
+      <line x1="70" y1="210" x2="640" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="80" y1="40" x2="80" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <text x="34" y="40" font-size="12" fill="#57606a">C(s,t)</text>
+      <line x1="80" y1="210" x2="580" y2="50" stroke="#d0d7de" stroke-width="0.6" stroke-dasharray="4 4"/>
+      <polyline points="80,210 167,178 253,146 340,146 427,146 513,146 600,146" fill="none" stroke="#0969da" stroke-width="1.6"/>
+      <polyline points="80,210 167,178 253,146 340,114 427,82 513,50 600,50" fill="none" stroke="#1a7f37" stroke-width="1.6"/>
+      <text x="565" y="140" font-size="11" fill="#0969da">s = 2</text>
+      <text x="565" y="68" font-size="11" fill="#1a7f37">s = 5</text>
+      <text x="80" y="226" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="253" y="226" font-size="11" fill="#57606a" text-anchor="middle">2</text>
+      <text x="427" y="226" font-size="11" fill="#57606a" text-anchor="middle">4</text>
+      <text x="600" y="226" font-size="11" fill="#57606a" text-anchor="middle">6</text>
+      <text x="646" y="215" font-size="12" fill="#57606a">t</text>
+      <text x="340" y="243" font-size="12" fill="#57606a" text-anchor="middle">t ≤ s 时沿对角线上升；t &gt; s 时保持水平 σ²s（共同经历只有 s 那么长）</text>
+    </svg>
+  </div>
+
+  <h2>3. 完整证明</h2>
+
+  <h3>3.1 证明 1：$m(t)=at$</h3>
+  <div class="callout theorem">
+    <span class="label">证明</span>
+    <p>设 $m(t)=E[X(t)]$，$t\ge0$。对任意 $s,t&gt;0$，利用 $X(0)=0$ 作拆分：</p>
+    $$m(t+s)=E[X(t+s)]=E\bigl[\bigl(X(t+s)-X(s)\bigr)+\bigl(X(s)-X(0)\bigr)\bigr]$$
+    $$=E\bigl[X(t+s)-X(s)\bigr]+E\bigl[X(s)-X(0)\bigr]$$
+    <p>由<strong>增量的平稳性</strong>，$X(t+s)-X(s)$ 与 $X(t+0)-X(0)=X(t)$ 同分布，故第一项等于 $E[X(t)]=m(t)$；第二项等于 $m(s)$。于是</p>
+    $$m(t+s)=m(t)+m(s),\qquad \forall s,t&gt;0$$
+    <p>这是一个<strong>Cauchy 函数方程</strong>。由数学分析结论：若 $f$ 连续且满足 $f(x+y)=f(x)+f(y)$，则 $f(x)=kx$。取 $x=1$ 定出 $k=f(1)$，即</p>
+    $$m(t)=at,\qquad a=m(1)$$
+    <p>$\blacksquare$</p>
+    <p><strong>注</strong>：这里用到了"$m(t)$ 连续"这一技术性前提。对课程涉及的过程（Poisson、维纳等）都自动满足；若只知可测，还需稍加条件，属于测度论的细节，本课程不追究。</p>
+  </div>
+
+  <h3>3.2 证明 2：$D(t)=\sigma^2t$</h3>
+  <div class="callout theorem">
+    <span class="label">证明</span>
+    <p>设 $D(t)=D[X(t)]$。同样拆分，但这次的关键是<strong>增量独立</strong>，它让方差可以相加（交叉项消失）：</p>
+    $$D(t+s)=D[X(t+s)]=D\bigl[\bigl(X(t+s)-X(s)\bigr)+\bigl(X(s)-X(0)\bigr)\bigr]$$
+    $$=D\bigl[X(t+s)-X(s)\bigr]+D\bigl[X(s)-X(0)\bigr]$$
+    <p>第二步用了"两段增量相互独立 ⇒ 协方差为 0"。再由增量的平稳性，$D[X(t+s)-X(s)]=D[X(t)]=D(t)$，$D[X(s)-X(0)]=D(s)$，故</p>
+    $$D(t+s)=D(t)+D(s),\qquad \forall s,t&gt;0$$
+    <p>同样是 Cauchy 函数方程，于是</p>
+    $$D(t)=\sigma^2t,\qquad \sigma^2=D(1)&gt;0$$
+    <p>$\blacksquare$</p>
+    <p><strong>对比一下两个证明的差别</strong>：证明 1 只用<strong>平稳性</strong>；证明 2 额外用了<strong>独立增量</strong>。这就解释了为什么"方差的线性增长"比"均值的线性增长"需要更强的假设。</p>
+  </div>
+
+  <h3>3.3 证明 3：$C(s,t)=\sigma^2\min(s,t)$</h3>
+  <div class="callout theorem">
+    <span class="label">证明（假设 $t&gt;s$，另一情形对称）</span>
+    $$C(s,t)=E\bigl[X(t)X(s)\bigr]-m(s)m(t)$$
+    <p>关键技巧：在 $X(t)$ 里<strong>插入 $-X(s)+X(s)$</strong>，把 $X(t)$ 拆成"增量 + $X(s)$"：</p>
+    $$=E\bigl\{\bigl[X(t)-X(s)+X(s)\bigr]X(s)\bigr\}-m(s)m(t)$$
+    $$=E\bigl[X(t)-X(s)\bigr]\cdot E\bigl[X(s)\bigr]+E\bigl[X^2(s)\bigr]-m(s)m(t)$$
+    <p>第二步用了 $X(t)-X(s)$ 与 $X(s)$ 独立（增量独立）。代入 $E[X(t)-X(s)]=a(t-s)$、$E[X(s)]=as$、$E[X^2(s)]=D(s)+m^2(s)=\sigma^2s+a^2s^2$、$m(s)m(t)=as\cdot at=a^2st$：</p>
+    $$=a(t-s)\cdot as+\bigl(\sigma^2s+a^2s^2\bigr)-a^2st$$
+    $$=a^2st-a^2s^2+\sigma^2s+a^2s^2-a^2st=\sigma^2s$$
+    <p>即 $C(s,t)=\sigma^2s=\sigma^2\min(s,t)$（因为已设 $t&gt;s$）。$t&lt;s$ 时对称地得到 $\sigma^2t$。$t=s$ 时 $C(t,t)=\sigma^2t=D(t)$ ✓。<br>
+    最后 $R(s,t)=C(s,t)+m(s)m(t)=\sigma^2\min(s,t)+a^2st$。$\blacksquare$</p>
+  </div>
+
+  <h3>3.4 证明 4：有限维分布由一维分布与增量分布决定</h3>
+  <div class="callout theorem">
+    <span class="label">证明（用特征函数，一步到位）</span>
+    <p>任取 $t_1&lt;t_2&lt;\cdots&lt;t_n$，记 $t_0=0$，定义</p>
+    $$Y_1=X(t_1),\qquad Y_k=X(t_k)-X(t_{k-1})\quad(k=2,\dots,n)$$
+    <p>由增量独立性，$Y_1,Y_2,\dots,Y_n$ <strong>相互独立</strong>；且</p>
+    $$X(t_k)=Y_1+Y_2+\cdots+Y_k$$
+    <p>现在算 $n$ 维特征函数。把 $u_kX(t_k)$ 里的 $X(t_k)$ 展开、<strong>按 $Y_j$ 归并</strong>：</p>
+    $$\sum_{k=1}^{n}u_kX(t_k)=\sum_{k=1}^{n}u_k\sum_{j=1}^{k}Y_j=\sum_{j=1}^{n}Y_j\Bigl(\sum_{k=j}^{n}u_k\Bigr)=\sum_{j=1}^{n}v_jY_j$$
+    <p>其中令 $v_j=u_j+u_{j+1}+\cdots+u_n$（即"从第 $j$ 项到第 $n$ 项的 $u$ 之和"）。于是</p>
+    $$\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=E\Bigl[e^{i\sum_j v_jY_j}\Bigr]=\prod_{j=1}^{n}E\bigl[e^{iv_jY_j}\bigr]=\prod_{j=1}^{n}\varphi_{Y_j}(v_j)$$
+    <p>第二步正是<strong>独立性的作用</strong>（期望可拆成乘积）。最后把每个 $Y_j$ 的分布翻译成"某个时刻的一维分布"：由 $X(0)=0$ 与增量平稳性，</p>
+    $$Y_1=X(t_1)-X(0)\ \sim\ X(t_1),\qquad Y_j=X(t_j)-X(t_{j-1})\ \sim\ X(t_j-t_{j-1})$$
+    <p>所以</p>
+    $$\varphi(t_1,\dots,t_n;u_1,\dots,u_n)=\prod_{j=1}^{n}\varphi^{(1)}\bigl(t_j-t_{j-1};\,v_j\bigr),\qquad t_0=0$$
+    <p>右端只用到<strong>一维分布族</strong> $\{\varphi^{(1)}(t;\cdot)\}$。由特征函数与分布的一一对应，<strong>有限维分布被一维分布完全确定</strong>。$\blacksquare$</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">这个证明真正的"含金量"在哪？</span>
+    <p>它说明：<strong>要定义平稳独立增量过程，只需给出"所有 $t$ 的一维分布"就行</strong>——不必逐一构造 $n$ 维分布、不必检验相容性。</p>
+    <p>这就是为什么本课程后面描述过程时，惯例是直接写一维分布：</p>
+    <ul>
+      <li><strong>Poisson 过程</strong>：声明 $N(t)\sim P(\lambda t)$ + 平稳独立增量，立刻得到 $m(t)=\lambda t$、$D(t)=\lambda t$、$C(s,t)=\lambda\min(s,t)$。</li>
+      <li><strong>维纳过程</strong>：声明 $W(t)\sim N(0,\sigma^2t)$ + 平稳独立增量，立刻得到 $m(t)=0$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$。</li>
+    </ul>
+    <p><strong>一句话：定理 3.4 是"简化定义"的合法性保证。</strong></p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">说明 · $P\{X(a)=0\}=1$ 的进一步简化</span>
+    <p>上面假定 $X(0)=0$。更一般地，若存在 $a&gt;-\infty$ 使 $P\{X(a)=0\}=1$（不一定要 $a=0$），则因为 $X(t_1)=X(t_1)-X(a)$，<strong>起点本身就是一个增量</strong>，所以仍然"只需增量分布"就能确定全部有限维分布。</p>
+    <p>再进一步：对 $\{X(t),t\in[a,b]\}$（$a&gt;-\infty$、$P\{X(a)=0\}=1$）的平稳独立增量过程，因增量 $X(t_2)-X(t_1)$ 与 $X(t_2-t_1+a)-X(a)$ 同分布、又与 $X(t_2-t_1)$ 同分布，所以<strong>只要知道 $X(t)$ 的一维分布，就能推出它的全部有限维分布</strong>。<br>
+    <strong>结论的一致性</strong>：无论如何表述，核心都是"<strong>独立增量 + 平稳性 = 一维分布足以刻画全过程</strong>"。</p>
+  </div>
+
+  <h2>4. 定理的三个"化身"</h2>
+  <div class="callout example">
+    <span class="label">同一公式，三种形态</span>
+    <table>
+      <tr><th>过程</th><th>参数</th><th>$m(t)$</th><th>$D(t)$</th><th>$C(s,t)$</th></tr>
+      <tr><td>二项计数过程（离散版，第 09 节）</td><td>$p$</td><td>$np$</td><td>$npq$</td><td>$pq\min(m,n)$</td></tr>
+      <tr><td>Poisson 过程（第 10 讲）</td><td>$\lambda$</td><td>$\lambda t$</td><td>$\lambda t$</td><td>$\lambda\min(s,t)$</td></tr>
+      <tr><td>维纳过程（第 12 节）</td><td>$\sigma^2$</td><td>$0$</td><td>$\sigma^2t$</td><td>$\sigma^2\min(s,t)$</td></tr>
+    </table>
+    <p><strong>读表要点</strong>：</p>
+    <ul>
+      <li><strong>三者形式完全一致</strong>——离散版把 $t$ 换成 $n$、把 $\sigma^2$ 换成 $pq$。这说明定理的适用范围很宽（不限于连续参数）。</li>
+      <li><strong>$a$ 可以为 0</strong>：维纳过程的 $a=0$（无漂移）。若加入漂移项，$m(t)=at$，$C(s,t)$ 依然只依赖 $\min$。</li>
+      <li><strong>Poisson 过程有个巧合</strong>：$a=\lambda$、$\sigma^2=\lambda$，均值与方差相等。这是 Poisson 分布"均值 = 方差"特征在过程层面的体现，也是判别 Poisson 过程最常用的<strong>必要</strong>条件。</li>
+    </ul>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>忘了 $X(0)=0$ 这个前提</strong>。没有它，$m(t)=E[X(t)]=m(0)+at$，是一条<strong>截距非零</strong>的直线；$C(s,t)=\sigma^2\min(s,t)$ 仍然成立，但 $R(s,t)$ 的表达式要相应调整。</li>
+      <li>❌ <strong>把 $C(s,t)$ 写成 $\sigma^2st$ 或 $\sigma^2(t+s)$</strong>。是 $\min$！它的物理含义是"<strong>共同经历的时间长度</strong>"。写成 $st$ 就变成"斜率随机"型过程（如 $X_0+Vt$ 的 $1+st$），那是不平稳的。</li>
+      <li>❌ <strong>证明方差可加时忘了提独立性</strong>。$D(U+V)=D(U)+D(V)$ 只在 $U,V$ 不相关时成立。这一步是本定理与"均值线性"最重要的一字之差。</li>
+      <li>❌ <strong>认为"$C(s,t)=\sigma^2\min(s,t)$ 说明过程是平稳的"</strong>。恰恰相反：$R(s,t)=\sigma^2\min(s,t)+a^2st$ 里含 $st$ 项，<strong>过程本身不平稳</strong>（除非 $a=0$ 且…… 严格说仍不平稳，因为 $D(t)=\sigma^2t$ 在变）。<strong>平稳的是增量。</strong></li>
+      <li>❌ <strong>把 Cauchy 函数方程直接用在"可加但不连续"的函数上</strong>。不连续的可加函数存在（需要选择公理），所以"连续性"这个前提不能省。</li>
+      <li>❌ <strong>在特征函数证明里漏掉 $t_0=0$</strong>。$Y_1$ 的特殊性正在于它从 $0$ 出发；若 $X(0)\ne0$，$Y_1$ 要写成 $X(t_1)-X(0)$ 并单独处理其分布。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 设 $\{N(t)\}$ 是参数 $\lambda=3$ 的 Poisson 过程，求 $C(2,5)$、$R(2,5)$、$\rho(2,5)$。</summary>
+    <p>$m(t)=\lambda t=3t$，$D(t)=3t$，$C(s,t)=3\min(s,t)$。</p>
+    <ul>
+      <li>$C(2,5)=3\min(2,5)=6$</li>
+      <li>$R(2,5)=C(2,5)+m(2)m(5)=6+(3\cdot2)(3\cdot5)=6+90=96$</li>
+      <li>$\rho(2,5)=\dfrac{6}{\sqrt{D(2)D(5)}}=\dfrac{6}{\sqrt{6\cdot15}}=\dfrac{6}{\sqrt{90}}=\dfrac{6}{3\sqrt{10}}=\dfrac{2}{\sqrt{10}}\approx0.632$</li>
+    </ul>
+    <p><strong>注意 $R$ 与 $C$ 相差巨大（96 vs 6）</strong>——因为 $N(t)$ 的均值不为 0。这也再次提醒：<strong>判"不相关"必须看 $C$，不能看 $R$。</strong></p>
+  </details>
+  <details>
+    <summary>Q2 · 为什么"独立"这一条在证明 $D(t)=\sigma^2t$ 时不可替代？</summary>
+    <p>因为方差<strong>没有线性性</strong>。展开 $D(U+V)$ 会出现交叉项 $2\mathrm{Cov}(U,V)$：</p>
+    $$D\bigl[(X(t+s)-X(s))+(X(s)-X(0))\bigr]=D[\text{前段}]+D[\text{后段}]+2\,\mathrm{Cov}(\text{前段},\text{后段})$$
+    <p><strong>恰好是"独立增量"保证了协方差为 0</strong>，交叉项才消失。</p>
+    <p>更细一层：证明只用到"<strong>相减后协方差为 0</strong>"——也就是"<strong>增量互不相关</strong>"其实就够了，不需要完整的独立性。但课程里我们通常直接引用更强的"独立"假设（有些教材还额外要求二阶矩存在，本课程默认满足）。<strong>这个细节值得记住：定理的真正假设比"独立"要弱一点。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · 某过程的 $m(t)=2t$、$D(t)=t$、$C(s,t)=\min(s,t)$。它可能是平稳独立增量过程吗？$X(0)$ 是多少？</summary>
+    <p><strong>可能是。</strong>对照定理：$a=2$、$\sigma^2=1$，两个结论都符合线性形式，$C$ 也符合 $\min$ 形态。</p>
+    <p><strong>$X(0)$ 必然恒等于 0</strong>：因为 $m(0)=a\cdot0=0$ 且 $D(0)=\sigma^2\cdot0=0$，方差为 0 意味着 $X(0)=E[X(0)]=0$ 以概率 1 成立。</p>
+    <p><strong>但要真正确定，还需检验"平稳独立增量"</strong>——数字特征只是二阶信息。例如一个"$X_0+Vt$ 型"过程也可以被调成满足这三条二阶条件，但它的增量并不独立（$V$ 一直影响所有增量）。<strong>这是第 06 节反复强调的"二阶信息不完备"的又一次体现。</strong></p>
+  </details>
+  <details>
+    <summary>Q4 · 把定理中的 $C(s,t)=\sigma^2\min(s,t)$ 换个角度看，它像什么？</summary>
+    <p>它很像"<strong>两个集合的交集大小</strong>"：$[0,s]\cap[0,t]$ 的长度恰好是 $\min(s,t)$。</p>
+    <p>这个类比有实质意义：可以把 $[0,\min(s,t)]$ 理解成"<strong>两个时刻都经历过的随机性累积</strong>"，而多出来的部分只被一个时刻经历过，不产生共同波动。<strong>协方差 = 共同随机性 × 强度。</strong></p>
+    <p>这也解释了两条曲线为什么"先升后平"（上图）：$t\le s$ 时"共同经历"从 0 涨到 $s$；$t&gt;s$ 后共同经历已经饱和在 $s$，不再增加。<strong>把 $C$ 读懂读透，$R$、$\rho$ 全都水到渠成。</strong></p>
+  </details>
+
+  <div class="pager">
+    <a href="./09-独立过程与独立增量过程.html"><span class="label">← 上一节</span><span class="title">独立过程与独立增量过程</span></a>
+    <a href="./11-正态过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">正态过程（高斯过程）</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

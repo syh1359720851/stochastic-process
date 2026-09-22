@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 Gamma 与正态分布 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html">03 Poisson</a>
+    <a href="./04-均匀分布.html">04 均匀</a>
+    <a href="./05-指数分布.html">05 指数</a>
+    <a href="./06-Gamma与正态分布.html" class="current">06 Gamma / 正态</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · Gamma 与正态分布</h1>
+  <p class="lede">Gamma = "<strong>$n$ 个独立 Exp 之和</strong>"（Erlang 是整数形参特例）；正态 = "<strong>中心极限定理</strong>的极限形态"，自然界中<strong>无处不在</strong>。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>Gamma</strong>：<strong>$n$ 个独立 Exp 之和</strong>——Poisson 过程中"<strong>第 $n$ 次</strong>事件到达时间"的分布。Erlang 是 $n\in\mathbb{N}$ 的特例。</li>
+      <li><strong>正态</strong>：<strong>大量独立小因素的叠加</strong>——测量误差、考试成绩、生物指标……几乎无处不在。中心极限定理（CLT，第 05 讲）保证它的普遍性。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li>Gamma：银行窗口的<strong>第 $n$ 位</strong>顾客到达时刻 = 前 $n-1$ 个间隔之和 $\sim \text{Gamma}(n,\lambda)$。</li>
+      <li>正态：全班考试成绩 ≈ $N(75,10^2)$（均值 75，标准差 10）。</li>
+      <li>正态：测量同一零件长度 $100$ 次，结果近似 $N(\mu,\sigma^2)$（$\mu$ = 真值附近，$\sigma$ = 仪器精度）。</li>
+      <li>正态：股票日收益率（粗略）≈ $N(\mu,\sigma^2)$。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. Gamma 分布</h2>
+
+  <h3>2.1 Gamma 函数</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · Gamma 函数</span>
+    $$\Gamma(\alpha)=\int_0^\infty x^{\alpha-1}e^{-x}\,dx,\quad \alpha>0$$
+    <p>性质：$\Gamma(1)=1$，$\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$，$\Gamma(1/2)=\sqrt\pi$，$\Gamma(n)=(n-1)!$（$n$ 正整数）。</p>
+  </div>
+
+  <h3>2.2 Gamma 分布 $\Gamma(\alpha,\beta)$</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · Gamma 分布</span>
+    <p>密度函数：</p>
+    $$\boxed{f(x)=\begin{cases}\dfrac{\beta^\alpha}{\Gamma(\alpha)}\,x^{\alpha-1}e^{-\beta x},& x\ge 0\\ 0,& x&lt;0\end{cases}}$$
+    <p>参数：$\alpha>0$（<strong>形状</strong>），$\beta>0$（<strong>率</strong>，有些教材用 $\lambda$）。记作 $X\sim\Gamma(\alpha,\beta)$。</p>
+  </div>
+
+  <h3>2.3 Erlang 分布（$\alpha=n\in\mathbb{N}$）</h3>
+  <div class="callout theorem">
+    <span class="label">特例 · Erlang 分布 $\text{Erlang}(n,\beta)$</span>
+    <p>当 $\alpha=n$ 为正整数时，$\Gamma(n)=(n-1)!$，密度简化为</p>
+    $$f(x)=\frac{\beta^n}{(n-1)!}\,x^{n-1}e^{-\beta x},\quad x\ge 0$$
+    <p>这是<strong>$n$ 个独立 $\text{Exp}(\beta)$ 之和</strong>——Erlang 名字的来源。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">数字特征</span>
+    <table>
+      <tr><th>期望 $E(X)$</th><th>方差 $D(X)$</th></tr>
+      <tr><td>$\alpha/\beta$</td><td>$\alpha/\beta^2$</td></tr>
+    </table>
+    <p>特例：$\text{Exp}(\beta)=\Gamma(1,\beta)$，$E=1/\beta$，$D=1/\beta^2$ ✓。</p>
+  </div>
+
+  <h3>2.4 可加性</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 独立 Gamma 之和</span>
+    <p>若 $X_i\sim\Gamma(\alpha_i,\beta)$ <strong>独立</strong>（<strong>同</strong> $\beta$），则</p>
+    $$\sum_{i=1}^n X_i\sim\Gamma\!\left(\sum_{i=1}^n\alpha_i,\ \beta\right)$$
+    <p>（在<strong>形状</strong>参数上可加，<strong>率</strong>参数不变。这是 Gamma 分布的核心便利。）</p>
+  </div>
+
+  <h3>2.5 与 Poisson 的联系</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · Gamma-Poisson 对偶</span>
+    <p>在 Poisson 过程（速率 $\lambda$）中：</p>
+    <ul>
+      <li>相邻事件间隔 $X_i\sim\text{Exp}(\lambda)$；</li>
+      <li><strong>第 $n$ 次</strong>事件到达时间 $S_n=X_1+\dots+X_n\sim\Gamma(n,\lambda)$（Erlang）；</li>
+      <li>第 $n$ 次事件<strong>恰好</strong>在 $t$ 时刻发生的概率：$f_{S_n}(t)=\dfrac{\lambda^n}{(n-1)!}t^{n-1}e^{-\lambda t}$。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 正态分布</h2>
+
+  <h3>3.1 定义</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 正态分布 $N(\mu,\sigma^2)$</span>
+    <p>密度函数：</p>
+    $$\boxed{f(x)=\frac{1}{\sqrt{2\pi}\,\sigma}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}},\quad x\in\mathbb{R}}$$
+    <p>参数：$\mu$（均值 / 位置），$\sigma^2$（方差 / 尺度，$\sigma$ = 标准差）。记作 $X\sim N(\mu,\sigma^2)$。</p>
+  </div>
+
+  <h3>3.2 标准正态 $N(0,1)$</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 标准正态</span>
+    <p>$Z\sim N(0,1)$，密度</p>
+    $$\varphi(z)=\frac{1}{\sqrt{2\pi}}\,e^{-z^2/2}$$
+    <p>分布函数 $\Phi(z)=\displaystyle\int_{-\infty}^z\varphi(t)\,dt$。</p>
+    <p>$\Phi(z)$ 不能用初等函数表示，但有<strong>数值表</strong>和<strong>常用值</strong>：</p>
+    <ul>
+      <li>$\Phi(0)=0.5$；$\Phi(1)\approx 0.8413$；$\Phi(2)\approx 0.9772$；$\Phi(3)\approx 0.9987$。</li>
+      <li>$\Phi(-z)=1-\Phi(z)$（<strong>对称性</strong>）。</li>
+    </ul>
+  </div>
+
+  <h3>3.3 标准化</h3>
+  <div class="callout theorem">
+    <span class="label">标准化定理</span>
+    <p>若 $X\sim N(\mu,\sigma^2)$，则</p>
+    $$Z=\frac{X-\mu}{\sigma}\sim N(0,1)$$
+    <p>反之 $X=\mu+\sigma Z$。所有正态都可由 $N(0,1)$ 通过<strong>线性变换</strong>得到。</p>
+  </div>
+
+  <h3>3.4 数字特征</h3>
+  <div class="callout theorem">
+    <span class="label">数字特征与特征函数</span>
+    <table>
+      <tr><th>$E(X)$</th><th>$D(X)$</th><th>特征函数 $\Phi_X(t)$</th></tr>
+      <tr><td>$\mu$</td><td>$\sigma^2$</td><td>$e^{it\mu-\sigma^2 t^2/2}$</td></tr>
+    </table>
+  </div>
+
+  <h3>3.5 可加性（独立正态之和）</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 独立正态可加</span>
+    <p>若 $X_i\sim N(\mu_i,\sigma_i^2)$ <strong>独立</strong>，则</p>
+    $$\sum_{i=1}^n a_i X_i\sim N\!\left(\sum a_i\mu_i,\ \sum a_i^2\sigma_i^2\right)$$
+    <p>正态族的<strong>线性组合仍为正态</strong>——这是正态独有的封闭性。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 3σ 原则（核心考点）</h2>
+
+  <div class="callout theorem">
+    <span class="label">3σ 原则</span>
+    <p>若 $X\sim N(\mu,\sigma^2)$，则</p>
+    <table>
+      <tr><th>区间</th><th>概率</th></tr>
+      <tr><td>$P(\mu-\sigma&lt;X&lt;\mu+\sigma)$</td><td>$\approx 0.6827$</td></tr>
+      <tr><td>$P(\mu-2\sigma&lt;X&lt;\mu+2\sigma)$</td><td>$\approx 0.9545$</td></tr>
+      <tr><td>$P(\mu-3\sigma&lt;X&lt;\mu+3\sigma)$</td><td>$\approx 0.9973$</td></tr>
+    </table>
+    <p><strong>工程意义</strong>：观测值落在 $[\mu-3\sigma,\mu+3\sigma]$ 之外的概率 $<0.3\%$——"几乎不可能"。故<strong>超出 $3\sigma$ 视为异常</strong>。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">工程应用 · 过程控制</span>
+    <p>某零件长度规格 $[\mu-0.1,\mu+0.1]$ mm，$\sigma=0.02$ mm（生产稳定）。$3\sigma=0.06$ mm < $0.1$ mm——<strong>几乎所有产品合格</strong>。</p>
+    <p>若 $\sigma=0.05$ mm，则 $3\sigma=0.15$ mm > $0.1$ mm——可能<strong>有 $0.27\%$ 不合格</strong>。需减小 $\sigma$ 或放宽规格。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 典型例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · Erlang（$n=3$ 个 Exp 之和）</span>
+    <p>银行平均每小时 10 位顾客（$\lambda=10$），求"第 3 位顾客在 $t=0.5$ h 内到达"的概率密度。</p>
+    <p>$S_3\sim\Gamma(3,10)$，密度 $f(t)=\dfrac{10^3}{2!}t^2 e^{-10t}=500\,t^2e^{-10t}$。</p>
+    <p>求 $P(S_3\le 0.5)$：积分 $500\int_0^{0.5}t^2e^{-10t}\,dt$，用分部积分或查 Gamma 表，结果 $\approx 0.080$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 正态标准化（典型计算）</span>
+    <p>$X\sim N(75,10^2)$，求 $P(60&lt;X\le 90)$。</p>
+    <p>标准化：$P\!\left(\dfrac{60-75}{10}&lt;\dfrac{X-75}{10}\le\dfrac{90-75}{10}\right)=P(-1.5&lt;Z\le 1.5)$</p>
+    <p>$=\Phi(1.5)-\Phi(-1.5)=2\Phi(1.5)-1\approx 2\times 0.9332-1=0.8664$。</p>
+    <p>由 $3\sigma$ 原则，$[\mu-2\sigma,\mu+2\sigma]=[55,95]$，覆盖 $95.45\%$；$[\mu-1.5\sigma,\mu+1.5\sigma]$ 约 $86.6\%$——一致。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · Gamma 与 Chi 平方的关系</label>
+    <p>$\chi^2_n$（自由度 $n$ 的卡方分布）= $\Gamma(n/2,1/2)$。</p>
+    <p>特例：$\chi^2_1=\Gamma(1/2,1/2)$。$\chi^2_n$ 是 $n$ 个独立 $N(0,1)^2$ 之和——这是统计学中的核心分布。</p>
+    <p>（第 05 / 06 讲会展开卡方分布。）</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 易错点</h2>
+
+  <div class="callout danger">
+    <span class="label">致命错误 · 正态分布的"中心"和"尺度"</label>
+    <p>$N(\mu,\sigma^2)$ 中 $\mu$ 是<strong>均值</strong>，$\sigma^2$ 是<strong>方差</strong>（不是 $\sigma$！）。</p>
+    <p>常见错误：把 $N(0,1)$ 写成"$N(0,\sigma^2)$，$\sigma=1$"——错！正确：$N(0,1)$ 即 $\mu=0,\sigma^2=1$。</p>
+    <p>再如 $N(5,9)$ 是 $\mu=5,\sigma^2=9,\sigma=3$——不是 $\mu=5,\sigma=9$！</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · Gamma 分布参数记号</label>
+    <p>不同教材对 Gamma 参数记号不同。本讲用 $\Gamma(\alpha,\beta)$ 表示"</p>
+    <ul>
+      <li>$\alpha$：<strong>形状</strong>（shape）；</li>
+      <li>$\beta$：<strong>率</strong>（rate），单位"次/单位时间"，$E(X)=\alpha/\beta$。</li>
+    </ul>
+    <p>有的教材用 $\Gamma(k,\theta)$：$\theta=1/\beta$ 是"<strong>尺度</strong>"（scale），$E(X)=k\theta$。两者只是符号切换，<strong>看清用的是哪一种</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <label class="label">易错 · "正态" 不等于 "任意对称"</label>
+    <p>正态是<strong>特定的钟形</strong>密度 $\varphi(z)=e^{-z^2/2}/\sqrt{2\pi}$。其他对称分布（如 $t$ 分布、Cauchy）也有"钟形"，但<strong>尾部更厚</strong>——不是正态。</p>
+    <p>检验数据是否正态：可用正态 QQ 图、Shapiro-Wilk 检验、Kolmogorov-Smirnov 检验等。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $X\sim\Gamma(2,1)$（形状 $\alpha=2$，率 $\beta=1$），求 $E(X)$，$D(X)$。</summary>
+    <p>$E(X)=\alpha/\beta=2$，$D(X)=\alpha/\beta^2=2$。</p>
+    <p>验证：这是 2 个 $\text{Exp}(1)$ 之和——$E(X)=1+1=2$，$D(X)=1+1=2$ ✓（独立求和方差相加）。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · $X\sim N(100,15^2)$，求 $P(X&gt;130)$。</summary>
+    <p>$P(X&gt;130)=P\!\left(Z&gt;\dfrac{130-100}{15}\right)=P(Z&gt;2)=1-\Phi(2)\approx 1-0.9772=0.0228$。</p>
+    <p>由 $3\sigma$ 原则，$[\mu-2\sigma,\mu+2\sigma]$ 之外概率约 $4.55\%$，单边约 $2.27\%$ ✓（接近）。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · $X_1,\dots,X_n$ i.i.d. $\text{Exp}(\lambda)$，$S_n=\sum X_i$ 的分布？</summary>
+    <p>$S_n\sim\Gamma(n,\lambda)$（Erlang）。</p>
+    <p>特例：$n=1$ 时退化为 $\text{Exp}(\lambda)$。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 三个独立 $N(0,1)$，$Y=X_1+X_2+X_3$ 的分布？</summary>
+    <p>由可加性：$Y\sim N(0,1^2+1^2+1^2)=N(0,3)$。</p>
+    <p>关键：正态的独立线性组合<strong>仍是正态</strong>，均值与方差按线性规律变化。</p>
+  </details>
+
+  <details>
+    <summary>Q5 · 3σ 原则的工程意义？</summary>
+    <p>正态分布中，$\mu\pm 3\sigma$ 涵盖 99.73% 的概率。</p>
+    <p>工程中：</p>
+    <ul>
+      <li><strong>质量控制</strong>：超出 $3\sigma$ 视为"异常"，需停机检查。</li>
+      <li><strong>异常检测</strong>：观测偏离 $\mu$ 超过 $3\sigma$，几乎可确定是异常事件（如 DDoS 攻击、设备故障）。</li>
+      <li><strong>六西格玛管理</strong>：把规格设为 $\pm 6\sigma$——使不合格率低至 $0.002\text{ ppm}$。</li>
+    </ul>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>Gamma $\Gamma(\alpha,\beta)$：$f(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}$，$E=\alpha/\beta$，$D=\alpha/\beta^2$；Erlang 是 $\alpha=n$。正态 $N(\mu,\sigma^2)$：$f(x)=\dfrac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/(2\sigma^2)}$；均值 $\mu$，方差 $\sigma^2$；<u>3σ 原则</u> 99.73% 落在 $\mu\pm 3\sigma$ 内。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./05-指数分布.html"><span class="label">← 上一节</span><span class="title">指数分布</span></a>
+    <a href="./自测.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">本讲自测</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 06 Gamma 与正态分布 · 融合版课件</footer>
+</div>
+</body>
+</html>

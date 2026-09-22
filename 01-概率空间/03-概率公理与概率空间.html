@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 概率公理与概率空间 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout.history{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  ol.axioms>li{padding:8px 12px;background:var(--c-theorem-bg);border-left:3px solid var(--c-theorem);margin:10px 0;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机试验与样本空间.html">01 样本空间</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./03-概率公理与概率空间.html" class="current">03 概率公理</a>
+    <a href="./04-概率性质.html">04 概率性质</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-频率收敛.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · 概率公理与概率空间</h1>
+  <p class="lede">把"概率"从日常模糊的"可能性大小"上升为数学严格对象——这是 Kolmogorov 在 1933 年完成的关键工作。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 历史背景：为什么要公理化？</h2>
+
+  <div class="callout history">
+    <span class="label">公理化之前的两条老路都"有漏洞"</span>
+    <ol>
+      <li><strong>古典定义</strong>（Laplace）："有利结果数 / 所有等可能结果数"——只对<strong>有限等可能</strong>有效（详见第 05 讲）。</li>
+      <li><strong>频率定义</strong>（von Mises）："当试验次数 $n \to \infty$ 时频率的极限"——这个<strong>极限不一定存在</strong>，依赖实际试验，不能在数学上严格定义。</li>
+      <li><strong>主观定义</strong>（Bayes / de Finetti）：每个人对同一事件的"信念"可以不同——不适合作为数学对象。</li>
+    </ol>
+    <p>直到 1933 年，前苏联数学家 <strong>A. N. Kolmogorov</strong> 在《概率论基础》中给出<strong>公理化定义</strong>——用集合论 + 测度论的语言把概率变成严格的数学对象，从此概率论才被纳入现代数学主流。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. Kolmogorov 三条公理</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    概率 $P$ 是定义在 $\mathcal{F}$ 上的一个<strong>实值函数</strong>，它对每个事件给一个 $[0,1]$ 的数，且"互不相交的可列个事件合并"得到的概率等于各事件概率<strong>相加</strong>。
+  </div>
+
+  <p>设 $(\Omega, \mathcal{F})$ 是可测空间。称映射 $P: \mathcal{F} \to \mathbb{R}$ 为<strong>概率测度</strong>（<em>probability measure</em>），若它满足：</p>
+
+  <ol class="axioms">
+    <li><strong>非负性</strong>：$\forall A \in \mathcal{F}$，$P(A) \geq 0$。</li>
+    <li><strong>正则性</strong>（规范性）：$P(\Omega) = 1$。</li>
+    <li><strong>可列可加性</strong>（公理 3，可加性）：若 $A_1, A_2, A_3, \dots \in \mathcal{F}$ 两两不相交（即 $A_i \cap A_j = \varnothing, i \neq j$），则
+      $$P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)$$
+    </li>
+  </ol>
+
+  <div class="callout theorem">
+    <span class="label">教材说明</span>
+    课件常把"非负 + 上界"两条合并为一条："$0 \leq P(A) \leq 1$"——但严格地说，$P(A) \leq 1$ 是<strong>推论</strong>，不是公理（由 $A \subseteq \Omega$ 与可加性得）。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 概率空间（Probability Space）</h2>
+
+  <h3>3.1 定义</h3>
+  <div class="callout theorem">
+    <span class="label">概率空间三元组</span>
+    由可测空间 $(\Omega, \mathcal{F})$ 配上概率测度 $P$ 一起构成的<strong>三元组</strong>
+    $$\boxed{(\Omega, \mathcal{F}, P)}$$
+    称为一个<strong>概率空间</strong>（<em>probability space</em>）。
+  </div>
+
+  <p>三个组成部分的角色分工：</p>
+  <table>
+    <tr><th>成分</th><th>回答的问题</th><th>例子</th></tr>
+    <tr><td>$\Omega$</td><td>试验<strong>有哪些可能结果</strong>？</td><td>掷骰子：$\{1,2,3,4,5,6\}$</td></tr>
+    <tr><td>$\mathcal{F}$</td><td>哪些子集<strong>算事件</strong>？</td><td>$\mathcal{F} = 2^\Omega$（离散情形）</td></tr>
+    <tr><td>$P$</td><td>每个事件<strong>有多大可能</strong>？</td><td>$P(\{i\}) = 1/6$，$i=1,\dots,6$</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">易错点</span>
+    "概率空间"和"可测空间"是<strong>不同概念</strong>：
+    <ul>
+      <li>$(\Omega, \mathcal{F})$ 叫<strong>可测空间</strong>——只规定"哪些是事件"，还没有概率。</li>
+      <li>$(\Omega, \mathcal{F}, P)$ 叫<strong>概率空间</strong>——加上 $P$ 之后才是完整的概率模型。</li>
+    </ul>
+  </div>
+
+  <h3>3.2 概率空间的完整例子</h3>
+  <div class="callout example">
+    <span class="label">Ex · 掷一颗均匀骰子</span>
+    $$\Omega = \{1,2,3,4,5,6\}$$
+    $$\mathcal{F} = 2^\Omega = \{A \mid A \subseteq \Omega\}，共\ 2^6 = 64\ \text{个}$$
+    $$P(A) = \frac{|A|}{6}, \quad \forall A \in \mathcal{F}$$
+    验证公理：$P(\Omega)=6/6=1$ ✓；$A,B$ 不相交 $\Rightarrow P(A\cup B)=P(A)+P(B)$ ✓；$P(A)\geq 0$ ✓。
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 测灯泡寿命（连续情形）</span>
+    $$\Omega = [0, +\infty)$$
+    $$\mathcal{F} = \mathcal{B}([0,\infty))\ \text{Borel σ-代数}$$
+    $$\forall a \geq 0,\ P([0,a]) = 1 - e^{-\lambda a}\ \text{（指数分布，参数 }\lambda\text{）}$$
+    $P$ 定义在 Borel 集上，<strong>不能</strong>定义在 $[0,\infty)$ 的所有子集上——这就是为什么要 σ-代数。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 概率与频率的关系</h2>
+
+  <div class="callout intuition">
+    <span class="label">频率视角（启发性理解）</span>
+    在 $n$ 次独立重复试验中，事件 $A$ 发生的<strong>频率</strong> $f_A^{(n)} = n_A / n$，当 $n \to \infty$ 时
+    $$f_A^{(n)} \xrightarrow{P} P(A)$$
+    即"<strong>依概率收敛</strong>"到概率 $P(A)$——这是<strong>大数定律</strong>的内容（详见后续章节）。但频率的定义<strong>不是</strong>概率——它是概率的<strong>经验估计</strong>，而公理化的概率是先于经验、<strong>独立于</strong>具体试验的数学对象。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 与 σ-代数的关系</h2>
+  <p>$P$ 必须定义在 σ-代数 $\mathcal{F}$ 上，<strong>不是</strong> $\Omega$ 的所有子集——这是公理化的关键限制。理由：</p>
+  <ul>
+    <li>若 $\Omega$ 不可数（如 $\mathbb{R}$），$2^\Omega$ 上的"概率"在某些选择公理假设下会导出矛盾（Vitali 集不可测）。</li>
+    <li>只把"好"集合（Borel 集）放进 $\mathcal{F}$，可以避免这些矛盾。</li>
+  </ul>
+
+  <!-- ============================================ -->
+  <h2>6. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 设 $\Omega=\{a,b,c\}$，$P(\{a\})=0.5$，$P(\{b\})=0.3$。$P(\{c\})$ 是多少？</summary>
+    <p>由正则性 + 可加性：$P(\Omega)=P(\{a\}\cup\{b\}\cup\{c\})=1$，且 $\{a\},\{b\},\{c\}$ 不相交，故</p>
+    $$P(\{c\}) = 1 - P(\{a\}) - P(\{b\}) = 1 - 0.5 - 0.3 = 0.2$$
+  </details>
+
+  <details>
+    <summary>Q2 · 检验：定义 $P(A) = \frac{|A \cap \mathbb{Z}|}{10}$（$A \subseteq \mathbb{R}$）。这是概率测度吗？</summary>
+    <p>不是——$P$ 必须定义在 σ-代数 $\mathcal{F}$ 上，而不是 $\mathbb{R}$ 的所有子集上。需要把 $\mathcal{F}$ 限定到 $\mathbb{Z}$ 的 Borel 集上才能谈概率。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 公理化的最大好处是什么？</summary>
+    <p>把概率变成数学对象后，所有概率论命题都可以用集合论 + 实分析的工具严格证明，不需要依赖"实际做试验"或"主观判断"。这是概率论成为严格数学分支的起点。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · "可列可加性"为什么重要，不能弱化为"有限可加性"吗？</summary>
+    <p><strong>不能</strong>。在连续情形（$\Omega$ 不可数），概率的<strong>极限</strong>性质（如概率的连续性、强大数定律、概率密度函数积分）都依赖可列可加性。弱化为有限可加性会失去这些性质——甚至无法唯一确定 $P$。</p>
+    <p>反例：取 $\Omega=[0,1]$，若 $P$ 只满足有限可加性，可以构造多个不同的 $P$；但加可列可加性后，$P$ 由其在所有区间上的取值<strong>唯一确定</strong>。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>概率空间 = $(\Omega, \mathcal{F}, P)$：试验 + 事件类 + 概率赋值。三条公理：非负 + 正则 + 可列可加。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./02-事件与σ-代数.html"><span class="label">← 上一节</span><span class="title">事件与 σ-代数</span></a>
+    <a href="./04-概率性质.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">概率的性质</span></a>
+  </div>
+
+  <footer class="bot">第 01 讲 · 03 概率公理与概率空间 · 融合版课件</footer>
+</div>
+</body>
+</html>

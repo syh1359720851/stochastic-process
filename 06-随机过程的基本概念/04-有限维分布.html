@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 随机过程的有限维分布 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 04</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html" class="current">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
+    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
+    <a href="./11-正态过程.html">11 正态过程</a>
+    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自检.html">自测</a>
+  </nav>
+
+  <h1>04 · 随机过程的分布：有限维分布族</h1>
+  <p class="lede">随机过程是"一族随机变量"，那它的"分布"到底是什么？答案有点反直觉：<strong>不是一条分布曲线，而是一整个"分布族"</strong>——对任取的有限个时刻，给出它们的联合分布。这一节把 $1$ 维、$2$ 维、$n$ 维分布写清楚，并说清"为什么必须这样"以及"光知道一维分布为什么不够"。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>随机过程的分布 = 有限维分布族 $\{F(t_1,\dots,t_n;x_1,\dots,x_n),\ n\ge1\}$。</strong>它必须对<strong>所有</strong>有限时刻组合都给出来，因为不同时刻的关联信息全藏在高维分布里。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <p>把过程想成一台"随机曲线生成器"。</p>
+    <ul>
+      <li><strong>一维分布</strong>只说"在时刻 $t$，出来的数大概是多少"——这是"逐点快照"。</li>
+      <li><strong>二维分布</strong>说"在时刻 $s$ 和 $t$，出来的两个数<strong>一起</strong>大概是什么样"——开始带上<strong>关联</strong>信息：是"两个数接近"还是"各管各的"。</li>
+      <li><strong>$n$ 维分布</strong>说"$n$ 个时刻一起看是什么样"——关联越复杂，需要越高的维度才能刻画完整。</li>
+      <li>把<strong>所有</strong> $n$ 维分布送到你手上，你就完整地掌握了这台生成器。<strong>这就是"有限维分布族决定随机过程"的含义。</strong></li>
+    </ul>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 一维分布函数与一维概率密度</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 一维分布</span>
+    <p>设 $\{X(t),\ t\in T\}$ 是一个随机过程。对每个 $t\in T$，$X(t)$ 是随机变量，其分布函数</p>
+    $$F(t,x)=P\{X(t)&lt;x\},\qquad t\in T,\ x\in\mathbb R$$
+    <p>称为该过程的<strong>一维分布函数</strong>。若对每个 $t$，$X(t)$ 是连续型随机变量、存在非负可积函数 $f(t,x)$ 使</p>
+    $$F(t,x)=\int_{-\infty}^{x}f(t,u)\,du,\qquad t\in T,\ x\in\mathbb R$$
+    <p>则称 $f(t,x)$ 为<strong>一维概率密度</strong>（此时 $f=\partial F/\partial x$）。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">记号里最容易看走眼的一点</span>
+    <p>$F(t,x)$ 中<strong>第一个变量 $t$ 是参数、不是自变量</strong>。所以对不同的 $t$，我们得到的是一族<strong>不同的</strong>分布函数 $F(t,\cdot)$，而不是同一个分布在不同点的取值。对比第 03 讲的分布函数 $F_X(x)$：那里只有一个自变量。读公式时请在心里念成"<strong>$F$ 在时刻 $t$ 处、取值小于 $x$ 的概率</strong>"。</p>
+  </div>
+
+  <h3>2.2 二维分布函数与二维概率密度</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 二维分布</span>
+    <p>对任意 $s,t\in T$，$(X(s),X(t))$ 是一个二维随机变量，其联合分布函数</p>
+    $$F(s,t;x,y)=P\{X(s)&lt;x,\ X(t)&lt;y\},\qquad s,t\in T,\ x,y\in\mathbb R$$
+    <p>称为该过程的<strong>二维分布函数</strong>。若 $(X(s),X(t))$ 是连续型二维随机变量、存在非负可积函数 $f(s,t;x,y)$ 使</p>
+    $$F(s,t;x,y)=\int_{-\infty}^{x}\int_{-\infty}^{y}f(s,t;u,v)\,dv\,du$$
+    <p>则称 $f(s,t;x,y)$ 为<strong>二维概率密度</strong>。</p>
+  </div>
+
+  <h3>2.3 $n$ 维分布函数与 $n$ 维概率密度</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $n$ 维分布</span>
+    <p>对任意 $t_1,t_2,\dots,t_n\in T$，$n$ 维随机变量 $(X(t_1),\dots,X(t_n))$ 的联合分布函数</p>
+    $$F(t_1,t_2,\dots,t_n;x_1,x_2,\dots,x_n)=P\{X(t_1)&lt;x_1,\ X(t_2)&lt;x_2,\ \dots,\ X(t_n)&lt;x_n\}$$
+    <p>称为该过程的 <strong>$n$ 维分布函数</strong>。若存在非负可积函数 $f(t_1,\dots,t_n;x_1,\dots,x_n)$ 使 $F$ 为其 $n$ 重积分，则称 $f$ 为 <strong>$n$ 维概率密度</strong>。</p>
+    <p>把 $n=1,2,3,\dots$ 的全部 $n$ 维分布收集起来，得到</p>
+    $$\bigl\{\,F(t_1,\dots,t_n;x_1,\dots,x_n):\ t_1,\dots,t_n\in T,\ n\ge1\,\bigr\}$$
+    <p>称为该过程的<strong>有限维分布族</strong>。</p>
+  </div>
+
+  <h3>2.4 相容性条件与 Kolmogorov 扩张定理</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · 相容性条件（有限维分布族必须满足）</span>
+    <p>真正的有限维分布族必须自洽，否则会出现"矛盾的概率"：</p>
+    <ol>
+      <li><strong>对称性（可交换）</strong>：对 $\{1,\dots,n\}$ 的任一排列 $\pi$，
+      $$F(t_{\pi(1)},\dots,t_{\pi(n)};x_{\pi(1)},\dots,x_{\pi(n)})=F(t_1,\dots,t_n;x_1,\dots,x_n)$$
+      即"时刻与阈值必须成对重排"。</li>
+      <li><strong>相容性（边缘一致）</strong>：$m&lt;n$ 时，把 $n$ 维分布中"多余的"变量取 $+\infty$，必须回到 $m$ 维分布：
+      $$F(t_1,\dots,t_m,\underbrace{+\infty,\dots,+\infty}_{n-m}\ ;\ x_1,\dots,x_m,\underbrace{+\infty,\dots,+\infty}_{n-m})=F(t_1,\dots,t_m;x_1,\dots,x_m)$$</li>
+    </ol>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">定理 · Kolmogorov 扩张定理（存在性）</span>
+    <p>反过来，若给定一个定义在所有有限时刻组合上的分布族，且满足上述<strong>对称性</strong>与<strong>相容性</strong>，则一定<strong>存在</strong>一个概率空间 $(\Omega,\mathcal F,P)$ 和其上的随机过程 $\{X(t),\ t\in T\}$，使得它的有限维分布恰好就是这个分布族。</p>
+    <p><strong>意义</strong>：这定理说明"<strong>给定有限维分布族</strong>"和"<strong>给定一个随机过程</strong>"在数学上是<strong>等价</strong>的。它是整门课的地基——后面每次说"我们来构造一个过程，它的分布满足……"，合法性都由它保证。</p>
+  </div>
+
+  <h2>3. 为什么"一维分布不够"？一个决定性的反例</h2>
+  <div class="callout danger">
+    <span class="label">反例 · 一维分布完全相同，过程截然不同</span>
+    <p>设 $A\sim U[0,1]$。构造两个过程（$t\in[0,1]$）：</p>
+    <ul>
+      <li><strong>过程 1（完全相关）</strong>：$X(t)\equiv A$。轨道是<strong>一条水平直线</strong>，随机性只体现在"这条线在多高"。</li>
+      <li><strong>过程 2（完全独立）</strong>：对每个 $t$ 独立地取 $U(t)\sim U[0,1]$，即所有 $X(t)$ 相互独立。</li>
+    </ul>
+    <p>对每个固定的 $t$，两个过程的 $X(t)$ <strong>都服从 $U[0,1]$</strong>——<strong>一维分布完全相同</strong>。但它们的二维分布天差地别：</p>
+    <ul>
+      <li>过程 1：$(X(s),X(t))$ 以概率 1 落在直线 $y=x$ 上（<strong>完全正相关</strong>）。</li>
+      <li>过程 2：$(X(s),X(t))$ 均匀铺满单位正方形（<strong>完全不相关</strong>）。</li>
+    </ul>
+    <p><strong>结论</strong>：<strong>一维分布族决定不了随机过程。</strong>必须给到"所有有限维"才够。这也解释了为什么后面的重要过程（Poisson、维纳）都要额外声明"<strong>独立增量</strong>"——那正是在补充二维及更高维的信息。</p>
+  </div>
+
+  <p>下面把上面的反例画成散布图。两图的一维分布（每个轴上的边缘分布）完全一样，但二维的"联合分布"完全不一样：</p>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 680 248" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>一维分布相同但二维分布不同</title>
+      <desc>左图表示两个时刻完全相关时联合分布集中在主对角线上，右图表示两个时刻相互独立时联合分布铺满整个取值格子。</desc>
+      <text x="160" y="22" text-anchor="middle" font-size="13" fill="#1f2328">完全相关：联合分布在对角线上</text>
+      <text x="500" y="22" text-anchor="middle" font-size="13" fill="#1f2328">完全独立：联合分布铺满全格</text>
+      <g stroke="#d0d7de" stroke-width="0.5">
+        <line x1="80" y1="30" x2="80" y2="210"/>
+        <line x1="160" y1="30" x2="160" y2="210"/>
+        <line x1="240" y1="30" x2="240" y2="210"/>
+        <line x1="40" y1="60" x2="280" y2="60"/>
+        <line x1="40" y1="120" x2="280" y2="120"/>
+        <line x1="40" y1="180" x2="280" y2="180"/>
+      </g>
+      <line x1="40" y1="210" x2="280" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="40" y1="30" x2="40" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <text x="160" y="228" text-anchor="middle" font-size="12" fill="#57606a">X(t₁) 的取值</text>
+      <text x="34" y="26" text-anchor="end" font-size="12" fill="#57606a">X(t₂)</text>
+      <circle cx="80" cy="180" r="8" fill="#0969da"/>
+      <circle cx="160" cy="120" r="8" fill="#0969da"/>
+      <circle cx="240" cy="60" r="8" fill="#0969da"/>
+      <g stroke="#d0d7de" stroke-width="0.5">
+        <line x1="420" y1="30" x2="420" y2="210"/>
+        <line x1="500" y1="30" x2="500" y2="210"/>
+        <line x1="580" y1="30" x2="580" y2="210"/>
+        <line x1="380" y1="60" x2="620" y2="60"/>
+        <line x1="380" y1="120" x2="620" y2="120"/>
+        <line x1="380" y1="180" x2="620" y2="180"/>
+      </g>
+      <line x1="380" y1="210" x2="620" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <line x1="380" y1="30" x2="380" y2="210" stroke="#57606a" stroke-width="0.8"/>
+      <text x="500" y="228" text-anchor="middle" font-size="12" fill="#57606a">X(t₁) 的取值</text>
+      <circle cx="420" cy="180" r="5" fill="#1a7f37"/>
+      <circle cx="500" cy="180" r="5" fill="#1a7f37"/>
+      <circle cx="580" cy="180" r="5" fill="#1a7f37"/>
+      <circle cx="420" cy="120" r="5" fill="#1a7f37"/>
+      <circle cx="500" cy="120" r="5" fill="#1a7f37"/>
+      <circle cx="580" cy="120" r="5" fill="#1a7f37"/>
+      <circle cx="420" cy="60" r="5" fill="#1a7f37"/>
+      <circle cx="500" cy="60" r="5" fill="#1a7f37"/>
+      <circle cx="580" cy="60" r="5" fill="#1a7f37"/>
+    </svg>
+  </div>
+
+  <h2>4. 例题 · 抛硬币过程的一维与二维分布</h2>
+  <div class="callout example">
+    <span class="label">例 4（课件原例）</span>
+    <p>用抛掷一枚硬币的试验定义随机过程：出现正面时 $X(t)=\cos\pi t$，出现反面时 $X(t)=2t$，正反面概率各 $\tfrac12$。试求：</p>
+    <ol>
+      <li>$X(t)$ 的一维分布函数 $F(0.5,x)$ 与 $F(1,x)$；</li>
+      <li>$X(t)$ 的二维分布函数 $F(0.5,1;x,y)$。</li>
+    </ol>
+    <p><strong>解（1）</strong> 直接代入得两个时刻的概率分布：</p>
+    <table>
+      <tr><th>$X(0.5)$</th><td>$0$</td><td>$1$</td></tr>
+      <tr><th>$P$</th><td>$0.5$</td><td>$0.5$</td></tr>
+    </table>
+    <table>
+      <tr><th>$X(1)$</th><td>$-1$</td><td>$2$</td></tr>
+      <tr><th>$P$</th><td>$0.5$</td><td>$0.5$</td></tr>
+    </table>
+    <p>故一维分布函数为阶梯函数：</p>
+    $$F(0.5,x)=\begin{cases}0,&amp;x\le 0\\ 0.5,&amp;0&lt;x\le 1\\ 1,&amp;x&gt;1\end{cases}\qquad
+    F(1,x)=\begin{cases}0,&amp;x\le -1\\ 0.5,&amp;-1&lt;x\le 2\\ 1,&amp;x&gt;2\end{cases}$$
+    <p><strong>解（2）</strong> 关键在于 $(X(0.5),X(1))$ 的联合分布。课件指出：若把这两个时刻看作<strong>两次相互独立的抛掷</strong>，则四种组合等可能：</p>
+    <table>
+      <tr><th>$X(0.5)\backslash X(1)$</th><th>$-1$</th><th>$2$</th><th>边缘 $P(X(0.5))$</th></tr>
+      <tr><th>$0$</th><td>$0.25$</td><td>$0.25$</td><td>$0.5$</td></tr>
+      <tr><th>$1$</th><td>$0.25$</td><td>$0.25$</td><td>$0.5$</td></tr>
+      <tr><th>边缘 $P(X(1))$</th><td>$0.5$</td><td>$0.5$</td><td>$1$</td></tr>
+    </table>
+    <p>于是二维分布函数（按 $x,y$ 所在区间分段累加）为</p>
+    $$F(0.5,1;x,y)=P\{X(0.5)&lt;x,\ X(1)&lt;y\}$$
+    $$\begin{cases}
+    0, &amp; x\le 0\ \text{或}\ y\le -1\\[2pt]
+    0.25, &amp; 0&lt;x\le 1,\ -1&lt;y\le 2\\[2pt]
+    0.5, &amp; 0&lt;x\le 1,\ y&gt;2\\[2pt]
+    0.5, &amp; x&gt;1,\ -1&lt;y\le 2\\[2pt]
+    1, &amp; x&gt;1,\ y&gt;2
+    \end{cases}$$
+  </div>
+
+  <div class="callout danger">
+    <span class="label">照镜子 · 同一过程的另一种二维分布</span>
+    <p>如果 $X(0.5)$ 与 $X(1)$ 由<strong>同一次</strong>抛掷决定（正面 → "$\cos$ 分支"，反面 → "$2t$ 分支"），那么</p>
+    <table>
+      <tr><th>$X(0.5)\backslash X(1)$</th><th>$-1$</th><th>$2$</th><th>边缘 $P(X(0.5))$</th></tr>
+      <tr><th>$0$</th><td>$0.5$</td><td>$0$</td><td>$0.5$</td></tr>
+      <tr><th>$1$</th><td>$0$</td><td>$0.5$</td><td>$0.5$</td></tr>
+      <tr><th>边缘 $P(X(1))$</th><td>$0.5$</td><td>$0.5$</td><td>$1$</td></tr>
+    </table>
+    <p>两个边缘分布<strong>与上一版完全一样</strong>（这正是第 3 节反例的复刻！），但联合分布完全不同：$F(0.5,1;x,y)$ 在 $0&lt;x\le1,\ -1&lt;y\le2$ 的矩形上取值 $0$ 而不是 $0.25$（因为 $(0,2)$ 与 $(1,-1)$ 这两个组合出现的概率为 $0$）。</p>
+    <p><strong>结论</strong>：写过程定义时，"<strong>各时刻是否用同一次随机性</strong>"必须在定义里说清楚，否则分布不唯一。<strong>"要用哪个 $\omega$"是过程定义的一部分，不是可以随手补的细节。</strong></p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把 $F(t,x)$ 的 $t$ 当自变量去求导</strong>。"密度"是对 $x$ 求导：$f(t,x)=\partial F/\partial x$，$t$ 只是参数。</li>
+      <li>❌ <strong>以为 $F(t,x)+F(t,y)$ 之类的运算有意义</strong>。不同 $t$ 的分布函数是<strong>不同的函数</strong>，不能像同一个分布那样做加减。</li>
+      <li>❌ <strong>用"每个时刻都是正态"去断言"是正态过程"</strong>。正态过程要求<strong>任意有限维联合正态</strong>——这是强得多的条件（第 11 节详解）。</li>
+      <li>❌ <strong>忘记相容性条件的必要性</strong>。比如随便构造一族二维分布，而不检查"令 $+\infty$ 后能否回到一维分布"，就可能得到自相矛盾的对象。</li>
+      <li>❌ <strong>把"有限维"理解成"次数有限"</strong>。"有限维"指<strong>时刻个数 $n$ 有限</strong>，但要对<strong>无穷多组</strong>时刻组合都给出分布，且 $n$ 可以取任意大。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 一维分布函数 $F(t,x)$ 里有两个变量，为什么只对 $x$ 求导能得到密度？</summary>
+    <p>因为<strong>$t$ 被钉住了</strong>。在一维分布这个语境下，$t$ 是"下标"（选择哪一族分布）而不是变量。对固定的 $t$，$F(t,\cdot)$ 就是一个普通的一维分布函数，对 $x$ 求导自然得到该时刻的概率密度。<strong>只有讨论"连续参数"的过程、想要 $t$ 方向的导数（如均方导数）时，$t$ 才重新变成变量</strong>——那是后续课程的内容。</p>
+  </details>
+  <details>
+    <summary>Q2 · 已知某过程所有的一维分布 $F(t,x)$，能否算出 $P\{X(s)&lt;1,\ X(t)&lt;2\}$？</summary>
+    <p><strong>不能</strong>。这个概率需要二维分布 $F(s,t;1,2)$，而一维分布<strong>完全不包含跨时刻的关联信息</strong>（第 3 节反例已经证明：一维相同、二维可以完全不同）。<strong>这是随机过程区别于"一族互不相干的随机变量"的关键所在。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · Kolmogorov 扩张定理的"存在性"到底解决了什么问题？</summary>
+    <p>它解决了"<strong>我们凭什么说某个过程存在</strong>"。<br>
+    具体来说：当你想构造一个满足"指定有限维分布"的过程时，不需要真的去搭出 $\Omega$ 和 $P$——只要<strong>验证你给的分布族满足对称性与相容性</strong>，定理就保证过程存在。<br>
+    这解释了为什么课程里描述重要过程时，<strong>惯例是直接给分布条件</strong>（如"$W(t)\sim N(0,\sigma^2t)$ 且增量独立平稳"），而从不显式构造 $\Omega$。也解释了第 10 节的"独立增量过程的有限维分布由一维分布与增量分布决定"为什么如此重要——它是 <strong>Kolmogorov 定理的"可操作版本"</strong>：不用给无穷多个 $n$ 维分布，只给一维分布加增量分布就够了。</p>
+  </details>
+  <details>
+    <summary>Q4 · 例 4 的两种版本，一维分布一样而二维分布不同。这对"怎么定义一个过程"有什么启示？</summary>
+    <p>启示是：<strong>过程的定义必须把"随机性的耦合方式"写清楚</strong>。<br>
+    例 2 里写"抛一次硬币，用开关选择子系统"是"同一个 $\omega$ 决定所有时刻"；若写"每个 $t$ 独立抛一次"，就是"不同时刻用不同的 $\omega$"。<strong>两者的样本函数族看起来可能相似，但联合分布完全不同。</strong><br>
+    所以定义一个过程时，$(\Omega,\mathcal F,P)$ 与"$X(t,\omega)$ 怎样依赖 $\omega$"都是定义的一部分；随后的所有分布、数字特征都要从这份定义出发，不能凭"看起来像"去猜。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./03-随机过程的分类.html"><span class="label">← 上一节</span><span class="title">随机过程的分类</span></a>
+    <a href="./05-联合分布与独立性.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">联合分布、独立性、$n$ 维特征函数</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

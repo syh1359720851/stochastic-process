@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 矩与矩母函数 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 06</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html" class="current">06 矩 / 矩母</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>06 · 矩与矩母函数</h1>
+  <p class="lede">期望是一阶原点矩，方差是二阶中心矩。把"<strong>取期望再除以 $X$ 的幂</strong>"推广到任意 $k$ 阶，就得到<strong>矩</strong>——它是分布的"高阶速写"。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>原点矩</strong> $\alpha_k=E(X^k)$，<strong>中心矩</strong> $\mu_k=E[(X-EX)^k]$。矩母函数 $M_X(t)=E(e^{tX})$ 是把所有矩"打包"的一个函数——<strong>求导即可还原各阶矩</strong>。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>1 阶原点矩</strong> $\alpha_1=E(X)$：重心。</li>
+      <li><strong>2 阶中心矩</strong> $\mu_2=D(X)$：胖瘦。</li>
+      <li><strong>3 阶中心矩</strong> $\mu_3$：<strong>偏度</strong>（skewness），衡量分布对称性——$\mu_3&gt;0$ 右偏（长尾在右），$\mu_3&lt;0$ 左偏。</li>
+      <li><strong>4 阶中心矩</strong> $\mu_4$：<strong>峰度</strong>（kurtosis），衡量分布尾部厚度。</li>
+      <li><strong>矩母函数</strong> $M_X(t)=E(e^{tX})$：把所有 $\alpha_k$ 打包——展开 $e^{tX}=\sum t^k X^k/k!$，对 $X^k$ 取期望后，$M_X$ 的 Taylor 系数就是 $\alpha_k/k!$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li><strong>考试成绩</strong>：均值（1 阶）告诉你平均多少分；方差（2 阶中心）告诉你分数有多分散；偏度（3 阶）告诉你"是否有人特别拔尖/拖后腿"。</li>
+      <li><strong>收入分布</strong>：高偏度 → 少数人收入极高拉高均值；高方差 → 贫富差距大。</li>
+    </ul>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 k 阶原点矩</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $k$ 阶原点矩</span>
+    <p>设 $E(|X|^k)&lt;\infty$，定义 $k$ 阶原点矩</p>
+    $$\alpha_k=E(X^k)=\int_{-\infty}^{+\infty} x^k\,dF(x)$$
+    <p>$\alpha_1=E(X)$ 即期望。</p>
+  </div>
+
+  <h3>2.2 k 阶中心矩</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · $k$ 阶中心矩</span>
+    <p>设 $E(|X|^k)&lt;\infty$，定义 $k$ 阶中心矩</p>
+    $$\mu_k=E\!\bigl[(X-E(X))^k\bigr]=\int_{-\infty}^{+\infty}(x-E(X))^k\,dF(x)$$
+    <p>$\mu_1=0$，$\mu_2=D(X)$ 即方差，$\mu_3$ 是<strong>偏度相关</strong>，$\mu_4$ 是<strong>峰度相关</strong>。</p>
+  </div>
+
+  <h3>2.3 矩母函数（MGF）</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 矩母函数</span>
+    <p>设存在 $t_0&gt;0$ 使 $E(e^{t_0 X})&lt;\infty$，则对 $t\in(-t_0,t_0)$ 定义</p>
+    $$M_X(t)=E(e^{tX})=\int_{-\infty}^{+\infty} e^{tx}\,dF(x)$$
+    <p>称为 $X$ 的<strong>矩母函数</strong>（Moment Generating Function）。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">存在性</span>
+    <p>不是所有 $X$ 都有矩母函数——典型反例：</p>
+    <ul>
+      <li><strong>Cauchy 分布</strong>：$f(x)=\tfrac{1}{\pi(1+x^2)}$，$E(e^{tX})=\infty$ 对于所有 $t\ne 0$。</li>
+      <li><strong>对数正态</strong>：$E(e^{tX})$ 对 $t$ 大于某临界值不存在。</li>
+    </ul>
+    <p><strong>但所有分布都有特征函数</strong>（见 §9）——这是特征函数的核心优势。</p>
+  </div>
+
+  <h2>3. 矩与矩母函数的关系</h2>
+  <div class="callout theorem">
+    <span class="label">关键公式 · Taylor 展开</span>
+    <p>展开 $e^{tX}=\sum_{k=0}^{\infty}\tfrac{(tX)^k}{k!}$，对 $X^k$ 取期望：</p>
+    $$M_X(t)=E\!\left[\sum_{k=0}^{\infty}\frac{(tX)^k}{k!}\right]=\sum_{k=0}^{\infty}\frac{t^k}{k!}E(X^k)=\sum_{k=0}^{\infty}\frac{\alpha_k}{k!}t^k$$
+    <p>这就是 $M_X$ 在 $t=0$ 的 Taylor 级数——系数就是 $\alpha_k/k!$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">关键公式 · 求导还原</span>
+    $$M_X^{(k)}(0)=\alpha_k=E(X^k)$$
+    <p>对 $M_X(t)$ 求 $k$ 阶导数后令 $t=0$，得到 $k$ 阶原点矩。</p>
+    <p>这是<strong>用矩母函数算矩的核心公式</strong>。</p>
+  </div>
+
+  <h2>4. 矩母函数的性质</h2>
+  <div class="callout theorem">
+    <span class="label">四条核心</span>
+    <ol>
+      <li><strong>$M_X(0)=1$</strong>（$E(e^0)=1$）。</li>
+      <li><strong>独立 ⇒ 矩母函数相乘</strong>：若 $X,Y$ 独立，则 $M_{X+Y}(t)=M_X(t)\,M_Y(t)$。</li>
+      <li><strong>线性变换</strong>：$M_{aX+b}(t)=e^{bt}M_X(at)$。</li>
+      <li><strong>唯一性</strong>（有限矩母函数存在时）：$M_X$ 唯一决定 $F_X$。</li>
+    </ol>
+  </div>
+
+  <h2>5. 矩与中心矩的关系</h2>
+  <div class="callout theorem">
+    <span class="label">转换公式</span>
+    <p>原点矩 $\alpha_k$ 与中心矩 $\mu_k$ 可以相互表示：</p>
+    $$\mu_2=\alpha_2-\alpha_1^2\quad(D(X)=E(X^2)-[E(X)]^2)$$
+    $$\mu_3=\alpha_3-3\alpha_2\alpha_1+2\alpha_1^3$$
+    $$\mu_4=\alpha_4-4\alpha_3\alpha_1+6\alpha_2\alpha_1^2-3\alpha_1^4$$
+    <p>公式背后的数学是 Newton 恒等式 / 二项展开。</p>
+  </div>
+
+  <h2>6. 关键例子</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · 标准正态 $N(0,1)$ 的 $M_X(t)$</span>
+    <p>$M_X(t)=\int_{-\infty}^{+\infty}e^{tx}\tfrac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx$。配方</p>
+    $$e^{tx-x^2/2}=e^{-(x-t)^2/2}\,e^{t^2/2}$$
+    <p>得 $M_X(t)=e^{t^2/2}$。验证：</p>
+    $$M_X'(t)=t\,e^{t^2/2},\quad M_X'(0)=0=E(X)\ \checkmark$$
+    $$M_X''(t)=(1+t^2)\,e^{t^2/2},\quad M_X''(0)=1=D(X)\ \checkmark$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · Bernoulli$(p)$ 的 $M_X(t)$</span>
+    <p>$M_X(t)=E(e^{tX})=e^{t\cdot 1}p+e^{t\cdot 0}(1-p)=1-p+pe^t$。</p>
+    <p>求导：$M_X'(t)=pe^t$，$M_X'(0)=p=E(X)$ ✓。</p>
+    <p>$M_X''(t)=pe^t$，$M_X''(0)=p$。于是 $D(X)=p-p^2=pq$ ✓。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 3 · Poisson $P(\lambda)$ 的 $M_X(t)$</span>
+    <p>$M_X(t)=\sum_{k=0}^{\infty}e^{tk}\tfrac{\lambda^k e^{-\lambda}}{k!}=e^{-\lambda}\sum_{k=0}^{\infty}\tfrac{(\lambda e^t)^k}{k!}=e^{-\lambda}\cdot e^{\lambda e^t}=e^{\lambda(e^t-1)}$。</p>
+    <p>求导：$M_X'(t)=\lambda e^t\cdot e^{\lambda(e^t-1)}$，$M_X'(0)=\lambda=E(X)$ ✓。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 4 · 指数 $\text{Exp}(\lambda)$ 的 $M_X(t)$</span>
+    <p>$M_X(t)=\int_0^{\infty}e^{tx}\cdot\lambda e^{-\lambda x}\,dx=\lambda\int_0^{\infty}e^{-(\lambda-t)x}\,dx=\tfrac{\lambda}{\lambda-t}$（$t&lt;\lambda$）。</p>
+    <p>$M_X'(t)=\tfrac{\lambda}{(\lambda-t)^2}$，$M_X'(0)=\tfrac{1}{\lambda}=E(X)$ ✓。</p>
+    <p>$M_X''(t)=\tfrac{2\lambda}{(\lambda-t)^3}$，$M_X''(0)=\tfrac{2}{\lambda^2}$，$D(X)=\tfrac{2}{\lambda^2}-\tfrac{1}{\lambda^2}=\tfrac{1}{\lambda^2}$ ✓。</p>
+  </div>
+
+  <h2>7. 偏度与峰度</h2>
+  <div class="callout theorem">
+    <span class="label">偏度（Skewness）</span>
+    $$\text{Skew}(X)=\frac{\mu_3}{\sigma^3}=\frac{E[(X-EX)^3]}{[D(X)]^{3/2}}$$
+    <p>衡量分布的<strong>对称性</strong>。正态 $\text{Skew}=0$（对称）；指数 $\text{Skew}=2$（右偏）。</p>
+  </div>
+  <div class="callout theorem">
+    <span class="label">峰度（Kurtosis）</span>
+    $$\text{Kurt}(X)=\frac{\mu_4}{\sigma^4}=\frac{E[(X-EX)^4]}{[D(X)]^2}$$
+    <p>衡量分布的<strong>尾部厚度</strong>。正态 $\text{Kurt}=3$（称为"中峰度"或"mesokurtic"）；均匀 $\text{Kurt}=1.8$（低峰度）；拉普拉斯 $\text{Kurt}=6$（高峰度）。</p>
+  </div>
+
+  <h2>8. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">四个常见错误</span>
+    <ul>
+      <li>❌ "任意分布都有矩母函数"——错！Cauchy、对数正态等没有。</li>
+      <li>❌ 用 $M_X(t)$ 求导还原矩时，忘了 $M_X^{(k)}(0)=E(X^k)$ 是<strong>原点矩</strong>，不是中心矩。</li>
+      <li>❌ $M_{aX+b}(t)=e^{bt}M_X(at)$——常数 $b$ 在指数上，不能直接提取！</li>
+      <li>❌ 把"独立 ⇒ $M_{X+Y}=M_X\cdot M_Y$"反过来说成"$M_{X+Y}=M_X M_Y$ ⇒ 独立"——只对存在 MGF 的分布成立。</li>
+    </ul>
+  </div>
+
+  <h2>9. 自检</h2>
+  <details>
+    <summary>Q1 · 标准正态 $N(0,1)$ 的 $E(X^3)=$?</summary>
+    <p>用 $M_X(t)=e^{t^2/2}$，$M_X'''(0)$ 是 $\alpha_3$。计算 $M_X'''(t)$ 在 $t=0$ 处得 $0$——奇数阶原点矩为 $0$（正态对称）。</p>
+  </details>
+  <details>
+    <summary>Q2 · $X\sim B(n,p)$ 的 $M_X(t)=$?</summary>
+    <p>$X=\sum_{i=1}^n X_i$，$X_i\sim B(1,p)$ i.i.d.。$M_{X_i}(t)=q+pe^t$，所以 $M_X(t)=(q+pe^t)^n$。</p>
+  </details>
+  <details>
+    <summary>Q3 · $X,Y$ 独立，$M_{X+Y}(t)=M_X(t)M_Y(t)$ 对吗？</summary>
+    <p>对（这是独立性的一个<strong>充分条件</strong>——有 MGF 时也是必要条件）。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./05-协方差与相关系数.html"><span class="label">← 上一节</span><span class="title">协方差与相关系数</span></a>
+    <a href="./07-条件期望与全期望公式.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">条件期望与全期望公式</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

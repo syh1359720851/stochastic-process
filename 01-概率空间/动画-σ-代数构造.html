@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · σ-代数的构造 | 第01讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px 20px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:16px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:20px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:24px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:18px;line-height:1.35;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--c-line)}
+  p{margin:8px 0}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .callout{border-radius:8px;padding:12px 16px;margin:14px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:4px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.warn .label{color:var(--c-warn)}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;align-items:center}
+  .controls label{font-size:13px;color:var(--c-muted)}
+  .controls button,.controls select{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-size:13px}
+  .controls button:hover{border-color:var(--c-primary);color:var(--c-primary)}
+  .controls button.primary{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .controls button.primary:hover{background:#0550ae}
+  /* Venn 容器 */
+  .venn-area{position:relative;height:300px;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;margin:12px 0;display:flex;align-items:center;justify-content:center}
+  .omega{position:relative;width:240px;height:240px}
+  .omega .point{position:absolute;width:46px;height:46px;border-radius:50%;background:var(--c-bg);border:2px solid var(--c-primary);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px;color:var(--c-primary);transition:background 0.2s}
+  .point.in{background:var(--c-primary);color:#fff}
+  .point-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:var(--c-muted)}
+  /* 子集列表 */
+  .sets{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:12px 0}
+  @media (max-width:720px){.sets{grid-template-columns:repeat(4,1fr)}}
+  .set-cell{padding:8px 4px;border:1px solid var(--c-line);border-radius:6px;text-align:center;background:var(--c-bg);font-family:ui-monospace,Consolas,monospace;font-size:13px;cursor:pointer;user-select:none;transition:all 0.15s}
+  .set-cell:hover{border-color:var(--c-primary)}
+  .set-cell.selected{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .set-cell.forced{background:var(--c-warn-bg);border-color:var(--c-warn);color:var(--c-warn)}
+  .set-cell.broken{background:var(--c-danger-bg);border-color:var(--c-danger);color:var(--c-danger)}
+  /* 状态条 */
+  .axioms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+  .axiom{padding:10px 14px;border:1px solid var(--c-line);border-radius:6px;background:var(--c-bg);font-size:13px}
+  .axiom .name{font-weight:600;font-size:12px;display:block;margin-bottom:2px;color:var(--c-muted);letter-spacing:0.5px}
+  .axiom .verdict{font-weight:600;font-size:14px}
+  .axiom.pass{border-color:var(--c-accent);background:var(--c-accent-bg)}
+  .axiom.pass .verdict{color:var(--c-accent)}
+  .axiom.fail{border-color:var(--c-danger);background:var(--c-danger-bg)}
+  .axiom.fail .verdict{color:var(--c-danger)}
+  footer.bot{margin-top:32px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第01讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./02-事件与σ-代数.html">02 事件与 σ-代数</a>
+    <a href="./05-古典概型.html">05 古典概型</a>
+    <a href="./06-集合的并与交.html">06 并与交</a>
+    <a href="./动画-σ-代数构造.html" class="current">动画 σ-代数</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · σ-代数的构造</h1>
+  <p style="color:var(--c-muted);margin:0 0 12px">取 $\Omega=\{1,2,3\}$ —— 共有 $2^3=8$ 个子集。点击下方格子选择/取消集合，看三条公理什么时候被满足。</p>
+
+  <div class="callout intuition">
+    <span class="label">规则</span>
+    每选一个集合，<strong>自动</strong>加入它的补集（橙色"被强制"标记）。同时检查"两两不交的并"是否还在集合里——不满足就标红。
+  </div>
+
+  <h2>选子集（点击切换）</h2>
+  <div class="sets" id="sets"></div>
+
+  <h2>可视化（蓝点 = 当前选中集合的元素）</h2>
+  <div class="venn-area" id="vennArea">
+    <div class="omega" id="omega"></div>
+  </div>
+
+  <h2>公理检查</h2>
+  <div class="axioms" id="axioms"></div>
+
+  <div class="controls">
+    <button class="primary" id="btnTrivial">载入：平凡 σ-代数 {∅,Ω}</button>
+    <button id="btn1Atom">载入：由 {1} 生成</button>
+    <button id="btn2Atom">载入：由 {1,2} 生成</button>
+    <button id="btnMax">载入：最大 σ-代数 2^Ω</button>
+    <button id="btnReset">重置（清空）</button>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">动手题</span>
+    <ol>
+      <li>试试 <code>{1,2,3, ∅}</code> —— 是 σ-代数吗？少什么？</li>
+      <li>试试 <code>{∅, {1}, {2,3}, Ω}</code> —— 通过吗？</li>
+      <li>试试 <code>{∅, {1}, {2}, Ω}</code> —— 为什么不通过？</li>
+      <li>用 8 个格子"自由组合"——找出满足三条公理的<strong>所有</strong> σ-代数。</li>
+    </ol>
+  </div>
+
+  <footer class="bot">第 01 讲 · 动画 · σ-代数构造 · 融合版课件</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+// 8 个子集按二进制编码 (1=包含，0=不包含)
+const SUBSETS = [
+  { mask: 0b000, label:'∅' },
+  { mask: 0b001, label:'{1}' },
+  { mask: 0b010, label:'{2}' },
+  { mask: 0b100, label:'{3}' },
+  { mask: 0b011, label:'{1,2}' },
+  { mask: 0b101, label:'{1,3}' },
+  { mask: 0b110, label:'{2,3}' },
+  { mask: 0b111, label:'Ω={1,2,3}' },
+];
+const OMEGA = 0b111;
+
+let selected = new Set();   // 当前用户选择的子集 mask
+let forced = new Set();     // 被公理强制加入的子集（橙）
+let broken = new Set();     // 公理不满足时标红（此处不用，但保留）
+
+function maskHas(mask, bit){ return (mask & bit) !== 0; }
+function complement(m){ return (~m) & OMEGA; }
+
+// 公理检查
+function checkAxioms(){
+  const sel = new Set([...selected, ...forced]);
+  const a1 = sel.has(OMEGA);
+  // ② 补集封闭
+  let a2 = true;
+  for (const m of sel) if (!sel.has(complement(m))) { a2 = false; break; }
+  // ③ 可列并封闭（有限集：并 = OR 位运算）
+  let a3 = true;
+  const arr = [...sel];
+  outer: for (let i=0;i<arr.length;i++){
+    for (let j=i+1;j<arr.length;j++){
+      const u = arr[i] | arr[j];
+      if (!sel.has(u)) { a3 = false; break outer; }
+    }
+  }
+  return { a1, a2, a3 };
+}
+
+// 强制更新（每次选择变化时，把当前集合的补集加入 forced）
+function applyForced(){
+  forced.clear();
+  for (const m of selected){
+    forced.add(complement(m));
+  }
+}
+
+function render(){
+  applyForced();
+  const allSelected = new Set([...selected, ...forced]);
+  // 集合格子
+  const setsDiv = $('sets');
+  setsDiv.innerHTML = '';
+  SUBSETS.forEach(s => {
+    const isSel = selected.has(s.mask);
+    const isForced = forced.has(s.mask) && !selected.has(s.mask);
+    const div = document.createElement('div');
+    div.className = 'set-cell' + (isSel ? ' selected' : '') + (isForced ? ' forced' : '');
+    div.textContent = s.label;
+    div.onclick = () => {
+      if (selected.has(s.mask)) selected.delete(s.mask);
+      else selected.add(s.mask);
+      render();
+    };
+    setsDiv.appendChild(div);
+  });
+  // 可视化：用最近一个 selected 显示元素
+  $('omega').innerHTML = '';
+  const last = [...selected].pop();
+  const displayMask = last !== undefined ? last : 0b111;
+  // 三点位置（等边三角形）
+  const pts = [
+    { x:120, y:50,  bit:0b001 },
+    { x:50,  y:200, bit:0b010 },
+    { x:190, y:200, bit:0b100 },
+  ];
+  pts.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'point' + (maskHas(displayMask, p.bit) ? ' in' : '');
+    el.textContent = (p.bit===0b001?'1':(p.bit===0b010?'2':'3'));
+    el.style.left = (p.x - 23) + 'px';
+    el.style.top  = (p.y - 23) + 'px';
+    $('omega').appendChild(el);
+  });
+  // 当前显示集合
+  const curLabel = document.createElement('div');
+  curLabel.className = 'point-label';
+  curLabel.style.top = '270px';
+  curLabel.style.left = '50%';
+  const matchingSubset = SUBSETS.find(s => s.mask === displayMask);
+  curLabel.textContent = '当前显示：' + (matchingSubset ? matchingSubset.label : '∅');
+  $('omega').appendChild(curLabel);
+
+  // 公理条
+  const r = checkAxioms();
+  const ax = $('axioms');
+  ax.innerHTML = '';
+  const items = [
+    { name:'公理 ①：Ω ∈ F', ok: r.a1 },
+    { name:'公理 ②：对补封闭', ok: r.a2 },
+    { name:'公理 ③：可列并封闭', ok: r.a3 },
+  ];
+  items.forEach(it => {
+    const div = document.createElement('div');
+    div.className = 'axiom ' + (it.ok ? 'pass' : 'fail');
+    div.innerHTML = `<span class="name">${it.name}</span><span class="verdict">${it.ok?'✓ 满足':'✗ 不满足'}</span>`;
+    ax.appendChild(div);
+  });
+}
+
+function loadPreset(masks){
+  selected.clear();
+  masks.forEach(m => selected.add(m));
+  render();
+}
+
+$('btnTrivial').onclick = () => loadPreset([0b000, 0b111]);
+$('btn1Atom').onclick   = () => loadPreset([0b000, 0b001, 0b110, 0b111]);
+$('btn2Atom').onclick   = () => loadPreset([0b000, 0b011, 0b100, 0b111]);
+$('btnMax').onclick     = () => loadPreset([0b000, 0b001, 0b010, 0b100, 0b011, 0b101, 0b110, 0b111]);
+$('btnReset').onclick   = () => { selected.clear(); render(); };
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · 分布参数与数字特征联动 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theory{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}
+  .callout.theory .label{color:var(--c-theorem)}
+  .control-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:14px 18px;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;margin:18px 0}
+  .control-bar .group{display:flex;flex-direction:column;gap:6px;min-width:200px}
+  .control-bar label{font-size:13px;color:var(--c-muted);font-weight:600}
+  .control-bar .row{display:flex;gap:8px;align-items:center}
+  .control-bar input[type=range]{width:160px}
+  .control-bar .val{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:600;color:var(--c-primary);min-width:50px;text-align:right}
+  .control-bar .dist-pick{display:flex;gap:6px;flex-wrap:wrap}
+  .control-bar .dist-pick button{padding:6px 14px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);border-radius:6px;cursor:pointer;font-size:13px}
+  .control-bar .dist-pick button.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .panels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:18px 0}
+  @media (max-width:880px){.panels{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--c-line);border-radius:8px;padding:12px;background:var(--c-card)}
+  .panel h3{margin:0 0 8px;font-size:14px;color:var(--c-primary);display:flex;justify-content:space-between;align-items:center}
+  .panel h3 .num{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:700;font-size:18px;color:var(--c-fg)}
+  .panel svg{width:100%;height:auto;display:block}
+  .legend{font-size:12px;color:var(--c-muted);display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+  .legend span{display:inline-flex;align-items:center;gap:4px}
+  .legend i{width:14px;height:3px;display:inline-block;border-radius:2px}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html" class="current">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 分布参数 ↔ 数字特征 ↔ 特征函数</h1>
+  <p class="lede">三联画：左边是分布的 PDF / PMF，中间是数字特征 $E(X),D(X)$，右边是 $|\varphi(t)|$ 曲线。<strong>拖滑块或切分布</strong>，观察三者如何<strong>同步</strong>联动。</p>
+
+  <div class="callout intuition">
+    <span class="label">如何读图</span>
+    <ul>
+      <li><strong>左面板</strong>：分布形状（密度 / 概率列）。正态 / 指数看曲线，Poisson 看离散的"柱子"。</li>
+      <li><strong>中面板</strong>：$E(X)$、$D(X)$ 的<strong>数值条</strong>——$E(X)$ 是绿条（标尺 $E$），$D(X)$ 是紫条（标尺 $D$）。</li>
+      <li><strong>右面板</strong>：$|\varphi(t)|=|\!E(e^{itX})|$ 曲线。观察"震荡"或"衰减"的形态随参数变化。</li>
+    </ul>
+  </div>
+
+  <div class="control-bar">
+    <div class="group">
+      <label>选择分布</label>
+      <div class="dist-pick" id="distPick">
+        <button class="active" data-dist="norm">正态 N(μ, σ²)</button>
+        <button data-dist="poisson">Poisson P(λ)</button>
+        <button data-dist="exp">指数 Exp(λ)</button>
+        <button data-dist="unif">均匀 U(a, b)</button>
+      </div>
+    </div>
+    <div class="group" id="param1Group">
+      <label id="param1Label">μ = 0</label>
+      <div class="row">
+        <input type="range" id="param1" min="-3" max="3" step="0.1" value="0">
+        <span class="val" id="param1Val">0.0</span>
+      </div>
+    </div>
+    <div class="group" id="param2Group">
+      <label id="param2Label">σ = 1</label>
+      <div class="row">
+        <input type="range" id="param2" min="0.3" max="2" step="0.05" value="1">
+        <span class="val" id="param2Val">1.00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <h3>分布形状 <span class="num" id="distName">N(0, 1)</span></h3>
+      <svg id="pdf" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet" style="background:var(--c-bg);border-radius:6px"></svg>
+      <div class="legend">
+        <span><i style="background:var(--c-primary)"></i> 密度 $f(x)$ / 概率列 $p_k$</span>
+        <span><i style="background:var(--c-accent)"></i> $E(X)$ 位置</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>数字特征 <span class="num" id="numVals"></span></h3>
+      <svg id="bar" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet" style="background:var(--c-bg);border-radius:6px"></svg>
+      <div class="legend">
+        <span><i style="background:var(--c-accent)"></i> $E(X)$</span>
+        <span><i style="background:var(--c-theorem)"></i> $\sqrt{D(X)}$</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>特征函数 $|\varphi(t)|$ <span class="num" id="cfName">$\varphi(t)=e^{it\mu-\sigma^2 t^2/2}$</span></h3>
+      <svg id="cf" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet" style="background:var(--c-bg);border-radius:6px"></svg>
+      <div class="legend">
+        <span><i style="background:var(--c-primary)"></i> $|\varphi(t)|$</span>
+        <span><i style="background:var(--c-muted);opacity:0.5"></i> 单位圆 $|\varphi|\le 1$</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>观察任务</h2>
+  <ol>
+    <li><strong>正态</strong>：把 $\sigma$ 从 $0.5$ 拉到 $2$——左面板峰变矮变宽；中面板 $D(X)$ 紫色条变长；右面板 $|\varphi(t)|$ 衰减变快。直观：<strong>方差越大 → 密度越扁 → 特征函数衰减越快</strong>。</li>
+    <li><strong>正态</strong>：把 $\mu$ 从 $-3$ 拉到 $3$——密度整体平移，$E(X)$ 绿条随之移动，但 $|\varphi(t)|$ 形状不变（相位变了 $|\cdot|$ 看不到）。</li>
+    <li><strong>Poisson</strong>：把 $\lambda$ 从 $1$ 拉到 $5$——柱子向右拉长，$E(X)=D(X)=\lambda$ 同时增大；$|\varphi(t)|=e^{\lambda(\cos t-1)}$ 振荡更密。</li>
+    <li><strong>指数</strong>：把 $\lambda$ 从 $0.5$ 拉到 $2$——密度右尾衰减更快，$E(X)$ 减小；$|\varphi(t)|=|\lambda/(\lambda-it)|$ 衰减也变快。</li>
+    <li><strong>均匀</strong>：把 $a,b$ 同时调宽——密度高度变小（要保持面积 $1$），$D(X)=(b-a)^2/12$ 增大；$|\varphi(t)|$ 的零点 $2\pi/(b-a)$ 变密。</li>
+  </ol>
+
+  <div class="callout theory">
+    <span class="label">数学联系</span>
+    <p>正态：$\varphi(t)=e^{it\mu-\sigma^2 t^2/2}$，所以 $|\varphi(t)|=e^{-\sigma^2 t^2/2}$——<strong>衰减常数就是 $\sigma^2$</strong>，与 $D(X)$ 同步。</p>
+    <p>Poisson：$\varphi(t)=e^{\lambda(e^{it}-1)}$，$|\varphi(t)|=e^{\lambda(\cos t-1)}$——当 $\cos t=1$（即 $t=0,2\pi,\ldots$）时 $|\varphi|=1$，之间震荡。</p>
+    <p>指数：$\varphi(t)=1/(1-it/\lambda)$，$|\varphi(t)|=1/\sqrt{1+(t/\lambda)^2}$——<strong>衰减常数是 $1/\lambda=E(X)$</strong>。</p>
+    <p>均匀 $U[a,b]$：$|\varphi(t)|=|\sin((b-a)t/2)/((b-a)t/2)|$——经典 Sinc，宽度反比于 $(b-a)$。</p>
+  </div>
+
+  <footer class="bot">第 05 讲 · 动画页 · 融合版课件 · 仅供个人学习使用</footer>
+
+  <div class="pager">
+    <a href="./10-常见分布的特征函数.html"><span class="label">← 上一节</span><span class="title">常见分布的特征函数</span></a>
+    <a href="./自测.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">本讲自测</span></a>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+// ===========================
+// 参数配置（每个分布）
+// ===========================
+const DISTS = {
+  norm: {
+    name: "正态 N(μ, σ²)",
+    params: [
+      { key:"mu",    label:"μ",     min:-3, max:3, step:0.1, def:0 },
+      { key:"sigma", label:"σ",     min:0.3, max:2, step:0.05, def:1 }
+    ],
+    exLabel: p => `N(${p.mu.toFixed(1)}, ${p.sigma.toFixed(2)}²)`,
+    cfLabel: p => `e^{itμ - σ²t²/2}`,
+    // 数字特征
+    ex: p => p.mu,
+    dx: p => p.sigma*p.sigma,
+    // 采样计算 PDF / |phi(t)|
+    pdfRange: () => [-5, 5],
+    pdf: (x, p) => Math.exp(-0.5*Math.pow((x-p.mu)/p.sigma, 2)) / (p.sigma*Math.sqrt(2*Math.PI)),
+    cfRange: () => [-6, 6],
+    cfAmp: (t, p) => Math.exp(-0.5*p.sigma*p.sigma*t*t),
+  },
+  poisson: {
+    name: "Poisson P(λ)",
+    params: [
+      { key:"lambda", label:"λ", min:0.5, max:8, step:0.1, def:2 },
+      { key:"dummy",   label:"(单参数)", min:0, max:0, step:1, def:0, hide:true }
+    ],
+    exLabel: p => `P(${p.lambda.toFixed(1)})`,
+    cfLabel: p => `e^{λ(e^{it}-1)}`,
+    ex: p => p.lambda,
+    dx: p => p.lambda,
+    pdfRange: p => [0, Math.max(12, Math.ceil(p.lambda*3+6))],
+    pdf: (x, p) => {
+      // PMF
+      const k = Math.round(x);
+      if (k < 0) return 0;
+      let log = -p.lambda + k*Math.log(p.lambda) - logFact(k);
+      return Math.exp(log);
+    },
+    cfRange: () => [-Math.PI, Math.PI],
+    cfAmp: (t, p) => Math.exp(p.lambda*(Math.cos(t)-1)),
+  },
+  exp: {
+    name: "指数 Exp(λ)",
+    params: [
+      { key:"lambda", label:"λ", min:0.3, max:3, step:0.05, def:1 },
+      { key:"dummy",   label:"(单参数)", min:0, max:0, step:1, def:0, hide:true }
+    ],
+    exLabel: p => `Exp(${p.lambda.toFixed(2)})`,
+    cfLabel: p => `λ/(λ-it)`,
+    ex: p => 1/p.lambda,
+    dx: p => 1/(p.lambda*p.lambda),
+    pdfRange: p => [0, 6/p.lambda],
+    pdf: (x, p) => x >= 0 ? p.lambda*Math.exp(-p.lambda*x) : 0,
+    cfRange: () => [-6, 6],
+    cfAmp: (t, p) => {
+      const re = p.lambda/(p.lambda*p.lambda + t*t);  // λ/(λ²+t²)
+      const im = p.lambda*t/(p.lambda*p.lambda + t*t);
+      return Math.sqrt(re*re + im*im);
+    },
+  },
+  unif: {
+    name: "均匀 U[a, b]",
+    params: [
+      { key:"a", label:"a", min:-3, max:0, step:0.1, def:-1 },
+      { key:"b", label:"b", min:0,  max:3, step:0.1, def:1 }
+    ],
+    exLabel: p => `U[${p.a.toFixed(1)}, ${p.b.toFixed(1)}]`,
+    cfLabel: p => `sinc 函数`,
+    ex: p => (p.a+p.b)/2,
+    dx: p => (p.b-p.a)*(p.b-p.a)/12,
+    pdfRange: p => [p.a-0.5, p.b+0.5],
+    pdf: (x, p) => (x>=p.a && x<=p.b) ? 1/(p.b-p.a) : 0,
+    cfRange: p => [-2*Math.PI/(p.b-p.a+1e-6)*3, 2*Math.PI/(p.b-p.a+1e-6)*3],
+    cfAmp: (t, p) => {
+      const w = p.b-p.a;
+      if (Math.abs(t) < 1e-6) return 1;
+      return Math.abs(Math.sin(w*t/2) / (w*t/2));
+    },
+  }
+};
+
+// log(n!) 近似 (Stirling 不够精确，用预先算好的小 n + Stirling 组合)
+function logFact(n){
+  if (n <= 1) return 0;
+  if (n <= 20) {
+    let r = 0;
+    for (let i=2; i<=n; i++) r += Math.log(i);
+    return r;
+  }
+  // Stirling
+  return n*Math.log(n) - n + 0.5*Math.log(2*Math.PI*n);
+}
+
+// ===========================
+// 状态
+// ===========================
+let currentDist = "norm";
+const state = { mu:0, sigma:1, lambda:2, a:-1, b:1, dummy:0 };
+
+// ===========================
+// SVG 绘图工具
+// ===========================
+const PDF_W = 400, PDF_H = 220;
+function clearSvg(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+function drawPDF(){
+  const svg = document.getElementById("pdf");
+  clearSvg(svg);
+  const cfg = DISTS[currentDist];
+  const params = getParams();
+  const [xmin, xmax] = cfg.pdfRange(params);
+  const N = 200;
+  // 离散 vs 连续
+  const isDiscrete = (currentDist === "poisson");
+  if (!isDiscrete){
+    // 连续曲线
+    const xs = [];
+    const ys = [];
+    let ymax = 0;
+    for (let i=0; i<=N; i++){
+      const x = xmin + (xmax-xmin)*i/N;
+      const y = cfg.pdf(x, params);
+      xs.push(x); ys.push(y);
+      if (y > ymax) ymax = y;
+    }
+    if (ymax < 1e-3) ymax = 1;
+    // x 轴
+    const axisPad = 18;
+    const xScale = x => axisPad + (x - xmin) / (xmax - xmin) * (PDF_W - 2*axisPad);
+    const yScale = y => PDF_H - 14 - (y / ymax) * (PDF_H - 30);
+    // x 轴
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg","line");
+    xAxis.setAttribute("x1", axisPad); xAxis.setAttribute("x2", PDF_W-axisPad);
+    xAxis.setAttribute("y1", PDF_H-14); xAxis.setAttribute("y2", PDF_H-14);
+    xAxis.setAttribute("stroke","var(--c-muted)"); xAxis.setAttribute("stroke-width","1");
+    svg.appendChild(xAxis);
+    // x 标签
+    for (let x = Math.ceil(xmin); x <= Math.floor(xmax); x++){
+      if (Math.abs(x) > 1e-9 || xmin < 0){
+        const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+        tx.setAttribute("x", xScale(x)); tx.setAttribute("y", PDF_H-2);
+        tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","10");
+        tx.setAttribute("fill","var(--c-muted)");
+        tx.textContent = x;
+        svg.appendChild(tx);
+      }
+    }
+    // 曲线
+    let path = "";
+    for (let i=0; i<xs.length; i++){
+      const px = xScale(xs[i]);
+      const py = yScale(ys[i]);
+      path += (i===0 ? "M" : "L") + px.toFixed(1) + " " + py.toFixed(1) + " ";
+    }
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", path);
+    p.setAttribute("fill","none");
+    p.setAttribute("stroke","var(--c-primary)");
+    p.setAttribute("stroke-width","2");
+    svg.appendChild(p);
+    // E(X) 竖线
+    const ex = cfg.ex(params);
+    if (ex >= xmin && ex <= xmax){
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1", xScale(ex)); line.setAttribute("x2", xScale(ex));
+      line.setAttribute("y1", yScale(0)+0); line.setAttribute("y2", yScale(ymax)+0);
+      line.setAttribute("stroke","var(--c-accent)"); line.setAttribute("stroke-width","1.5");
+      line.setAttribute("stroke-dasharray","4,3");
+      svg.appendChild(line);
+      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+      tx.setAttribute("x", xScale(ex)+4); tx.setAttribute("y", yScale(ymax)+12);
+      tx.setAttribute("font-size","11"); tx.setAttribute("fill","var(--c-accent)");
+      tx.textContent = `E(X)=${ex.toFixed(2)}`;
+      svg.appendChild(tx);
+    }
+  } else {
+    // Poisson: 柱状图
+    const [xmin, xmax] = [0, Math.max(12, Math.ceil(cfg.ex(params)*3+6))];
+    let ymax = 0;
+    const data = [];
+    for (let k=0; k<=xmax; k++){
+      const y = cfg.pdf(k, params);
+      data.push({k, y});
+      if (y > ymax) ymax = y;
+    }
+    if (ymax < 1e-3) ymax = 1;
+    const axisPad = 14;
+    const barW = (PDF_W - 2*axisPad) / (xmax+1) * 0.85;
+    const xScale = k => axisPad + k/(xmax+1) * (PDF_W - 2*axisPad) + (PDF_W-2*axisPad)/(xmax+1)*0.5;
+    const yScale = y => PDF_H - 14 - (y/ymax) * (PDF_H - 30);
+    // x 轴
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg","line");
+    xAxis.setAttribute("x1", axisPad); xAxis.setAttribute("x2", PDF_W-axisPad);
+    xAxis.setAttribute("y1", PDF_H-14); xAxis.setAttribute("y2", PDF_H-14);
+    xAxis.setAttribute("stroke","var(--c-muted)");
+    svg.appendChild(xAxis);
+    // 柱子
+    for (const {k, y} of data){
+      if (y > 0){
+        const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+        const cx = xScale(k);
+        rect.setAttribute("x", cx - barW/2);
+        rect.setAttribute("y", yScale(y));
+        rect.setAttribute("width", barW);
+        rect.setAttribute("height", PDF_H - 14 - yScale(y));
+        rect.setAttribute("fill","var(--c-primary)");
+        rect.setAttribute("opacity","0.8");
+        svg.appendChild(rect);
+      }
+    }
+    // x 标签
+    for (let k=0; k<=xmax; k+=Math.max(1,Math.floor(xmax/8))){
+      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+      tx.setAttribute("x", xScale(k)); tx.setAttribute("y", PDF_H-2);
+      tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","10");
+      tx.setAttribute("fill","var(--c-muted)");
+      tx.textContent = k;
+      svg.appendChild(tx);
+    }
+    // E(X) 竖线
+    const ex = cfg.ex(params);
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1", xScale(ex)); line.setAttribute("x2", xScale(ex));
+    line.setAttribute("y1", PDF_H-14); line.setAttribute("y2", 14);
+    line.setAttribute("stroke","var(--c-accent)"); line.setAttribute("stroke-width","1.5");
+    line.setAttribute("stroke-dasharray","4,3");
+    svg.appendChild(line);
+    const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+    tx.setAttribute("x", xScale(ex)+4); tx.setAttribute("y", 18);
+    tx.setAttribute("font-size","11"); tx.setAttribute("fill","var(--c-accent)");
+    tx.textContent = `E(X)=${ex.toFixed(2)}`;
+    svg.appendChild(tx);
+  }
+}
+
+function drawBars(){
+  const svg = document.getElementById("bar");
+  clearSvg(svg);
+  const cfg = DISTS[currentDist];
+  const params = getParams();
+  const ex = cfg.ex(params);
+  const dx = cfg.dx(params);
+  const sx = Math.sqrt(dx);
+  // 比例尺：把 |E(X)| 和 |σ| 放在一个"标尺"上
+  const maxScale = Math.max(Math.abs(ex), sx, 1)*1.2;
+  const axisPad = 30;
+  const yTop = 60;
+  const yMid = 120;
+  const yBot = 180;
+  const xScale = v => axisPad + (v/maxScale) * (PDF_W - 2*axisPad);
+  // 中心轴
+  const center = document.createElementNS("http://www.w3.org/2000/svg","line");
+  center.setAttribute("x1", axisPad); center.setAttribute("x2", PDF_W-axisPad);
+  center.setAttribute("y1", yMid); center.setAttribute("y2", yMid);
+  center.setAttribute("stroke","var(--c-muted)"); center.setAttribute("stroke-dasharray","3,3");
+  svg.appendChild(center);
+  // E(X) 绿条
+  const exBar = document.createElementNS("http://www.w3.org/2000/svg","line");
+  const exStart = xScale(0);
+  const exEnd = xScale(ex);
+  exBar.setAttribute("x1", exStart); exBar.setAttribute("x2", exEnd);
+  exBar.setAttribute("y1", yTop-12); exBar.setAttribute("y2", yTop-12);
+  exBar.setAttribute("stroke","var(--c-accent)"); exBar.setAttribute("stroke-width","8");
+  exBar.setAttribute("stroke-linecap","round");
+  svg.appendChild(exBar);
+  const exLabel = document.createElementNS("http://www.w3.org/2000/svg","text");
+  exLabel.setAttribute("x", axisPad); exLabel.setAttribute("y", yTop-22);
+  exLabel.setAttribute("font-size","13"); exLabel.setAttribute("font-weight","600");
+  exLabel.setAttribute("fill","var(--c-accent)");
+  exLabel.textContent = `E(X) = ${ex.toFixed(3)}`;
+  svg.appendChild(exLabel);
+  // σ 紫条
+  const sxBar = document.createElementNS("http://www.w3.org/2000/svg","line");
+  sxBar.setAttribute("x1", xScale(0)); sxBar.setAttribute("x2", xScale(sx));
+  sxBar.setAttribute("y1", yMid-12); sxBar.setAttribute("y2", yMid-12);
+  sxBar.setAttribute("stroke","var(--c-theorem)"); sxBar.setAttribute("stroke-width","8");
+  sxBar.setAttribute("stroke-linecap","round");
+  svg.appendChild(sxBar);
+  const sxLabel = document.createElementNS("http://www.w3.org/2000/svg","text");
+  sxLabel.setAttribute("x", axisPad); sxLabel.setAttribute("y", yMid-22);
+  sxLabel.setAttribute("font-size","13"); sxLabel.setAttribute("font-weight","600");
+  sxLabel.setAttribute("fill","var(--c-theorem)");
+  sxLabel.textContent = `√D(X) = ${sx.toFixed(3)}`;
+  svg.appendChild(sxLabel);
+  // D(X) 蓝条
+  const dxBar = document.createElementNS("http://www.w3.org/2000/svg","line");
+  dxBar.setAttribute("x1", xScale(0)); dxBar.setAttribute("x2", xScale(Math.min(dx, maxScale)));
+  dxBar.setAttribute("y1", yBot-12); dxBar.setAttribute("y2", yBot-12);
+  dxBar.setAttribute("stroke","var(--c-primary)"); dxBar.setAttribute("stroke-width","8");
+  dxBar.setAttribute("stroke-linecap","round");
+  svg.appendChild(dxBar);
+  const dxLabel = document.createElementNS("http://www.w3.org/2000/svg","text");
+  dxLabel.setAttribute("x", axisPad); dxLabel.setAttribute("y", yBot-22);
+  dxLabel.setAttribute("font-size","13"); dxLabel.setAttribute("font-weight","600");
+  dxLabel.setAttribute("fill","var(--c-primary)");
+  dxLabel.textContent = `D(X) = ${dx.toFixed(3)}`;
+  svg.appendChild(dxLabel);
+  // 标尺刻度
+  for (let v = 0; v <= maxScale; v += Math.pow(10, Math.floor(Math.log10(maxScale/5)))){
+    if (v > maxScale) break;
+    const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+    tx.setAttribute("x", xScale(v)); tx.setAttribute("y", PDF_H-4);
+    tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","10");
+    tx.setAttribute("fill","var(--c-muted)");
+    tx.textContent = v.toFixed(2).replace(/\.?0+$/,"");
+    svg.appendChild(tx);
+  }
+}
+
+function drawCF(){
+  const svg = document.getElementById("cf");
+  clearSvg(svg);
+  const cfg = DISTS[currentDist];
+  const params = getParams();
+  const [tmin, tmax] = cfg.cfRange(params);
+  const N = 250;
+  const axisPad = 16;
+  const ymax = 1.05;
+  const xScale = t => axisPad + (t-tmin)/(tmax-tmin) * (PDF_W - 2*axisPad);
+  const yScale = v => PDF_H - 14 - (v/ymax) * (PDF_H - 30);
+  // x 轴
+  const xAxis = document.createElementNS("http://www.w3.org/2000/svg","line");
+  xAxis.setAttribute("x1", axisPad); xAxis.setAttribute("x2", PDF_W-axisPad);
+  xAxis.setAttribute("y1", yScale(0)); xAxis.setAttribute("y2", yScale(0));
+  xAxis.setAttribute("stroke","var(--c-muted)");
+  svg.appendChild(xAxis);
+  // y 轴
+  const yAxis = document.createElementNS("http://www.w3.org/2000/svg","line");
+  yAxis.setAttribute("x1", axisPad); yAxis.setAttribute("x2", axisPad);
+  yAxis.setAttribute("y1", yScale(ymax)); yAxis.setAttribute("y2", yScale(0));
+  yAxis.setAttribute("stroke","var(--c-muted)");
+  svg.appendChild(yAxis);
+  // 单位圆参考线 |φ|=1
+  const one = document.createElementNS("http://www.w3.org/2000/svg","line");
+  one.setAttribute("x1", axisPad); one.setAttribute("x2", PDF_W-axisPad);
+  one.setAttribute("y1", yScale(1)); one.setAttribute("y2", yScale(1));
+  one.setAttribute("stroke","var(--c-muted)"); one.setAttribute("stroke-dasharray","3,4");
+  one.setAttribute("opacity","0.4");
+  svg.appendChild(one);
+  // |φ(t)| 曲线
+  let path = "";
+  for (let i=0; i<=N; i++){
+    const t = tmin + (tmax-tmin)*i/N;
+    const v = cfg.cfAmp(t, params);
+    const px = xScale(t), py = yScale(v);
+    path += (i===0 ? "M" : "L") + px.toFixed(1) + " " + py.toFixed(1) + " ";
+  }
+  const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+  p.setAttribute("d", path);
+  p.setAttribute("fill","none");
+  p.setAttribute("stroke","var(--c-primary)");
+  p.setAttribute("stroke-width","2");
+  svg.appendChild(p);
+  // x 标签
+  const tStep = (tmax-tmin) > 8 ? 2 : 1;
+  for (let t = Math.ceil(tmin); t <= Math.floor(tmax); t += tStep){
+    if (Math.abs(t) > 1e-9 || tmin < 0){
+      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+      tx.setAttribute("x", xScale(t)); tx.setAttribute("y", yScale(0)+12);
+      tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","10");
+      tx.setAttribute("fill","var(--c-muted)");
+      tx.textContent = t;
+      svg.appendChild(tx);
+    }
+  }
+  // y=1 标签
+  const ylbl = document.createElementNS("http://www.w3.org/2000/svg","text");
+  ylbl.setAttribute("x", axisPad+4); ylbl.setAttribute("y", yScale(1)-3);
+  ylbl.setAttribute("font-size","10"); ylbl.setAttribute("fill","var(--c-muted)");
+  ylbl.textContent = "1";
+  svg.appendChild(ylbl);
+  // t 标识
+  const xLbl = document.createElementNS("http://www.w3.org/2000/svg","text");
+  xLbl.setAttribute("x", PDF_W-axisPad); xLbl.setAttribute("y", yScale(0)-3);
+  xLbl.setAttribute("font-size","11"); xLbl.setAttribute("fill","var(--c-muted)");
+  xLbl.setAttribute("text-anchor","end");
+  xLbl.textContent = "t";
+  svg.appendChild(xLbl);
+}
+
+function getParams(){
+  return {
+    mu: state.mu,
+    sigma: state.sigma,
+    lambda: state.lambda,
+    a: state.a,
+    b: state.b,
+  };
+}
+
+function update(){
+  const cfg = DISTS[currentDist];
+  const params = getParams();
+  document.getElementById("distName").textContent = cfg.exLabel(params);
+  document.getElementById("cfName").textContent = cfg.cfLabel(params);
+  document.getElementById("numVals").textContent = `E=${cfg.ex(params).toFixed(2)}, D=${cfg.dx(params).toFixed(2)}`;
+  drawPDF();
+  drawBars();
+  drawCF();
+}
+
+// 滑块事件
+function bindSlider(id, key, decimals){
+  const slider = document.getElementById(id);
+  const valSpan = document.getElementById(id+"Val");
+  slider.addEventListener("input", e => {
+    const v = parseFloat(e.target.value);
+    state[key] = v;
+    valSpan.textContent = v.toFixed(decimals);
+    update();
+  });
+}
+
+bindSlider("param1", currentDist === "norm" ? "mu" : (currentDist === "exp" || currentDist === "poisson") ? "lambda" : "a", 2);
+bindSlider("param2", currentDist === "norm" ? "sigma" : "b", 2);
+
+// 切分布
+document.getElementById("distPick").addEventListener("click", e => {
+  if (e.target.tagName !== "BUTTON") return;
+  const newDist = e.target.dataset.dist;
+  if (newDist === currentDist) return;
+  currentDist = newDist;
+  document.querySelectorAll("#distPick button").forEach(b => {
+    b.classList.toggle("active", b.dataset.dist === newDist);
+  });
+  // 重设滑块
+  const cfg = DISTS[currentDist];
+  const p1 = cfg.params[0], p2 = cfg.params[1];
+  const s1 = document.getElementById("param1");
+  s1.min = p1.min; s1.max = p1.max; s1.step = p1.step; s1.value = p1.def;
+  state[p1.key] = p1.def;
+  document.getElementById("param1Label").textContent = p1.label + " = " + p1.def;
+  document.getElementById("param1Val").textContent = p1.def.toFixed(2);
+  document.getElementById("param1Group").style.display = p1.hide ? "none" : "";
+  const s2 = document.getElementById("param2");
+  s2.min = p2.min; s2.max = p2.max; s2.step = p2.step; s2.value = p2.def;
+  state[p2.key] = p2.def;
+  document.getElementById("param2Label").textContent = p2.label + " = " + p2.def;
+  document.getElementById("param2Val").textContent = p2.def.toFixed(2);
+  document.getElementById("param2Group").style.display = p2.hide ? "none" : "";
+  update();
+});
+
+// 初始化
+update();
+</script>
+</body>
+</html>

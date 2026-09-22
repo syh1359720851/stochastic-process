@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 Riemann-Stieltjes 积分简介 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 01</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-R-S积分简介.html" class="current">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>01 · Riemann-Stieltjes 积分简介</h1>
+  <p class="lede">期望 $E(X)$ 的"严格定义"需要一个能测各种 $F$ 的积分——Riemann-Stieltjes 积分（简称 R-S 积分）就是它。<strong>本节只需要懂几何含义，不必深究极限证明。</strong></p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    R-S 积分 $\int_a^b f(x)\,dF(x)$ 就是"<strong>用 $f(x)$ 测 $F$ 在 $[a,b]$ 段的质量</strong>"——把 $F$ 想成"累积分布"， $dF$ 是"在 $x$ 处的微小概率增量"。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <p>你已经熟悉的 Riemann 积分 $\int_a^b f(x)\,dx$ 是"<strong>用 $f(x)$ 测 $x$ 的长度</strong>"。把"长度 $dx$"换成"<strong>分布函数在 $x$ 处的增量 $dF(x)$</strong>"，就是 R-S 积分。</p>
+    <ul>
+      <li><strong>几何含义</strong>：$\int_a^b f(x)\,dF(x) \approx \sum_i f(x_i^*)\,[F(x_{i+1})-F(x_i)]$——在 $[a,b]$ 上"加权和"，权重是 $F$ 在小区间的增量。</li>
+      <li><strong>为什么需要它？</strong>离散型 $X$ 没有密度 $f(x)$，连续型 $X$ 有 $f(x)=F'(x)$——R-S 积分把两种情况<strong>统一写成一种符号</strong>，这样期望定义就能"一行覆盖离散 + 连续"。</li>
+      <li><strong>特别地</strong>：当 $g(x)=x$ 时 $\int_{-\infty}^{+\infty} x\,dF(x)$ 就是 $E(X)$——后面会用到。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 排队叫号</span>
+    <p>把 $F(x)$ 想成"到 $x$ 号时已经叫过的顾客占比"，$dF(x)$ 就是"在 $x$ 号叫到一位新顾客"的概率。<strong>每个 $x$ 号顾客的等待时间 $f(x)$ 乘以他被叫到的概率 $dF(x)$ 再加起来</strong>，就是"平均等待时间"——这就是 R-S 积分的几何含义。</p>
+  </div>
+
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 Riemann-Stieltjes 积分</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · R-S 积分</span>
+    <p>设 $f(x),g(x)$ 在 $[a,b]$ 上有界。把 $[a,b]$ 任意分成 $n$ 个小区间 $a=x_0<x_1<\cdots<x_n=b$，任取 $\xi_k\in[x_{k-1},x_k]$，作 R-S 和</p>
+    $$\sigma=\sum_{k=0}^{n-1}f(\xi_k)\,\bigl[g(x_{k+1})-g(x_k)\bigr]$$
+    <p>记 $\lambda=\max_k(x_{k+1}-x_k)$。若当 $\lambda\to 0$ 时 $\sigma$ 趋向唯一的极限 $I$，且 $I$ 与分法、点 $\xi_k$ 的选取无关，则称 $f$ 关于 $g$ 在 $[a,b]$ 上<strong>Riemann-Stieltjes 可积</strong>，记</p>
+    $$\int_a^b f(x)\,dg(x)=I$$
+  </div>
+
+  <div class="callout warn">
+    <span class="label">不必慌 —— 工程视角简化</span>
+    <p>实际计算时，你只需要记住三种<strong>特例</strong>：</p>
+    <ol>
+      <li><strong>连续型</strong>：$F$ 可导且 $f(x)=F'(x)$，则 $\int f\,dF=\int f(x)\,F'(x)\,dx=\int f(x)\,f_X(x)\,dx$——回到普通 Riemann 积分。</li>
+      <li><strong>离散型</strong>：$F$ 在 $x_k$ 处跳变 $p_k$，则 $\int f\,dF=\sum_k f(x_k)\,p_k$——普通求和。</li>
+      <li><strong>混合型</strong>：连续部分 + 离散部分的<strong>加和</strong>。</li>
+    </ol>
+    <p>考试只考 1 和 2 的混合——上面的极限定义只是让你知道"这东西为什么是严格的"。</p>
+  </div>
+
+  <h3>2.2 与 Riemann 积分的关系</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · 取 $g(x)=x$</span>
+    <p>若 $g(x)=x$ 在 $[a,b]$ 上单调，则</p>
+    $$\int_a^b f(x)\,dg(x)=\int_a^b f(x)\,dx$$
+    <p>即 R-S 积分退化为普通 Riemann 积分。</p>
+  </div>
+
+  <h2>3. R-S 积分的基本性质</h2>
+  <div class="callout theorem">
+    <span class="label">五条核心性质</span>
+    <p>设 $f_1, f_2, f$ 关于 $g$ 在 $[a,b]$ 上 R-S 可积。</p>
+    <ol>
+      <li><strong>线性</strong>（对 $f$）：$\displaystyle\int_a^b\!\bigl[c_1 f_1(x)+c_2 f_2(x)\bigr]\,dg(x)=c_1\!\int_a^b f_1\,dg+c_2\!\int_a^b f_2\,dg$</li>
+      <li><strong>线性</strong>（对 $g$）：$\displaystyle\int_a^b f(x)\,d\bigl[c_1 g_1(x)+c_2 g_2(x)\bigr]=c_1\!\int_a^b f\,dg_1+c_2\!\int_a^b f\,dg_2$</li>
+      <li><strong>区间可加</strong>：若 $a&lt;c&lt;b$，则 $\displaystyle\int_a^b f\,dg=\int_a^c f\,dg+\int_c^b f\,dg$</li>
+      <li><strong>分部积分</strong>（$\int f\,dg + \int g\,df = fg\big|_a^b$）：$\displaystyle\int_a^b f(x)\,dg(x)+\int_a^b g(x)\,df(x)=f(b)g(b)-f(a)g(a)$</li>
+      <li><strong>单调性</strong>：若 $f\ge 0$ 且 $g$ 单调不减，则 $\int_a^b f\,dg \ge 0$。</li>
+    </ol>
+  </div>
+
+  <h2>4. 关键例子：连续 vs 离散</h2>
+
+  <div class="callout example">
+    <span class="label">例 1 · 离散型</span>
+    <p>设 $X$ 取 $1,2$ 各概率 $1/2$，$F(x)$ 在 $x=1$ 处跳 $1/2$，在 $x=2$ 处跳 $1/2$。取 $f(x)=x$，求 $\int f\,dF$。</p>
+    $$\int f\,dF=\sum_k x_k\cdot P(X=x_k)=1\cdot\tfrac12+2\cdot\tfrac12=\tfrac{3}{2}=E(X)$$
+    <p>这就是 $E(X)$——R-S 积分在离散型下退化为"加权求和"。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 2 · 连续型</span>
+    <p>设 $X\sim U[0,1]$，$F(x)=x$（$0\le x\le 1$）。取 $f(x)=x$，求 $\int_0^1 f\,dF$。</p>
+    $$\int_0^1 x\,dF(x)=\int_0^1 x\cdot F'(x)\,dx=\int_0^1 x\cdot 1\,dx=\tfrac12=E(X)$$
+    <p>连续型下 $dF(x)=F'(x)\,dx=f_X(x)\,dx$，R-S 积分退回 Riemann 积分。</p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ 把 $\int f\,dF$ 当成普通 Riemann 积分 $\int f\,dx$——离散型根本没"密度"。</li>
+      <li>❌ 忘记 R-S 积分要求 $f$ 在 $g$ 的间断点处<strong>连续</strong>，否则可能不可积。</li>
+      <li>❌ 把 R-S 积分与 Stieltjes 积分混淆——前者是 Riemann 意义下的极限，后者是 Lebesgue 意义下的极限。本课程只用前者。</li>
+      <li>❌ 把 $dF(x)$ 与 $dP$ 混淆——$dF$ 是分布函数的"增量"，物理含义是"概率质量"。</li>
+    </ul>
+  </div>
+
+  <h2>6. 为什么必须有它？</h2>
+  <div class="callout intuition">
+    <span class="label">工程动机</span>
+    <p>有了 R-S 积分，<strong>期望的定义可以一行写完</strong>，离散与连续不再分两个公式：</p>
+    $$E(X)=\int_{-\infty}^{+\infty} x\,dF(x)$$
+    <p>这在后续<strong>特征函数</strong>、<strong>多维随机变量</strong>、<strong>随机过程</strong>中会被反复使用——统一写法让所有定理不需要"分两种情况讨论"。</p>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · R-S 积分与 Riemann 积分的最本质区别是什么？</summary>
+    <p>$dF$ vs $dx$。Riemann 是"用 $f(x)$ 测长度 $dx$"，R-S 是"用 $f(x)$ 测 $F$ 的质量 $dF$"。当 $g(x)=x$ 时两者一致。</p>
+  </details>
+  <details>
+    <summary>Q2 · 为什么离散型期望能写成 $\int x\,dF$？</summary>
+    <p>因为离散型 $F$ 是阶梯函数，只在 $\{x_k\}$ 处跳变 $p_k$，所以 $\int f\,dF = \sum f(x_k)p_k$——就是加权求和。</p>
+  </details>
+  <details>
+    <summary>Q3 · 设 $X\sim B(1,1/2)$，用 R-S 积分求 $E(X)$。</summary>
+    <p>$\int x\,dF(x)=0\cdot\tfrac12+1\cdot\tfrac12=\tfrac12$。也就是把 $f(x)=x$ 在 $F$ 的两个跳变点（$x=0$ 和 $x=1$）的取值加权求和。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./index.html"><span class="label">← 上一节</span><span class="title">讲次首页</span></a>
+    <a href="./02-数学期望.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">数学期望</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

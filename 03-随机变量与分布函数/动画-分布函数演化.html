@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 分布函数演化 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  /* 动画专属 */
+  .panel{border:1px solid var(--c-line);border-radius:10px;background:var(--c-card);padding:18px;margin:14px 0}
+  .panel h3{margin-top:0;color:var(--c-primary)}
+  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
+  .ctrl label{display:block;font-size:13px;color:var(--c-muted);margin-bottom:4px}
+  .ctrl input[type="range"]{width:100%;accent-color:var(--c-primary)}
+  .ctrl output{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--c-fg);margin-left:8px}
+  .canvas-wrap{position:relative;border:1px solid var(--c-line);border-radius:8px;background:var(--c-bg);margin-top:14px}
+  canvas{display:block;width:100%;height:380px}
+  .legend{position:absolute;top:8px;right:12px;font-size:12px;color:var(--c-muted);background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:6px 10px}
+  .legend span{display:inline-block;width:14px;height:2px;background:var(--c-primary);vertical-align:middle;margin-right:6px}
+  .legend i{display:inline-block;width:14px;height:2px;background:var(--c-accent);vertical-align:middle;margin-right:6px;font-style:normal}
+  .legend s{display:inline-block;width:14px;height:2px;background:var(--c-warn);vertical-align:middle;margin-right:6px;text-decoration:none}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:6px 14px;border:1px solid var(--c-line);border-radius:6px;background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-size:14px}
+  .btn:hover{border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .btn.primary{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  .btn.primary:hover{background:var(--c-primary);filter:brightness(0.92)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html" class="current">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 分布函数演化</h1>
+  <p class="lede">选一个分布，调它的参数——实时看 <strong>$F(x)$</strong> 和 <strong>$f(x)$</strong> 的形态变化。对比离散（阶梯）与连续（光滑）形态。</p>
+
+  <div class="callout intuition">
+    <span class="label">操作</span>
+    <ol>
+      <li>下方"分布"下拉框选分布类型。</li>
+      <li>拖动参数滑块——图会实时更新。</li>
+      <li>点 <strong>显示密度</strong> / <strong>显示分布</strong> 切换 $f$ 与 $F$。</li>
+      <li>点 <strong>缩放</strong> 看更细的局部。</li>
+    </ol>
+  </div>
+
+  <div class="panel">
+    <h3>参数控制台</h3>
+    <div class="controls">
+      <div class="ctrl">
+        <label>分布类型</label>
+        <select id="distType" class="btn" style="width:100%">
+          <optgroup label="离散">
+            <option value="bernoulli">Bernoulli(p)</option>
+            <option value="binomial" selected>Binomial(n, p)</option>
+            <option value="poisson">Poisson(λ)</option>
+            <option value="geometric">Geometric(p)</option>
+          </optgroup>
+          <optgroup label="连续">
+            <option value="uniform">Uniform(a, b)</option>
+            <option value="exponential">Exponential(λ)</option>
+            <option value="normal">Normal(μ, σ²)</option>
+            <option value="gamma">Gamma(k, θ)</option>
+            <option value="beta">Beta(α, β)</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="ctrl"><label>参数 p / λ / a <output id="pOut">0.5</output></label>
+        <input type="range" id="p" min="0.05" max="2" step="0.05" value="0.5"></div>
+      <div class="ctrl"><label>参数 n / b / μ / θ <output id="qOut">10</output></label>
+        <input type="range" id="q" min="1" max="40" step="1" value="10"></div>
+      <div class="ctrl"><label>参数 k / σ / α <output id="rOut">1</output></label>
+        <input type="range" id="r" min="0.5" max="10" step="0.1" value="1"></div>
+      <div class="ctrl"><label>参数 β <output id="sOut">1</output></label>
+        <input type="range" id="s" min="0.5" max="10" step="0.1" value="1"></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn primary" id="toggleCDF">显示 F(x)（默认）</button>
+      <button class="btn" id="togglePDF">显示 f(x)</button>
+      <button class="btn" id="zoomIn">放大</button>
+      <button class="btn" id="zoomOut">缩小</button>
+      <button class="btn" id="reset">重置</button>
+    </div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="legend">
+      <span id="leg1">F(x)（蓝实线）</span><br>
+      <i id="leg2">f(x)（绿虚线，已缩放）</i>
+    </div>
+    <canvas id="plot"></canvas>
+  </div>
+
+  <h3>观察重点</h3>
+  <ul>
+    <li><strong>离散 vs 连续</strong>：$F(x)$ 形态——阶梯 / 光滑？</li>
+    <li><strong>参数对形态的影响</strong>：</li>
+    <ul>
+      <li>Binomial $B(n,p)$：$p=0.5$ 对称，$p$ 远离 0.5 偏斜；$n$ 增大→近似正态</li>
+      <li>Poisson($\lambda$)：$\lambda$ 增大→右移 + 形状变对称</li>
+      <li>Uniform($a,b$)：$F$ 是斜率为 $\tfrac{1}{b-a}$ 的直线</li>
+      <li>Exponential($\lambda$)：$F=1-e^{-\lambda x}$；$\lambda$ 越大衰减越快</li>
+      <li>Normal($\mu,\sigma^2$)：$\sigma$ 控制"胖瘦"，$\mu$ 控制中心</li>
+      <li>Gamma($k,\theta$)：$k$ 控制形状（指数是 $k=1$）</li>
+      <li>Beta($\alpha,\beta$)：$\alpha=\beta$ 对称；偏向 $(0,1)$ 或 $(1,0)$</li>
+    </ul>
+  </ul>
+
+  <h3>关键观察</h3>
+  <div class="callout theorem">
+    <span class="label">定理验证</span>
+    <p>对任意 $a&lt;b$，拖动蓝色实线找对应 $F(a),F(b)$——它们的差就是 $P(a&lt;X\le b)$。</p>
+    <p>对离散型，$F$ 在每个 $x_k$ 处的<strong>跳跃</strong>等于 $p_k$（柱子的高度）——而 $f$（绿线）画的是这些柱子的"包络"。</p>
+  </div>
+
+  <div class="pager">
+    <a href="./08-随机变量函数的分布.html"><span class="label">← 上一节</span><span class="title">随机变量函数的分布</span></a>
+    <a href="./自测.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">本讲自测</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 动画 分布函数演化 · 融合版课件</footer>
+</div>
+
+<script>
+"use strict";
+/* === 工具 === */
+function erf(x){
+  // Abramowitz-Stegun 7.1.26
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const sign=x<0?-1:1; x=Math.abs(x);
+  const t=1/(1+p*x);
+  const y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return sign*y;
+}
+function lgamma(z){
+  // Stirling 近似
+  const g=7, c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,
+               771.32342877765313,-176.61502916214059,12.507343278686905,
+               -0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  if(z<0.5){return Math.log(Math.PI/Math.sin(Math.PI*z))-lgamma(1-z);}
+  z-=1; let x=c[0];
+  for(let i=1;i<g+2;i++) x+=c[i]/(z+i);
+  const t=z+g+0.5;
+  return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x);
+}
+function binom(n,k){
+  return Math.exp(lgamma(n+1)-lgamma(k+1)-lgamma(n-k+1));
+}
+function lbeta(a,b){return lgamma(a)+lgamma(b)-lgamma(a+b);}
+function regularizedIncompleteBeta(x,a,b){
+  if(x<=0) return 0; if(x>=1) return 1;
+  // 连分式展开（Lentz 算法）
+  const maxIter=200, eps=1e-12;
+  const qab=a+b, qap=a+1, qam=a-1;
+  let c=1, d=1-qab*x/qap;
+  if(Math.abs(d)<1e-30) d=1e-30; d=1/d;
+  let h=d;
+  for(let m=1;m<=maxIter;m++){
+    const m2=2*m;
+    let aa=m*(b-m)*x/((qam+m2)*(a+m2));
+    d=1+aa*d; if(Math.abs(d)<1e-30) d=1e-30;
+    c=1+aa/c; if(Math.abs(c)<1e-30) c=1e-30;
+    d=1/d; h*=d*c;
+    aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+    d=1+aa*d; if(Math.abs(d)<1e-30) d=1e-30;
+    c=1+aa/c; if(Math.abs(c)<1e-30) c=1e-30;
+    d=1/d; const del=d*c; h*=del;
+    if(Math.abs(del-1)<eps) break;
+  }
+  return h;
+}
+
+/* === 各分布定义 === */
+const dists = {
+  bernoulli:{
+    domain:[-0.5,1.5],
+    xLabel:["k",0,1],
+    pdf(){return [0,1];},
+    cdf(){return [0,1];},
+    compute(p, q, r, s){
+      const f=(x)=> (x===0? 1-p : x===1? p : 0);
+      const F=(x)=> x<0?0 : x>=1?1 : 1-p;
+      return {f, F, p, disc:true};
+    }
+  },
+  binomial:{
+    domain:[0,40],
+    compute(p, q){
+      // p in [0.05,1] 表示 n 次数中的成功概率; q 表示 n
+      const n = Math.max(1, Math.round(q));
+      const f = (x)=>{
+        if(x!==Math.floor(x)||x<0||x>n) return 0;
+        return binom(n,x)*Math.pow(p,x)*Math.pow(1-p,n-x);
+      };
+      const F = (x)=>{
+        if(x<0) return 0;
+        if(x>=n) return 1;
+        let s=0, k=Math.floor(x);
+        for(let i=0;i<=k;i++) s+=binom(n,i)*Math.pow(p,i)*Math.pow(1-p,n-i);
+        return s;
+      };
+      return {f, F, p, n, disc:true};
+    }
+  },
+  poisson:{
+    domain:[0,30],
+    compute(p){
+      const lam = Math.max(0.1, p*10);
+      const f=(x)=>{
+        if(x!==Math.floor(x)||x<0) return 0;
+        return Math.exp(-lam + x*Math.log(lam) - lgamma(x+1));
+      };
+      const F=(x)=>{
+        if(x<0) return 0;
+        let s=0, k=Math.floor(x);
+        for(let i=0;i<=k;i++) s+=Math.exp(-lam + i*Math.log(lam) - lgamma(i+1));
+        return Math.min(s, 1);
+      };
+      return {f, F, lam, disc:true};
+    }
+  },
+  geometric:{
+    domain:[0,20],
+    compute(p){
+      const pp = Math.max(0.05, Math.min(0.95, p));
+      const f=(x)=>{
+        if(x!==Math.floor(x)||x<1) return 0;
+        return pp*Math.pow(1-pp, x-1);
+      };
+      const F=(x)=>{
+        if(x<1) return 0;
+        return 1-Math.pow(1-pp, Math.floor(x));
+      };
+      return {f, F, p:pp, disc:true};
+    }
+  },
+  uniform:{
+    domain:[0,1],
+    compute(p, q){
+      // p=a, q=b
+      const a = p*5, b = Math.max(a+0.5, q*0.5+10);
+      const f=(x)=> (x>=a&&x<=b ? 1/(b-a) : 0);
+      const F=(x)=> x<a?0 : x>=b?1 : (x-a)/(b-a);
+      return {f, F, a, b};
+    }
+  },
+  exponential:{
+    domain:[0,10],
+    compute(p){
+      const lam = Math.max(0.1, p*3);
+      const f=(x)=> x<0?0 : lam*Math.exp(-lam*x);
+      const F=(x)=> x<0?0 : 1-Math.exp(-lam*x);
+      return {f, F, lam};
+    }
+  },
+  normal:{
+    domain:[-6,6],
+    compute(p, q, r){
+      // p → μ (scale: -5..10), r → σ
+      const mu = (p-0.5)*10;
+      const sigma = Math.max(0.1, r);
+      const norm = 1/(sigma*Math.sqrt(2*Math.PI));
+      const f=(x)=> norm*Math.exp(-0.5*((x-mu)/sigma)**2);
+      const F=(x)=> 0.5*(1+erf((x-mu)/(sigma*Math.sqrt(2))));
+      return {f, F, mu, sigma};
+    }
+  },
+  gamma:{
+    domain:[0,20],
+    compute(p, q){
+      const k = Math.max(0.5, p*5);     // shape
+      const theta = Math.max(0.5, q*0.5+1); // scale
+      const f=(x)=> x<=0?0 : Math.exp((k-1)*Math.log(x) - x/theta - k*Math.log(theta) - lgamma(k));
+      // 用级数近似 CDF
+      const F=(x)=> x<=0?0 : regularizedLowerGamma(k, x/theta);
+      return {f, F, k, theta};
+    }
+  },
+  beta:{
+    domain:[0,1],
+    compute(p, q, r, s){
+      const alpha = Math.max(0.5, p*5);
+      const beta = Math.max(0.5, q*0.5+1);
+      const norm = Math.exp(lbeta(alpha, beta));
+      const f=(x)=> (x<=0||x>=1)?0 : Math.exp((alpha-1)*Math.log(x) + (beta-1)*Math.log(1-x))*norm;
+      const F=(x)=> x<=0?0 : x>=1?1 : regularizedIncompleteBeta(x, alpha, beta);
+      return {f, F, alpha, beta};
+    }
+  }
+};
+function regularizedLowerGamma(s, x){
+  // 用级数
+  if(x<=0) return 0;
+  if(x<s+1){
+    let term=1/s, sum=term;
+    for(let n=1;n<200;n++){
+      term*=x/(s+n);
+      sum+=term;
+      if(term<1e-12) break;
+    }
+    return sum*Math.exp(-x + s*Math.log(x) - lgamma(s));
+  }
+  // 连分式
+  let b=x+1-s, c=1e30, d=1/b, h=d;
+  for(let i=1;i<200;i++){
+    const an=-i*(s-i);
+    b+=2;
+    d=an*d+b; if(Math.abs(d)<1e-30) d=1e-30;
+    c=b+an/c; if(Math.abs(c)<1e-30) c=1e-30;
+    d=1/d; const del=d*c; h*=del;
+    if(Math.abs(del-1)<1e-12) break;
+  }
+  return 1 - h*Math.exp(-x + s*Math.log(x) - lgamma(s));
+}
+
+/* === 绘图 === */
+const canvas = document.getElementById('plot');
+const ctx = canvas.getContext('2d');
+let showF = true, showf = true, zoom = 1;
+
+function getParams(){
+  return {
+    type: document.getElementById('distType').value,
+    p: parseFloat(document.getElementById('p').value),
+    q: parseFloat(document.getElementById('q').value),
+    r: parseFloat(document.getElementById('r').value),
+    s: parseFloat(document.getElementById('s').value)
+  };
+}
+
+function setupRanges(type){
+  const p=document.getElementById('p'), q=document.getElementById('q'),
+        r=document.getElementById('r'), s=document.getElementById('s');
+  const defaults = {
+    bernoulli:  [0.5, 1, 1, 1],
+    binomial:   [0.5, 10, 1, 1],
+    poisson:    [0.5, 1, 1, 1],
+    geometric:  [0.5, 1, 1, 1],
+    uniform:    [0.5, 10, 1, 1],
+    exponential:[0.5, 1, 1, 1],
+    normal:     [0.5, 1, 1, 1],
+    gamma:      [1, 1, 1, 1],
+    beta:       [1, 1, 1, 1]
+  }[type];
+  p.value=defaults[0]; q.value=defaults[1]; r.value=defaults[2]; s.value=defaults[3];
+  updateOutputs();
+}
+
+function updateOutputs(){
+  document.getElementById('pOut').textContent = parseFloat(document.getElementById('p').value).toFixed(2);
+  document.getElementById('qOut').textContent = document.getElementById('q').value;
+  document.getElementById('rOut').textContent = parseFloat(document.getElementById('r').value).toFixed(1);
+  document.getElementById('sOut').textContent = parseFloat(document.getElementById('s').value).toFixed(1);
+}
+
+function distFactory(type, params){
+  const fn = dists[type].compute;
+  return fn(params.p, params.q, params.r, params.s);
+}
+
+function draw(){
+  const W=canvas.width, H=canvas.height;
+  // 高 DPI
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr;
+  canvas.style.height=canvas.clientHeight+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const w=canvas.clientWidth, h=canvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  const pad={l:50,r:30,t:20,b:40};
+  const plotW=w-pad.l-pad.r, plotH=h-pad.t-pad.b;
+
+  const params = getParams();
+  const dist = distFactory(params.type, params);
+  let [xmin, xmax] = dists[params.type].domain;
+  const cx=(xmin+xmax)/2, half=(xmax-xmin)/2/zoom;
+  xmin=cx-half; xmax=cx+half;
+  const ymin=0, ymax=showf? Math.max(1.1, dist.f(xmin), dist.f(xmax)) : 1.05;
+
+  // 网格
+  ctx.strokeStyle=getCSSVar('--c-line'); ctx.lineWidth=1;
+  ctx.beginPath();
+  for(let i=0;i<=10;i++){
+    const x=pad.l+i/10*plotW, y=pad.t+i/10*plotH;
+    ctx.moveTo(x,pad.t); ctx.lineTo(x,pad.t+plotH);
+    ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+plotW,y);
+  }
+  ctx.stroke();
+
+  // 轴
+  ctx.fillStyle=getCSSVar('--c-fg'); ctx.font='11px ui-monospace,Consolas';
+  ctx.strokeStyle=getCSSVar('--c-muted');
+  ctx.beginPath();
+  ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,pad.t+plotH);
+  ctx.lineTo(pad.l+plotW,pad.t+plotH); ctx.stroke();
+  ctx.textAlign='right';
+  for(let i=0;i<=10;i++){
+    const y=pad.t+(1-i/10)*plotH;
+    const v=(i/10).toFixed(1);
+    ctx.fillText(v, pad.l-6, y+3);
+  }
+  ctx.textAlign='center';
+  for(let i=0;i<=10;i++){
+    const x=pad.l+i/10*plotW;
+    const v=(xmin+i/10*(xmax-xmin)).toFixed(2);
+    ctx.fillText(v, x, pad.t+plotH+14);
+  }
+
+  const px=(x)=> pad.l + (x-xmin)/(xmax-xmin)*plotW;
+  const py=(y)=> pad.t + (1-(y-ymin)/(ymax-ymin))*plotH;
+
+  // 画 F
+  if(showF){
+    ctx.strokeStyle=getCSSVar('--c-primary'); ctx.lineWidth=2;
+    ctx.beginPath();
+    const N=Math.max(200, Math.floor(plotW*2));
+    let started=false;
+    for(let i=0;i<=N;i++){
+      const x=xmin+i/N*(xmax-xmin);
+      const F=Math.max(0, Math.min(1, dist.F(x)));
+      const y=py(F);
+      if(!started){ctx.moveTo(px(x),y); started=true;}
+      else ctx.lineTo(px(x),y);
+    }
+    ctx.stroke();
+  }
+  // 画 f（缩放到合理高度）
+  if(showf){
+    ctx.strokeStyle=getCSSVar('--c-accent'); ctx.lineWidth=1.5;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath();
+    const N=Math.max(200, Math.floor(plotW*2));
+    let started=false;
+    let fmax=0;
+    for(let i=0;i<=N;i++){
+      const x=xmin+i/N*(xmax-xmin);
+      fmax=Math.max(fmax, dist.f(x));
+    }
+    const fscale = Math.min(1, 0.9/Math.max(0.01, fmax));
+    for(let i=0;i<=N;i++){
+      const x=xmin+i/N*(xmax-xmin);
+      const y=py(dist.f(x)*fscale);
+      if(!started){ctx.moveTo(px(x),y); started=true;}
+      else ctx.lineTo(px(x),y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+
+function getCSSVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+document.getElementById('distType').addEventListener('change', e=>{
+  setupRanges(e.target.value);
+  zoom=1;
+  draw();
+});
+['p','q','r','s'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{updateOutputs(); draw();});
+});
+document.getElementById('toggleCDF').addEventListener('click', ()=>{showF=!showF; draw();});
+document.getElementById('togglePDF').addEventListener('click', ()=>{showf=!showf; draw();});
+document.getElementById('zoomIn').addEventListener('click', ()=>{zoom*=1.4; draw();});
+document.getElementById('zoomOut').addEventListener('click', ()=>{zoom/=1.4; draw();});
+document.getElementById('reset').addEventListener('click', ()=>{zoom=1; showF=true; showf=true; setupRanges(document.getElementById('distType').value); draw();});
+window.addEventListener('resize', draw);
+setupRanges('binomial'); draw();
+</script>
+</body>
+</html>

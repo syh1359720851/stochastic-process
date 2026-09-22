@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 条件概率的定义 | 第02讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  pre.venn{font-family:ui-monospace,Consolas,monospace;background:var(--c-card);border:1px solid var(--c-line);border-radius:6px;padding:12px 16px;font-size:14px;overflow-x:auto;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a> / 01</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-条件概率的定义.html" class="current">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html">03 全概率公式</a>
+    <a href="./04-Bayes公式.html">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>01 · 条件概率的定义</h1>
+  <p class="lede">一旦我们知道某事件 $B$ 已经发生，整个世界就"缩小"到 $B$ 上——剩下的概率要在 $B$ 内重新归一。这就是条件概率的全部直觉。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>"在已知 $B$ 发生的前提下，$A$ 发生的概率"</strong>——记作 $P(A\mid B)$。
+    <ul>
+      <li>我们获得了<strong>额外信息</strong>：$B$ 已经发生。</li>
+      <li>这条信息把样本空间从 $\Omega$ <strong>压缩</strong>到 $B$ 上。</li>
+      <li>在 $B$ 内重新分配"权重"——原来 $B$ 占的全部概率归一化为 1。</li>
+      <li>$A$ 在这个<strong>新世界</strong>里的概率 = $\dfrac{\text{原来 } A\cap B \text{ 的概率}}{\text{原来 } B \text{ 的概率}}$。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比 · 摸彩球</span>
+    盒子里 4 红 6 白共 10 球。你摸了<strong>一个球但还没看颜色</strong>，此时摸到红球的概率是 $\tfrac{4}{10}=0.4$。
+    有人告诉你"是红或白"，这条信息没用——$P(\text{红}\mid\text{红或白})=\tfrac{4}{10}$。
+    如果对方<strong>进一步</strong>告诉你"是暖色"——这条信息等价于把样本空间缩到 4 红球，<strong>此时红球概率 $=1$</strong>。
+    这就是"条件概率"——信息越多，样本空间越小，不确定性越低。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <h3>2.1 条件概率</h3>
+  <div class="callout theorem">
+    <span class="label">定义（课件原文 · sjgc0-1概率空间-2.pdf 第 30 页）</span>
+    <p>设 $(\Omega,\mathcal{F},P)$ 是概率空间，$A,B\in\mathcal{F}$，且 $P(B)>0$。称</p>
+    $$P(A\mid B)=\frac{P(AB)}{P(B)}$$
+    <p>为<strong>已知事件 $B$ 发生的条件下，事件 $A$ 发生的条件概率</strong>。</p>
+  </div>
+
+  <h3>2.2 条件概率空间</h3>
+  <p>固定 $B$，记 $P_B(\cdot)=P(\cdot\mid B)$。可以验证 $P_B$ 本身就是 $(\Omega,\mathcal{F})$ 上的一个<strong>概率测度</strong>——于是 $(\Omega,\mathcal{F},P_B)$ 称为<strong>条件概率空间</strong>。</p>
+
+  <div class="callout theorem">
+    <span class="label">定理 · 条件概率满足概率公理</span>
+    <p>设 $B\in\mathcal{F}$，$P(B)>0$，则对任意 $A\in\mathcal{F}$：</p>
+    <ol>
+      <li><strong>非负性</strong>：$0\leq P(A\mid B)\leq 1$</li>
+      <li><strong>规范性</strong>：$P(\Omega\mid B)=1$</li>
+      <li><strong>可列可加性</strong>：若 $\{A_i\}_{i\geq 1}$ 两两不交，则
+        $$P\!\left(\bigcup_{i=1}^{\infty} A_i\;\middle|\; B\right)=\sum_{i=1}^{\infty}P(A_i\mid B)$$
+      </li>
+    </ol>
+    <p>所以条件概率<strong>确实是</strong>概率——把它当成新的概率去做第 01 讲的所有结论都成立。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 几何直观（古典概型）</h2>
+
+  <p>在古典概型下（样本空间有限、等可能），条件概率有最简洁的形式：</p>
+
+  $$P(A\mid B)=\frac{|A\cap B|}{|B|}=\frac{\text{同时满足 }A\text{ 与 }B\text{ 的样本点数}}{\text{满足 }B\text{ 的样本点数}}$$
+
+  <div class="callout example">
+    <span class="label">例 · 掷骰子求条件概率</span>
+    <p>掷一颗骰子。设 $A=\{2,4,6\}$（偶数），$B=\{4,5,6\}$（$\geq 4$）。</p>
+    <ul>
+      <li>$|B|=3$（满足 $B$ 的样本点：4, 5, 6）</li>
+      <li>$|A\cap B|=|\{4,6\}|=2$</li>
+      <li>$$P(A\mid B)=\frac{2}{3}$$</li>
+    </ul>
+    <p>含义：已知"掷出 $\geq 4$"的前提下，"偶数"的概率是 $\tfrac{2}{3}$——这比无条件下的 $P(A)=\tfrac{1}{2}$ 更大，因为 $B$ 过滤掉了小数字。</p>
+  </div>
+
+  <pre class="venn">
+        ┌─────────────────────── Ω ─────────────────────────┐
+        │                                                     │
+        │      ┌──────── B ────────┐                         │
+        │      │   ●4    ●5    ●6  │  ← 满足 B 的样本点      │
+        │      │   ↑A∩B  ↑   ↑A∩B │                          │
+        │      │                    │                          │
+        │      └────────────────────┘                          │
+        │                                                     │
+        │     ●1  ●2  ●3   ← 在 B 之外                       │
+        │                                                     │
+        └─────────────────────────────────────────────────────┘
+        阴影（同时在 A 与 B 中）：●4 ●6  →  P(A|B) = 2/3
+  </pre>
+
+  <!-- ============================================ -->
+  <h2>4. 一个关键细节：$P(B)=0$ 怎么办？</h2>
+
+  <div class="callout warn">
+    <span class="label">易错点</span>
+    $P(A\mid B)=\dfrac{P(AB)}{P(B)}$ 要求 <strong>$P(B)>0$</strong>——否则分母为零，定义失效。
+    <ul>
+      <li>实际应用中<strong>几乎不会</strong>遇到 $P(B)=0$ 的"已知 $B$ 发生"——既然 $B$ 真的发生了，$P(B)$ 至少应理解为正。</li>
+      <li>但在<strong>条件概率推广</strong>（如 Radon-Nikodym 定理、条件期望）中，可以严格定义 $P(B)=0$ 下的条件概率——那是后续课程的内容。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 课件例题 · 抽签问题</h2>
+
+  <div class="callout example">
+    <span class="label">Ex（课件第 33 页）</span>
+    <p>10 张签中有 3 张幸运签，3 人依次各抽一张签。<strong>第一个人抽到幸运签，假若第二人也抽到，问第三人抽到幸运签的概率</strong>。</p>
+    <p><strong>分析</strong>：设 $A_i=\{\text{第 } i \text{ 人抽到幸运签}\}$，$i=1,2,3$。所求为 $P(A_3\mid A_1\cap A_2)$。</p>
+    <p><strong>解法 1（古典概型，按顺序枚举）</strong>：</p>
+    <ul>
+      <li>总样本空间：$10\times 9\times 8=720$ 种顺序抽取。</li>
+      <li>事件 $A_1\cap A_2$：第 1、2 人都抽到幸运签。概率 = $\dfrac{3}{10}\cdot\dfrac{2}{9}=\dfrac{6}{90}=\dfrac{1}{15}$。</li>
+      <li>事件 $A_1\cap A_2\cap A_3$：3 人都抽到幸运签。概率 = $\dfrac{3}{10}\cdot\dfrac{2}{9}\cdot\dfrac{1}{8}=\dfrac{6}{720}=\dfrac{1}{120}$。</li>
+      <li>$$P(A_3\mid A_1\cap A_2)=\frac{P(A_1\cap A_2\cap A_3)}{P(A_1\cap A_2)}=\frac{1/120}{1/15}=\frac{1}{8}$$</li>
+    </ul>
+    <p><strong>答案</strong>：$\boxed{P(A_3\mid A_1\cap A_2)=\dfrac{1}{8}}$。</p>
+    <p><strong>另一种看法（直接推理）</strong>：已知前两人各拿走 1 张幸运签，剩 8 张签里只剩 $3-2=1$ 张幸运签。所以第三人抽到幸运签的概率是 $\dfrac{1}{8}$——和公式结果一致。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 性质速览</h2>
+
+  <table>
+    <tr><th>性质</th><th>公式（$P(B)>0$）</th></tr>
+    <tr><td>非负性</td><td>$P(A\mid B)\geq 0$</td></tr>
+    <tr><td>自身</td><td>$P(B\mid B)=1$</td></tr>
+    <tr><td>不可能事件</td><td>若 $A\cap B=\varnothing$，则 $P(A\mid B)=0$</td></tr>
+    <tr><td>加法（$A_1,A_2$ 不相交）</td><td>$P(A_1\cup A_2\mid B)=P(A_1\mid B)+P(A_2\mid B)$</td></tr>
+    <tr><td>单调</td><td>$A\subseteq C \Rightarrow P(A\mid B)\leq P(C\mid B)$</td></tr>
+    <tr><td>全概率（$C\cap B=\varnothing$，$C\cup B=\Omega$）</td><td>$P(A\mid B)+P(A\mid B^c)=1$（并不一定等于 $P(A)$）</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">小心 · 条件概率不是无条件概率</span>
+    $P(A\mid B)\neq P(A)$ 是常态。例如：
+    <ul>
+      <li>$P(\text{淋雨})=0.3$，但 $P(\text{淋雨}\mid\text{带伞})=0.05$。</li>
+      <li>$P(\text{通过})=0.7$，但 $P(\text{通过}\mid\text{没复习})=0.2$。</li>
+    </ul>
+    "已知信息"会改变概率——这是条件概率的全部价值。
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 一个反直觉例子（自我检测）</h2>
+
+  <div class="callout example">
+    <span class="label">思考题（先猜再算）</span>
+    <p>某地区 $1\%$ 的人患某种病。检测准确率 $99\%$（有病的人 $99\%$ 阳性，没病的人 $99\%$ 阴性）。</p>
+    <p>小明检测为阳性，他真的患病的概率是多少？</p>
+    <p>（A）约 $99\%$　（B）约 $50\%$　（C）约 $1\%$　（D）约 $49\%$</p>
+    <p>直觉上选 (A)——但正确答案是 <strong>(B) 约 $50\%$</strong>。详见下一讲 <strong>Bayes 公式</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>8. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 为什么定义式要 $P(B)>0$？如果 $P(B)=0$，会发生什么？</summary>
+    <p>因为定义式是 $\frac{P(AB)}{P(B)}$——分母为零，式子无意义。实际场景里"已知 $B$ 发生"意味着 $B$ 在观察序列里有非零概率，所以 $P(B)>0$ 是合理的假设。在严格理论中可以通过 Radon-Nikodym 导数推广到 $P(B)=0$，但这是后续内容。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · $P(A\mid B)$ 一定是 $\leq 1$ 吗？</summary>
+    <p>一定。因为 $AB\subseteq B$，由概率单调性 $P(AB)\leq P(B)$，所以 $\frac{P(AB)}{P(B)}\leq 1$。再加上 $P(AB)\geq 0$，故 $0\leq P(A\mid B)\leq 1$。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 抽签问题中，如果不知道前两人的结果，第 3 人抽到幸运签的概率是多少？</summary>
+    <p>仍是 $\dfrac{3}{10}$。无论先后顺序，每个人第一次抽到幸运签的概率都相等（这就是<strong>对称性</strong>——抽签问题里"先抽后抽无所谓"）。条件概率 $P(A_3\mid A_1\cap A_2)=\dfrac{1}{8}\neq\dfrac{3}{10}$，因为加了信息。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 条件概率和第 01 讲的"概率"是同一种东西吗？</summary>
+    <p>是。条件概率 $P_B(\cdot)=P(\cdot\mid B)$ 满足概率的三条公理（§2 的定理），所以 $(\Omega,\mathcal{F},P_B)$ 本身就是一个概率空间——可以无差别地应用第 01 讲的所有性质。这也是为什么后续的"条件期望"可以套用期望的所有结论。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>条件概率 = 已知 $B$ 发生后，"新世界" $(\Omega,\mathcal{F},P_B)$ 下的概率；定义式 $P(A\mid B)=\dfrac{P(AB)}{P(B)}$，要求 $P(B)>0$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./index.html"><span class="label">← 返回</span><span class="title">讲次首页</span></a>
+    <a href="./02-乘法公式.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">乘法公式</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 01 条件概率的定义 · 融合版课件</footer>
+</div>
+</body>
+</html>

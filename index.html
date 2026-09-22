@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课程地图 · 随机过程与排队论（融合版）</title>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;--c-primary:#0969da;--c-primary-bg:#ddf4ff;}
+  @media (prefers-color-scheme:dark){:root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;--c-primary:#58a6ff;--c-primary-bg:#051d4d;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 24px 80px}
+  h1{font-size:32px;margin:0 0 6px}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0}
+  .card{display:block;padding:16px 18px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-card);text-decoration:none;color:inherit;transition:all 0.15s}
+  .card:hover{transform:translateY(-2px);border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .card .num{font-size:12px;color:var(--c-muted);font-weight:600}
+  .card .title{font-weight:600;margin:4px 0;font-size:17px}
+  .card .desc{font-size:13px;color:var(--c-muted)}
+  .card.done{border-left:4px solid var(--c-accent,#1a7f37)}
+  .card.pending{opacity:0.6}
+  .meta{font-size:13px;color:var(--c-muted);margin-top:32px;padding-top:16px;border-top:1px solid var(--c-line)}
+  .badge{display:inline-block;background:var(--c-accent,#1a7f37);color:#fff;font-size:11px;padding:1px 8px;border-radius:8px;margin-left:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>随机过程与排队论（融合版）</h1>
+  <p class="lede">把两门课程打通后的统一学习讲次。已完成的部分用绿色标记。</p>
+
+  <div class="grid">
+    <a class="card done" href="./01-概率空间/index.html">
+      <div class="num">第 01 讲 <span class="badge">已完成</span></div>
+      <div class="title">概率空间（公理化基础）</div>
+      <div class="desc">样本空间 / σ-代数 / 概率公理 / 概率性质 / 古典概型 + 2 个动画 + 8 题自测</div>
+    </a>
+    <a class="card done" href="./02-条件概率与Bayes/index.html">
+      <div class="num">第 02 讲 <span class="badge">已完成</span></div>
+      <div class="title">条件概率与 Bayes</div>
+      <div class="desc">条件概率 / 乘法公式 / 全概率 / Bayes / 独立性 / 独立重复试验 + 1 动画 + 9 题自测</div>
+    </a>
+    <a class="card done" href="./03-随机变量与分布函数/index.html">
+      <div class="num">第 03 讲 <span class="badge">已完成</span></div>
+      <div class="title">随机变量与分布函数</div>
+      <div class="desc">随机变量定义 / 分布函数 / 离散 / 连续 / 混合 / 二维联合 / 边缘条件 / 函数分布 + 1 动画 + 10 题自测</div>
+    </a>
+    <a class="card done" href="./04-常见分布族/index.html">
+      <div class="num">第 04 讲 <span class="badge">已完成</span></div>
+      <div class="title">常见分布族</div>
+      <div class="desc">Bernoulli / 二项 / 几何 / 负二项 / Poisson / 均匀 / 指数 / Gamma / 正态 + 10 题自测</div>
+    </a>
+    <a class="card done" href="./05-数字特征与特征函数/index.html">
+      <div class="num">第 05 讲 <span class="badge">已完成</span></div>
+      <div class="title">数字特征与特征函数</div>
+      <div class="desc">R-S 积分 / 期望 / 方差 / 协方差 / 矩 / 条件期望 / Wald 方程 / 特征函数 + 1 动画 + 10 题自测</div>
+    </a>
+    <a class="card done" href="./06-随机过程的基本概念/index.html">
+      <div class="num">第 06 讲 <span class="badge">已完成</span></div>
+      <div class="title">随机过程的基本概念</div>
+      <div class="desc">定义 / 样本函数 / 四象限分类 / 有限维分布 / 均值-方差-相关-协方差 / 独立增量过程 / 正态过程 / 维纳过程 + 前置页「n 维随机变量」+ 1 动画 + 10 题自测</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 07 讲</div>
+      <div class="title">Poisson 过程</div>
+      <div class="desc">两个定义的等价性 / 概率分布 / 数字特征 / 性质 / 非齐次 / 复合 / 更新计数过程</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 08 讲</div>
+      <div class="title">Markov 链（离散时间）</div>
+      <div class="desc">转移矩阵 / 状态分类 / 极限与平稳分布</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 09 讲</div>
+      <div class="title">Markov 链（连续时间）</div>
+      <div class="desc">Q 矩阵 / 生灭过程 / Kolmogorov 方程</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 10 讲</div>
+      <div class="title">更新过程</div>
+      <div class="desc">更新定理 / Blackwell / 极限定理 / 关键更新定理</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 11 讲</div>
+      <div class="title">Brown 运动与鞅</div>
+      <div class="desc">维纳过程深入 / 鞅定义 / Doob 分解 / 可选停时 / 二次变差</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 12 讲</div>
+      <div class="title">排队论基础</div>
+      <div class="desc">Kendall 记号 / Little 律 / PASTA / M/M/1 / M/M/c</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 13 讲</div>
+      <div class="title">排队论高级</div>
+      <div class="desc">M/G/1 / G/M/1 / 嵌入 Markov / 优先级 / 队列网络</div>
+    </a>
+    <a class="card pending" href="#">
+      <div class="num">第 14 讲</div>
+      <div class="title">综合自测与考研题</div>
+      <div class="desc">综合卷 + 考研真题 + 应用案例</div>
+    </a>
+  </div>
+
+  <div class="meta">
+    📌 当前状态：第 01 ~ 06 讲<strong>已完成</strong>（共 68 个页面）。<br>
+    📌 讲次编号已校准为 <strong>14 讲</strong>：原第 06 讲「多维随机变量」已并入第 06 讲的前置页（00），原第 07 讲「随机过程的基本概念」升为第 06 讲，原第 10 讲「Poisson 过程」前移补位为第 07 讲。<br>
+    📂 原课件保留在 <code>随机过程/</code> 与 <code>随机过程与排队论/</code> 下，未做任何改动。<br>
+    📐 风格：单文件 HTML + KaTeX 公式 + 内嵌 CSS/JS，零依赖，可直接双击打开。
+  </div>
+</div>
+</body>
+</html>

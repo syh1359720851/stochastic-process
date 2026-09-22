@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自测 | 第03讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  .qbox{border:1px solid var(--c-line);border-radius:8px;padding:14px 18px;margin:16px 0;background:var(--c-card)}
+  .qbox h4{margin:0 0 8px;color:var(--c-primary);font-size:16px}
+  .qbox .meta{font-size:12px;color:var(--c-muted);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第03讲</a> / 自测</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-随机变量的定义.html">01 随机变量</a>
+    <a href="./02-分布函数.html">02 分布函数</a>
+    <a href="./03-离散随机变量.html">03 离散型</a>
+    <a href="./04-连续随机变量.html">04 连续型</a>
+    <a href="./05-混合型随机变量.html">05 混合型</a>
+    <a href="./06-二维随机变量与联合分布.html">06 二维与联合</a>
+    <a href="./07-边缘分布与条件分布.html">07 边缘与条件</a>
+    <a href="./08-随机变量函数的分布.html">08 函数的分布</a>
+    <a href="./动画-分布函数演化.html">动画</a>
+    <a href="./自测.html" class="current">自测</a>
+  </nav>
+
+  <h1>本讲自测 · 10 题</h1>
+  <p class="lede">覆盖：定义 / 分布函数 / 离散 / 连续 / 混合 / 联合 / 边缘 / 条件 / 独立性 / 函数的分布。建议先做完所有题，再点击对答案。</p>
+
+  <div class="callout intuition">
+    <span class="label">使用建议</span>
+    1) 先不看答案，凭理解作答；2) 点开每题下方的"答案与解析"自查；3) 错题回到对应概念页重读。
+  </div>
+
+  <!-- Q1 -->
+  <div class="qbox">
+    <h4>Q1 · 随机变量定义（基础）</h4>
+    <div class="meta">来源：§1 · 难度 ⭐</div>
+    <p>设 $\Omega=\{1,2,3,4\}$，$\mathcal{F}=2^\Omega$，每点等可能。定义 $X(\omega)=(-1)^\omega\cdot\omega$。$X$ 的取值集合是什么？它是不是随机变量？</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$X(1)=-1$，$X(2)=2$，$X(3)=-3$，$X(4)=4$。取值集 $\{-4,-1,2,4\}$。</p>
+      <p>由于 $\Omega$ 有限且 $\mathcal{F}=2^\Omega$，<strong>任意实值函数都自动可测</strong>——所以 $X$ 是随机变量。具体分布列：$P(X=-4)=P(X=-1)=P(X=2)=P(X=4)=1/4$。</p>
+    </details>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qbox">
+    <h4>Q2 · 分布函数性质（基础）</h4>
+    <div class="meta">来源：§2 · 难度 ⭐</div>
+    <p>下列函数哪些<strong>不可能</strong>是某个随机变量的分布函数？说明理由。</p>
+    <p>(A) $F(x)=\dfrac{1}{\pi}\arctan(x)+\dfrac{1}{2}$</p>
+    <p>(B) $F(x)=\dfrac{e^x}{1+e^x}$</p>
+    <p>(C) $F(x)=\mathbf{1}\{x\ge 0\}$（即 $x&lt;0$ 时 $0$，$x\ge 0$ 时 $1$）</p>
+    <p>(D) $F(x)=\sin(\pi x/2)\cdot\mathbf{1}\{0\le x\le 1\}$</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>(D) 不可能。原因：$F$ 在 $[0,1]$ 上不是单调的——$\sin(\pi x/2)$ 在 $x=0$ 时为 $0$、$x=1$ 时为 $1$，但中间有起伏（先升后降再升）。违反"单调不减"。</p>
+      <p>(A)/(B)/(C) 都满足四条性质 ✓：(A) 是 Cauchy 分布；(B) 是 Logistic 分布；(C) 是退化 $X\equiv 0$。</p>
+    </details>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qbox">
+    <h4>Q3 · 离散 $F$ 的跳跃（基础）</h4>
+    <div class="meta">来源：§3 · 难度 ⭐</div>
+    <p>设 $X$ 取 $\{0,1,2\}$，$P(X=0)=1/3,\ P(X=1)=1/2,\ P(X=2)=1/6$。写出 $F(x)$，并求 $P(X=1)$ 与 $P(0.5&lt;X\le 1.5)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$F(x)=\begin{cases}0,& x&lt;0\\ 1/3,& 0\le x&lt;1\\ 5/6,& 1\le x&lt;2\\ 1,& x\ge 2\end{cases}$</p>
+      <p>$P(X=1)=F(1)-F(1-0)=5/6-1/3=1/2$ ✓</p>
+      <p>$P(0.5&lt;X\le 1.5)=F(1.5)-F(0.5)=5/6-1/3=1/2$</p>
+    </details>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qbox">
+    <h4>Q4 · 连续型密度的归一化（基础）</h4>
+    <div class="meta">来源：§4 · 难度 ⭐</div>
+    <p>设 $f(x)=cx^2,\ 0\le x\le 1$；否则 $f(x)=0$。求 $c$，$P(X\le 1/2)$，$F(x)$ 表达式。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>归一：$\int_0^1 cx^2\,dx=c/3=1$，故 $c=3$。</p>
+      <p>$P(X\le 1/2)=\int_0^{1/2}3x^2\,dx=[x^3]_0^{1/2}=1/8$。</p>
+      <p>$F(x)=\begin{cases}0,& x&lt;0\\ x^3,& 0\le x\le 1\\ 1,& x&gt;1\end{cases}$。</p>
+    </details>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qbox">
+    <h4>Q5 · 混合型识别（核心）</h4>
+    <div class="meta">来源：§5 · 难度 ⭐⭐</div>
+    <p>设 $X$ 的分布函数</p>
+    $$F(x)=\begin{cases}0,& x&lt;0\\ 0.3,& 0\le x&lt;2\\ 0.3+0.7\cdot\dfrac{x^2-4}{4},& 2\le x\le 3\\ 1,& x&gt;3\end{cases}$$
+    <p>$X$ 是离散 / 连续 / 混合型？求 $P(X=0),\ P(2\le X\le 3),\ P(X&gt;1)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$X$ 是<strong>混合型</strong>：在 $x=0$ 处 $F$ 跳跃 $0.3$（离散部分），在 $[2,3]$ 上 $F$ 连续增长（连续部分）。</p>
+      <p>$P(X=0)=0.3-0=0.3$。</p>
+      <p>$P(2\le X\le 3)=F(3)-F(2-0)=1-0.3=0.7$。</p>
+      <p>$P(X&gt;1)=1-P(X\le 1)=1-F(1)=1-0.3=0.7$。</p>
+    </details>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qbox">
+    <h4>Q6 · 边缘分布列（核心）</h4>
+    <div class="meta">来源：§7 · 难度 ⭐⭐</div>
+    <p>$(X,Y)$ 的联合分布列：$P(X=0,Y=0)=1/6,\ P(0,1)=1/3,\ P(1,0)=1/4,\ P(1,1)=1/4$。求 $(X,Y)$ 的<strong>联合</strong> $F(0.5,0.5)$ 与 $X,Y$ 的边缘分布列。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$F(0.5,0.5)=P(X\le 0.5,Y\le 0.5)=P(X=0,Y=0)=1/6$（因为只有 $(0,0)$ 满足 $X\le 0.5$ 且 $Y\le 0.5$）。</p>
+      <p>$X$ 边缘：$P(X=0)=1/6+1/3=1/2$，$P(X=1)=1/4+1/4=1/2$。</p>
+      <p>$Y$ 边缘：$P(Y=0)=1/6+1/4=5/12$，$P(Y=1)=1/3+1/4=7/12$。</p>
+    </details>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qbox">
+    <h4>Q7 · 独立性判别（核心）</h4>
+    <div class="meta">来源：§7 · 难度 ⭐⭐</div>
+    <p>上题的 $(X,Y)$ 独立吗？请用两种判据验证。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>不独立。验证：$P(X=0)\cdot P(Y=0)=\tfrac{1}{2}\cdot\tfrac{5}{12}=\tfrac{5}{24}$，而 $P(X=0,Y=0)=\tfrac{1}{6}=\tfrac{4}{24}$。两者不等 → 不独立。</p>
+      <p>也可用 $F(0.5,0.5)$：$F_X(0.5)=P(X=0)=1/2$，$F_Y(0.5)=P(Y=0)=5/12$，乘积 $=5/24\neq 1/6=F(0.5,0.5)$。</p>
+    </details>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qbox">
+    <h4>Q8 · 条件分布（核心）</h4>
+    <div class="meta">来源：§7 · 难度 ⭐⭐</div>
+    <p>在 Q6 中，求 $P(Y=1\mid X=1)$ 和 $P(X=0\mid Y=1)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$P(Y=1\mid X=1)=P(X=1,Y=1)/P(X=1)=\tfrac{1/4}{1/2}=\tfrac{1}{2}$。</p>
+      <p>$P(X=0\mid Y=1)=P(X=0,Y=1)/P(Y=1)=\tfrac{1/3}{7/12}=\tfrac{4}{7}$。</p>
+    </details>
+  </div>
+
+  <!-- Q9 -->
+  <div class="qbox">
+    <h4>Q9 · 函数的分布 · 单调公式（进阶）</h4>
+    <div class="meta">来源：§8 · 难度 ⭐⭐⭐</div>
+    <p>设 $X$ 的密度 $f_X(x)=2x,\ 0\le x\le 1$（Beta 分布）。$Y=-\log X$。求 $Y$ 的密度 $f_Y(y)$。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>$g(x)=-\log x$ 在 $(0,1]$ 上单调递减，值域 $[0,+\infty)$。反函数 $h(y)=e^{-y}$，$|h'(y)|=e^{-y}$。</p>
+      <p>由单调公式：$f_Y(y)=f_X(h(y))\cdot|h'(y)|=2e^{-y}\cdot e^{-y}=2e^{-2y}$（$y\ge 0$）。</p>
+      <p>所以 $Y\sim\text{Exp}(2)$——这是一个有意思的变换：Beta(2,1) 经 $-\log$ 变换得到指数分布。</p>
+    </details>
+  </div>
+
+  <!-- Q10 -->
+  <div class="qbox">
+    <h4>Q10 · 二元变换 · 卷积（进阶）</h4>
+    <div class="meta">来源：§8 · 难度 ⭐⭐⭐</div>
+    <p>$X,Y$ 独立，$X\sim\text{Exp}(1)$，$Y\sim\text{Exp}(1)$。求 $Z=X+Y$ 的密度。</p>
+    <details>
+      <summary>答案与解析</summary>
+      <p>由卷积公式（$X,Y\ge 0$）：</p>
+      <p>$$f_Z(z)=\int_0^z f_X(x)\,f_Y(z-x)\,dx=\int_0^z e^{-x}\,e^{-(z-x)}\,dx=\int_0^z e^{-z}\,dx=ze^{-z}$$</p>
+      <p>（$z\ge 0$）</p>
+      <p>这就是 <strong>Gamma(2, 1)</strong>（形状参数 $k=2$，尺度 $\theta=1$）。更一般地，$n$ 个独立 $\text{Exp}(1)$ 之和 $\sim\text{Gamma}(n,1)$——这正是 Erlang 分布的来源。</p>
+    </details>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">📌 评分参考</span>
+    <ul>
+      <li>9–10 题正确：本讲已完全掌握</li>
+      <li>7–8 题正确：基础扎实，建议把错题对应的概念页再过一遍</li>
+      <li>5–6 题正确：需要回到 §3–§5 把"离散 vs 连续 vs 混合"重新梳理</li>
+      <li>≤4 题正确：从 §1 / §2 重新开始；重点搞清"分布函数"的统一语言</li>
+    </ul>
+  </div>
+
+  <div class="pager">
+    <a href="./动画-分布函数演化.html"><span class="label">← 上一节</span><span class="title">动画 · 分布函数演化</span></a>
+    <a href="../04-常见分布族/" style="text-align:right"><span class="label">下一讲 →</span><span class="title">第 04 讲 · 常见分布族</span></a>
+  </div>
+
+  <footer class="bot">第 03 讲 · 自测 · 融合版课件</footer>
+</div>
+</body>
+</html>

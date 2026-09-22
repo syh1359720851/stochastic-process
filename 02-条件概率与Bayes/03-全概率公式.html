@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 全概率公式 | 第02讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第02讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-条件概率的定义.html">01 条件概率的定义</a>
+    <a href="./02-乘法公式.html">02 乘法公式</a>
+    <a href="./03-全概率公式.html" class="current">03 全概率公式</a>
+    <a href="./04-Bayes公式.html">04 Bayes 公式</a>
+    <a href="./05-事件的独立性.html">05 事件的独立性</a>
+    <a href="./06-独立重复试验.html">06 独立重复试验</a>
+    <a href="./动画-MonteCarlo验证.html">动画 Monte Carlo</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · 全概率公式</h1>
+  <p class="lede">当一个复杂事件 $A$ 可以<strong>按"原因"分解</strong>时，先用每条原因的<strong>先验</strong>加权，再在每条原因下看 $A$ 发生的<strong>条件概率</strong>——把它们加起来。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>"分而治之"（Divide and Conquer）</strong>：当 $A$ 的发生有多种互不重叠的"路径"或"原因" $\{B_i\}$ 时，把 $A$ 在每条路径上的概率按路径的<strong>权重</strong>加总。
+    <ul>
+      <li>$\{B_i\}$ 是一组<strong>互斥且穷尽</strong>的事件（划分 / 完备事件组）。</li>
+      <li>每条 $B_i$ 都有自己的概率 $P(B_i)$ —— 这是"路径被选中的权重"。</li>
+      <li>在每条路径下，$A$ 发生的条件概率 $P(A\mid B_i)$ 不同。</li>
+      <li>总概率 = $\sum_i \underbrace{P(B_i)}_{\text{选这条路径}} \cdot \underbrace{P(A\mid B_i)}_{\text{在这条路径下 }A\text{ 发生的比例}}$。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格陈述</h2>
+
+  <h3>2.1 完备事件组（划分）</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 完备事件组 / 划分</span>
+    <p>设 $\{B_i\}_{i\in I}$ 是一族事件（$I$ 可有限或可数）。若满足：</p>
+    <ol>
+      <li><strong>两两不交</strong>：$B_i\cap B_j=\varnothing$，$i\neq j$；</li>
+      <li><strong>穷尽</strong>：$\bigcup_{i\in I} B_i=\Omega$；</li>
+      <li>$P(B_i)>0$，$\forall i\in I$（保证可以条件化）。</li>
+    </ol>
+    <p>则称 $\{B_i\}$ 为 $\Omega$ 的一个<strong>完备事件组</strong>（partition，又叫<strong>样本空间的划分</strong>）。</p>
+  </div>
+
+  <h3>2.2 全概率公式</h3>
+  <div class="callout theorem">
+    <span class="label">定理 · 全概率公式（课件 sjgc0-1概率空间-2.pdf 第 34 页）</span>
+    <p>设 $\{B_i\}_{i\geq 1}$ 是 $\Omega$ 的一个<strong>完备事件组</strong>，则对任意事件 $A\in\mathcal{F}$：</p>
+    $$\boxed{P(A)=\sum_{i=1}^{\infty} P(B_i)\,P(A\mid B_i)}$$
+    <p>直观证明：$A=A\Omega=A\left(\bigcup_i B_i\right)=\bigcup_i (A\cap B_i)$，且 $A\cap B_i$ 两两不交。再用乘法公式 $P(A\cap B_i)=P(B_i)P(A\mid B_i)$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 三个标志性的例子</h2>
+
+  <h3>3.1 两台机器加工零件 · 入门例子</h3>
+  <div class="callout example">
+    <span class="label">Ex · 两台机器加工</span>
+    <p>某车间有两台机器加工同一种零件：</p>
+    <ul>
+      <li>机器 A 加工 60% 的零件，次品率 2%；</li>
+      <li>机器 B 加工 40% 的零件，次品率 5%。</li>
+    </ul>
+    <p>问：随机取一个零件，是<strong>次品</strong>的概率？</p>
+    <p><strong>解</strong>：设 $D$ = "次品"，$M_A,M_B$ = "由机器 A/B 加工"。$\{M_A,M_B\}$ 构成完备事件组。</p>
+    <table>
+      <tr><th>机器</th><th>$P(M_i)$（先验）</th><th>$P(D\mid M_i)$（次品率）</th><th>乘积</th></tr>
+      <tr><td>A</td><td>0.60</td><td>0.02</td><td>0.012</td></tr>
+      <tr><td>B</td><td>0.40</td><td>0.05</td><td>0.020</td></tr>
+    </table>
+    $$P(D)=0.60\times 0.02+0.40\times 0.05=0.012+0.020=0.032$$
+    <p><strong>答案</strong>：总次品率 $3.2\%$——介于机器 A（2%）和机器 B（5%）之间，按<strong>加工量加权</strong>。</p>
+    <p>如果简单平均 $(0.02+0.05)/2=0.035$，会高估次品率（因为忽略了机器 A 加工更多零件这一事实）。</p>
+  </div>
+
+  <h3>3.2 扩展 · 三家工厂供货</h3>
+  <div class="callout example">
+    <span class="label">Ex · 三家工厂供货，抽检不合格率</span>
+    <p>某产品由甲、乙、丙三个工厂供货，供应比例分别为 50%、30%、20%；不合格率分别为 1%、2%、3%。</p>
+    <p>问：随机抽一件产品，<strong>不合格</strong>的概率是多少？</p>
+    <p><strong>解</strong>：设 $A$=不合格，$B_1,B_2,B_3$ 分别表示"由甲/乙/丙供货"。</p>
+    <table>
+      <tr><th>工厂</th><th>$P(B_i)$</th><th>$P(A\mid B_i)$</th></tr>
+      <tr><td>甲</td><td>0.50</td><td>0.01</td></tr>
+      <tr><td>乙</td><td>0.30</td><td>0.02</td></tr>
+      <tr><td>丙</td><td>0.20</td><td>0.03</td></tr>
+    </table>
+    $$P(A)=0.50\times 0.01+0.30\times 0.02+0.20\times 0.03=0.005+0.006+0.006=0.017$$
+    <p>即不合格率 $1.7\%$——介于最差（3%）和最好（1%）之间，按供货比例加权。</p>
+  </div>
+
+  <h3>3.3 雷达探测飞机</h3>
+  <div class="callout example">
+    <span class="label">Ex · 雷达探测 · 命中条件概率</span>
+    <p>雷达探测来袭飞机。设来袭飞机有 3 种类型：</p>
+    <ul>
+      <li>重型轰炸机（占比 20%），雷达探测命中概率 0.9；</li>
+      <li>中型轰炸机（占比 50%），雷达探测命中概率 0.7；</li>
+      <li>小型战斗机（占比 30%），雷达探测命中概率 0.4。</li>
+    </ul>
+    <p>问：来袭飞机<strong>被雷达探测到</strong>的概率？</p>
+    <p>设 $A$=探测到，$B_i$="来袭飞机是第 $i$ 种"。由全概率公式：</p>
+    $$P(A)=0.20\times 0.9+0.50\times 0.7+0.30\times 0.4=0.18+0.35+0.12=0.65$$
+    <p>即来袭飞机有 $65\%$ 被雷达锁定。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 关键思想：选定"路径"（完备事件组）</h2>
+
+  <div class="callout theorem">
+    <span class="label">使用全概率公式的核心步骤</span>
+    <ol>
+      <li><strong>找出完备事件组</strong> $\{B_i\}$——把 $\Omega$ 按<strong>原因 / 来源 / 类别</strong>穷尽划分。</li>
+      <li><strong>填两个表</strong>：$P(B_i)$（每条原因的先验）+ $P(A\mid B_i)$（在该原因下 $A$ 的概率）。</li>
+      <li><strong>逐项乘加</strong>：$P(A)=\sum P(B_i)P(A\mid B_i)$。</li>
+    </ol>
+    <p>常见可作为 $\{B_i\}$ 的来源：</p>
+    <ul>
+      <li>工厂 / 班级 / 类别（甲乙丙、男女、不同型号……）</li>
+      <li>试验的不同可能结果（正反、对错、合格不合格）</li>
+      <li>事件 $C$ 与 $C^c$（最常见的"两路"）</li>
+      <li>某事件的<strong>历史信息</strong>（已经发生了什么）</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 易错点速查</h2>
+
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ol>
+      <li><strong>划分不穷尽</strong>：忘记某条原因 → 求出的 $P(A)$ 比真实值小。</li>
+      <li><strong>划分有重叠</strong>：$B_i\cap B_j\neq\varnothing$ → 在交集中重复计算，结果出错。</li>
+      <li><strong>条件概率填错位置</strong>：混淆 $P(A\mid B_i)$ 与 $P(B_i\mid A)$。前者是"在第 $i$ 路径下 $A$ 的概率"，后者是"在 $A$ 已发生时第 $i$ 路径的概率"——是<strong>反过来的</strong>，详见下页 Bayes 公式。</li>
+      <li><strong>把"路径概率"和"原因概率"混淆</strong>：$P(B_i)$ 必须是<strong>先验</strong>——在没看到 $A$ 之前 $B_i$ 已经有的概率。</li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 全概率公式的两个方向</h2>
+
+  <div class="callout example">
+    <span class="label">方向 1 · 由"原因"推"结果"</span>
+    <p>已知 $P(B_i)$ 和 $P(A\mid B_i)$，求 $P(A)$——这是<strong>正向</strong>的使用，全概率公式的"本来面目"。</p>
+    $$P(A)=\sum P(B_i)\,P(A\mid B_i)$$
+  </div>
+
+  <div class="callout example">
+    <span class="label">方向 2 · 由"结果"推"原因"——Bayes 公式</span>
+    <p>反过来：已知 $A$ 已经发生，求是 $B_i$ 中哪个导致的概率 $P(B_i\mid A)$——这是<strong>反向</strong>的使用，即下一讲的 <strong>Bayes 公式</strong>。</p>
+    $$P(B_i\mid A)=\frac{P(B_i)\,P(A\mid B_i)}{P(A)}=\frac{P(B_i)\,P(A\mid B_i)}{\sum_j P(B_j)\,P(A\mid B_j)}$$
+    <p>这是统计推断的核心：<strong>拿到证据后，修正对原因的判断</strong>。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · 一道填空：盒中 4 红 6 白。摸 1 球记下颜色放回，再摸 1 球。第 2 次是红球的概率？</summary>
+    <p>因为有放回，每次独立：$P=\tfrac{4}{10}=0.4$。或者用全概率公式按第 1 次颜色划分：$P=\tfrac{4}{10}\cdot\tfrac{4}{10}+\tfrac{6}{10}\cdot\tfrac{4}{10}=\tfrac{4}{10}$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 设备故障：甲乙丙车间产同一产品，分别占 25%、35%、40%；不良率 0.02、0.03、0.04。求总不良率。</summary>
+    <p>$$P(\text{不良})=0.25\times 0.02+0.35\times 0.03+0.40\times 0.04=0.005+0.0105+0.016=0.0315$$<br>总不良率 $3.15\%$。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 全概率公式和"加法公式"的区别？</summary>
+    <p><strong>加法公式</strong>（第 01 讲）：$P(A\cup B)=P(A)+P(B)-P(AB)$，处理"事件合并"。<br><strong>全概率公式</strong>：$P(A)=\sum P(B_i)P(A\mid B_i)$，处理"按原因分解"。两者完全不同：前者<strong>合并</strong>事件，后者<strong>拆分</strong>事件。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 如果 $\{B_i\}$ 划分有重叠会怎样？</summary>
+    <p>推导 $A=\bigcup_i (A\cap B_i)$ 时<strong>依赖</strong> $B_i$ 两两不交。如果有重叠，等式不再成立，右侧会<strong>重复计数</strong>重叠部分的概率，结果会偏大。所以完备事件组必须两两不交。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>全概率公式 = 按"完备事件组 $\{B_i\}$"把所有可能的<strong>原因</strong>求加权和：$P(A)=\sum P(B_i)P(A\mid B_i)$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./02-乘法公式.html"><span class="label">← 上一节</span><span class="title">乘法公式</span></a>
+    <a href="./04-Bayes公式.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">Bayes 公式</span></a>
+  </div>
+
+  <footer class="bot">第 02 讲 · 03 全概率公式 · 融合版课件</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 Poisson 分布 | 第04讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第04讲</a> / 03</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./01-Bernoulli与二项分布.html">01 Bernoulli / 二项</a>
+    <a href="./02-几何与负二项分布.html">02 几何 / 负二项</a>
+    <a href="./03-Poisson分布.html" class="current">03 Poisson</a>
+    <a href="./04-均匀分布.html">04 均匀</a>
+    <a href="./05-指数分布.html">05 指数</a>
+    <a href="./06-Gamma与正态分布.html">06 Gamma / 正态</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>03 · Poisson 分布</h1>
+  <p class="lede">"<strong>单位时间内某事件发生的次数</strong>"——当事件是<strong>稀有</strong>（小概率）且<strong>独立</strong>时，Poisson 是<strong>通用模型</strong>。第 10 讲 Poisson 过程就建立在它之上。</p>
+
+  <!-- ============================================ -->
+  <h2>1. 直观含义</h2>
+
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <strong>Poisson 分布 = 在固定区间内"<strong>稀疏发生</strong>"的稀有事件计数</strong>。
+    <ul>
+      <li>参数 $\lambda>0$：单位时间内<strong>平均发生</strong>的次数（强度 / 速率）。</li>
+      <li>分布列只依赖一个参数 $\lambda$，形式简洁优美：$P(X=k)=\dfrac{\lambda^k}{k!}e^{-\lambda}$。</li>
+      <li>它的<strong>期望与方差相等</strong>，都是 $\lambda$——这一性质是 Poisson 独有。</li>
+      <li>在排队论中是"<strong>到达</strong>"的标准模型（顾客、车辆、电话呼叫、事故……）。</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">生活类比</span>
+    <ul>
+      <li>1 小时内到达银行的顾客数（$\lambda=20$ 人/h）。</li>
+      <li>1 公里道路上车辆抛锚次数（$\lambda=0.1$ 次/km）。</li>
+      <li>1 小时内收到的短信数（$\lambda=3$ 条/h）。</li>
+      <li>1 天内服务器收到的错误日志条数（$\lambda=5$ 条/天）。</li>
+      <li>1 年内某地区 $\ge 4$ 级的地震次数（$\lambda=2$ 次/年）。</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 严格定义</h2>
+
+  <div class="callout theorem">
+    <span class="label">定义 · Poisson 分布 $P(\lambda)$</span>
+    <p>随机变量 $X$ 取非负整数值，分布列为</p>
+    $$\boxed{P(X=k)=\frac{\lambda^k}{k!}\,e^{-\lambda},\quad k=0,1,2,\dots}$$
+    <p>其中 $\lambda>0$ 是参数。记作 $X\sim P(\lambda)$ 或 $X\sim\pi(\lambda)$。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">归一性验证</span>
+    $$\sum_{k=0}^\infty \frac{\lambda^k}{k!}\,e^{-\lambda}=e^{-\lambda}\cdot e^{\lambda}=1$$
+    <p>这正是 $e^\lambda$ 的 Taylor 展开——Poisson 分布列归一的来源。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 关键性质</h2>
+
+  <div class="callout theorem">
+    <span class="label">数字特征</span>
+    <table>
+      <tr><th>期望 $E(X)$</th><th>方差 $D(X)$</th><th>特征函数 $\Phi(t)$</th></tr>
+      <tr><td>$\lambda$</td><td>$\lambda$</td><td>$e^{\lambda(e^{it}-1)}$</td></tr>
+    </table>
+    <p><strong>均值=方差=$\lambda$</strong>——这是 Poisson 分布的"指纹"。</p>
+  </div>
+
+  <h3>3.1 Poisson 的可加性</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 独立 Poisson 之和</span>
+    <p>若 $X\sim P(\lambda_1)$ 与 $Y\sim P(\lambda_2)$ <strong>独立</strong>，则</p>
+    $$X+Y\sim P(\lambda_1+\lambda_2)$$
+    <p>直观：两个独立的"稀疏发生"事件叠加，<strong>总强度相加</strong>，仍然 Poisson。</p>
+  </div>
+
+  <h3>3.2 复合 Poisson 定理</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 复合 Poisson（拆分）</span>
+    <p>若 $X\sim P(\lambda)$，"事件类型"按概率 $p_i$ 分类（$\sum p_i=1$），则第 $i$ 类的事件数 $X_i\sim P(\lambda p_i)$，且 $X_1,\dots,X_m$ <strong>独立</strong>。</p>
+    <p>直观：把 $\lambda$ 的"平均发生率"按比例 $p_i$ 拆分到各个类别，各自仍 Poisson，相互独立。</p>
+  </div>
+
+  <h3>3.3 条件 Poisson（给定总和的拆分）</h3>
+  <div class="callout theorem">
+    <span class="label">性质 · 条件 Poisson（与 3.2 互补）</span>
+    <p>若 $X_1\sim P(\lambda_1),\ X_2\sim P(\lambda_2)$ <strong>独立</strong>，给定 $X_1+X_2=n$，则</p>
+    $$X_1\mid (X_1+X_2=n)\sim B\!\left(n,\ \frac{\lambda_1}{\lambda_1+\lambda_2}\right)$$
+    <p>直观：条件在总和下，每个事件"<strong>独立</strong>等可能地"分配到 $X_1$ 或 $X_2$，比例 $\lambda_1:(\lambda_1+\lambda_2)$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. Poisson 定理（罕见事件极限）</h2>
+
+  <div class="callout theorem">
+    <span class="label">Poisson 定理 · 罕见事件极限</span>
+    <p>设 $X_n\sim B(n,p_n)$，若 $\lim_{n\to\infty}np_n=\lambda>0$（$n\to\infty$ 同时 $p\to 0$，但 $np=\lambda$ 保持有限），则对任意非负整数 $k$：</p>
+    $$\lim_{n\to\infty}P(X_n=k)=\frac{\lambda^k}{k!}\,e^{-\lambda}$$
+    <p>即<strong>二项分布的极限是 Poisson 分布</strong>。这个极限允许我们用 Poisson <strong>近似</strong> $B(n,p)$，当 $n\ge 20$ 且 $p\le 0.05$ 时近似误差 $<1\%$。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">证明思路（折叠）</span>
+    <p>$P(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{n-k}=\dfrac{n!}{k!(n-k)!}\cdot\dfrac{\lambda_n^k}{n^k}\cdot(1-\lambda_n/n)^{n-k}$</p>
+    <p>当 $n\to\infty$ 时（记 $\lambda_n=np_n$）：</p>
+    <ul>
+      <li>$\dfrac{n!}{(n-k)!\,n^k}\to 1$（展开阶乘即可）</li>
+      <li>$(1-\lambda_n/n)^{n-k}\to e^{-\lambda}$（指数定义）</li>
+    </ul>
+    <p>合起来 $\to \lambda^k e^{-\lambda}/k!$。✓</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 罕见事件近似</span>
+    <p>某产品不合格率 $p=0.001$，抽 $n=5000$ 件。求"<strong>不超过 5 件</strong>不合格"的概率。</p>
+    <p>精确（二项）：$\sum_{k=0}^5\binom{5000}{k}(0.001)^k(0.999)^{5000-k}$——直接算繁琐。</p>
+    <p>Poisson 近似（$\lambda=np=5$）：</p>
+    <p>$P(X\le 5)\approx e^{-5}\sum_{k=0}^5\dfrac{5^k}{k!}=e^{-5}\!\left(1+5+12.5+20.83+26.04+26.04\right)\approx 0.616$。</p>
+    <p>实际二项计算结果约 $0.616$——非常接近。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 典型例子</h2>
+
+  <div class="callout example">
+    <span class="label">Ex · 银行窗口到达</span>
+    <p>某银行上午 9–10 点平均到达 30 位顾客，即 $\lambda=30$。求"恰好到达 25 位"的概率。</p>
+    <p>$P(X=25)=\dfrac{30^{25}}{25!}\,e^{-30}\approx 0.0514$（计算用软件 / 查表）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 设备故障</span>
+    <p>某车间平均每天发生 2 次小故障。求"一天内 0 次故障"的概率。</p>
+    <p>$X\sim P(2)$，$P(X=0)=e^{-2}\approx 0.1353$——约 13.5% 的日子"无故障"。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ex · 可加性应用</label>
+    <p>两台电话交换机，每台平均 1 分钟接听 5 通电话。两台独立工作，1 分钟内共接听 $Y$ 通。</p>
+    <p>$Y=X_1+X_2$，其中 $X_i\sim P(5)$，故 $Y\sim P(5+5)=P(10)$。</p>
+    <p>$P(Y=10)=\dfrac{10^{10}}{10!}\,e^{-10}\approx 0.1251$。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 易错点</h2>
+
+  <div class="callout danger">
+    <span class="label">致命错误 · Poisson 定理的"使用条件"</label>
+    <p>$P(\lambda)$ 是 $B(n,p)$ 在 $n\to\infty,p\to 0,np=\lambda$ 下的极限——但只有在 "<strong>稀疏发生</strong>"场景下才能用 Poisson 近似 $B(n,p)$。</p>
+    <p>如果 $p$ 不小（如 $p=0.5$），不能用 Poisson 近似——必须用二项本身。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · "$\lambda$ 是速率"</label>
+    <p>Poisson 中"$\lambda t$" 是 "$t$ 时间内平均到达数"——若时间单位是 1 小时，$\lambda=20$；若是 1 分钟，$\lambda=20/60$。改变时间单位必须同步改 $\lambda$。</p>
+    <p>例：1 小时 20 个，则 30 分钟内 $X\sim P(10)$（$\lambda t=20\times 0.5=10$）——<strong>不是</strong> $P(20)$。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易错 · 不要把"$\lambda$"当"概率"</label>
+    <p>$\lambda$ 可以大于 1（如 $\lambda=20$），不是概率——是"<strong>平均发生率</strong>"，单位是"次/单位时间"。Poisson 分布列用 $e^{-\lambda}$ 保证归一，$\lambda$ 再大也无妨。</p>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 自检问题</h2>
+
+  <details>
+    <summary>Q1 · $X\sim P(3)$，求 $P(X=0), P(X=2), P(X\le 1)$。</summary>
+    <p>$P(X=0)=e^{-3}\approx 0.0498$；$P(X=2)=\dfrac{3^2}{2!}e^{-3}=4.5e^{-3}\approx 0.2240$。</p>
+    <p>$P(X\le 1)=P(X=0)+P(X=1)=e^{-3}+3e^{-3}=4e^{-3}\approx 0.1991$。</p>
+  </details>
+
+  <details>
+    <summary>Q2 · 一周 7 天中，平均 3 天有顾客投诉，求"一周内恰好 2 天被投诉"的概率。</summary>
+    <p>$X\sim P(3)$，$P(X=2)=\dfrac{3^2}{2}e^{-3}=4.5e^{-3}\approx 0.224$。</p>
+    <p>理解：把"一周内某天有投诉"视为<strong>独立稀疏事件</strong>，平均 3 天有 1 次投诉。</p>
+  </details>
+
+  <details>
+    <summary>Q3 · 某路口 1 小时内平均 0.5 起事故。问"3 小时内至少 2 起事故"的概率？</summary>
+    <p>3 小时内 $\lambda t=0.5\times 3=1.5$，故 $X\sim P(1.5)$。</p>
+    <p>$P(X\ge 2)=1-P(X=0)-P(X=1)=1-e^{-1.5}-1.5e^{-1.5}=1-2.5e^{-1.5}\approx 1-2.5\times 0.2231\approx 0.4422$。</p>
+  </details>
+
+  <details>
+    <summary>Q4 · 用 Poisson 近似 $B(1000,0.005)$，求 $P(X=5)$。</summary>
+    <p>$\lambda=np=5$，$P(X=5)\approx \dfrac{5^5}{5!}e^{-5}=\dfrac{3125}{120}\cdot e^{-5}=26.04\times 0.00674\approx 0.1755$。</p>
+    <p>精确计算（B(1000, 0.005)）结果 $\approx 0.1753$——非常接近。</p>
+  </details>
+
+  <details>
+    <summary>Q5 · 为什么 Poisson 分布的均值=方差？</summary>
+    <p>$E(X)=\sum k\cdot \dfrac{\lambda^k}{k!}e^{-\lambda}=\lambda e^{-\lambda}\sum \dfrac{\lambda^{k-1}}{(k-1)!}=\lambda e^{-\lambda}\cdot e^{\lambda}=\lambda$。</p>
+    <p>$E(X^2)=\sum k^2 \dfrac{\lambda^k}{k!}e^{-\lambda}=\lambda^2+\lambda$（类似推导），故 $D(X)=E(X^2)-[E(X)]^2=\lambda$。</p>
+    <p>这种"均值=方差"是 Poisson 的<strong>指纹</strong>——数据上可用此检验数据是否 Poisson。</p>
+  </details>
+
+  <!-- ============================================ -->
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>Poisson $P(\lambda)$：$P(X=k)=\dfrac{\lambda^k}{k!}e^{-\lambda}$，$k=0,1,\dots$；均值=方差=$\lambda$；是 $B(n,p)$ 在 $n\to\infty,p\to 0,np=\lambda$ 下的极限；可加：$P(\lambda_1)+P(\lambda_2)=P(\lambda_1+\lambda_2)$。</strong>
+  </div>
+
+  <div class="pager">
+    <a href="./02-几何与负二项分布.html"><span class="label">← 上一节</span><span class="title">几何与负二项分布</span></a>
+    <a href="./04-均匀分布.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">均匀分布</span></a>
+  </div>
+
+  <footer class="bot">第 04 讲 · 03 Poisson 分布 · 融合版课件</footer>
+</div>
+</body>
+</html>
