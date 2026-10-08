@@ -1,0 +1,452 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · 有限维分布搭积木与相容性检查 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme: dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+
+  /* ===== 演示专用 ===== */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+  .tabs button{padding:8px 16px;border-radius:8px;border:1px solid var(--c-line);background:var(--c-card);color:var(--c-fg);font-size:15px;cursor:pointer;font-family:inherit}
+  .tabs button.on{background:var(--c-primary);color:#fff;border-color:var(--c-primary);font-weight:600}
+  .panel{display:none;border:1px solid var(--c-line);border-radius:10px;padding:16px 18px;margin-top:10px;background:var(--c-card)}
+  .panel.on{display:block}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  .btns button{padding:7px 14px;border-radius:8px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);font-size:14px;cursor:pointer;font-family:inherit}
+  .btns button:hover{border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .btns button.primary{background:var(--c-primary);color:#fff;border-color:var(--c-primary);font-weight:600}
+  table.joint td,table.joint th{text-align:center;padding:6px 4px;font-size:13px}
+  table.joint input{width:66px;padding:5px 4px;border:1px solid var(--c-line);border-radius:6px;background:var(--c-bg);color:var(--c-fg);font-family:ui-monospace,Consolas,monospace;font-size:13px;text-align:right}
+  table.joint input.bad{border-color:var(--c-danger);background:var(--c-danger-bg);color:var(--c-danger);font-weight:700}
+  table.joint input.ok{border-color:var(--c-accent);background:var(--c-accent-bg);color:var(--c-accent)}
+  td.sum{background:var(--c-card);font-family:ui-monospace,Consolas,monospace;font-weight:700}
+  td.sum.bad{background:var(--c-danger-bg);color:var(--c-danger)}
+  td.sum.ok{background:var(--c-accent-bg);color:var(--c-accent)}
+  .verdict{border-radius:8px;padding:12px 16px;margin:14px 0 6px;font-size:15px}
+  .verdict.ok{background:var(--c-accent-bg);border-left:4px solid var(--c-accent)}
+  .verdict.bad{background:var(--c-danger-bg);border-left:4px solid var(--c-danger)}
+  .verdict.wait{background:var(--c-card);border-left:4px solid var(--c-line)}
+  .verdict b{font-size:16px}
+  .cmp{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:13px}
+  .cmp .lb{width:72px;color:var(--c-muted);flex:0 0 auto}
+  .bar{height:16px;background:var(--c-line);border-radius:4px;flex:1 1 auto;position:relative;overflow:hidden}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--c-primary);border-radius:4px}
+  .bar i.two{background:var(--c-theorem)}
+  .cmp .vv{width:74px;text-align:right;font-family:ui-monospace,Consolas,monospace;flex:0 0 auto}
+  .cmp.bad .vv{color:var(--c-danger);font-weight:700}
+  .legend{font-size:13px;color:var(--c-muted);margin:6px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画 · 轨道族</a>
+    <a href="./动画-有限维分布搭积木.html" class="current">动画 · 分布搭积木</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 有限维分布「搭积木」与相容性检查</h1>
+  <p class="lede">这一页专治"知道有限维分布很重要，但还是不理解它"。<strong>核心动作只有一个：亲手拼一张二维概率表，看它和声称的一维分布对不对得上。</strong>对得上，这族分布就真的来自某个随机过程；对不上，就是"互相打架的假概率"，世界上根本不存在这样的过程。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 先记住这句话</span>
+    <strong>二维分布表的一行加起来 = 你声称的一维分布。</strong>这就是相容性（边缘一致）。反过来说，一维分布不是"另一份数据"，它<strong>必须</strong>是二维表的行和与列和——<strong>不是你去规定的，是被二维表逼出来的</strong>。
+  </div>
+
+  <h2>1. 背景：为什么课件要绕道"有限个时刻"</h2>
+  <div class="callout intuition">
+    <span class="label">课件的四步逻辑链</span>
+    <ol>
+      <li><strong>直接描述行不通</strong>：要完整描述一个随机过程，得知道<strong>所有可能的样本函数（路径）及其概率</strong>。而路径空间太大——一条连续曲线的取法比天上的星星还多，列不出来。</li>
+      <li><strong>换角度提问</strong>：不描述路径，改为回答"任意有限个时刻的联合分布"。$n=1$ 问一遍、$n=2$ 问一遍、$n=3$ 问一遍……问无穷多次，把答案收成一族，就叫<strong>有限维分布族</strong>。</li>
+      <li><strong>答案之间不能打架</strong>：这一族分布必须<strong>自洽</strong>——<br>· <strong>对称性</strong>：$P(AB)=P(BA)$，时刻和阈值成对重排，分布不变；<br>· <strong>相容性</strong>：<strong>联合分布能完全决定边缘分布</strong>，即 $F(t_1,\dots,t_m;\cdot)$ 必须等于 $n$ 维分布把多余变量取 $+\infty$ 的极限。</li>
+      <li><strong>Kolmogorov 扩张定理</strong>：只要这族分布<strong>不打架</strong>，就<strong>一定存在</strong>一个真实过程同时满足它们。<strong>课件称它是"随机过程理论的地基"。</strong></li>
+    </ol>
+    <p><strong>下面两个演示，就是把第 3 步和第 4 步做成能点的。</strong></p>
+  </div>
+
+  <div class="tabs">
+    <button id="tabA" class="on" onclick="goTab('A')">演示 A · 手搭分布族，检查相容性</button>
+    <button id="tabB" onclick="goTab('B')">演示 B · 从真实轨道反推分布</button>
+  </div>
+
+  <!-- ============ 演示 A ============ -->
+  <div class="panel on" id="panelA">
+    <h3>演示 A · 你来当"过程的说明书作者"</h3>
+    <p>设 $X_0,X_1$ 各取三个值 $\{-1,0,+1\}$。<strong>你的任务</strong>：分别填一张<strong>二维联合分布表</strong>和两份<strong>一维分布</strong>，然后点"检查"，看这套数字能不能来自<strong>同一个</strong>随机过程。</p>
+
+    <div class="btns">
+      <button class="primary" onclick="check()">🔍 检查相容性</button>
+      <button onclick="preset('indep')">合法：各时刻独立</button>
+      <button onclick="preset('corr')">合法：完全相关 $X_1=X_0$</button>
+      <button onclick="preset('anti')">合法：完全反相关 $X_1=-X_0$</button>
+      <button onclick="preset('bad1')">⚠ 矛盾：行和 ≠ 一维</button>
+      <button onclick="preset('bad2')">⚠ 矛盾：总和 ≠ 1</button>
+      <button onclick="clearAll()">清空</button>
+    </div>
+
+    <table class="joint" id="tJoint">
+      <tr>
+        <th style="text-align:right">$X_0\backslash X_1$</th><th>$-1$</th><th>$0$</th><th>$+1$</th>
+        <th>行和<br><span style="font-weight:400;font-size:11px">← 应等于 $X_0$ 的一维</span></th>
+      </tr>
+      <tr><th>$-1$</th><td><input id="c00" type="number" step="0.001" min="0" max="1"></td><td><input id="c01" type="number" step="0.001" min="0" max="1"></td><td><input id="c02" type="number" step="0.001" min="0" max="1"></td><td class="sum" id="r0">—</td></tr>
+      <tr><th>$0$</th><td><input id="c10" type="number" step="0.001" min="0" max="1"></td><td><input id="c11" type="number" step="0.001" min="0" max="1"></td><td><input id="c12" type="number" step="0.001" min="0" max="1"></td><td class="sum" id="r1">—</td></tr>
+      <tr><th>$+1$</th><td><input id="c20" type="number" step="0.001" min="0" max="1"></td><td><input id="c21" type="number" step="0.001" min="0" max="1"></td><td><input id="c22" type="number" step="0.001" min="0" max="1"></td><td class="sum" id="r2">—</td></tr>
+      <tr><th>列和<br><span style="font-weight:400;font-size:11px">← 应等于 $X_1$ 的一维</span></th><td class="sum" id="k0">—</td><td class="sum" id="k1">—</td><td class="sum" id="k2">—</td><td class="sum" id="tot">—</td></tr>
+    </table>
+
+    <table class="joint" id="tDec" style="margin-top:6px">
+      <tr><th style="text-align:right">你声称的一维分布</th><th>$-1$</th><th>$0$</th><th>$+1$</th><th>和</th></tr>
+      <tr><th>$X_0$</th><td><input id="d00" type="number" step="0.001" min="0" max="1"></td><td><input id="d01" type="number" step="0.001" min="0" max="1"></td><td><input id="d02" type="number" step="0.001" min="0" max="1"></td><td class="sum" id="ds0">—</td></tr>
+      <tr><th>$X_1$</th><td><input id="d10" type="number" step="0.001" min="0" max="1"></td><td><input id="d11" type="number" step="0.001" min="0" max="1"></td><td><input id="d12" type="number" step="0.001" min="0" max="1"></td><td class="sum" id="ds1">—</td></tr>
+    </table>
+
+    <div class="verdict wait" id="verdict"><b>还没检查。</b>先填两张表，再点上面的「🔍 检查相容性」。</div>
+    <div id="detail"></div>
+
+    <div class="callout intuition" style="margin-top:16px">
+      <span class="label">读这张表的正确姿势</span>
+      <p>表里每个格子是"两个随机变量同时取这组值"的概率。<strong>九个格子必须把整个世界分完</strong>——所以<strong>它们加起来必须是 1</strong>。</p>
+      <p>再看行和：把第 1 行三个格子加起来，得到的是"$X_0=-1$"这件事的总概率，<strong>不管 $X_1$ 变成了什么</strong>。所以行和<strong>必须</strong>等于你在一维分布里给 $X_0=-1$ 写的那个数。<strong>这就是相容性：联合表的行和 = 边缘分布。</strong></p>
+      <p class="lede" style="font-size:14px;color:var(--c-muted)">顺手理解"边缘"这个词：想象把二维表<strong>沿一个方向压扁</strong>，中间那道缝就是"边缘"（marginal）。压出来的形状，就是一维分布。</p>
+    </div>
+  </div>
+
+  <!-- ============ 演示 B ============ -->
+  <div class="panel" id="panelB">
+    <h3>演示 B · 让真实过程自己报出它的分布</h3>
+    <p>反过来做：<strong>先给一个真实过程，画出它的样本轨道，再从轨道上数出分布</strong>。你会发现一件很关键的事——<strong>不管换哪个过程，轨道统计出来的"一维分布"永远精确等于"二维表的行和与列和"</strong>。</p>
+
+    <div class="btns">
+      <button class="primary" id="btnConst" onclick="drawOrbits('const')">过程 1：$X(t)\equiv A$（完全相关）</button>
+      <button id="btnIndep" onclick="drawOrbits('indep')">过程 2：各时刻独立</button>
+      <button id="btnSin" onclick="drawOrbits('sin')">过程 3：随机相位正弦波</button>
+      <button id="btnAgain" onclick="redraw()">🎲 重抽一次样本</button>
+    </div>
+
+    <div style="margin:12px 0;background:var(--c-bg);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+      <svg id="orbitSvg" viewBox="0 0 680 230" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <div id="fromOrbit"></div>
+
+    <div class="callout example" style="margin-top:16px">
+      <span class="label">这一页想让你真正记住的</span>
+      <p><strong>相容性不是谁"规定"的规矩，而是"真过程"天然满足的性质。</strong>因为真实世界里 $X_0$ 和 $X_1$ 就是同一次试验里的两个数——把 $X_1$ 怎么变都加进去，当然正好回到 $X_0$ 自己。</p>
+      <p><strong>反过来说，你在纸上编造分布时，就必须自己保证这件事</strong>；忘了保证，Kolmogorov 定理立刻判定"这个过程不存在"。演示 A 的两个 ⚠ 按钮，就是给你看"违反之后会怎样"。</p>
+    </div>
+  </div>
+
+  <h2>2. 对照表：四个关键词</h2>
+  <div class="callout theorem">
+    <table>
+      <tr><th>说法</th><th>人话</th><th>不满足会怎样</th></tr>
+      <tr><td><strong>一维分布族</strong></td><td>每个时刻单独的"体检报告"，<strong>完全看不到关联</strong></td><td>不是错，只是信息太少——第 04 节的反例</td></tr>
+      <tr><td><strong>有限维分布族</strong></td><td>任意有限个人一起体检的联合报告，收集成一族</td><td>—</td></tr>
+      <tr><td><strong>对称性</strong></td><td>"甲乙"和"乙甲"是同一件事，顺序不能影响答案</td><td>相当于把 $P(AB)$ 和 $P(BA)$ 写成两个数</td></tr>
+      <tr><td><strong>相容性</strong></td><td>联合报告的<strong>边缘</strong>必须等于单独体检的结果</td><td><strong>逻辑矛盾 → 这个过程根本不存在</strong></td></tr>
+    </table>
+  </div>
+
+  <h2>3. 自检</h2>
+  <details>
+    <summary>Q1 · 我把二维表填满了九个 $1/9$，一维也写 $1/3,1/3,1/3$，为什么这是合法的？</summary>
+    <p>九个格子之和 $=9\times\frac19=1$ ✓；每行之和 $=\frac39=\frac13$，与声称的 $X_0$ 一维分布一致 ✓；每列同理 ✓。<strong>两个条件都满足</strong>，所以 Kolmogorov 定理保证存在一个过程——事实上它就是"$X_0,X_1$ <strong>相互独立</strong>且各自均匀取三个值"这个过程。<br><strong>这是"各时刻独立"在分布层面的样子。</strong></p>
+  </details>
+  <details>
+    <summary>Q2 · 演示 A 的「⚠ 矛盾：行和 ≠ 一维」到底错在哪？请用一句话说明。</summary>
+    <p>它声称"$X_0$ 均匀取三个值"，但表里的行和<strong>并不等于</strong> $\frac13$——于是"$X_0$ 的边缘分布"和"$X_0$ 自己的分布"出现了<strong>两个不同的答案</strong>。而 $X_0$ 就是 $X_0$，它不可能同时服从两个分布。<strong>矛盾，所以不存在这样的过程。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · 相容性和"总和等于 1"是同一件事吗？</summary>
+    <p><strong>不是，是两回事</strong>。<br>· "总和 $=1$"：$n$ 个<strong>格子</strong>必须把事件空间<strong>分完</strong>，这是<strong>归一性</strong>；<br>· "相容性"：<strong>行和 / 列和</strong>要与<strong>更低维的表</strong>对上，这是<strong>自洽性</strong>。</p>
+    <p>演示 A 里两个 ⚠ 按钮各主打一种病：<strong>「行和 ≠ 一维」</strong>那张表的总和<em>恰好等于</em> $1$，一维分布也<em>恰好是合法的均匀分布</em>——唯一的错就是行和对不上，所以它<strong>干净地只演示相容性被破坏</strong>；<strong>「总和 ≠ 1」</strong>那张表则是归一性先崩了，<strong>并会连带</strong>让行和/列和都对不上。</p>
+  </details>
+  <details>
+    <summary>Q4 · 为什么相容性写成"多余变量取 $+\infty$ 的极限"，而不是"取 0"？</summary>
+    <p>因为条件是 $F(t_1,\dots,t_n;x_1,\dots,x_n)=P\{X(t_i)\le x_i,\ i=1,\dots,n\}$，要让"某个条件自动满足"，就得让阈值 $\to+\infty$（任何 $X(t)$ 都 $\le+\infty$）。取极限就得到 $m$ 维分布。</p>
+    <p><strong>而特征函数版本相反，是取 0</strong>（课件第 18 页）：$\varphi_{t_1,\dots,t_n}(u_1,\dots,u_n)=\varphi_{t_1,\dots,t_m}(u_1,\dots,u_m,0,\dots,0)$。因为 $e^{j\cdot0\cdot X}=1$，多出来的因子恒等于 1，自然就"消失"了。<strong>一个取 $+\infty$、一个取 $0$，都是让多余的项自动失效。</strong></p>
+  </details>
+
+  <div class="pager">
+    <a href="./04-有限维分布.html"><span class="label">← 返回</span><span class="title">04 有限维分布</span></a>
+    <a href="./动画-过程样本轨道族.html" style="text-align:right"><span class="label">另一个动画 →</span><span class="title">一族样本轨道 ↔ 均值 ↔ 均方差带</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+
+<script>
+function goTab(k){
+  document.getElementById('tabA').className = (k==='A')?'on':'';
+  document.getElementById('tabB').className = (k==='B')?'on':'';
+  document.getElementById('panelA').className = 'panel'+((k==='A')?' on':'');
+  document.getElementById('panelB').className = 'panel'+((k==='B')?' on':'');
+  if(k==='B' && document.getElementById('orbitSvg').children.length===0) drawOrbits('const');
+}
+
+/* ---------- 演示 A ---------- */
+const IDS=['c00','c01','c02','c10','c11','c12','c20','c21','c22'];
+const DID=['d00','d01','d02','d10','d11','d12'];
+const V=['-1','0','+1'];
+const EPS=0.005;
+
+function val(id){const e=document.getElementById(id);let v=parseFloat(e.value);return isNaN(v)?0:Math.min(1,Math.max(0,v));}
+// ⚠ 不要对写入值做两位小数四舍五入：9 × 0.11 = 0.99 ≠ 1，会把"合法"误判成矛盾
+function setv(id,v){document.getElementById(id).value=v;}
+function readCells(){return IDS.map(val);}
+function readDec(){return [DID.slice(0,3).map(val),DID.slice(3).map(val)];}
+
+function clearAll(){
+  IDS.concat(DID).forEach(id=>document.getElementById(id).value='');
+  ['r0','r1','r2','k0','k1','k2','tot','ds0','ds1'].forEach(id=>document.getElementById(id).textContent='—');
+  IDS.concat(DID).forEach(id=>document.getElementById(id).className='');
+  document.getElementById('verdict').className='verdict wait';
+  document.getElementById('verdict').innerHTML='<b>还没检查。</b>先填两张表，再点上面的「🔍 检查相容性」。';
+  document.getElementById('detail').innerHTML='';
+}
+
+function preset(kind){
+  clearAll();
+  const p=new Array(9).fill(0);
+  if(kind==='indep'){for(let i=0;i<9;i++)p[i]=1/9;}
+  else if(kind==='corr'){p[0]=1/3;p[4]=1/3;p[8]=1/3;}
+  else if(kind==='anti'){p[2]=1/3;p[4]=1/3;p[6]=1/3;}
+  else if(kind==='bad1'){p[0]=0.1;p[1]=0.1;p[2]=0.1;p[3]=0.1;p[4]=0.1;p[5]=0.1;p[6]=0.1;p[7]=0.1;p[8]=0.2;}
+  else if(kind==='bad2'){p[0]=0.3;p[4]=0.3;p[8]=0.3;}
+  IDS.forEach((id,i)=>setv(id,p[i]));
+  // 无论哪种预设，一维分布都声称"均匀"——这样两个 ⚠ 按钮各自只暴露一种病：
+  // bad1 的总和恰好 = 1（只错在行和 ≠ 一维 = 相容性），bad2 的行和恰好 = 1/3（只错在总和 ≠ 1 = 归一性）
+  for(let i=0;i<3;i++){setv(DID[i],1/3);setv(DID[3+i],1/3);}
+  check();
+}
+
+function bar(label,actual,declared,bad){
+  const max=Math.max(actual,declared,0.0001);
+  return '<div class="cmp'+(bad?' bad':'')+'"><span class="lb">'+label+'</span>'+
+    '<span class="bar"><i style="width:'+(actual/max*100).toFixed(1)+'%"></i></span>'+
+    '<span class="vv">'+actual.toFixed(2)+'</span></div>'+
+    '<div class="cmp'+(bad?' bad':'')+'"><span class="lb"></span>'+
+    '<span class="bar"><i class="two" style="width:'+(declared/max*100).toFixed(1)+'%"></i></span>'+
+    '<span class="vv">'+declared.toFixed(2)+'</span></div>';
+}
+
+function check(){
+  const p=readCells(), [d0,d1]=readDec();
+  const rows=[0,1,2].map(i=>p[3*i]+p[3*i+1]+p[3*i+2]);
+  const cols=[0,1,2].map(j=>p[j]+p[j+3]+p[j+6]);
+  const total=rows.reduce((a,b)=>a+b,0);
+  const s0=d0.reduce((a,b)=>a+b,0), s1=d1.reduce((a,b)=>a+b,0);
+
+  ['r0','r1','r2'].forEach((id,i)=>{const e=document.getElementById(id);e.textContent=rows[i].toFixed(2);e.className='sum'+(Math.abs(rows[i]-d0[i])>EPS?' bad':' ok');});
+  ['k0','k1','k2'].forEach((id,j)=>{const e=document.getElementById(id);e.textContent=cols[j].toFixed(2);e.className='sum'+(Math.abs(cols[j]-d1[j])>EPS?' bad':' ok');});
+  const te=document.getElementById('tot');te.textContent=total.toFixed(2);te.className='sum'+(Math.abs(total-1)>EPS?' bad':' ok');
+  const e0=document.getElementById('ds0');e0.textContent=s0.toFixed(2);e0.className='sum'+(Math.abs(s0-1)>EPS?' bad':' ok');
+  const e1=document.getElementById('ds1');e1.textContent=s1.toFixed(2);e1.className='sum'+(Math.abs(s1-1)>EPS?' bad':' ok');
+
+  const badRows=rows.filter((r,i)=>Math.abs(r-d0[i])>EPS).length;
+  const badCols=cols.filter((c,j)=>Math.abs(c-d1[j])>EPS).length;
+  const badNorm=Math.abs(total-1)>EPS;
+  const badD0=Math.abs(s0-1)>EPS, badD1=Math.abs(s1-1)>EPS;
+  const ok = !badRows && !badCols && !badNorm && !badD0 && !badD1;
+
+  IDS.forEach((id,i)=>{const badCell = Math.abs(p[i])< -1;document.getElementById(id).className='';});
+  const v=document.getElementById('verdict');
+  let html='';
+  if(ok){
+    v.className='verdict ok';
+    html='<b>✅ 这族分布自洽 —— 世界上真的存在这样的随机过程。</b><br>九个格子加起来 = 1，每一行都等于你声称的 $X_0$ 分布，每一列都等于你声称的 $X_1$ 分布。'+
+         '<strong>Kolmogorov 扩张定理保证：存在一个概率空间和其上的过程，它的有限维分布恰好是这一族。</strong>';
+  }else{
+    v.className='verdict bad';
+    const reasons=[];
+    if(badNorm)reasons.push('九个格子加起来是 <strong>'+total.toFixed(2)+'</strong>，不等于 1 —— <strong>归一性被破坏</strong>，这堆数字连"概率"都算不上');
+    if(badD0)reasons.push('你声称的 $X_0$ 一维分布加起来是 '+s0.toFixed(2)+'，不等于 1');
+    if(badD1)reasons.push('你声称的 $X_1$ 一维分布加起来是 '+s1.toFixed(2)+'，不等于 1');
+    if(badRows)reasons.push('有 <strong>'+badRows+' 行</strong>的行和与你声称的 $X_0$ 分布对不上 —— <strong>相容性被破坏</strong>');
+    if(badCols)reasons.push('有 <strong>'+badCols+' 列</strong>的列和与你声称的 $X_1$ 分布对不上 —— <strong>相容性被破坏</strong>');
+    html='<b>❌ 这套数字互相打架 —— 不存在这样的随机过程。</b><br>'+reasons.join('；<br>')+'。';
+  }
+  v.innerHTML=html;
+
+  let d='<div style="font-size:13px;color:var(--c-muted);margin-top:10px">蓝色 = 表里算出来的行/列和，紫色 = 你声称的一维分布，两者应当逐项相等：</div>';
+  for(let i=0;i<3;i++)d+=bar('$X_0$='+V[i],rows[i],d0[i],Math.abs(rows[i]-d0[i])>EPS);
+  for(let j=0;j<3;j++)d+=bar('$X_1$='+V[j],cols[j],d1[j],Math.abs(cols[j]-d1[j])>EPS);
+  document.getElementById('detail').innerHTML=d;
+}
+
+/* ---------- 演示 B ---------- */
+const NB=3, BINS=[-1,0,1], TIMES=[0,0.5,1];
+let curProc='const', lastTracks=[];
+
+function rnd(){return Math.random();}
+function bin(v){return v<-0.5?0:(v<0.5?1:2);}
+
+function genTracks(proc,N){
+  const tr=[];
+  for(let k=0;k<N;k++){
+    if(proc==='const'){const A=rnd();tr.push(TIMES.map(()=>A));}
+    else if(proc==='indep'){tr.push(TIMES.map(()=>rnd()));}
+    else{const th=2*Math.PI*rnd();tr.push(TIMES.map(t=>0.5+0.5*Math.cos(2*Math.PI*t+th)));}
+  }
+  return tr;
+}
+
+function drawOrbits(proc){curProc=proc;redraw();}
+function redraw(){
+  const N=12, tracks=genTracks(curProc,N);
+  lastTracks=tracks;
+  const X0=60,X1=640,BASE=170,TOP=60;      // BASE = v0 的屏幕高度，TOP = v1 的屏幕高度（向上为高）
+  const px=t=>X0+(X1-X0)*t, py=v=>BASE-(BASE-TOP)*v;
+  let s='';
+  for(let i=0;i<=4;i++){const gx=px(i/4);s+='<line x1="'+gx.toFixed(1)+'" y1="45" x2="'+gx.toFixed(1)+'" y2="'+(BASE+5)+'" stroke="#d0d7de" stroke-width="0.6"/>';}
+  [0,0.5,1].forEach(v=>{const gy=py(v);s+='<line x1="50" y1="'+gy.toFixed(1)+'" x2="650" y2="'+gy.toFixed(1)+'" stroke="#d0d7de" stroke-width="0.6"/>';});
+  s+='<line x1="60" y1="'+(BASE+5)+'" x2="650" y2="'+(BASE+5)+'" stroke="#57606a" stroke-width="0.8"/>';
+  s+='<line x1="60" y1="45" x2="60" y2="'+(BASE+5)+'" stroke="#57606a" stroke-width="0.8"/>';
+  [0,0.5,1].forEach(v=>{const gy=py(v);s+='<text x="54" y="'+(gy+4).toFixed(1)+'" font-size="11" fill="#57606a" text-anchor="end">'+v.toFixed(1)+'</text>';});
+  TIMES.forEach((t,i)=>{const gx=px(t);s+='<text x="'+gx.toFixed(1)+'" y="'+(BASE+24)+'" font-size="11" fill="#57606a" text-anchor="middle">t='+t+'</text>';});
+  const names={const:'过程 1：X(t) ≡ A（完全相关）',indep:'过程 2：各时刻独立',sin:'过程 3：随机相位正弦波'};
+  s+='<text x="60" y="26" font-size="13" fill="#1f2328">'+names[curProc]+'　（'+N+' 条样本轨道）</text>';
+  tracks.forEach(tr=>{
+    const pts=tr.map((v,i)=>px(TIMES[i]).toFixed(1)+','+py(v).toFixed(1)).join(' ');
+    s+='<polyline points="'+pts+'" fill="none" stroke="#0969da" stroke-width="1.2" opacity="0.75"/>';
+    tr.forEach((v,i)=>{s+='<circle cx="'+px(TIMES[i]).toFixed(1)+'" cy="'+py(v).toFixed(1)+'" r="3" fill="#1a7f37"/>';});
+  });
+  s+='<text x="655" y="'+(BASE+4)+'" font-size="12" fill="#57606a">X</text>';
+  s+='<circle cx="60" cy="218" r="3" fill="#1a7f37"/><text x="68" y="222" font-size="11" fill="#57606a">绿点 = 三个采样时刻的取值，下一张表就是从这些点数出来的</text>';
+  document.getElementById('orbitSvg').innerHTML=s;
+  buildFromOrbit(tracks);
+}
+
+function buildFromOrbit(tracks){
+  const N=tracks.length;
+  // 一维经验分布（把 N×3 个取值全部混在一起数）
+  const hist0=[0,0,0], hist1=[0,0,0];
+  tracks.forEach(tr=>{hist0[bin(tr[0])]++;hist1[bin(tr[2])]++;});
+  hist0.forEach((v,i)=>hist0[i]=v/N); hist1.forEach((v,i)=>hist1[i]=v/N);
+  // 二维联合表（行=X0，列=X1）
+  const J=[[0,0,0],[0,0,0],[0,0,0]];
+  tracks.forEach(tr=>{J[bin(tr[0])][bin(tr[2])]++;});
+  J.forEach((r,i)=>r.forEach((v,j)=>J[i][j]=v/N));
+  const rows=[0,1,2].map(i=>J[i][0]+J[i][1]+J[i][2]);
+  const cols=[0,1,2].map(j=>J[0][j]+J[1][j]+J[2][j]);
+
+  let h='<h3>从这 '+N+' 条轨道上"数"出来的分布</h3>';
+  h+='<div style="font-size:14px">① <strong>二维联合分布表</strong>（行 = $X(0)$，列 = $X(1)$，数字是频率）</div>';
+  h+='<table class="joint"><tr><th style="text-align:right">$X(0)\\backslash X(1)$</th><th>$-1$</th><th>$0$</th><th>$+1$</th><th style="color:var(--c-accent)">行和</th></tr>';
+  for(let i=0;i<3;i++){
+    h+='<tr><th>$'+V[i]+'$</th>';
+    for(let j=0;j<3;j++)h+='<td style="font-family:ui-monospace,Consolas,monospace">'+(J[i][j]*100).toFixed(0)+'%</td>';
+    h+='<td class="sum ok">'+(rows[i]*100).toFixed(0)+'%</td></tr>';
+  }
+  h+='<tr><th style="color:var(--c-accent)">列和</th>'+cols.map(c=>'<td class="sum ok">'+(c*100).toFixed(0)+'%</td>').join('')+'<td class="sum ok">100%</td></tr></table>';
+
+  h+='<div style="font-size:14px;margin-top:10px">② <strong>分别单独数</strong> $X(0)$ 的 12 个值、$X(1)$ 的 12 个值，得到两份一维分布：</div>';
+  h+='<div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:6px">';
+  [['X(0)',hist0],['X(1)',hist1]].forEach(([nm,h0])=>{
+    h+='<div style="min-width:220px"><div style="font-size:13px;color:var(--c-muted)">'+nm+' 的一维分布</div>';
+    h0.forEach((v,i)=>{
+      const ref = nm==='X(0)'?rows[i]:cols[i];
+      const bad = Math.abs(v-ref)>0.005;
+      h+='<div class="cmp"><span class="lb">值 = '+V[i]+'</span><span class="bar"><i style="width:'+(v/Math.max(0.001,v,ref)*100).toFixed(0)+'%"></i></span><span class="vv">'+v.toFixed(2)+'</span></div>';
+      h+='<div class="cmp'+(bad?' bad':'')+'"><span class="lb"></span><span class="bar"><i class="two" style="width:'+(ref/Math.max(0.001,v,ref)*100).toFixed(0)+'%"></i></span><span class="vv">'+ref.toFixed(2)+'</span></div>';
+    });
+    h+='<div class="legend">紫条 = 上表的行和/列和</div></div>';
+  });
+  h+='</div>';
+
+  h+='<div class="callout example" style="margin-top:14px"><span class="label">看到了什么</span>'+
+     '<p>两份一维分布与二维表的行和、列和<strong>逐项相等</strong>（差值只来自四舍五入）。</p>'+
+     '<p><strong>这不是巧合，正是相容性。</strong>真实世界里 $X(0)$ 与 $X(1)$ 是同一次试验里的两个数——你把"不管 $X(1)$ 怎样"都加进去，得到的当然是 $X(0)$ 自己。</p>'+
+     '<p>再点上方三个按钮切换过程：<strong>完全相关</strong>时概率全压在主对角线上，<strong>各时刻独立</strong>时概率均匀铺满整格——<strong>行和始终等于 $X(0)$ 的一维分布</strong>。这就是"一维分布相同、联合分布天差地别"的可操作版本。</p></div>';
+  document.getElementById('fromOrbit').innerHTML=h;
+}
+
+/* 启动：支持用地址栏 #A / #B 直接打开某个演示（方便分享与截图验证）。
+   必须放在整个脚本的最末尾——goTab('B') 会调用 drawOrbits，它依赖上面用 let 声明的 curProc，
+   提前触发会抛 "Cannot access 'curProc' before initialization"。 */
+(function(){
+  const h=location.hash;
+  if(h==='#B') goTab('B');
+  else if(h==='#A') goTab('A');
+})();
+</script>
+</body>
+</html>

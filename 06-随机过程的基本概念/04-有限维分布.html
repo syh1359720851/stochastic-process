@@ -86,7 +86,8 @@
     <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
     <a href="./15-正态过程.html">15 正态过程</a>
     <a href="./16-维纳过程.html">16 维纳过程</a>
-    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./动画-过程样本轨道族.html">动画 · 轨道族</a>
+    <a href="./动画-有限维分布搭积木.html">动画 · 分布搭积木</a>
     <a href="./自测.html">自测</a>
   </nav>
 
@@ -99,15 +100,48 @@
   </div>
 
   <h2>1. 直观含义</h2>
+
   <div class="callout intuition">
-    <span class="label">直观含义</span>
-    <p>把过程想成一台"随机曲线生成器"。</p>
+    <span class="label">直观含义 · 这是一个"提问"的问题，不是一个"定义"的问题</span>
+    <p>想把一个随机过程说清楚，说到底就是<strong>回答无穷多个问题</strong>。第 $k$ 个问题是：<strong>"在时刻 $t_k$，$X$ 等于多少？"</strong></p>
     <ul>
-      <li><strong>一维分布</strong>只说"在时刻 $t$，出来的数大概是多少"——这是"逐点快照"。</li>
-      <li><strong>二维分布</strong>说"在时刻 $s$ 和 $t$，出来的两个数<strong>一起</strong>大概是什么样"——开始带上<strong>关联</strong>信息：是"两个数接近"还是"各管各的"。</li>
-      <li><strong>$n$ 维分布</strong>说"$n$ 个时刻一起看是什么样"——关联越复杂，需要越高的维度才能刻画完整。</li>
-      <li>把<strong>所有</strong> $n$ 维分布送到你手上，你就完整地掌握了这台生成器。<strong>这就是"有限维分布族决定随机过程"的含义。</strong></li>
+      <li><strong>一维分布</strong>只回答了<strong>每一个问题单独问</strong>时的答案——"t=0.3 时大概是多少"、"t=0.7 时大概是多少"。这是"逐点快照"。</li>
+      <li><strong>它漏掉了什么？</strong>漏掉"<strong>两个一起问</strong>"的答案："t=0.3 和 t=0.7 <em>同时</em>取值时，它们俩是<strong>一起高一起低</strong>，还是<strong>各走各的</strong>？"</li>
+      <li><strong>二维分布</strong>就是第二类问题的答案集合；<strong>$n$ 维分布</strong>就是"$n$ 个一起问"的答案集合。</li>
+      <li>把所有这类答案收成一族，就叫<strong>有限维分布族</strong>——<strong>它完整地回答了全部无穷多个问题</strong>。</li>
     </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">立刻体验 · <a href="./动画-有限维分布搭积木.html">动画「有限维分布搭积木」</a></span>
+    <p>那一页把这个"提问"变成了可以动手的操作：<strong>你自己手填一张 $3\times3$ 的二维概率表和两份一维分布，点一下"检查相容性"</strong>，系统会告诉你这套数字能不能来自一个<strong>真实存在</strong>的随机过程。</p>
+    <p>还有一个更关键的演示（B 面板）：<strong>先画真实过程的样本轨道，再从轨道上数出分布</strong>——你会看到"一维分布"永远精确等于"二维表的行和与列和"。<strong>相容性不是谁规定的规矩，是"真过程"天然满足的性质。</strong></p>
+  </div>
+
+  <h3>1.1 课件（彭江燕 §1.1.4）是按这四步讲的</h3>
+  <div class="callout theorem">
+    <span class="label">课件原文逻辑链</span>
+    <ol>
+      <li><strong>先承认直接描述行不通</strong>——课件原话：<em>"直接描述：需要知道所有可能的样本函数（路径）及其概率。这几乎不可能，因为路径空间太大。"</em></li>
+      <li><strong>换个角度</strong>——<em>"定理的思路：换一个角度——不直接描述路径，而是描述'任意有限个时刻的联合分布'。"</em></li>
+      <li><strong>答案要自洽</strong>——对称性（<em>"因事件乘积满足交换律 $P(AB)=P(BA)$"</em>）与相容性（<em>"联合分布函数能完全确定边缘分布函数"</em>）。</li>
+      <li><strong>不打架就一定存在</strong>——Kolmogorov 存在定理，课件称其为<strong>"随机过程理论的'地基'"</strong>。</li>
+    </ol>
+    <p><strong>为什么必须绕这一圈？</strong>因为路径是"看不见摸不着"的东西（一条连续曲线有无穷多个取法），而"某几个时刻的联合分布"是<strong>可以用实验数出来的具体数字</strong>。绕道之后，我们描述的对象从"不可数的曲线"变成了"可测可算的分布函数族"。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">课件举的六个例子 · 同一个定理，六种应用</span>
+    <table>
+      <tr><th>领域</th><th>随机过程</th><th>有限维分布是什么</th><th>定理保证了什么</th></tr>
+      <tr><td>经典概率</td><td>布朗运动</td><td>多元正态分布</td><td>布朗运动存在</td></tr>
+      <tr><td>机器学习</td><td>高斯过程</td><td>多元正态分布</td><td>高斯过程存在</td></tr>
+      <tr><td>深度学习</td><td>扩散模型</td><td>马尔可夫链的联合分布</td><td>前向过程存在</td></tr>
+      <tr><td>人工智能</td><td>语言模型</td><td>自回归分解 $\prod_{k=1}^{n}P(\xi_k\mid\xi_{&lt;k})$</td><td>文本生成过程存在</td></tr>
+      <tr><td>金融</td><td>几何布朗运动</td><td>对数正态分布</td><td>股价模型存在</td></tr>
+      <tr><td>通信</td><td>泊松过程</td><td>泊松分布</td><td>到达过程存在</td></tr>
+    </table>
+    <p><strong>语言模型这一行值得停下来看</strong>：LLM 从不定义"所有可能文本的概率"，而是用<strong>自回归分解</strong>指定"任意 $n$ 个位置的联合分布"——$P(\xi_1,\dots,\xi_n)=\prod_{k=1}^{n}P(\xi_k\mid\xi_1,\dots,\xi_{k-1})$。这个分解之所以合法，靠的正是相容性：<strong>它天然满足"前 $m$ 项的联合分布 = 从 $n$ 项里把后面的取 $+\infty$"</strong>。</p>
   </div>
 
   <h2>2. 严格定义</h2>
@@ -155,15 +189,53 @@
     <ol>
       <li><strong>对称性（可交换）</strong>：对 $\{1,\dots,n\}$ 的任一排列 $\pi$，
       $$F(t_{\pi(1)},\dots,t_{\pi(n)};x_{\pi(1)},\dots,x_{\pi(n)})=F(t_1,\dots,t_n;x_1,\dots,x_n)$$
-      即"时刻与阈值必须成对重排"。</li>
-      <li><strong>相容性（边缘一致）</strong>：$m&lt;n$ 时，把 $n$ 维分布中"多余的"变量取 $+\infty$，必须回到 $m$ 维分布：
-      $$F(t_1,\dots,t_m,\underbrace{+\infty,\dots,+\infty}_{n-m}\ ;\ x_1,\dots,x_m,\underbrace{+\infty,\dots,+\infty}_{n-m})=F(t_1,\dots,t_m;x_1,\dots,x_m)$$</li>
+      → 课件的解释只有一句：<strong>"因事件乘积满足交换律 $P(AB)=P(BA)$"</strong>。时刻和阈值必须<strong>成对</strong>重排。</li>
+      <li><strong>相容性（边缘一致）</strong>：$m<n$ 时，把 $n$ 维分布中"多余的"变量取 $+\infty$，必须回到 $m$ 维分布：
+      $$F(t_1,\dots,t_m,\underbrace{+\infty,\dots,+\infty}_{n-m}\ ;\ x_1,\dots,x_m,\underbrace{+\infty,\dots,+\infty}_{n-m})=F(t_1,\dots,t_m;x_1,\dots,x_m)$$
+      → 课件的解释：<strong>"联合分布函数能完全确定边缘分布函数"</strong>。</li>
     </ol>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">相容性的画面 · "边缘"就是把二维表压扁</span>
+    <p>设 $X_0,X_1$ 各取三个值。把二维分布写成 $3\times3$ 的概率表：</p>
+    <table>
+      <tr><th>$X_0\backslash X_1$</th><th>$-1$</th><th>$0$</th><th>$+1$</th><th style="background:var(--c-accent-bg)"><strong>行和</strong></th></tr>
+      <tr><td>$-1$</td><td>$p_{11}$</td><td>$p_{12}$</td><td>$p_{13}$</td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{11}+p_{12}+p_{13}$</strong></td></tr>
+      <tr><td>$0$</td><td>$p_{21}$</td><td>$p_{22}$</td><td>$p_{23}$</td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{21}+p_{22}+p_{23}$</strong></td></tr>
+      <tr><td>$+1$</td><td>$p_{31}$</td><td>$p_{32}$</td><td>$p_{33}$</td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{31}+p_{32}+p_{33}$</strong></td></tr>
+      <tr><td style="background:var(--c-accent-bg)"><strong>列和</strong></td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{11}+p_{21}+p_{31}$</strong></td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{12}+p_{22}+p_{32}$</strong></td><td class="sum" style="background:var(--c-accent-bg)"><strong>$p_{13}+p_{23}+p_{33}$</strong></td><td class="sum"><strong>$1$</strong></td></tr>
+    </table>
+    <ul>
+      <li><strong>行和的含义</strong>："$X_0=-1$"这件事发生了，<strong>不管 $X_1$ 变成什么</strong>。所以行和<strong>必须</strong>等于你在一维分布里给 $X_0$ 写的那个数。</li>
+      <li><strong>列和同理</strong>：必须等于 $X_1$ 的一维分布。</li>
+      <li><strong>右下角必须是 $1$</strong>：九个格子把整个样本空间分完了，加起来必须是 $1$——这是<strong>归一性</strong>，与相容性是两件事。</li>
+    </ul>
+    <p><strong>"边缘（marginal）"这个词就来自这张图</strong>：把二维表沿一个方向<strong>压扁</strong>，中间留下的那道缝叫边缘，压出来的形状就是一维分布。</p>
+    <p><strong>相容性的真正分量</strong>：<strong>一维分布不是"另一份可以随便填的数据"，它是被二维表逼出来的。</strong>你在纸上编分布时若忘了让行和与一维对上，就等于同时宣称"$X_0$ 服从分布 A"和"$X_0$ 服从分布 B"——<strong>逻辑矛盾，所以不存在这样的过程。</strong></p>
+    <p class="lede" style="font-size:14px;color:var(--c-muted)">动手版：<a href="./动画-有限维分布搭积木.html">动画「有限维分布搭积木」演示 A</a>，四个预设按钮分别对应"独立 / 完全相关 / 完全反相关 / 两种矛盾"，点开看高亮。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">为什么取 $+\infty$，而特征函数里取 $0$？</span>
+    <p>相容性的目的是"让多余的变量<strong>自动失效</strong>"，两种写法各有一套机制：</p>
+    <p><strong>① 分布函数版本取 $+\infty$</strong>：条件是 $X(t_i)\le x_i$，要让"某个 $X\le x$"恒成立，只能让阈值 $\to+\infty$（任何数都 $\le+\infty$）。课件写成极限形式：</p>
+    $$F(t_1,\dots,t_m;x_1,\dots,x_m)=\lim_{x_{m+1},\dots,x_n\to\infty}F(t_1,\dots,t_n;x_1,\dots,x_m,x_{m+1},\dots,x_n)$$
+    <p><strong>② 特征函数版本取 $0$</strong>（课件第 18 页）：</p>
+    $$\varphi_{t_1,\dots,t_m}(u_1,\dots,u_m)=\varphi_{t_1,\dots,t_n}(u_1,\dots,u_m,\underbrace{0,\dots,0}_{n-m})$$
+    <p>因为多出来的因子 $e^{j\cdot 0\cdot X}=1$，<strong>恒等于 $1$ 自然被消掉</strong>。同时特征函数族也要满足同样的<strong>对称性</strong>：$\varphi_{t_{\pi(1)},\dots,t_{\pi(n)}}(u_{\pi(1)},\dots,u_{\pi(n)})=\varphi_{t_1,\dots,t_n}(u_1,\dots,u_n)$。</p>
+    <p><strong>一句话</strong>：一个取 $+\infty$、一个取 $0$，目的都是让多余的项自动失效——这正是"特征函数与分布函数互相唯一确定"这件事在多维情形下的表现。</p>
   </div>
 
   <div class="callout theorem">
     <span class="label">定理 · Kolmogorov 扩张定理（存在性）</span>
     <p>反过来，若给定一个定义在所有有限时刻组合上的分布族，且满足上述<strong>对称性</strong>与<strong>相容性</strong>，则一定<strong>存在</strong>一个概率空间 $(\Omega,\mathcal F,P)$ 和其上的随机过程 $\{X(t),\ t\in T\}$，使得它的有限维分布恰好就是这个分布族。</p>
+    <p><strong>课件的三句"直观理解"</strong>（值得逐字记住）：</p>
+    <ul>
+      <li>"只要你能给出一族<strong>不矛盾</strong>的有限维分布，就一定能构造出一个随机过程，使得这些分布恰好是它的有限维分布。"</li>
+      <li>"定理是<strong>存在性</strong>的保证：它不告诉你如何构造随机过程，只告诉你'如果有限维分布满足条件，那么随机过程存在'。"</li>
+      <li>"柯尔莫哥洛夫随机过程存在定理是随机过程理论的<strong>地基</strong>。"</li>
+    </ul>
     <p><strong>意义</strong>：这定理说明"<strong>给定有限维分布族</strong>"和"<strong>给定一个随机过程</strong>"在数学上是<strong>等价</strong>的。它是整门课的地基——后面每次说"我们来构造一个过程，它的分布满足……"，合法性都由它保证。</p>
   </div>
 
