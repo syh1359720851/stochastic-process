@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 宽平稳过程 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 10</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html" class="current">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>10 · 宽平稳过程</h1>
+  <p class="lede">工程与信号处理里最常用的一个词：<strong>"这个信号是平稳的"</strong>。但"平稳"至少有三种意思——<strong>增量平稳</strong>（第 14 节的维纳过程、Poisson 过程有）、<strong>宽平稳</strong>（本节：均值常数 + 协方差只依赖时间差）、<strong>严平稳</strong>（下一节：有限维分布平移不变）。三者强弱不同、名字极易混淆，这一页要把它们彻底分开。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>宽平稳 = 均值是常数 + 协方差只依赖时间差 $\tau=s-t$。</strong>方差 $D(t)=C(t,t)=C(0)$ 因此自动是常数——课件那句"思考：方差函数呢？"就是这个意思。检验方法：<strong>把 $s$ 固定取三组，画出 $R(s,\cdot)$，看三条曲线是不是同一形状的平移</strong>；不是，就不平稳。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · "从什么时候开始看都一样"</span>
+    <ul>
+      <li><strong>物理图像</strong>：稳态运行的机器——它的输出电压、车间温度、无线信道噪声。无论你在 8:00 记录还是 20:00 记录，统计规律（平均水平、波动幅度、隔多久开始相关）应该一样。</li>
+      <li><strong>两条数学要求</strong>：① <strong>均值 $m(t)=m$ 不随时间变</strong>——没有上升或下降的趋势；② <strong>协方差 $C(s,t)$ 只依赖时间差</strong>——"隔 $\tau$ 的两个时刻有多相关"这个问题，答案与它们发生在几点无关。</li>
+      <li><strong>为什么工程上够用</strong>：第 11 节会证明，严平稳需要检验"所有有限维分布"，实际上无法验证；而宽平稳只用到前两阶矩，<strong>可测量、可计算、可建模</strong>。这就是它统治信号处理与通信领域的原因。</li>
+    </ul>
+  </div>
+
+  <h2>2. 定义 · 宽平稳过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义（彭江燕课件）· 宽（广义、弱）平稳过程</span>
+    <p>设 $\{X(t),t\in T\}$ 是<strong>复值二阶矩过程</strong>，满足</p>
+    <ol>
+      <li><strong>均值函数（常数）</strong>：$m(t)=E(X_t)=m$，$t\in T$；</li>
+      <li><strong>协方差函数</strong>：$C(s,t)=C(s-t)$，$s,t\in T$——仅与 $s-t$ 有关，与 $s$、$t$ 本身无关。</li>
+    </ol>
+    <p>称为<strong>宽（或广义、或弱）平稳过程</strong>，通常简称<strong>平稳过程</strong>。课件此处提了一个思考题：<strong>"方差函数呢？"</strong> 答案：</p>
+    $$D(t)=C(t,t)=C(t-t)=C(0)=\text{常数}=\sigma^2$$
+    <p>所以<strong>宽平稳过程自动满足"方差恒定"</strong>——它不是额外条件，而是条件 (2) 在 $s=t$ 处的推论。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">等价的三个条件（考试最常用）</span>
+    <p>下面三条与上面的定义<strong>互相等价</strong>：</p>
+    <ol>
+      <li>$m(t)=m$（常数），$D(t)=D$（常数），且 $R(s,t)=R(s-t)$（只依赖时间差）；</li>
+      <li>$m(t)=m$（常数），$C(s,t)=C(s-t)$；</li>
+      <li>$m(t)=m$（常数），$D(t)=D$（常数），且 $C(s,t)=C(s-t)$。</li>
+    </ol>
+    <p><strong>为什么 (1) ⇔ (2)：</strong>$C(s,t)=R(s,t)-m(s)m(t)=R(s-t)-m^2$，$m$ 是常数所以 $m^2$ 也是常数；要 $C$ 只依赖时间差，就得 $R(s,t)-R(s-t)$ 只依赖时间差，而 $R$ 与 $C$ 只差常数。特别地，<strong>零均值宽平稳过程满足 $R(s,t)=C(s,t)=R(\tau)$</strong>（$\tau=s-t$），此时非负定性又给出 <strong>$R(\tau)=R(-\tau)$ 是偶函数</strong>（第 09 节）。</p>
+    <p>在零均值情形，三条条件可以进一步压缩成一句"<strong>二阶数字特征全部与时间无关</strong>"。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">易混 · "平稳" ≠ "平稳增量"</span>
+    <p>维纳过程与 Poisson 过程都叫"<strong>平稳独立增量过程</strong>"，但它们<strong>都不是</strong>宽平稳过程——因为 $D(t)=\sigma^2t$（或 $\lambda t$）不是常数。<strong>"平稳增量"约束的是两个时刻之差 $X(t+h)-X(s)$ 的分布，"宽平稳"约束的是两个时刻本身 $X(s),X(t)$ 的关联。</strong>一个是增量层面，一个是过程层面，完全不同的东西。</p>
+  </div>
+
+  <h2>3. 判定方法 · 一张图分清</h2>
+  <div class="callout intuition">
+    <span class="label">检验步骤</span>
+    <p>宽平稳的判据是"$R(s,t)=R(\tau)$"。把它写成 $t$ 的函数、固定几个不同的 $s$：<strong>如果宽平稳成立，这几条曲线必须只是同一条曲线的水平平移</strong>。下图左panel是宽平稳的样子，右panel是非宽平稳的反例——三条曲线形状都不一样。</p>
+  </div>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 700 300" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>宽平稳与非宽平稳过程的 R(s,t) 切片对比</title>
+      <desc>左图为宽平稳过程，R 只依赖时间差 tau，是一条偶函数曲线。右图为反例 Y(t)=U cos(t²)+V sin(t²)，其自相关 cos(t²−s²) 对固定 s 的三条切片曲线形状各异，说明它依赖绝对时间而非仅时间差。</desc>
+
+      <text x="175" y="22" font-size="13" fill="#1a7f37" text-anchor="middle">宽平稳：R(τ) 一条曲线搞定</text>
+      <line x1="50" y1="86" x2="300" y2="86" stroke="#d0d7de" stroke-width="0.7" stroke-dasharray="4 3"/>
+      <line x1="50" y1="154" x2="300" y2="154" stroke="#d0d7de" stroke-width="0.7" stroke-dasharray="4 3"/>
+      <line x1="50" y1="120" x2="300" y2="120" stroke="#57606a" stroke-width="0.9"/>
+      <polyline points="60.0,120.0 65.2,112.7 70.5,105.5 75.7,98.5 80.9,91.8 86.1,85.3 91.4,79.2 96.6,73.7 101.8,68.6 107.0,64.1 112.3,60.3 117.5,57.2 122.7,54.8 128.0,53.1 133.2,52.2 138.4,52.0 143.6,52.7 148.9,54.1 154.1,56.3 159.3,59.2 164.5,62.8 169.8,67.1 175.0,71.9 180.2,77.3 185.5,83.2 190.7,89.6 195.9,96.2 201.1,103.2 206.4,110.3 211.6,117.6 216.8,124.9 222.0,132.1 227.3,139.2 232.5,146.0 237.7,152.6 243.0,158.8 248.2,164.5 253.4,169.8 258.6,174.4 263.9,178.5 269.1,181.9 274.3,184.5 279.5,186.4 284.8,187.6 290.0,188.0" fill="none" stroke="#8250df" stroke-width="2"/>
+      <line x1="138.4" y1="120" x2="138.4" y2="52" stroke="#cf222e" stroke-width="0.8" stroke-dasharray="3 2"/>
+      <circle cx="138.4" cy="52" r="3.2" fill="#cf222e"/>
+      <text x="143" y="45" font-size="11" fill="#cf222e">R(0)=σ²（峰值）</text>
+      <text x="44" y="90" font-size="11" fill="#57606a" text-anchor="end">0.5</text>
+      <text x="44" y="158" font-size="11" fill="#57606a" text-anchor="end">−0.5</text>
+      <text x="60" y="136" font-size="11" fill="#57606a" text-anchor="middle">−0.5</text>
+      <text x="138" y="136" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="213" y="136" font-size="11" fill="#57606a" text-anchor="middle">0.5</text>
+      <text x="290" y="136" font-size="11" fill="#57606a" text-anchor="middle">1</text>
+      <text x="175" y="152" font-size="12" fill="#57606a" text-anchor="middle">时间差 τ</text>
+      <text x="175" y="272" font-size="11" fill="#1a7f37" text-anchor="middle">无论固定哪个 s，R(s,t) 都只是这条曲线平移</text>
+
+      <line x1="340" y1="30" x2="340" y2="270" stroke="#d0d7de" stroke-width="0.8"/>
+
+      <text x="520" y="22" font-size="13" fill="#cf222e" text-anchor="middle">反例 Y(t)=U cos(t²)+V sin(t²)</text>
+      <line x1="390" y1="80" x2="650" y2="80" stroke="#57606a" stroke-width="0.7"/>
+      <line x1="390" y1="150" x2="650" y2="150" stroke="#57606a" stroke-width="0.7"/>
+      <line x1="390" y1="220" x2="650" y2="220" stroke="#57606a" stroke-width="0.7"/>
+      <polyline points="400.0,31.8 405.2,31.8 410.5,31.7 415.7,31.5 420.9,31.3 426.1,31.1 431.4,30.7 436.6,30.4 441.8,30.0 447.0,29.7 452.3,29.3 457.5,28.9 462.7,28.6 468.0,28.3 473.2,28.1 478.4,28.0 483.6,28.0 488.9,28.2 494.1,28.5 499.3,29.0 504.5,29.8 509.8,30.8 515.0,32.1 520.2,33.7 525.5,35.7 530.7,38.0 535.9,40.6 541.1,43.7 546.4,47.2 551.6,51.0 556.8,55.3 562.0,59.9 567.3,64.9 572.5,70.3 577.7,75.9 583.0,81.7 588.2,87.6 593.4,93.7 598.6,99.7 603.9,105.5 609.1,111.1 614.3,116.3 619.5,121.0 624.8,125.0 630.0,128.2" fill="none" stroke="#0969da" stroke-width="1.8"/>
+      <polyline points="400.0,127.9 405.2,127.8 410.5,127.6 415.7,127.2 420.9,126.6 426.1,126.0 431.4,125.2 436.6,124.2 441.8,123.1 447.0,121.9 452.3,120.5 457.5,119.1 462.7,117.6 468.0,115.9 473.2,114.3 478.4,112.5 483.6,110.8 488.9,109.0 494.1,107.2 499.3,105.5 504.5,103.9 509.8,102.4 515.0,101.1 520.2,99.9 525.5,99.0 530.7,98.4 535.9,98.0 541.1,98.1 546.4,98.5 551.6,99.4 556.8,100.8 562.0,102.7 567.3,105.2 572.5,108.2 577.7,111.8 583.0,115.9 588.2,120.7 593.4,126.0 598.6,131.8 603.9,138.0 609.1,144.5 614.3,151.4 619.5,158.3 624.8,165.3 630.0,172.1" fill="none" stroke="#1a7f37" stroke-width="1.8"/>
+      <polyline points="400.0,253.5 405.2,253.4 410.5,253.2 415.7,252.9 420.9,252.4 426.1,251.8 431.4,251.1 436.6,250.2 441.8,249.2 447.0,248.0 452.3,246.6 457.5,245.1 462.7,243.3 468.0,241.4 473.2,239.3 478.4,237.0 483.6,234.5 488.9,231.9 494.1,229.0 499.3,225.9 504.5,222.6 509.8,219.1 515.0,215.5 520.2,211.7 525.5,207.9 530.7,203.9 535.9,199.8 541.1,195.8 546.4,191.8 551.6,187.9 556.8,184.1 562.0,180.6 567.3,177.3 572.5,174.4 577.7,172.0 583.0,170.1 588.2,168.7 593.4,168.1 598.6,168.1 603.9,169.0 609.1,170.7 614.3,173.4 619.5,176.9 624.8,181.3 630.0,186.5" fill="none" stroke="#8250df" stroke-width="1.8"/>
+      <text x="636" y="84" font-size="11" fill="#0969da">s = 0.35</text>
+      <text x="636" y="154" font-size="11" fill="#1a7f37">s = 0.60</text>
+      <text x="636" y="224" font-size="11" fill="#8250df">s = 0.85</text>
+      <text x="515" y="240" font-size="12" fill="#57606a" text-anchor="middle">t</text>
+      <text x="520" y="272" font-size="11" fill="#cf222e" text-anchor="middle">R(t,s)=cos π(t²−s²)：三条切片形状各异，不是平移</text>
+    </svg>
+  </div>
+
+  <h2>4. 例子</h2>
+
+  <h3>4.1 随机振幅电信号（课件 Ex.2）</h3>
+  <div class="callout example">
+    <span class="label">例 · $X(t)=\Theta\cos\omega t+\Xi\sin\omega t$</span>
+    <p>设 $\omega$ 为常数，$\Theta,\Xi$ 是<strong>相互独立</strong>且都服从 $N(0,\sigma^{2})$ 的随机变量，定义随机振幅电信号</p>
+    $$X(t)=\Theta\cos\omega t+\Xi\sin\omega t,\qquad t\in\mathbb{R}$$
+    <p>求 $R(s,t)$ 并判断是否宽平稳。</p>
+    <p><strong>解</strong> 均值为 $m=E[X(t)]=E(\Theta)\cos\omega t+E(\Xi)\sin\omega t=0$（零均值）。</p>
+    $$R(s,t)=E\bigl\{(\Theta\cos\omega t+\Xi\sin\omega t)(\Theta\cos\omega s+\Xi\sin\omega s)\bigr\}$$
+    $$=\Theta^2\cos\omega t\cos\omega s+\Xi^2\sin\omega t\sin\omega s$$
+    <p>（交叉项 $E(\Theta\Xi)\cos\omega t\sin\omega s$ 与 $E(\Xi\Theta)\sin\omega t\cos\omega s$ 都含 $E(\Theta\Xi)=E(\Theta)E(\Xi)=0$，为 0。）代入二阶矩 $E(\Theta^2)=E(\Xi^2)=\sigma^2$：</p>
+    $$R(s,t)=\sigma^2\bigl(\cos\omega t\cos\omega s+\sin\omega t\sin\omega s\bigr)=\sigma^2\cos\omega\,(s-t)$$
+    <p><strong>只依赖时间差 $\tau=s-t$</strong>，且 $m\equiv0$、$D(t)=R(t,t)=\sigma^2$ 为常数 $\Rightarrow$ <strong>宽平稳过程</strong>。</p>
+    <p><strong>要点</strong>：这个过程的随机性在"两个正交分量各自的幅度"上（$\cos$ 与 $\sin$ 分量），与 4.2 的"随机相位"是两种不同的随机化方式，但都得到宽平稳。</p>
+  </div>
+
+  <h3>4.2 随机正弦波（课件第 7 次课例）</h3>
+  <div class="callout example">
+    <span class="label">例 · $X(t)=A\cos(\beta t+\Theta)$</span>
+    <p>设 $\beta$ 是正常数，振幅 $A$ 与相位 $\Theta$ <strong>相互独立</strong>，且 $A\sim N(0,1)$、$\Theta\sim U(0,2\pi)$。求均值、方差与自相关函数。</p>
+    <p><strong>解</strong>（$\Theta$ 均匀分布在 $[0,2\pi]$，对任何 $\beta$ 都有 $\int_0^{2\pi}\cos(\beta t+\theta)d\theta=0$、$\int_0^{2\pi}\cos^2(\beta t+\theta)d\theta=\pi$）：</p>
+    $$m(t)=E[A]\,E[\cos(\beta t+\Theta)]=0\cdot\frac{1}{2\pi}\int_0^{2\pi}\cos(\beta t+\theta)d\theta=0$$
+    $$E\bigl[X^2(t)\bigr]=E(A^2)\cdot\frac{1}{2\pi}\int_0^{2\pi}\cos^2(\beta t+\theta)\,d\theta=1\cdot\frac{1}{2}=\frac12$$
+    $$D(t)=E[X^2(t)]-m^2(t)=\frac12$$
+    $$R(s,t)=E(A^2)\,E\bigl[\cos(\beta s+\Theta)\cos(\beta t+\Theta)\bigr]=\frac12\cos\bigl(\beta(s-t)\bigr)$$
+    $$C(s,t)=R(s,t)\quad(\text{零均值})\qquad D(t)=C(t,t)=\frac12$$
+    <p><strong>结论</strong>：$m\equiv0$、$D\equiv1/2$、$C$ 只依赖 $\beta(s-t)$ $\Rightarrow$ <strong>宽平稳过程</strong>，且 $C$ 是偶函数（与第 09 节的推论一致）。</p>
+    <div class="callout danger">
+      <span class="label">⚠️ 课件勘误</span>
+      <p>课件此页写 "$D(t)=C(t,t)=1$"。按其自身给出的 $C(s,t)=\tfrac12\cos\beta(s-t)$，代入 $s=t$ 应得 $C(t,t)=\tfrac12\cos0=\tfrac12$，与 $E[X^2]=E(A^2)E[\cos^2]=\tfrac12$ 也一致。<strong>正确答案是 $D(t)\equiv\tfrac12$</strong>，课件的 "$=1$" 是笔误。</p>
+    </div>
+  </div>
+
+  <h3>4.3 四种随机正弦波信号对比（课件核心表格）</h3>
+  <div class="callout example">
+    <span class="label">课件表 · 随机参数放在哪里，决定了是否宽平稳</span>
+    <table>
+      <tr><th>信号类型</th><th>表达式（$a,\omega$ 为常数）</th><th>随机参数</th><th>二阶矩过程</th><th>宽平稳</th><th>核心结论与依据</th></tr>
+      <tr><td>(a) 随机相位信号</td><td>$X(t)=a\cos(\omega t+\Theta)$</td><td>$\Theta\sim U(0,2\pi)$</td><td>是</td><td><strong>是</strong></td><td>均值为 $0$；自相关 $R=\tfrac{a^2}{2}\cos\omega\tau$ 只与时间差有关</td></tr>
+      <tr><td>(b) 随机幅度信号</td><td>$X(t)=A\cos\omega t$</td><td>$A$，且 $E(A)\ne0$</td><td>是</td><td><strong>否</strong></td><td>均值 $m(t)=E(A)\cos\omega t$ <strong>随时间周期性变化、不是常数</strong>；即使二阶矩有限也不平稳</td></tr>
+      <tr><td>(c) 随机频率信号</td><td>$X(t)=a\cos\bigl((\omega+\Omega)t+\Theta\bigr)$</td><td>$\Omega$ 随机、$\Theta$ 随机</td><td>是</td><td><strong>否</strong></td><td>均值是 $t$ 的函数（非零）；<strong>自相关也与绝对时间 $t$ 有关</strong>，不止时间差</td></tr>
+      <tr><td>(d) 随机幅度+相位+频率信号</td><td>$X(t)=A\cos\bigl((\omega+\Omega)t+\Theta\bigr)$</td><td>$A,\Omega,\Theta$ 相互独立</td><td>是</td><td><strong>是</strong></td><td>对 $\Theta$ 均匀取平均使均值为 $0$；交叉项因均匀分布积分为 $0$，自相关只依赖时间差</td></tr>
+    </table>
+    <p><strong>课件原话归纳</strong>：这四个信号<strong>都是二阶矩过程</strong>（随机幅度 $A$ 有界或二阶矩有限）；<strong>是否宽平稳只取决于均值是否为常数、自相关是否只依赖时间差</strong>。</p>
+    <p class="lede" style="font-size:14px;color:var(--c-muted)">注：课件该表格以文字给出"是/否"结论与推导依据，公式栏的排版在 PDF 中有串行，这里按教材常用形式整理，结论与课件一致。</p>
+  </div>
+
+  <h2>5. 核心反例 · 均值方差恒定 ≠ 宽平稳</h2>
+  <div class="callout danger">
+    <span class="label">反例（课件给出）· 均值、方差、甚至每个时刻的分布都相同，却不宽平稳</span>
+    <p>取相互独立的标准正态随机变量 $U,V$，定义</p>
+    $$Y(t)=U\cos(t^{2})+V\sin(t^{2}),\qquad t\in\mathbb{R},\quad U,V\sim N(0,1)$$
+    <p><strong>解</strong> 均值与方差（都很好）：</p>
+    $$E\bigl[Y(t)\bigr]=0,\qquad D\bigl[Y(t)\bigr]=1,\qquad Y(t)\sim N(0,1)\ \ (\forall t)$$
+    <p><strong>自相关函数</strong>：</p>
+    $$R_Y(t,s)=E\bigl[(U\cos t^{2}+V\sin t^{2})(U\cos s^{2}+V\sin s^{2})\bigr]$$
+    $$=\cos t^{2}\cos s^{2}+\sin t^{2}\sin s^{2}=\cos\bigl(t^{2}-s^{2}\bigr)$$
+    <p>注意 $t^{2}-s^{2}=(t-s)(t+s)$ <strong>并不只依赖时间差 $t-s$</strong>（例如 $t=1,s=0$ 与 $t=1,s=-1$ 时间差都是 $1$，但 $R=\cos 1$ 与 $R=\cos 0=1$ 不同）。</p>
+    <p><strong>结论</strong>：$R_Y(t,s)$ 依赖绝对时间 $\Rightarrow$ <strong>$Y(t)$ 不是宽平稳过程</strong>。</p>
+    <p><strong>这个反例的教学意义</strong>：<strong>"均值常数 + 方差常数 + 每刻同分布"三条全满足，仍然可能不宽平稳</strong>。缺的就是"自协方差只依赖时间差"这一条。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">课件的追问 · "看起来平稳"的图到底能证明什么？</span>
+    <p>课件专门讨论了一类教材插图：图 (a) 画多条样本轨道围绕一条水平线波动，图 (b) 把 $m$ 与 $m\pm\sigma$ 画成水平直线。结论是：</p>
+    <ul>
+      <li>图 (a)(b) <strong>只展示了"均值恒定、方差恒定"</strong>，<strong>完全不足以</strong>保证联合分布对时间平移不变；</li>
+      <li>它<strong>既不足以判定宽平稳</strong>（还需要"自协方差只依赖时间差"），<strong>也与严平稳无关</strong>（严平稳不要求矩存在）；</li>
+      <li><strong>配合上面的反例看</strong>：$Y(t)=U\cos(t^{2})+V\sin(t^{2})$ 的轨道看上去和随机相位正弦波一模一样（都是包络恒定、围绕 $0$ 波动的正弦状曲线，均值 $0$、方差 $1$），<strong>但它不宽平稳</strong>。<strong>"轨道看起来稳"不等于"过程平稳"。</strong></li>
+    </ul>
+    <p><strong>判定清单</strong>：宽平稳要<strong>均值恒定 ✓、方差恒定 ✓、自协方差只依赖时间差</strong>；严平稳要<strong>任意有限维分布平移不变</strong>。前两条只够画出那两条水平线，第三条才是分水岭。</p>
+  </div>
+
+  <h2>6. 宽平稳的性质（小结）</h2>
+  <div class="callout theorem">
+    <span class="label">宽平稳 ⇒ 必然成立</span>
+    <ol>
+      <li>$m(t)\equiv m$，$D(t)\equiv\sigma^2$，$R(s,t)=R(\tau)$，$C(s,t)=C(\tau)$；</li>
+      <li>若零均值，则 $C=R$，且 <strong>$R(\tau)=R(-\tau)$</strong>（偶函数），$R(0)=\sigma^2$；</li>
+      <li>线性变换保持宽平稳：$Z(t)=aX(t)+b\Rightarrow Z$ 宽平稳，$m_Z=am+b$、$\sigma^2_Z=|a|^{2}\sigma^2$；</li>
+      <li>宽平稳 + 正态 $\Rightarrow$ <strong>严平稳</strong>（第 15 节）；</li>
+      <li>宽平稳过程存在<strong>正交增量表示</strong> $X(t)=X(0)+\sum_i Z_i(t)$（第 12 节），这是它做谱分析的基础。</li>
+    </ol>
+  </div>
+
+  <h2>7. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把"方差恒定"当成宽平稳的判据</strong>。上一节的反例 $Y(t)=U\cos(t^{2})+V\sin(t^{2})$：均值 $0$、方差 $1$、每刻都是 $N(0,1)$，<strong>仍不宽平稳</strong>。必须验 $C(s,t)=C(s-t)$。</li>
+      <li>❌ <strong>以为宽平稳 $\Rightarrow$ 严平稳</strong>。反例见第 11 节：把柯西 i.i.d. 序列加上任意时间平移构造的过程，宽平稳但不是严平稳。<strong>正态过程才等价。</strong></li>
+      <li>❌ <strong>把"平稳增量"与"宽平稳"混用</strong>。维纳过程、Poisson 过程是"平稳独立增量"，但 $D(t)\propto t$，<strong>都不是宽平稳过程</strong>。看到"平稳"两个字先问：说的是增量还是过程？</li>
+      <li>❌ <strong>忘了均值可以不为 0</strong>。$C=R-m(s)m(t)=R(\tau)-m^2$。若 $m$ 是常数，$m^2$ 是常数，所以 $C$ 只依赖时间差没问题；但要写 $R(s,t)$ 时<strong>别忘了那个 $m^2$</strong>，零均值情形才允许 $R=C$。</li>
+      <li>❌ <strong>误判 (b)(c) 两个信号</strong>。"随机幅度""随机频率"的正弦波常被想当然地当成平稳——课件表格明确指出它们<strong>不平稳</strong>，因为均值随时间变化。判断宽平稳一定要<strong>先算 $m(t)$</strong>。</li>
+    </ul>
+  </div>
+
+  <h2>8. 自检</h2>
+  <details>
+    <summary>Q1 · 为什么宽平稳的定义里不写"$D(t)=D$"，它却自动成立？</summary>
+    <p>由 $C(s,t)=C(s-t)$ 取 $s=t$：</p>
+    $$D(t)=C(t,t)=C(t-t)=C(0)=\sigma^{2}$$
+    <p>是常数。所以"方差恒定"是条件 (2) 的特例而非独立条件。定义里写 $C(s,t)=C(s-t)$ 更简洁、更强。</p>
+  </details>
+  <details>
+    <summary>Q2 · 已知 $m(t)\equiv1$、$C(s,t)=4\cos\tau$，求 $R(s,t)$，并判断宽平稳性。</summary>
+    <p>$R(s,t)=C(s,t)+m(s)m(t)=4\cos\tau+1$。</p>
+    <p>检验：$m$ 常数 ✓，$C$ 只依赖时间差 ✓ $\Rightarrow$ <strong>宽平稳</strong>。$D(t)=R(t,t)=4+1=5$。</p>
+    <p><strong>注意</strong>：此时 $R(0)=5=\sigma^2$，$R$ 是偶函数（$m^2$ 是常数不破坏偶性）——与第 09 节的推论一致。</p>
+  </details>
+  <details>
+    <summary>Q3 · 过程 $X(t)=\varepsilon_t\cos\omega t$，其中 $\varepsilon_t\sim N(0,1)$ 相互独立。它宽平稳吗？</summary>
+    <p>逐条验：</p>
+    <ul>
+      <li>$m(t)=E(\varepsilon_t)\cos\omega t=0$ ✓</li>
+      <li>$D(t)=E(\varepsilon_t^2)\cos^2\omega t=\cos^2\omega t$ —— <strong>非常数</strong>（每半周期归零）✗</li>
+    </ul>
+    <p>所以<strong>不宽平稳</strong>。它的相关函数 $R(s,t)=\cos\omega t\cos\omega s$ 同时依赖 $s,t$。</p>
+    <p><strong>对比</strong>：把随机性从"幅度"挪到"相位"（$X(t)=a\cos(\omega t+\Theta)$）就宽平稳了（4.2）。<strong>随机性放在哪个参数上，决定数字特征的形状。</strong></p>
+  </details>
+  <details>
+    <summary>Q4 · 维纳过程的 $C(s,t)=\sigma^{2}\min(s,t)$ 依赖时间差吗？</summary>
+    <p>不依赖。取 $(s,t)=(1,0)$ 与 $(0.2,0.2)$，时间差分别是 $1$ 和 $0$，但 $C$ 分别是 $\sigma^2\cdot0=0$ 与 $\sigma^2\cdot0.2$。<strong>依赖绝对时间，不是时间差。</strong></p>
+    <p>虽然维纳过程的<strong>增量</strong>是平稳的（$W(t+h)-W(s+h)\overset{d}=W(t)-W(s)$），但它本身不是宽平稳过程——$D(t)=\sigma^2t$ 越来越"野"。<strong>"平稳增量"≠"宽平稳"，这是本讲最值得反复记的一组区分。</strong></p>
+  </details>
+
+  <div class="pager">
+    <a href="./09-二阶矩过程与协方差非负定性.html"><span class="label">← 上一节</span><span class="title">二阶矩过程与协方差的非负定性</span></a>
+    <a href="./11-严平稳过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">严平稳过程</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

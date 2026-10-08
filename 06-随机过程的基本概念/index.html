@@ -68,6 +68,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -88,18 +89,24 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
 
   <h1>第 06 讲 · 随机过程的基本概念</h1>
-  <p class="lede">前五讲讨论的都是"<strong>一个或几个随机变量</strong>"。从本讲开始，研究对象升级为"<strong>一族随时间演变的随机变量</strong>"。这是整门课的分水岭：<strong>随机过程不是"随机变量的推广"，而是一个全新的对象——它多出了一条"时间轴"，也多出了一整套"跨时刻关联"的描述语言</strong>（有限维分布族、均值函数、相关函数、协方差函数）。本讲把这套语言建完，并用四个"结构好的特例"（独立过程、独立增量过程、正态过程、维纳过程）演示它怎么用。</p>
+  <p class="lede">前五讲讨论的都是"<strong>一个或几个随机变量</strong>"。从本讲开始，研究对象升级为"<strong>一族随时间演变的随机变量</strong>"。这是整门课的分水岭：<strong>随机过程不是"随机变量的推广"，而是一个全新的对象——它多出了一条"时间轴"，也多出了一整套"跨时刻关联"的描述语言</strong>（有限维分布族、均值函数、相关函数、协方差函数）。本讲把这套语言建完，再用<strong>二阶矩 → 平稳性 → 结构类过程</strong>这条主线收口。</p>
 
   <div class="meta">
+    <span>📘 来源 · 彭江燕第 7 次课（随机过程的定义及分类 / 数字特征）</span>
+    <span>📘 来源 · 彭江燕第 8 次课（随机过程的数字特征 / 基本类型）</span>
     <span>📘 来源 · 王庆先第 3 讲（随机过程的基本概念 / 重要随机过程）</span>
     <span>📚 教材 · 《随机过程及应用》（陈良均）第 2 章</span>
     <span>📚 教材 · 《排队论》（唐应辉等）第 1 章</span>
@@ -111,10 +118,13 @@
   <ol>
     <li>用"<strong>双重视角</strong>"解释随机过程：钉住 $t$ 得随机变量，钉住 $\omega$ 得<strong>样本函数</strong>；写出给定过程的样本函数族与状态空间</li>
     <li>按<strong>参数集 $T$ × 状态空间 $E$</strong> 把过程分入四象限，并按<strong>概率分布规律</strong>（独立 / 独立增量 / 正态 / Markov / Poisson / 平稳）给它贴标签</li>
-    <li>写出<strong>一维 / 二维 / $n$ 维分布</strong>，并说清"<strong>为什么一维分布远不足以决定过程</strong>"（能举反例）</li>
+    <li>写出<strong>一维 / 二维 / $n$ 维分布</strong>，并说清"<strong>为什么一维分布远不足以决定过程</strong>"（能举反例）；会用"九宫格"逐格累加求二维分布函数</li>
     <li>陈述<strong>相容性条件</strong>与 <strong>Kolmogorov 扩张定理</strong>，理解"给分布族"与"给过程"的等价性</li>
     <li>计算四个数字特征：<strong>均值函数 $m(t)$、方差函数 $D(t)$、相关函数 $R(s,t)$、协方差函数 $C(s,t)$</strong>，并会用 $C(t,t)=D(t)$ 自检</li>
     <li>区分<strong>互不相关</strong>与<strong>相互独立</strong>，并给出"不相关但不独立"的过程版反例</li>
+    <li>说出<strong>二阶矩过程</strong>的定义与作用，并陈述协方差函数的<strong>非负定性</strong>与<strong>埃密特性</strong>，理解它们是"协方差函数的判据"</li>
+    <li>判定<strong>宽平稳</strong>（均值常数 + 协方差只依赖时间差）并<strong>举出"均值方差恒定却不平稳"的反例</strong>；区分宽平稳 / 严平稳 / 平稳增量三者</li>
+    <li>陈述<strong>正交增量过程</strong>与<strong>白噪声</strong>，说明它们在平稳过程谱分解中的地位</li>
     <li>证明并应用本讲核心定理：<strong>平稳独立增量 + $X(0)=0$ ⇒ $m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$</strong></li>
     <li>陈述<strong>正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>，并会用"线性变换封闭"一行判定正态过程</li>
     <li>写出<strong>维纳过程</strong>的四个定义条件、各维分布与三条性质（平稳独立增量 / 正态 / Markov），说明它为何<strong>不是平稳过程</strong></li>
@@ -133,7 +143,7 @@
       <tr><td>相关 $\rho_{XY}$</td><td><strong>相关系数函数</strong> $\rho(s,t)$ / <strong>互相关</strong> $R_{XY}(s,t)$</td></tr>
       <tr><td>特征函数 $\varphi(u)=E(e^{iuX})$</td><td><strong>有限维特征函数族</strong> $\varphi(t_1,\dots,t_n;u_1,\dots,u_n)$</td></tr>
       <tr><td>$n$ 维随机变量、协方差矩阵</td><td><strong>协方差函数</strong>（从矩阵升级为双参数函数）</td></tr>
-      <tr><td>正态分布 $N(\mu,\sigma^2)$</td><td><strong>正态过程</strong> / <strong>维纳过程</strong>（第 11 / 12 节）</td></tr>
+      <tr><td>正态分布 $N(\mu,\sigma^2)$</td><td><strong>正态过程</strong> / <strong>维纳过程</strong>（第 15 / 16 节）</td></tr>
     </table>
     <p><strong>读表方法</strong>：左列任何一个概念，只要把"数"换成"函数"、把"下标"换成"时刻"，就得到右列。<strong>本讲没有新数学，只有一次"函数化"。</strong></p>
   </div>
@@ -143,8 +153,8 @@
     <ol>
       <li><strong>抛硬币过程</strong>（第 02 / 04 节）：$X(t)=\cos\pi t$ 或 $2t$，样本空间只有两个点。用它演示"样本函数"与"一维分布相同、二维分布不同"。</li>
       <li><strong>随机相位正弦波</strong>（第 02 / 06 / 07 节）：$X(t)=a\cos(bt+\Theta)$。用它演示<strong>平稳</strong>：$m(t)\equiv0$、$D(t)\equiv a^2/2$、$C(s,t)=\frac{a^2}{2}\cos b(s-t)$ 只依赖时间差。</li>
-      <li><strong>二项计数过程 / 随机游动</strong>（第 09 节）：$Y(n)\sim B(n,p)$。用它演示<strong>独立增量</strong>：$m(np)$、$D=npq$、$C(m,n)=pq\min(m,n)$。</li>
-      <li><strong>维纳过程 / 布朗运动</strong>（第 12 节）：$W(t)\sim N(0,\sigma^2t)$。它是<strong>平稳独立增量 + 正态 + Markov</strong> 的三合一，也是本讲的收束。</li>
+      <li><strong>二项计数过程 / 随机游动</strong>（第 13 节）：$Y(n)\sim B(n,p)$。用它演示<strong>独立增量</strong>：$m(np)$、$D=npq$、$C(m,n)=pq\min(m,n)$。</li>
+      <li><strong>维纳过程 / 布朗运动</strong>（第 16 节）：$W(t)\sim N(0,\sigma^2t)$。它是<strong>平稳独立增量 + 正态 + Markov</strong> 的三合一，也是本讲的收束。</li>
     </ol>
     <p><strong>另外两个反复出现的"探针例子"</strong>：</p>
     <ul>
@@ -200,23 +210,43 @@
       <div class="title">互相关、互不相关与独立性</div>
       <div class="desc">$R_{XY}$、$C_{XY}$ / 独立 ⇒ 不相关（反之不然）/ 过程版反例</div>
     </a>
-    <a class="toc-card" href="./09-独立过程与独立增量过程.html">
+    <a class="toc-card" href="./09-二阶矩过程与协方差非负定性.html">
       <div class="num">09</div>
+      <div class="title">二阶矩过程与协方差的非负定性</div>
+      <div class="desc">$E[X_t^2]&lt;\infty$ 的意义 / 许瓦茨不等式 / 非负定性定理 1.3.1 / 埃密特性</div>
+    </a>
+    <a class="toc-card" href="./10-宽平稳过程.html">
+      <div class="num">10</div>
+      <div class="title">宽平稳过程</div>
+      <div class="desc">均值常数 + $C=C(s-t)$ / 四种随机正弦波对比 / $Y(t)=U\cos t^2+V\sin t^2$ 反例</div>
+    </a>
+    <a class="toc-card" href="./11-严平稳过程.html">
+      <div class="num">11</div>
+      <div class="title">严平稳过程</div>
+      <div class="desc">有限维分布平移不变 / i.i.d.·随机相位·高斯白噪声 / 柯西反例 / 正态过程严宽等价</div>
+    </a>
+    <a class="toc-card" href="./12-正交增量与白噪声.html">
+      <div class="num">12</div>
+      <div class="title">正交增量过程与白噪声</div>
+      <div class="desc">正交增量 vs 独立增量 / 离散与连续白噪声 / 半二元传输信号分段相关</div>
+    </a>
+    <a class="toc-card" href="./13-独立过程与独立增量过程.html">
+      <div class="num">13</div>
       <div class="title">独立过程与独立增量过程</div>
       <div class="desc">"各时刻"vs"各时段" / 伯努利随机序列 / 二项计数过程 / 包含关系</div>
     </a>
-    <a class="toc-card" href="./10-平稳独立增量过程.html">
-      <div class="num">10 · 核心</div>
+    <a class="toc-card" href="./14-平稳独立增量过程.html">
+      <div class="num">14 · 核心</div>
       <div class="title">平稳独立增量过程的性质</div>
       <div class="desc">$m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$ + 完整证明</div>
     </a>
-    <a class="toc-card" href="./11-正态过程.html">
-      <div class="num">11</div>
+    <a class="toc-card" href="./15-正态过程.html">
+      <div class="num">15</div>
       <div class="title">正态过程（高斯过程）</div>
       <div class="desc">任意有限维联合正态 / 1、2、n 维密度与特征函数 / 由 $m(t),C(s,t)$ 完全决定</div>
     </a>
-    <a class="toc-card" href="./12-维纳过程.html">
-      <div class="num">12</div>
+    <a class="toc-card" href="./16-维纳过程.html">
+      <div class="num">16</div>
       <div class="title">维纳过程（布朗运动）</div>
       <div class="desc">四个定义条件 / 各维分布 / 三条性质（平稳独立增量 + 正态 + Markov）/ 轨道性质</div>
     </a>
@@ -227,8 +257,8 @@
     </a>
     <a class="toc-card" href="./自测.html">
       <div class="num">自测</div>
-      <div class="title">本讲自测 10 题</div>
-      <div class="desc">定义分类 / 样本函数 / 二维分布 / 四个数字特征 / 独立增量 / 维纳过程</div>
+      <div class="title">本讲自测 15 题</div>
+      <div class="desc">定义分类 / 样本函数 / 二维分布 / 四个数字特征 / 非负定 / 平稳性 / 白噪声 / 独立增量 / 维纳过程</div>
     </a>
   </div>
 
@@ -237,13 +267,13 @@
     <span class="label">为什么这一讲是全课程的分水岭？</span>
     <ul>
       <li><strong>向前看</strong>：第 01~05 讲把"一个（或几个）随机变量"的语言全部备齐——概率空间、条件概率、分布、数字特征、特征函数。本讲把其中每一项都"函数化"，一次升级到过程层面。</li>
-      <li><strong>本讲内部</strong>：第 02 节给定义 → 第 03 节分类 → 第 04 / 05 节给"完整描述"（有限维分布）→ 第 06 / 07 / 08 节给"可操作描述"（四个数字特征）→ 第 09 ~ 12 节给"四个结构好的特例"。<strong>顺序不能跳：没有 $C(s,t)$ 就无法理解 $\min(s,t)$。</strong></li>
+      <li><strong>本讲内部</strong>：第 02 节给定义 → 第 03 节分类 → 第 04 / 05 节给"完整描述"（有限维分布）→ 第 06 / 07 / 08 节给"可操作描述"（四个数字特征）→ <strong>第 09 ~ 12 节把二阶信息升格为"结构性判据"（二阶矩、非负定、宽平稳、严平稳、正交增量、白噪声）</strong> → 第 13 ~ 16 节给"结构好的特例"。<strong>顺序不能跳：没有 $C(s,t)$ 就无法理解 $\min(s,t)$，没有非负定性就无法理解"哪些 $C$ 编得出来"。</strong></li>
       <li><strong>向后看</strong>：
         <ul>
-          <li><strong>第 07 讲 Poisson 过程</strong>：把"独立增量"里的增量换成正态 → 换成 Poisson。第 10 节的定理直接给出 $m(t)=\lambda t$、$D(t)=\lambda t$、$C(s,t)=\lambda\min(s,t)$。</li>
-          <li><strong>第 08 / 09 讲 Markov 链</strong>：把"独立增量"这条强条件换成"<strong>只认现在</strong>"（Markov 性）。二项计数过程（第 09 节）就是离散 Markov 链的原型。</li>
-          <li><strong>第 12 讲</strong>（路线图）会从维纳过程继续走向<strong>鞅与 Itô 积分</strong>，本讲 12 节的"二次变差 $\sigma^2t$"就是那条线索的起点。</li>
-          <li><strong>第 13 / 14 讲 排队论</strong>：Poisson 到达 + 指数服务拼成连续时间 Markov 链，Little 律用的全是本讲的<strong>期望</strong>思想。</li>
+          <li><strong>第 07 讲 Poisson 过程</strong>：把"独立增量"里的增量换成正态 → 换成 Poisson。第 14 节的定理直接给出 $m(t)=\lambda t$、$D(t)=\lambda t$、$C(s,t)=\lambda\min(s,t)$。</li>
+          <li><strong>第 08 / 09 讲 Markov 链</strong>：把"独立增量"这条强条件换成"<strong>只认现在</strong>"（Markov 性）。二项计数过程（第 13 节）就是离散 Markov 链的原型。王庆先第 6 讲 PPTX（状态分类、首达/常返、状态空间分解、周期性、连续参数马氏链与 $Q$ 矩阵）就是这两讲的课件。</li>
+          <li><strong>第 11 讲</strong>（路线图）会从维纳过程继续走向<strong>鞅与 Itô 积分</strong>，本讲 16 节的"二次变差 $\sigma^2t$"就是那条线索的起点；<strong>本讲第 12 节的正交增量过程</strong>则是所有 Itô 随机积分的"无穷小正交和"雏形。</li>
+          <li><strong>第 12 / 13 讲 排队论</strong>：Poisson 到达 + 指数服务拼成连续时间 Markov 链，Little 律用的全是本讲的<strong>期望</strong>思想；而"<strong>到达过程是白噪声驱动</strong>"正是排队论的标准建模套路。</li>
         </ul>
       </li>
     </ul>
@@ -253,12 +283,13 @@
   <ol>
     <li><strong>先读 00 预备页</strong>。如果"协方差矩阵非负定""$n$ 维正态由 $(\boldsymbol m,C)$ 决定"这两条你已经很熟，可以直接跳到 02。</li>
     <li><strong>02 和 03 是地图，必须读懂再去算</strong>。"双重视角"（钉 $t$ vs 钉 $\omega$）是后面所有内容的解释框架；"四象限"决定你以后看到任何过程都知道它长什么样。</li>
-    <li><strong>04 节的那个反例一定要自己复述一遍</strong>："$X(t)\equiv A$ 与'各时刻独立'"——它能一次性解决"为什么必须给有限维分布"的所有疑问。</li>
-    <li><strong>06 → 07 → 08 按顺序读</strong>。$D(t)$ 是 $C(t,t)$、$C_{XY}$ 是 $C$ 的两过程版本，三者是同一条逻辑线的三个台阶。</li>
-    <li><strong>10 节要亲手把三证明各写一遍</strong>。这是本讲唯一必背的推导，也是后续所有"独立增量类过程"的通用套路。</li>
-    <li><strong>12 节读完后回头看 09 节</strong>：你会发现二项计数过程与维纳过程其实是"同一个定理的离散与连续版本"，$\min(m,n)$ 与 $\min(s,t)$ 是一回事。</li>
+    <li><strong>04 节的那个反例一定要自己复述一遍</strong>："$X(t)\equiv A$ 与'各时刻独立'"——它能一次性解决"为什么必须给有限维分布"的所有疑问。九宫格例题（$X_t=\pm2\cos t$）练的是"逐格累加"的手感。</li>
+    <li><strong>06 → 07 → 08 按顺序读</strong>。$D(t)$ 是 $C(t,t)$、$C_{XY}$ 是 $C$ 的两过程版本，三者是同一条逻辑线的三个台阶。随机开关系统（$X_t=\cos\pi t$ 或 $2t$）建议在 06 与 07 各做一遍，用 $C(t,t)=D(t)$ 自检。</li>
+    <li><strong>09 ~ 12 节是本讲新增的"判据链"，不要跳</strong>。第 09 节告诉你"$C$ 编得出来吗"，第 10 节告诉你"$C$ 稳不稳"，第 11 节告诉你"$C$ 稳"和"过程稳"是不是一回事，第 12 节给出"$C$ 退化成 $\delta$"的极端形态。$Y(t)=U\cos(t^{2})+V\sin(t^{2})$ 这个反例务必自己重算一遍——它是"均值方差恒定 ≠ 平稳"的唯一标准证据。</li>
+    <li><strong>14 节要亲手把三证明各写一遍</strong>。这是本讲唯一必背的推导，也是后续所有"独立增量类过程"的通用套路。</li>
+    <li><strong>16 节读完后回头看 13 节</strong>：你会发现二项计数过程与维纳过程其实是"同一个定理的离散与连续版本"，$\min(m,n)$ 与 $\min(s,t)$ 是一回事。</li>
     <li><strong>动画页做三组实验</strong>（页内有说明）：尤其注意 $\pm\sigma$ 带按 $\sqrt{t}$ 张开而不是线性张开——这是维纳过程最直观的特征。</li>
-    <li><strong>做自测 10 题</strong>。Q3（两种二维分布）、Q5（随机相位）、Q8（期望免费方差付费）、Q9（平稳增量 ≠ 平稳过程）是四个最值得反复咀嚼的点。</li>
+    <li><strong>做自测 15 题</strong>。Q3（两种二维分布）、Q5（随机相位）、Q8（期望免费方差付费）、Q11（均值方差恒定为何不平稳）、Q14（严平稳与宽平稳的关系）是五个最值得反复咀嚼的点。</li>
   </ol>
 
   <div class="pager">

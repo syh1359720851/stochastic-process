@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,10 +78,14 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html" class="current">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
@@ -150,7 +155,7 @@
     <p><strong>互不相关一般推不出相互独立。</strong>原因很直接：<strong>协方差只探测"线性"关联</strong>，而独立性要求<strong>所有形式的关联</strong>都为零。</p>
     <p>课件里的原话是：</p>
     <blockquote>"如果随机过程 $\{X(t)\}$ 和 $\{Y(t)\}$ 相互独立，则它们一定互不相关；反之，如果互不相关，一般不能推出它们相互独立。"</blockquote>
-    <p><strong>唯一的例外是正态情形</strong>：若 $\{X(t)\}$ 与 $\{Y(t)\}$ 是<strong>联合正态过程</strong>（任意有限个时刻合起来的联合分布都是正态），则"互不相关 $\iff$ 相互独立"。这条在第 11 节会再次用到。</p>
+    <p><strong>唯一的例外是正态情形</strong>：若 $\{X(t)\}$ 与 $\{Y(t)\}$ 是<strong>联合正态过程</strong>（任意有限个时刻合起来的联合分布都是正态），则"互不相关 $\iff$ 相互独立"。这条在第 15 节会再次用到。</p>
   </div>
 
   <h2>4. 三个必会算例</h2>
@@ -202,6 +207,37 @@
     <strong>根因</strong>：$Y$ 与 $X$ 的关系是<strong>平方</strong>（二次型），它是关于 $X=0$ 对称的，正负两侧"抵消"掉了线性相关。协方差只能看见直线，看不见抛物线。</p>
   </div>
 
+  <h2>4.4 例 4 · 含噪系统的输出过程（课件 Ex.6）</h2>
+  <div class="callout example">
+    <span class="label">例 · $Y_t=X_t+N_t$：互相关函数的实际用处</span>
+    <p>设随机系统输入信号是随机过程 $\{X_t,t\in T\}$，输出过程是<strong>带有噪声</strong>的过程</p>
+    $$Y_t=X_t+N_t,\qquad t\in T$$
+    <p>其中 $\{N_t,t\in T\}$ 是噪声过程。计算输出过程的均值函数与自相关函数。</p>
+    <p><strong>解</strong> 均值直接由期望线性性给出（不需要任何独立性）：</p>
+    $$m_Y(t)=E(Y_t)=E(X_t)+E(N_t)=m_X(t)+m_N(t)$$
+    <p>自相关函数四项展开：</p>
+    $$R_Y(s,t)=E\bigl[Y_sY_t\bigr]=E\bigl[(X_s+N_s)(X_t+N_t)\bigr]$$
+    $$=R_X(s,t)+R_{XN}(s,t)+R_{NX}(s,t)+R_N(s,t)$$
+    <p><strong>关键一步（课件）</strong>：特别当 $\{X_t\}$ 与 $\{N_t\}$ <strong>相互正交</strong>时，交叉项为 0</p>
+    $$R_{XN}(s,t)=E(X_sN_t)=0\ \Longrightarrow\ R_Y(s,t)=R_X(s,t)+R_N(s,t)$$
+    <p>即 <strong>输出的相关结构 = 信号的相关结构 + 噪声的相关结构</strong>，互不相关的信号与噪声之间"不串扰"。</p>
+    <p><strong>这正是"信噪比"能写成简单加法的理由</strong>：把 $Y$ 通过一个线性滤波器、扣掉噪声后，恢复出的就是 $X$ 的相关结构。<strong>互相关函数是信号处理中分离信号与噪声的基本工具。</strong></p>
+  </div>
+
+  <h2>4.5 概念辨析 · 互不相关 vs 正交（课件定义 1.2.7）</h2>
+  <div class="callout theorem">
+    <span class="label">两个容易混的词（实过程 $\{X_t\}$ 与 $\{Y_t\}$）</span>
+    <p>互协方差与互相关函数：</p>
+    $$C_{XY}(s,t)=\mathrm{Cov}(X_s,Y_t)=E(X_sY_t)-m_X(s)m_Y(t),\qquad R_{XY}(s,t)=E(X_sY_t)$$
+    <ul>
+      <li><strong>互不相关</strong>：若对任意 $s,t\in T$ 都有 $C_{XY}(s,t)=0$，等价于 $E(X_sY_t)=m_X(s)m_Y(t)=E(X_s)E(Y_t)$，称两个过程<strong>互不相关</strong>；</li>
+      <li><strong>正交</strong>：若对任意 $s,t\in T$ 都有 $R_{XY}(s,t)=E(X_sY_t)=0$，称两个过程<strong>正交</strong>。</li>
+    </ul>
+    <p><strong>两者关系</strong>：<strong>零均值时两者等价</strong>（$m_Xm_Y=0$）。非零均值时，<strong>正交比互不相关更强</strong>——正交要求内积直接为 0，互不相关只要求"去均值后"的内积为 0。</p>
+    <p class="lede" style="font-size:14px;color:var(--c-muted)">类比：一个随机变量与常数 $c$ 一定"互不相关"（协方差恒为 0），但只有 $c=0$ 时才"正交"。</p>
+    <p><strong>课件给出的动机</strong>：均值和方差只描述了随机过程在<strong>某个特定时刻</strong>的统计特性，用的只是一维概率密度，<strong>并不能反映随机过程在两个不同时刻状态之间的联系</strong>。图示中两个随机过程 $X(t)$ 与 $Y(t)$ 大致具有相同的均值和方差，但信号形态明显不同——<strong>要区分它们，必须引入能反映"两个过程、两个时刻"关联程度的互相关函数。</strong></p>
+  </div>
+
   <h2>5. 独立 vs 互不相关：一张对照表</h2>
   <div class="callout theorem">
     <span class="label">两个概念的定量对比</span>
@@ -212,7 +248,7 @@
       <tr><th>强度</th><td><strong>强</strong></td><td><strong>弱</strong></td></tr>
       <tr><th>推导关系</th><td>$\Rightarrow$ 互不相关</td><td>$\nRightarrow$ 独立（联合正态例外）</td></tr>
       <tr><th>典型反例</th><td colspan="2">$X(t)=\cos(t+\Theta)$、$Y(t)=X^2(t)$：不相关但 $Y=X^2$</td></tr>
-      <tr><th>本课程用处</th><td>第 05 节的联合分布、第 09 节独立过程</td><td>第 10 / 12 节证明增量独立、正态过程独立</td></tr>
+      <tr><th>本课程用处</th><td>第 05 节的联合分布、第 13 节独立过程</td><td>第 13 ~ 15 节证明增量独立、正态过程独立</td></tr>
     </table>
   </div>
 
@@ -247,7 +283,7 @@
   <details>
     <summary>Q3 · 若 $\{X(t)\}$ 与 $\{Y(t)\}$ 是联合正态过程且互不相关，能否断定独立？为什么？</summary>
     <p><strong>能</strong>。任取有限个时刻，把 $(X(s_1),\dots,X(s_n),Y(t_1),\dots,Y(t_m))$ 合起来看，它是一个正态随机向量。互不相关意味着它的协方差矩阵是<strong>块对角阵</strong>（$X$ 与 $Y$ 的交叉块全为 0）。而对正态向量，协方差矩阵块对角 $\iff$ 两个子向量独立（第 00 节性质 4）。<br>
-    <strong>这一步在证明中的地位</strong>：它是"正态过程只需 $m(t)$ 与 $C(s,t)$ 就能完整刻画"的关键一环——因为一旦由二阶信息确认了独立性，高阶联合分布就被自动锁定了。第 11 节会详述。</p>
+    <strong>这一步在证明中的地位</strong>：它是"正态过程只需 $m(t)$ 与 $C(s,t)$ 就能完整刻画"的关键一环——因为一旦由二阶信息确认了独立性，高阶联合分布就被自动锁定了。第 15 节会详述。</p>
   </details>
   <details>
     <summary>Q4 · 工程上怎么用互相关函数找"延迟"？</summary>
@@ -257,7 +293,7 @@
 
   <div class="pager">
     <a href="./07-相关函数与协方差函数.html"><span class="label">← 上一节</span><span class="title">相关函数与协方差函数</span></a>
-    <a href="./09-独立过程与独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">独立过程与独立增量过程</span></a>
+    <a href="./13-独立过程与独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">独立过程与独立增量过程</span></a>
   </div>
 
   <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>

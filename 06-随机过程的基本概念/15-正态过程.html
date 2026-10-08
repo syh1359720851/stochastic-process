@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>11 正态过程（高斯过程）| 第06讲</title>
+<title>15 正态过程（高斯过程）| 第06讲</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
@@ -57,12 +57,13 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 11</div>
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 15</div>
     <div class="course-name">随机过程与排队论（融合版）</div>
   </header>
 
@@ -77,15 +78,19 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html" class="current">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html" class="current">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
 
-  <h1>11 · 正态过程（高斯过程）</h1>
+  <h1>15 · 正态过程（高斯过程）</h1>
   <p class="lede">正态过程是随机过程里"最受欢迎"的一类：电子元器件的噪声、热噪声、通信信道、传感器误差、金融收益率的第一版模型，几乎都是它。<strong>它最值钱的性质是一句话</strong>：正态过程的全部有限维分布，只由<strong>均值函数 $m(t)$ 与协方差函数 $C(s,t)$ 两个函数</strong>完全决定——不需要任何更高阶的信息。</p>
 
   <div class="callout tip">
@@ -153,7 +158,7 @@
     <p><strong>若两个正态过程 $\{X(t)\}$ 与 $\{Y(t)\}$ 有相同的均值函数和相同的协方差函数，即</strong></p>
     $$m_X(t)=m_Y(t),\qquad C_X(s,t)=C_Y(s,t)\quad(\forall s,t\in T)$$
     <p><strong>则它们的所有有限维分布都相同，从而（在分布意义下）是同一个过程。</strong></p>
-    <p><strong>反过来说</strong>：要定义一个正态过程，只需给出 $m(t)$ 与 $C(s,t)$ 两个函数（且 $C$ 满足非负定性）。<strong>这是整门课中最省事的"过程定义法"</strong>——第 12 节的维纳过程就可以用这种方式一眼看穿。</p>
+    <p><strong>反过来说</strong>：要定义一个正态过程，只需给出 $m(t)$ 与 $C(s,t)$ 两个函数（且 $C$ 满足非负定性）。<strong>这是整门课中最省事的"过程定义法"</strong>——第 16 节的维纳过程就可以用这种方式一眼看穿。</p>
   </div>
 
   <h2>3. 正态过程的关键性质</h2>
@@ -213,7 +218,7 @@
     \begin{pmatrix}X_0\\ V\end{pmatrix}=A\begin{pmatrix}X_0\\ V\end{pmatrix}$$
     <p>其中 $A$ 是 $n\times2$ 的常数矩阵。因为 $(X_0,V)^T$ 服从<strong>二维正态</strong>，而正态向量经线性变换仍为正态（第 00 节性质 2），所以 $(X(t_1),\dots,X(t_n))^T$ 服从 $n$ 维正态。</p>
     <p>由于 $t_1,\dots,t_n$ 与 $n$ 都是任取的，故 $\{X(t)\}$ 是<strong>正态过程</strong>。$\blacksquare$</p>
-    <p><strong>这个证明的范式非常重要</strong>：凡遇到"由有限个正态变量线性组合而成"的过程，都可以这样一句证完。第 12 节证明维纳过程是正态过程时，用的正是同一招。</p>
+    <p><strong>这个证明的范式非常重要</strong>：凡遇到"由有限个正态变量线性组合而成"的过程，都可以这样一句证完。第 16 节证明维纳过程是正态过程时，用的正是同一招。</p>
   </div>
 
   <div class="callout example">
@@ -264,12 +269,12 @@
     <p>$\mathrm{Cov}(X(1),X(4))=C(1,4)=3\min(1,4)=3$。</p>
     <p>一维分布：$X(4)\sim N\bigl(2\cdot4,\ 12\bigr)=N(8,12)$，故</p>
     $$f(4,x)=\frac{1}{\sqrt{24\pi}}\exp\Bigl[-\frac{(x-8)^2}{24}\Bigr]$$
-    <p><strong>顺便判断</strong>：这个过程的 $C$ 是 $\min$ 型、$m$ 是线性——它满足第 10 节定理的结论形态（$a=2$、$\sigma^2=3$）。<strong>若再加上"平稳独立增量"，它就是带漂移的维纳过程（第 12 节会把这条补齐）。</strong></p>
+    <p><strong>顺便判断</strong>：这个过程的 $C$ 是 $\min$ 型、$m$ 是线性——它满足第 14 节定理的结论形态（$a=2$、$\sigma^2=3$）。<strong>若再加上"平稳独立增量"，它就是带漂移的维纳过程（第 16 节会把这条补齐）。</strong></p>
   </details>
   <details>
     <summary>Q3 · 正态过程的轨道一定连续吗？一定可微吗？</summary>
     <p><strong>都不一定。</strong>正态过程的定义<strong>只约束分布</strong>（任意有限维联合正态），对轨道的连续性、可微性<strong>没有任何要求</strong>。</p>
-    <p>最著名的反例是第 12 节的维纳过程：它是正态过程，但它的轨道<strong>连续而处处不可微</strong>（几乎必然），几乎是"最不规则"的曲线。</p>
+    <p>最著名的反例是第 16 节的维纳过程：它是正态过程，但它的轨道<strong>连续而处处不可微</strong>（几乎必然），几乎是"最不规则"的曲线。</p>
     <p><strong>方法论提醒</strong>：分布性质与轨道性质是<strong>两条平行线</strong>。要得到轨道的正则性，必须在定义里额外加条件（如"轨道连续"、均方连续、均方可微等）。这也是为什么维纳过程的定义里要专门写上"轨道连续"这一条。</p>
   </details>
   <details>
@@ -284,8 +289,8 @@
   </details>
 
   <div class="pager">
-    <a href="./10-平稳独立增量过程.html"><span class="label">← 上一节</span><span class="title">平稳独立增量过程的性质</span></a>
-    <a href="./12-维纳过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">维纳过程（布朗运动）</span></a>
+    <a href="./14-平稳独立增量过程.html"><span class="label">← 上一节</span><span class="title">平稳独立增量过程的性质</span></a>
+    <a href="./16-维纳过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">维纳过程（布朗运动）</span></a>
   </div>
 
   <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>

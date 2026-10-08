@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,10 +78,14 @@
     <a href="./06-均值函数与方差函数.html" class="current">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
@@ -185,7 +190,7 @@
     </table>
   </div>
 
-  <h2>4. 四个必会算例</h2>
+  <h2>4. 必会算例</h2>
 
   <h3>4.1 随机相位正弦波</h3>
   <div class="callout example">
@@ -223,8 +228,50 @@
       <tr><td>Poisson 过程 $\{N(t),t\ge0\}$</td><td>$N(t)\sim P(\lambda t)$</td><td>$\lambda t$</td><td>$\lambda t$</td></tr>
       <tr><td>维纳过程 $\{W(t),t\ge0\}$（参数 $\sigma^2$）</td><td>$W(t)\sim N(0,\sigma^2t)$</td><td>$0$</td><td>$\sigma^2t$</td></tr>
     </table>
-    <p><strong>两者都满足"均值与方差同量级"</strong>（Poisson：均值 = 方差 = $\lambda t$；维纳：均值为 $0$、方差 $\sigma^2t$）。这不是巧合——它们都是<strong>平稳独立增量过程且 $X(0)=0$</strong>，第 10 节会证明这个条件下必有 $m(t)=at$、$D(t)=\sigma^2t$。</p>
-    <p>也正因为 $D(t)$ 随时间增长，<strong>维纳过程与 Poisson 过程都不是平稳过程</strong>（第 03 节末尾提过的坑，第 12 节详解）。</p>
+    <p><strong>两者都满足"均值与方差同量级"</strong>（Poisson：均值 = 方差 = $\lambda t$；维纳：均值为 $0$、方差 $\sigma^2t$）。这不是巧合——它们都是<strong>平稳独立增量过程且 $X(0)=0$</strong>，第 14 节会证明这个条件下必有 $m(t)=at$、$D(t)=\sigma^2t$。</p>
+    <p>也正因为 $D(t)$ 随时间增长，<strong>维纳过程与 Poisson 过程都不是平稳过程</strong>（第 03 节末尾提过的坑，第 16 节详解）。</p>
+  </div>
+
+  <h3>4.4 随机开关系统（课件原例 · 教材例 1.1.1）</h3>
+  <div class="callout example">
+    <span class="label">例 · 随机开关系统过程的均值与方差</span>
+    <p>系统开始运行时，随机开关以概率 $p$ 接通子系统 I、以概率 $1-p$ 接通子系统 II，定义随机过程</p>
+    $$X_t=\begin{cases}\cos\pi t,&\text{接通子系统 I（}\omega=\omega_1\text{）}\\[2pt]2t,&\text{接通子系统 II（}\omega=\omega_2\text{）}\end{cases}\qquad t\in\mathbb{R}$$
+    <p>求 $m_X(t)$、$D_X(t)$。<strong>取课件默认的 $p=\tfrac12$</strong>（等概率）计算：</p>
+    <p><strong>解</strong> 对任意实数 $t\in\mathbb{R}$，</p>
+    <table>
+      <tr><th>$X(t)$</th><td>$\cos\pi t$</td><td>$2t$</td></tr>
+      <tr><th>$P$</th><td>$1/2$</td><td>$1/2$</td></tr>
+    </table>
+    <p><strong>均值函数</strong>：</p>
+    $$m_X(t)=E(X_t)=\frac12\cos\pi t+\frac12\cdot2t=\frac12\cos\pi t+t$$
+    <p><strong>二阶原点矩</strong>：</p>
+    $$E(X_t^2)=\frac12\cos^2\pi t+\frac12\cdot4t^2=\frac12\cos^2\pi t+2t^2$$
+    <p><strong>方差函数</strong>：</p>
+    $$D_X(t)=E(X_t^2)-m_X^2(t)=\frac12\cos^2\pi t+2t^2-\left(\frac12\cos\pi t+t\right)^2$$
+    $$=\frac14\cos^2\pi t-t\cos\pi t+t^2$$
+    <p><strong>读法</strong>：$m_X(t)=\frac12\cos\pi t+t$ 是"<strong>正弦 + 直线</strong>"的叠加；$D_X(t)=\frac14\cos^2\pi t-t\cos\pi t+t^2$ <strong>既不是常数、也不单调</strong>（$\cos$ 项与 $t^2$ 项在竞争），所以这个过程<strong>既不是宽平稳、也不是严平稳</strong>（见第 10 节判定方法）。</p>
+    <p><strong>关键提醒（下一节要用）</strong>：因为 $X_s$ 与 $X_t$ 由<strong>同一个开关</strong>决定，它们<strong>不相互独立</strong>——联合分布律是</p>
+    <table>
+      <tr><th>$(X(t),X(s))$</th><td>$(\cos\pi t,\;\cos\pi s)$</td><td>$(2t,\;2s)$</td></tr>
+      <tr><th>$P$</th><td>$1/2$</td><td>$1/2$</td></tr>
+    </table>
+    <p>所以求 $R(s,t)$ 时<strong>不能</strong>用"独立时 $E(X_sX_t)=E(X_s)E(X_t)$"，必须回到联合分布律逐格累加。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 · $X(t)=U+Vt$（课件第 7 次课 Ex.1）</span>
+    <p>设 $U,V$ 是两个相互独立的随机变量，均服从标准正态分布 $N(0,1)$，构成随机过程 $X_t=U+Vt$，$t\ge0$。求均值、方差与相关、协方差函数。</p>
+    <p><strong>解</strong> 因 $E(U)=E(V)=0$、$D(U)=D(V)=1$：</p>
+    $$m(t)=E(X_t)=E(U)+E(V)\cdot t=0,\qquad t\ge0$$
+    $$D(t)=E(X_t^2)-m^2(t)=\underbrace{E(U^2)}_{=1}+2t\underbrace{E(UV)}_{=0}+t^2\underbrace{E(V^2)}_{=1}=1+t^2$$
+    $$C(s,t)=R(s,t)=E\bigl[(U+Vs)(U+Vt)\bigr]=\underbrace{E(U^2)}_{1}+(s+t)\underbrace{E(UV)}_{0}+st\underbrace{E(V^2)}_{1}=1+st$$
+    <p><strong>一维概率密度</strong>（由 $X_t\sim N(0,1+t^2)$）：</p>
+    $$f_t(x)=\frac{1}{\sqrt{2\pi(1+t^2)}}\exp\!\left(-\frac{x^2}{2(1+t^2)}\right),\qquad x\in\mathbb{R},\ t\ge0$$
+    <p><strong>二维概率密度</strong>（$(X_s,X_t)$ 服从二元正态，均值 $\boldsymbol 0$，协方差阵 $\begin{pmatrix}1+s^2&1+st\\1+st&1+t^2\end{pmatrix}$，行列式 $=(s-t)^2$）：</p>
+    $$f_{s,t}(x,y)=\frac{1}{2\pi|s-t|}\exp\!\left(-\frac{(1+t^2)x^2-2(1+st)xy+(1+s^2)y^2}{2(s-t)^2}\right),\qquad s\ne t$$
+    <p><strong>读法</strong>：$C(s,t)=1+st$ <strong>同时依赖 $s$ 和 $t$</strong>（不是只依赖 $t-s$），所以这个过程<strong>不是宽平稳过程</strong>——它的"随机性"同时含一个固定的截距 $U$ 与一个固定的斜率 $V$，$U$ 的存在让所有时刻保持同向偏移。</p>
+    <p><strong>注意 $s=t$ 时的退化</strong>：$f_{s,t}$ 在 $s=t$ 时分母为 0——这不是"算错了"，而是 <strong>$X_s$ 与 $X_t$ 在 $s=t$ 时本来就是同一个随机变量</strong>，二维密度退化为奇异情形。要算二维密度必须 $s\ne t$。</p>
   </div>
 
   <h2>5. 易错点</h2>

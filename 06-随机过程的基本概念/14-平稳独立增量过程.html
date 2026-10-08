@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10 平稳独立增量过程的性质 | 第06讲</title>
+<title>14 平稳独立增量过程的性质 | 第06讲</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
@@ -57,12 +57,13 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 10</div>
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 14</div>
     <div class="course-name">随机过程与排队论（融合版）</div>
   </header>
 
@@ -77,15 +78,19 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html" class="current">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html" class="current">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
 
-  <h1>10 · 平稳独立增量过程的性质（本讲的核心定理）</h1>
+  <h1>14 · 平稳独立增量过程的性质（本讲的核心定理）</h1>
   <p class="lede">这一节是本讲<strong>含金量最高的一页</strong>。它回答了一个关键问题：如果只知道"增量独立 + 增量平稳 + $X(0)=0$"，我们能不能把过程的均值、方差、协方差<strong>全部算出来</strong>？答案是——<strong>能，而且形式极其简洁</strong>：$m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$。这个结果同时解释了为什么 Poisson 过程与维纳过程可以"只用两个参数"被完全刻画。</p>
 
   <div class="callout tip">
@@ -100,7 +105,7 @@
       <li><strong>均值为什么是直线 $at$？</strong>把时间 $t+s$ 切成两段：走完前一段的期望 + 后一段的期望。平稳性说"<strong>后一段的期望只跟段长有关</strong>"，于是"期望"变成一个可加函数——而<strong>可加函数必是线性函数</strong>。</li>
       <li><strong>方差为什么是直线 $\sigma^2t$？</strong>同理，但这次还多用了<strong>增量独立</strong>（独立才能让方差相加，没有交叉项）。所以时间越长，不确定性按<strong>线性</strong>累积——注意不是指数、不是平方，而是线性。这是"无记忆累积"的指纹。</li>
       <li><strong>协方差为什么取 $\min$？</strong>两个时刻 $s,t$ 共有的"共同经历"长度恰好是 $\min(s,t)$。多出来的那段时间只有一个时刻经历过，对两者的<strong>共同</strong>波动没有贡献。所以协方差先随 $\min$ 上升、到较短时刻后<strong>就平掉了</strong>。</li>
-      <li><strong>这条 $\min$ 形态有多重要？</strong>维纳过程的 $C(s,t)=\sigma^2\min(s,t)$、二项计数过程的 $C(m,n)=pq\min(m,n)$（第 09 节）——都是同一个定理的不同化身。</li>
+      <li><strong>这条 $\min$ 形态有多重要？</strong>维纳过程的 $C(s,t)=\sigma^2\min(s,t)$、二项计数过程的 $C(m,n)=pq\min(m,n)$（第 13 节）——都是同一个定理的不同化身。</li>
     </ul>
   </div>
 
@@ -225,9 +230,9 @@
     <span class="label">同一公式，三种形态</span>
     <table>
       <tr><th>过程</th><th>参数</th><th>$m(t)$</th><th>$D(t)$</th><th>$C(s,t)$</th></tr>
-      <tr><td>二项计数过程（离散版，第 09 节）</td><td>$p$</td><td>$np$</td><td>$npq$</td><td>$pq\min(m,n)$</td></tr>
+      <tr><td>二项计数过程（离散版，第 13 节）</td><td>$p$</td><td>$np$</td><td>$npq$</td><td>$pq\min(m,n)$</td></tr>
       <tr><td>Poisson 过程（第 10 讲）</td><td>$\lambda$</td><td>$\lambda t$</td><td>$\lambda t$</td><td>$\lambda\min(s,t)$</td></tr>
-      <tr><td>维纳过程（第 12 节）</td><td>$\sigma^2$</td><td>$0$</td><td>$\sigma^2t$</td><td>$\sigma^2\min(s,t)$</td></tr>
+      <tr><td>维纳过程（第 16 节）</td><td>$\sigma^2$</td><td>$0$</td><td>$\sigma^2t$</td><td>$\sigma^2\min(s,t)$</td></tr>
     </table>
     <p><strong>读表要点</strong>：</p>
     <ul>
@@ -282,8 +287,8 @@
   </details>
 
   <div class="pager">
-    <a href="./09-独立过程与独立增量过程.html"><span class="label">← 上一节</span><span class="title">独立过程与独立增量过程</span></a>
-    <a href="./11-正态过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">正态过程（高斯过程）</span></a>
+    <a href="./13-独立过程与独立增量过程.html"><span class="label">← 上一节</span><span class="title">独立过程与独立增量过程</span></a>
+    <a href="./15-正态过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">正态过程（高斯过程）</span></a>
   </div>
 
   <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>

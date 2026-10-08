@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 正交增量过程与白噪声 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 12</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html" class="current">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>12 · 正交增量过程与白噪声</h1>
+  <p class="lede">最后一节"结构类"。<strong>正交增量过程</strong>是"独立增量"的弱化版——只要求不同时段的增量<strong>互不相关</strong>，而不要求独立。它的用处很实在：<strong>平稳过程的谱分解正是建立在正交增量过程之上的</strong>。而<strong>白噪声</strong>则是"相关函数退化成 $\delta$ 函数"的极端情形，是通信与信号处理里一切随机信号的出发点。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>正交增量：$t_1&lt;t_2&lt;t_3&lt;t_4$ 时 $E[(X_{t_2}-X_{t_1})(X_{t_4}-X_{t_3})]=0$——"不同时段的增量两两不相关"。独立增量 $\Rightarrow$ 正交增量，反之不然。</strong><strong>白噪声：$R(s,t)=\sigma^2\delta(s-t)$——除对角线外处处为 0，即"同一时刻与自己完全相关、不同时刻毫不相关"。高斯白噪声由 $n$ 维正态的性质升级为"真正独立"。</strong>
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>正交增量</strong>：想象把整段信号按时间切成若干段，每段的"增量"（这一段相对上一段抬升了多少）之间<strong>没有线性关联</strong>。这比"完全独立"弱得多，但足以让谱分析（把过程拆成互不干扰的正交分量）成立。</li>
+      <li><strong>白噪声</strong>：各时刻的取值"互不相关"，相当于把所有频率的能量平摊——所以叫"<strong>白</strong>"（像白光一样，各色等强）。现实中它不存在（$R(t,t)=\infty$），但作为<strong>模型</strong>极其好用：接收机的热噪声、图像传感器的像素级噪声都以它为基准。</li>
+      <li><strong>两者的位置</strong>：正交增量是<strong>结构要求</strong>，白噪声是<strong>具体过程</strong>。宽平稳过程的谱分解结果<strong>正是</strong>一个白噪声驱动正交增量过程的和——这一节是连接第 10 节与后续随机微分方程/滤波理论的枢纽。</li>
+    </ul>
+  </div>
+
+  <h2>2. 定义 · 正交增量过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义（彭江燕课件）· 正交增量过程</span>
+    <p>$\{X(t),t\in T\}$ 是复值二阶矩过程，对任意的 $t_1,t_2,t_3,t_4\in T$ 且 $t_1<t_2<t_3<t_4$，有</p>
+    $$E\Bigl[\bigl(X_{t_2}-X_{t_1}\bigr)\bigl(X_{t_4}-X_{t_3}\bigr)\Bigr]=0$$
+    <p>称过程是<strong>正交增量过程</strong>。</p>
+    <p><strong>注（课件）</strong>：在<strong>平稳过程的谱分解</strong>中，正交增量过程起着极其重要的作用。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">与独立增量的强弱关系</span>
+    <p>回忆第 13 节的<strong>独立增量过程</strong>：任意不相交时段上的增量<strong>相互独立</strong>。</p>
+    $$X_{t_2}-X_{t_1}\ \perp\!\!\!\perp\ X_{t_4}-X_{t_3}\quad(\text{独立增量})\quad\Longrightarrow\quad E\Bigl[(X_{t_2}-X_{t_1})(X_{t_4}-X_{t_3})\Bigr]=E[X_{t_2}-X_{t_1}]\cdot E[X_{t_4}-X_{t_3}]$$
+    <p>若再假设均值为 0（或对增量中心化），右端为 0，正交增量条件成立。</p>
+    <p><strong>所以</strong>：$\boxed{\text{独立增量（零均值）}\Rightarrow\text{正交增量}}$，<strong>反之不然</strong>——两个增量可以"不相关"但仍然存在非线性依赖（例如 $Z$ 与 $Z^2$，取 $Z\sim N(0,1)$：不相关但显然不独立）。</p>
+    <p><strong>为什么要这个弱化版？</strong>因为宽平稳（第 10 节）只给出二阶信息，<strong>推不出独立增量</strong>，但<strong>足够推出正交增量</strong>。这就是正交增量过程存在的全部理由。</p>
+  </div>
+
+  <h2>3. 白噪声</h2>
+
+  <h3>3.1 离散白噪声（序列）</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 离散白噪声序列</span>
+    <p>随机序列 $\{X_n\}$ 满足</p>
+    $$E(X_n)=0,\qquad D(X_n)=\sigma^{2},\qquad R(m,n)=E(X_mX_n)=\begin{cases}0,&amp; m\ne n\\[2pt]\sigma^{2},&amp; m=n\end{cases}=\sigma^{2}\delta_{mn}$$
+    <p>称为<strong>离散白噪声（序列）</strong>。课件定义 1.3.2 补充：此时任意两个随机变量<strong>两两不相关</strong>。</p>
+    <p><strong>注意</strong>：白噪声序列<strong>只要求"不相关"，不要求"独立"</strong>。若各 $X_n$ <strong>都服从正态分布</strong>，则称为<strong>高斯白噪声序列</strong>——由"$n$ 维正态随机变量：相互独立 $\Leftrightarrow$ 不相关"可得</p>
+    $$\boxed{\text{高斯白噪声序列}\ \Longrightarrow\ \text{独立同分布的序列}}$$
+    <p><strong>独立过程</strong>的有限维分布由一维分布确定（课件定义 1.3.2 注）：$F_{t_1,\dots,t_n}(x_1,\dots,x_n)=\prod_{k=1}^{n}F_{t_k}(x_k)$。所以<strong>"独立 + 白噪声"= "高斯白噪声 + 各点同分布"</strong>。</p>
+  </div>
+
+  <h3>3.2 连续参数白噪声</h3>
+  <div class="callout theorem">
+    <span class="label">定义 · 连续参数白噪声</span>
+    <p>若 $\{X(t),t\in\mathbb{R}\}$ 随机过程满足</p>
+    $$E(X_t)=0,\qquad R(s,t)=E(X_sX_t)=\sigma^{2}\delta(s-t)=\begin{cases}0,&amp; s\ne t\\[2pt]+\infty,&amp; s=t\end{cases}$$
+    <p>称其为<strong>连续参数白噪声</strong>。</p>
+    <p><strong>怎么读 $\delta(s-t)$</strong>：$R(s,t)$ 的"图像"是一条<strong>竖直对角线</strong>，线宽趋于 0、高度趋于 $\infty$，但<strong>面积恒为 $\sigma^2$</strong>。含义是——<strong>每个时刻只与它自己相关，相关强度无限大；与任何别的时刻相关性为 0。</strong></p>
+    <p><strong>为什么 $R(t,t)=+\infty$？</strong>因为白噪声在数学上<strong>不可实现</strong>：任何 $D(t)=\sigma^2$ 的实在过程，其 $R(t,t)=D(t)$ 都是有限的。白噪声只是<strong>模型</strong>——物理上的热噪声是"极窄但有限宽度"的脉冲的极限。</p>
+    <p><strong>正态过程版本</strong>：若连续参数白噪声同时是<strong>正态过程</strong>，则任意有限维联合分布是多元正态、协方差矩阵 $\sigma^2 I$，由第 11 节的"独立 $\Leftrightarrow$ 不相关"得<strong>各时刻相互独立</strong>，此时也<strong>严平稳</strong>（第 11 节例 3）。</p>
+  </div>
+
+  <h3>3.3 为什么叫"白"</h3>
+  <div class="callout intuition">
+    <span class="label">谱域视角</span>
+    <p>宽平稳过程的功率谱密度 $S_X(\omega)=\frac{1}{2\pi}\int_{-\infty}^{+\infty}R(\tau)e^{-j\omega\tau}d\tau$。对白噪声：</p>
+    <ul>
+      <li><strong>连续参数</strong>：$R(\tau)=\sigma^2\delta(\tau)\Rightarrow S_X(\omega)=\dfrac{\sigma^{2}}{2\pi}$，<strong>在所有频率上完全平坦</strong>；</li>
+      <li><strong>离散</strong>：$R(m)=\sigma^2\delta_m\Rightarrow$ 数字功率谱处处相等 $\sigma^2$。</li>
+    </ul>
+    <p>"白"指的是<strong>各频率分量的强度完全相同</strong>（像白光包含所有可见光波长、强度一样）。<strong>实用推论</strong>：白噪声通过任何线性系统后，输出仍是白噪声（幅度被系统频率响应缩放）——这让通信系统的理论分析大大简化。</p>
+  </div>
+
+  <h2>4. 例 · 半二元传输信号</h2>
+  <div class="callout example">
+    <span class="label">例（课件原例）· 半二元传输信号的分段常值相关函数</span>
+    <p>用无数次投掷均匀硬币的随机试验来定义一个随机过程</p>
+    $$X(t)=\begin{cases}+1,&amp;\text{第 }n\text{ 次出现正面}\\[2pt]-1,&amp;\text{第 }n\text{ 次出现反面}\end{cases}\qquad (n-1)T&lt;t&lt;nT,\quad (T&gt;0,\ n\in\mathbb{N})$$
+    <p>其中 $T$ 为正的时间常数。$X(t)$ 称为<strong>半二元传输信号</strong>，求它的均值和自相关函数。</p>
+    <p><strong>注（课件）</strong>：在相同区间取同一个值，在不同区间则<strong>独立地</strong>取值。</p>
+    <p><strong>解</strong> 这是离散型随机过程，任意时刻只有 $\pm1$ 两个取值：</p>
+    $$m(t)=E[X(t)]=\frac12\cdot 1+\left(-\frac12\right)\cdot 1=0$$
+    <p>自相关函数</p>
+    $$R(s,t)=E[X(s)X(t)]=1\cdot1\cdot P\{X(s)=1,X(t)=1\}+(-1)(-1)\cdot P\{X(s)=-1,X(t)=-1\}$$
+    $$=\begin{cases}1,&amp;(n-1)T&lt;s,t&lt;nT\ \text{（同一区间）}\\[2pt]0,&amp;\text{其他（}s\text{ 与 }t\text{ 分属不同的 }T\text{ 区间）}\end{cases}$$
+    <p>最后一步的依据：<strong>若 $s$ 与 $t$ 分属不同的 $T$ 区间，则 $X(s)$ 和 $X(t)$ 相互独立</strong>，两个都在同一区间的概率各为 $1/2$，故 $R(s,t)=\frac12+\frac12=1$。</p>
+  </div>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 700 400" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>半二元传输信号的轨道与自相关函数分块结构</title>
+      <desc>上图是一条取值正负 1 的方波，每个时间区间长度 T 内取常值。下图是其自相关函数 R(s,t) 的矩阵结构，同一对角线上的方块为 1，其余方块为 0，说明不同时段的取值相互独立。</desc>
+
+      <text x="70" y="30" font-size="13" fill="#1f2328">(a) 样本函数 X(t)：每段长度 T 内取常值 ±1</text>
+      <line x1="60" y1="105" x2="660" y2="105" stroke="#57606a" stroke-width="0.8" stroke-dasharray="4 3"/>
+      <text x="52" y="72" font-size="12" fill="#57606a" text-anchor="end">+1</text>
+      <text x="52" y="140" font-size="12" fill="#57606a" text-anchor="end">−1</text>
+      <polyline points="70,70 220,70 220,138 370,138 370,70 520,70 520,138 660,138" fill="none" stroke="#0969da" stroke-width="2"/>
+      <line x1="70" y1="168" x2="660" y2="168" stroke="#57606a" stroke-width="0.8"/>
+      <text x="70" y="186" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+      <text x="220" y="186" font-size="11" fill="#57606a" text-anchor="middle">T</text>
+      <text x="370" y="186" font-size="11" fill="#57606a" text-anchor="middle">2T</text>
+      <text x="520" y="186" font-size="11" fill="#57606a" text-anchor="middle">3T</text>
+      <text x="660" y="186" font-size="11" fill="#57606a" text-anchor="middle">4T</text>
+      <text x="665" y="172" font-size="12" fill="#57606a">t</text>
+      <text x="365" y="206" font-size="11" fill="#57606a" text-anchor="middle">脉宽是 T 的整数倍；第 n 段由第 n 次抛硬币决定（正面 +1 / 反面 −1）</text>
+
+      <text x="70" y="236" font-size="13" fill="#1f2328">(b) 自相关函数 R(s,t) 的分块结构：对角块 = 1，其余 = 0</text>
+
+      <rect x="145" y="252" width="45" height="32" fill="#dafbe1" stroke="#1a7f37" stroke-width="1"/>
+      <rect x="190" y="284" width="45" height="32" fill="#dafbe1" stroke="#1a7f37" stroke-width="1"/>
+      <rect x="235" y="316" width="45" height="32" fill="#dafbe1" stroke="#1a7f37" stroke-width="1"/>
+      <rect x="280" y="348" width="45" height="32" fill="#dafbe1" stroke="#1a7f37" stroke-width="1"/>
+
+      <rect x="100" y="252" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="190" y="252" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="235" y="252" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="280" y="252" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="100" y="284" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="235" y="284" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="280" y="284" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="100" y="316" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="145" y="316" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="280" y="316" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="100" y="348" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="145" y="348" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="190" y="348" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+      <rect x="235" y="348" width="45" height="32" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+
+      <text x="167" y="273" font-size="13" fill="#1a7f37" text-anchor="middle">1</text>
+      <text x="212" y="305" font-size="13" fill="#1a7f37" text-anchor="middle">1</text>
+      <text x="257" y="337" font-size="13" fill="#1a7f37" text-anchor="middle">1</text>
+      <text x="302" y="369" font-size="13" fill="#1a7f37" text-anchor="middle">1</text>
+      <text x="257" y="273" font-size="13" fill="#8b949e" text-anchor="middle">0</text>
+      <text x="167" y="337" font-size="13" fill="#8b949e" text-anchor="middle">0</text>
+
+      <text x="340" y="290" font-size="12" fill="#1a7f37">同一 T 区间内：完全相关，R = 1</text>
+      <text x="340" y="314" font-size="12" fill="#57606a">不同 T 区间：取值独立，R = 0</text>
+      <text x="340" y="338" font-size="12" fill="#57606a">→ 这不是白噪声：白噪声要求</text>
+      <text x="340" y="360" font-size="12" fill="#57606a">同一个区间内所有时刻都不相关</text>
+      <text x="60" y="318" font-size="12" fill="#57606a" text-anchor="middle" transform="rotate(-90 60 318)">s</text>
+      <text x="300" y="392" font-size="12" fill="#57606a" text-anchor="middle">t</text>
+    </svg>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">对比 · 半二元传输信号 vs 白噪声</span>
+    <p>半二元传输信号<strong>不是</strong>白噪声：它在<strong>同一个 $T$ 区间内的所有时刻取同一个值</strong>，所以 $R(s,t)=1\ (s,t$ 同区间$)$——相关函数是一条条"块"，不是一条对角线。</p>
+    <p>白噪声则要求<strong>任何两个不同时刻都不相关</strong>，即 $R(s,t)=0\ (s\ne t)$。</p>
+    <p><strong>两者的共同点</strong>：都是"<strong>不同时段互不影响</strong>"的信号；区别在于<strong>区间内部是否相关</strong>。这也是为什么通信中传输的是"每个码元一个取值"的半二元信号，而接收机前端面对的理想噪声是白噪声。</p>
+  </div>
+
+  <h2>5. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>认为白噪声各时刻"独立"</strong>。<strong>离散白噪声只要求两两不相关</strong>；只有<strong>高斯白噪声</strong>才由"$n$ 维正态中不相关 $\Leftrightarrow$ 独立"升级为真正独立。非高斯的白噪声序列完全可以存在非线性依赖。</li>
+      <li>❌ <strong>把连续白噪声的 $R(t,t)=\infty$ 当成"$D(t)$ 无穷大所以不可用"</strong>。白噪声是<strong>理想化模型</strong>，工程上取有限带宽近似。真正会考的是"$R(s,t)=\sigma^2\delta(s-t)$，$s\ne t$ 时为 0"。</li>
+      <li>❌ <strong>把正交增量与独立增量等同</strong>。方向只能是 $\text{独立增量}\Rightarrow\text{正交增量}$；$Z$ 与 $Z^2$（$Z\sim N(0,1)$）就是不相关但不独立的现成反例。</li>
+      <li>❌ <strong>以为半二元传输信号是白噪声</strong>。它的 $R(s,t)$ 是<strong>分块</strong>的，同一区间内 $R=1$。只有当区间长度 $T\to0$ 时才退化成白噪声。</li>
+      <li>❌ <strong>忽略正交增量的"零均值"前提</strong>。由独立增量推出正交增量时用了 $E[X_{t_2}-X_{t_1}]E[X_{t_4}-X_{t_3}]=0$；若增量均值为 0（常见于 $X(0)=0$ 的计数/正态类过程），条件自动成立。</li>
+      <li>❌ <strong>把"$R$ 只依赖时间差"与"$R$ 只在对角线非零"混为一谈</strong>。前者是宽平稳（第 10 节），后者是白噪声。<strong>白噪声是宽平稳的特例</strong>（$R(\tau)=\sigma^2\delta(\tau)$ 确实只依赖时间差）。</li>
+    </ul>
+  </div>
+
+  <h2>6. 自检</h2>
+  <details>
+    <summary>Q1 · 证明：零均值的独立增量过程一定是正交增量过程。</summary>
+    <p>设 $t_1&lt;t_2&lt;t_3&lt;t_4$。记 $U=X_{t_2}-X_{t_1}$、$V=X_{t_4}-X_{t_3}$。两个增量对应的时段 $\bigl(t_1,t_2\bigr]$ 与 $\bigl(t_3,t_4\bigr]$ <strong>不相交</strong>，由独立增量 $U\perp V$：</p>
+    $$E[UV]=E[U]\cdot E[V]=0\cdot0=0$$
+    <p>即正交增量条件成立。<strong>反过来不成立</strong>：取 $U$ 与 $V=U^2$（$U\sim N(0,1)$），$E[U^2]=E[U^4]$ 分别为 $1$ 和 $3$，交叉项 $E[UV]=E[U^3]=0$ 成立，但 $U,V$ 显然不独立。</p>
+  </details>
+  <details>
+    <summary>Q2 · 白噪声一定是宽平稳吗？</summary>
+    <p><strong>是</strong>（连续参数情形）。$R(s,t)=\sigma^2\delta(s-t)=\sigma^2\delta(t-s)$ 只依赖 $t-s$，且 $m(t)\equiv0$ 满足宽平稳的前两条（第三条 $D(t)$ 需要小心：形式上 $D(t)=\sigma^2\delta(0)=+\infty$）。</p>
+    <p>工程上更精确的说法：白噪声是"广义平稳（宽平稳）且方差为无穷"的过程，属于广义随机过程范畴。</p>
+    <p><strong>离散白噪声</strong>则完全合规：$R(m,n)=\sigma^2\delta_{mn}$ 只依赖 $m-n$，$D\equiv\sigma^2$ 有限，<strong>是标准的宽平稳序列</strong>。</p>
+  </details>
+  <details>
+    <summary>Q3 · 半二元传输信号为什么<strong>不</strong>是严平稳过程？</summary>
+    <p>取 $n=2$、$s$ 与 $t$ <strong>在同一个 $T$ 区间内</strong>：此时 $X(s)=X(t)$（确定性地相等），联合分布是<strong>退化</strong>的（落在对角线 $x_1=x_2$ 上）。</p>
+    <p>把窗口整体平移到另一个区间：$R$ 仍是 1，看起来没变。但注意——<strong>平移任意实数 $\tau$ 会把区间边界挪位</strong>，取 $\tau$ 恰好把 $s,t$ 拆到两个区间，$R$ 从 1 变成 0，<strong>联合分布改变了</strong>。</p>
+    <p>所以它的 $C/R$ 只依赖"<strong>是否同区间</strong>"，<strong>不是时间差的函数</strong> $\Rightarrow$ 既不宽平稳也不严平稳。<strong>只有当区间长度 $T\to0$（即 $T=0$，理想化）时才趋于白噪声。</strong></p>
+  </details>
+  <details>
+    <summary>Q4 · 维纳过程的增量 $W(t)-W(s)$ 序列 $\{W(n)-W(n-1)\}_{n\ge1}$ 是白噪声吗？</summary>
+    <p>设维纳过程参数为 $\sigma^2$。这些增量：</p>
+    <ul>
+      <li>$E[W(n)-W(n-1)]=0$ ✓</li>
+      <li>$D[W(n)-W(n-1)]=\sigma^2$ ✓</li>
+      <li>两两不相关：由独立增量，$E[\Delta_i\Delta_j]=0\ (i\ne j)$ ✓</li>
+    </ul>
+    <p><strong>所以它就是离散白噪声序列</strong>，而且由于增量是正态的，它是<strong>高斯白噪声序列</strong>——各增量<strong>相互独立</strong>。</p>
+    <p><strong>这就是布朗运动与白噪声的联系</strong>：<strong>维纳过程 = 白噪声的累积和（积分）</strong>。$\sum_{k\le n}Y_k$ 中每个 $Y_k$ 是标准高斯白噪声，$W(n)=\sigma\sqrt{n}\sum Y_k$。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./11-严平稳过程.html"><span class="label">← 上一节</span><span class="title">严平稳过程</span></a>
+    <a href="./13-独立过程与独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">独立过程与独立增量过程</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

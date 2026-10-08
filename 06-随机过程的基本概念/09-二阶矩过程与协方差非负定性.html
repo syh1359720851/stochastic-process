@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>09 二阶矩过程与协方差的非负定性 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 09</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html" class="current">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>09 · 二阶矩过程与协方差的非负定性</h1>
+  <p class="lede">第 07、08 两节随手写了 $R(s,t)=E[X_sX_t]$、$C(s,t)=\mathrm{Cov}(X_s,X_t)$——但<strong>它们到底存不存在？</strong>只要分布是重尾的，$E[X_t]$ 本身就可能不存在。本节补上这个前提（<strong>二阶矩过程</strong>），并证明协方差函数必须满足的一条硬性约束（<strong>非负定性</strong>）：它决定了<em>哪些 $C(s,t)$ 是"编得出来的"</em>。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>$E[X(t)^2]<\infty$ 是数字特征的"入场券"</strong>——有了它，$m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$、$\rho(s,t)$ 才全部存在；<strong>而非负定性说的是"任意加权组合的方差都不可能是负数"</strong>，这正是协方差矩阵非负定（第 00 节）在"函数版本"的翻版。
+  </div>
+
+  <h2>1. 直观含义：为什么需要"二阶矩"这个前提</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义</span>
+    <ul>
+      <li><strong>现实里绝大多数物理量都自动满足</strong>：电压被钳位在 $\pm5\text{ V}$、开关状态是 $0/1$、计数器读数非负且上界有限——幅度有界 $\Rightarrow$ 二阶矩必然有限。这类过程我们后面会大量遇到（随机开关系统、半二元传输信号、维纳过程的 $m(t)=0$ 一族）。</li>
+      <li><strong>真正会出问题的是"重尾"分布</strong>：柯西分布、$t$ 分布这类尾巴拖得很长的分布，$E[X]=\infty$、$E[X^2]=\infty$。这时连"均值函数"都写不出来，整套数字特征工具全部失效。</li>
+      <li><strong>本节的作用是"划定边界"</strong>：把"能用二阶数字特征描述的过程"和"不能用的过程"分开。后面第 10、11 节的宽平稳/严平稳，正是建立在这个边界之内——它们都是<strong>二阶矩过程</strong>。</li>
+    </ul>
+  </div>
+
+  <h2>2. 定义 · 二阶矩过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义 1.3.1 · 二阶矩过程</span>
+    <p>设已给随机过程 $\{X(t),t\in T\}$（实或复），若对任意 $t\in T$，均有</p>
+    $$E\bigl[X(t)^2\bigr]<\infty,$$
+    <p>称其为<strong>二阶矩随机过程</strong>。</p>
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">推论 · 二阶矩 ⇒ 相关函数与协方差函数总存在</span>
+    <p>由<strong>许瓦茨（Schwarz）不等式</strong>，对任意 $s,t\in T$：</p>
+    $$\bigl[E(X_sX_t)\bigr]^2\le E\bigl(X_s^2\bigr)\cdot E\bigl(X_t^2\bigr)<\infty$$
+    <p>右端有限 $\Rightarrow$ $|E(X_sX_t)|<\infty$，即 $R(s,t)$ 存在且有限。再由</p>
+    $$C(s,t)=R(s,t)-m(s)m(t)$$
+    <p>知 $C(s,t)$ 也存在且有限。（课件原话：<strong>二阶矩过程的协方差函数与相关函数总存在</strong>。）</p>
+    <p><strong>顺带说明</strong>：由柯西-施瓦茨不等式还立刻得到 $|R(s,t)|\le\sigma(s)\sigma(t)$，即 <strong>相关系数函数的取值必落在 $[-1,1]$</strong>——这是第 07 节 $\|\rho\|\le1$ 的来源。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">注意 · 复随机过程要多写一笔</span>
+    <p>课件在定义里允许复值过程 $Z(t)=X(t)+jY(t)$，此时二阶矩条件写作 $E[|Z(t)|^2]<\infty$，且相关函数用<strong>共轭</strong>：</p>
+    $$R_Z(s,t)=E\bigl[Z(s)\,\overline{Z(t)}\bigr],\qquad
+    R_{Z_1Z_2}(s,t)=E\bigl[Z_1(s)\,\overline{Z_2(t)}\bigr]$$
+    <p>课件给出的复过程方差函数结论是 $D_Z(t)=D_X(t)+D_Y(t)$（因为 $\bigl|[X-m_X]+j[Y-m_Y]\bigr|^2=(X-m_X)^2+(Y-m_Y)^2$）。<strong>方差函数的这个加法结论只在复数模平方下成立，实数过程没有对应说法。</strong></p>
+  </div>
+
+  <h2>3. 定理 1.3.1 · 协方差函数的两条性质</h2>
+  <div class="callout theorem">
+    <span class="label">定理 1.3.1（彭江燕课件原定理）</span>
+    <p>设 $\{X(t),t\in T\}$ 是<strong>二阶矩过程</strong>，且 $m_X(t)\equiv 0$（<strong>零均值</strong>），则其相关函数 $R(s,t)$ 满足：</p>
+    <ol>
+      <li><strong>非负定性</strong>：对给定 $n\ge1$ 及 $t_1,t_2,\dots,t_n\in T$、任意普通函数 $\varphi(t)$，有
+      $$\sum_{k=1}^{n}\sum_{j=1}^{n}R(t_k,t_j)\,\varphi(t_k)\,\varphi(t_j)\;\ge\;0$$</li>
+      <li><strong>埃密特性（对称性）</strong>：$R(t,s)=R(s,t)$。</li>
+    </ol>
+    <p><strong>注（课件）</strong>：非负定性正是"协方差矩阵满足二次型非负"，在正态过程中可以<strong>白化（去相关性）</strong>——把相关过程化成独立正态过程。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">直观含义 · 为什么"非负"是必然的</span>
+    <p>零均值时 $C(s,t)=R(s,t)$，于是那个双重求和其实就是<strong>一个随机变量的方差</strong>。令</p>
+    $$Z=\sum_{k=1}^{n}\varphi(t_k)X(t_k)$$
+    <p>由期望的线性性 $E(Z)=0$，由方差的非负性 $D(Z)\ge0$，而 $D(Z)$ 展开后<strong>恰好</strong>是上式。于是"非负"不是额外假设，而是<strong>"这是个方差"这件事本身带来的</strong>。</p>
+  </div>
+
+  <details>
+    <summary>展开证明 · 非负定性</summary>
+    <p>零均值实过程情形：</p>
+    $$\sum_{k=1}^{n}\sum_{j=1}^{n}R(t_k,t_j)\varphi(t_k)\varphi(t_j)
+    =\sum_{k=1}^{n}\sum_{j=1}^{n}E\bigl[X(t_k)X(t_j)\bigr]\varphi(t_k)\varphi(t_j)$$
+    $$=E\left[\Bigl(\sum_{k=1}^{n}X(t_k)\varphi(t_k)\Bigr)\Bigl(\sum_{j=1}^{n}X(t_j)\varphi(t_j)\Bigr)\right]$$
+    $$=E\left[\left(\sum_{k=1}^{n}X(t_k)\varphi(t_k)\right)^{2}\right]\;\ge\;0$$
+    <p>最后一步用到"实数随机变量的平方期望非负"。</p>
+    <p><strong>复过程情形</strong>要把 $\varphi(t_j)$ 换成共轭 $\overline{\varphi(t_j)}$，于是右端变成 $E\bigl|Z\bigr|^2\ge0$，同样成立。</p>
+    <p><strong>二阶矩条件在这里干什么用？</strong>它保证 $E\bigl[Z^2\bigr]$ 有限，从而可以合法地把期望与求和交换顺序（有限求和 + 可积总是允许的）。<strong>没有二阶矩，这个证明的第一步就卡住了。</strong></p>
+  </details>
+
+  <details>
+    <summary>展开证明 · 埃密特性 $R(t,s)=R(s,t)$</summary>
+    <p>实过程：$R(t,s)=E(X_tX_s)=E(X_sX_t)=R(s,t)$，只用了实数乘法交换律。</p>
+    <p><strong>推论（课件指出）</strong>：若该过程是<strong>实宽平稳过程</strong>（自相关只与 $s-t$ 有关，与 $s$、$t$ 本身无关，记 $R(\tau)$），则 $R$ 必为<strong>偶函数</strong>：</p>
+    $$R(s-t)=R\bigl(-(t-s)\bigr)=R(t-s)\quad\Longrightarrow\quad R(-\tau)=R(\tau)$$
+    <p>这个结论在第 10 节很有用：<strong>宽平稳过程的相关函数画出来一定左右对称</strong>，$R(0)=\sigma^2$ 处取到上界。如果画出来不对称，一定是算错了。</p>
+  </details>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 400 190" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>二次型非负的图形含义</title>
+      <desc>一条开口向上的抛物线始终位于横轴之上，表示任意加权组合的方差恒不为负。</desc>
+      <line x1="30" y1="150" x2="370" y2="150" stroke="#57606a" stroke-width="0.9"/>
+      <line x1="60" y1="175" x2="60" y2="25" stroke="#57606a" stroke-width="0.9"/>
+      <path d="M 60 138 L 100 100 L 140 74 L 180 62 L 200 60 L 220 62 L 260 74 L 300 100 L 340 138" fill="none" stroke="#8250df" stroke-width="1.8"/>
+      <line x1="60" y1="60" x2="200" y2="60" stroke="#8250df" stroke-width="0.6" stroke-dasharray="3 3"/>
+      <text x="206" y="64" font-size="11" fill="#8250df">最小值 = D(Σ θk X(tk)) ≥ 0</text>
+      <text x="348" y="146" font-size="12" fill="#57606a">0</text>
+      <text x="46" y="36" font-size="12" fill="#57606a">f</text>
+      <text x="200" y="176" font-size="12" fill="#57606a" text-anchor="middle">系数 θ 的变化方向</text>
+      <text x="24" y="180" font-size="11" fill="#cf222e">阴影区不可能出现</text>
+      <rect x="30" y="152" width="340" height="18" fill="#ffebe9" stroke="none" opacity="0.9"/>
+      <line x1="30" y1="150" x2="370" y2="150" stroke="#57606a" stroke-width="0.9"/>
+      <text x="200" y="164" font-size="11" fill="#cf222e" text-anchor="middle">f 落到横轴下方 ⟺ 与「它是个方差」矛盾</text>
+    </svg>
+  </div>
+
+  <h2>4. 非负定性的真正用途：它是"协方差函数的判据"</h2>
+  <div class="callout intuition">
+    <span class="label">判定工具</span>
+    <ul>
+      <li><strong>它是一张"许可证"</strong>：不是随便写个二元函数都能当协方差函数。例如 $C(s,t)=\sin(s+t)+2$ 看着挺光滑，但取 $\varphi$ 只在 $t_1\ne t_2$ 处取 $\pm1$，二次型出现负项 $\Rightarrow$ 违反非负定 $\Rightarrow$ <strong>它不是任何过程的协方差函数</strong>。</li>
+      <li><strong>它和第 00 节是同一件事</strong>：把 $\varphi$ 限制成只在有限个 $t_1,\dots,t_n$ 上非零，非负定性立刻退化为"$\bigl[C(t_k,t_j)\bigr]_{k,j=1}^{n}$ 是非负定矩阵"。<strong>协方差矩阵非负定 ⟺ 协方差函数非负定。</strong></li>
+      <li><strong>对正态过程它是"充要"的</strong>：正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定（第 15 节），而第 04 节的 Kolmogorov 扩张定理保证"相容的非负定有限维族一定存在"。所以对正态过程来说，<strong>非负定 + 对称 + 相容</strong>就足够构造出过程；常用工具是 Cholesky 分解（$C=AA^{\mathsf T}$），也就是课件说的"<strong>白化 / 去相关性</strong>"。</li>
+    </ul>
+  </div>
+
+  <h2>5. 例子</h2>
+  <div class="callout example">
+    <span class="label">例 · 哪些过程是二阶矩过程</span>
+    <p>课件指出：<strong>各种正弦波过程，只要随机幅度 $A$ 有界或二阶矩有限，这四类信号都是二阶矩过程</strong>（随机相位 / 随机幅度 / 随机频率 / 随机幅度+相位+频率）。理由都一样：</p>
+    $$X(t)=A\cos\bigl(\omega t+\Theta\bigr)\ \Longrightarrow\ |X(t)|\le|A|,\quad E\bigl[X(t)^2\bigr]\le E(A^2)<\infty$$
+    <p>例如第 10 节要算的随机正弦波 $A\sim N(0,1)$：$E[A^2]=1<\infty$，二阶矩成立；随机频率那一类虽然 $m(t)$ 不是常数，但幅度有界，仍是二阶矩过程（第 10 节会说明它<strong>不是</strong>宽平稳过程）。</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">例 · 反例：独立同分布的柯西序列</span>
+    <p>设 $\xi_1,\xi_2,\dots$ 独立同分布且 $\xi_n\sim$ Cauchy$(0,1)$，密度</p>
+    $$f_\xi(x)=\frac{1}{\pi}\cdot\frac{1}{1+x^{2}},\qquad x\in\mathbb{R}$$
+    <p>它的尾部以 $1/x^2$ 衰减，于是 $\int|x|\,f(x)\,dx=\infty$：<strong>均值不存在、方差不存在、更没有二阶矩</strong>。</p>
+    <p>但它<strong>确实是严平稳过程</strong>：任意有限维联合分布都是各边际分布的乘积，平移时间后联合分布不变（详见第 11 节）。</p>
+    <p><strong>所以</strong>：<strong>"严平稳 $\not\Rightarrow$ 二阶矩"</strong>，也<strong>"二阶矩 $\not\Rightarrow$ 严平稳"</strong>。三者互相不蕴含（严平稳 + 二阶矩 $\Rightarrow$ 宽平稳，见第 11 节）。</p>
+  </div>
+
+  <h2>6. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>把非负定当成"非负函数"</strong>。$C(s,t)$ 在对角线外<strong>完全可以取负值</strong>（负相关）。非负定说的是<strong>二次型</strong> $\sum\sum C\,\varphi\varphi\ge0$，不是 $C(s,t)\ge0$。</li>
+      <li>❌ <strong>忽略"零均值"这个前提</strong>。定理 1.3.1 写的是 $m_X(t)\equiv0$ 时的 $R$。一般情形要用 $C$（协方差函数），二次型给出的是 $\sum\sum C(t_k,t_j)\varphi_k\varphi_j=D\bigl(\sum\varphi_kX(t_k)\bigr)\ge0$——<strong>结论照样成立，只是把 $R$ 换成 $C$</strong>。</li>
+      <li>❌ <strong>把 $D(t)=C(t,t)\ge0$ 当作非负定</strong>。$n=1$ 只是最弱的特例；$n\ge2$ 才体现出"各时刻之间的组合不能产生负方差"这一层含义，$D(t)\ge0$ 无法替代。</li>
+      <li>❌ <strong>以为"二阶矩"是整体性质</strong>。$E[X(t)^2]<\infty$ 是<strong>逐时刻</strong>的条件，不同的 $t$ 可以各不相同。它也<strong>不等于</strong>均方连续（后者要求 $E[|X(t+h)-X(t)|^2]\to0$），更不等于轨道连续。</li>
+      <li>❌ <strong>给复过程写 $R(s,t)=E(X_sX_t)$</strong>。复过程必须带共轭，课件里写作 $R_Z(s,t)=E(Z_sZ_t)$ 是实过程的写法沿用；<strong>工程上标准的复相关函数是 $E[Z(s)\overline{Z(t)}]$</strong>。第 12 节的复指数过程正好用到这一条。</li>
+    </ul>
+  </div>
+
+  <h2>7. 自检</h2>
+  <details>
+    <summary>Q1 · 为什么定理 1.3.1 要写"$m_X(t)\equiv0$"，一般情形怎么办？</summary>
+    <p>因为零均值时 $C(s,t)=R(s,t)$，二次型才能干净地等于某个随机变量的方差。去掉零均值后：</p>
+    $$\sum_{k,j}C(t_k,t_j)\varphi_k\varphi_j=D\Bigl(\sum_k\varphi_kX(t_k)\Bigr)\ge0$$
+    <p>仍然成立。所以<strong>非负定性的正确载体是 $C$ 而不是 $R$</strong>；课件采用 $R$ 是因为它先把过程限定为零均值二阶矩，此时二者相同。</p>
+  </details>
+  <details>
+    <summary>Q2 · 为什么说"宽平稳过程的相关函数一定是偶函数"？这条能用来干什么？</summary>
+    <p>由埃密特性 $R(t,s)=R(s,t)$：宽平稳令 $R(s,t)=R(\tau)$、$\tau=s-t$，则</p>
+    $$R(\tau)=R(-\tau)$$
+    <p><strong>用途（自检功能）</strong>：画出 $R(\tau)$ 后，$R(0)=\sigma^2$ 应是上界，曲线应关于纵轴对称。$R(0)$ 不是最大值、或左右不对称，<strong>几乎一定是 $C$ 算错了</strong>（多半漏了 $C(t,t)=R(t,t)-m^2(t)$ 这一步）。</p>
+  </details>
+  <details>
+    <summary>Q3 · 已知 $m(t)\equiv0$，$C(s,t)=3$，问是否存在这样的随机过程？</summary>
+    <p>不存在。$C$ 常数 $\Rightarrow$ 取 $t_1\ne t_2$、$\varphi(t_1)=1,\ \varphi(t_2)=-1$，二次型</p>
+    $$3\cdot1\cdot1+3\cdot1\cdot(-1)+3\cdot(-1)\cdot1+3\cdot(-1)\cdot(-1)=0\ \text{不违规}$$
+    <p>但取 $\varphi(t_1)=1,\varphi(t_2)=1$ 同样得 $0$，都不矛盾——真正的问题在别处：$C(t,t)=3$ 要求 $D(t)\equiv3$ 没问题，$R(s,t)=3$ 意味着 $X(s)$ 与 $X(t)$ <strong>完全正相关</strong>，即 $X(t)-X(s)$ 的方差 $=3+3-2\cdot3=0$，过程必须恒等于常数 $+m(t)=0$，这时 $C\equiv0$。<strong>所以常值协方差与非常数方差不能共存</strong>，$C\equiv3$ 不可能。</p>
+    <p><strong>方法论</strong>：非负定性只是<strong>必要</strong>条件，充分性还要靠"相容性"（第 04 节的 Kolmogorov 定理）。</p>
+  </details>
+  <details>
+    <summary>Q4 · 柯西 i.i.d. 序列没有二阶矩，那它能用第 07 节的 $R(s,t)$ 刻画吗？</summary>
+    <p>不能，$R(s,t)=E[X_sX_t]$ 涉及 $\int\int|x||y|f(x)f(y)\,dx\,dy$，因 $\int|x|f(x)\,dx=\infty$ 而发散。</p>
+    <p>这正是本节存在的意义：<strong>先说清"什么时候能用"，再说"怎么用"</strong>。第 10、11 节的宽平稳/严平稳都建立在二阶矩之上，碰到柯西这类反例时会明确指出"严平稳但不宽平稳"。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./08-互相关与互不相关.html"><span class="label">← 上一节</span><span class="title">互相关、互不相关与独立性</span></a>
+    <a href="./10-宽平稳过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">宽平稳过程</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

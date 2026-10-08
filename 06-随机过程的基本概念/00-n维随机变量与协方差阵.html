@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,10 +78,14 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
@@ -262,7 +267,7 @@
       <tr><th>本页的 $n$ 维随机变量工具</th><th>第 06 讲后面出现的对象</th></tr>
       <tr><td>联合分布函数 $F(x_1,\dots,x_n)$</td><td>随机过程的 $n$ 维分布函数 $F(t_1,\dots,t_n;x_1,\dots,x_n)$——多了一组"时刻参数"</td></tr>
       <tr><td>协方差矩阵 $C=(c_{ij})$</td><td>协方差函数 $C(s,t)$——把下标 $i,j$ 换成连续参数 $s,t$，矩阵变成"无穷维双参数函数"</td></tr>
-      <tr><td>$n$ 维正态 $N(\boldsymbol m,C)$ 由 $\boldsymbol m,C$ 决定</td><td><strong>正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 11 节）</td></tr>
+      <tr><td>$n$ 维正态 $N(\boldsymbol m,C)$ 由 $\boldsymbol m,C$ 决定</td><td><strong>正态过程由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 15 节）</td></tr>
     </table>
   </div>
 
@@ -290,7 +295,7 @@
   <details>
     <summary>Q3 · 设 $\boldsymbol X\sim N(\boldsymbol m,C)$，$\boldsymbol Y=A\boldsymbol X+\boldsymbol b$，求 $E(\boldsymbol Y)$ 与 $\mathrm{Cov}(\boldsymbol Y)$。</summary>
     <p>$E(\boldsymbol Y)=A\boldsymbol m+\boldsymbol b$，$\mathrm{Cov}(\boldsymbol Y)=A\,C\,A^T$。<br>
-    <strong>这是全讲最常用的一步</strong>：第 11 节证明 $X(t)=X_0+Vt$ 是正态过程，用的就是"$(X_0,V)$ 是二维正态，$X(t)$ 是它的线性变换"。</p>
+    <strong>这是全讲最常用的一步</strong>：第 15 节证明 $X(t)=X_0+Vt$ 是正态过程，用的就是"$(X_0,V)$ 是二维正态，$X(t)$ 是它的线性变换"。</p>
   </details>
   <details>
     <summary>Q4 · 为什么说协方差矩阵是"随机过程相关函数的有限维投影"？</summary>

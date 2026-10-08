@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 严平稳过程 | 第06讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme:dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--c-card);padding:2px 6px;border-radius:4px;font-size:0.92em}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  details{border:1px solid var(--c-line);border-radius:6px;padding:8px 14px;background:var(--c-card);margin:10px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--c-primary);padding:4px 0}
+  details[open]>summary{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 11</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-n维随机变量与协方差阵.html">00 预备</a>
+    <a href="./01-随机过程的引入.html">01 引入</a>
+    <a href="./02-随机过程的定义.html">02 定义 / 样本函数</a>
+    <a href="./03-随机过程的分类.html">03 分类</a>
+    <a href="./04-有限维分布.html">04 有限维分布</a>
+    <a href="./05-联合分布与独立性.html">05 联合 / 独立</a>
+    <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
+    <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
+    <a href="./08-互相关与互不相关.html">08 互相关</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html" class="current">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
+    <a href="./动画-过程样本轨道族.html">动画</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>11 · 严平稳过程</h1>
+  <p class="lede">宽平稳只管前两阶矩，严平稳管的是<strong>"整条过程搬到任何一个时间点，看起来都一样"</strong>。它是真正意义上与时间起点无关的平稳性，代价是<strong>几乎无法直接检验</strong>——但对高斯过程，严平稳和宽平稳恰好等价，这一事实让严平稳在实际中变得可用。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 一句话记忆</span>
+    <strong>严平稳 = 任意有限维联合分布对时间平移不变</strong>（不要求矩存在）。<strong>严平稳 + 二阶矩有限 ⇒ 宽平稳；宽平稳 ⇏ 严平稳；正态过程时两者等价。</strong>三个经典例子：<strong>i.i.d. 序列、随机相位正弦波、高斯白噪声</strong>。
+  </div>
+
+  <h2>1. 直观含义</h2>
+  <div class="callout intuition">
+    <span class="label">直观含义 · "换个时间起点，统计规律不变"</span>
+    <ul>
+      <li><strong>物理图像</strong>：稳态运行的信号——你在早上 8 点记录 10 秒，或在晚上 8 点记录 10 秒，两段数据的<strong>联合统计特性</strong>（不只是单点分布，还有点与点之间的搭配）完全一样。</li>
+      <li><strong>与宽平稳的差别在于"管到多细"</strong>：宽平稳只约束 $n=1$（均值、方差）和 $n=2$（协方差）的行为；严平稳要求<strong>对一切 $n$ 和一切时刻组合都成立</strong>。</li>
+      <li><strong>一个重要副作用</strong>：严平稳<strong>不要求任何矩存在</strong>。所以柯西 i.i.d. 序列这种"连均值都没有"的怪过程照样可以是严平稳的。</li>
+    </ul>
+  </div>
+
+  <div style="margin:18px 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:8px;padding:8px">
+    <svg viewBox="0 0 820 250" style="width:100%;height:auto;display:block" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>随机相位正弦波的严平稳性示意</title>
+      <desc>七条随机相位正弦波样本轨道，图中框出两个等宽的时间窗口，第一个从 t 星开始，第二个平移了时间增量，两窗口内轨道的统计分布完全相同，体现严平稳。</desc>
+
+      <rect x="280" y="70" width="70" height="120" fill="#ddf4ff" stroke="#0969da" stroke-width="1"/>
+      <rect x="455" y="70" width="70" height="120" fill="#dafbe1" stroke="#1a7f37" stroke-width="1"/>
+
+      <polyline points="70.0,87.7 77.8,89.6 85.6,91.9 93.3,94.6 101.1,97.7 108.9,101.1 116.7,104.9 124.4,108.9 132.2,113.2 140.0,117.6 147.8,122.2 155.6,126.9 163.3,131.6 171.1,136.3 178.9,140.9 186.7,145.4 194.4,149.8 202.2,153.9 210.0,157.7 217.8,161.3 225.6,164.5 233.3,167.3 241.1,169.8 248.9,171.7 256.7,173.3 264.4,174.3 272.2,174.9 280.0,175.0 287.8,174.6 295.6,173.7 303.3,172.3 311.1,170.4 318.9,168.1 326.7,165.4 334.4,162.3 342.2,158.9 350.0,155.1 357.8,151.1 365.6,146.8 373.3,142.4 381.1,137.8 388.9,133.1 396.7,128.4 404.4,123.7 412.2,119.1 420.0,114.6 427.8,110.2 435.6,106.1 443.3,102.3 451.1,98.7 458.9,95.5 466.7,92.7 474.4,90.2 482.2,88.3 490.0,86.7 497.8,85.7 505.6,85.1 513.3,85.0 521.1,85.4 528.9,86.3 536.7,87.7 544.4,89.6 552.2,91.9 560.0,94.6 567.8,97.7 575.6,101.1 583.3,104.9 591.1,108.9 598.9,113.2 606.7,117.6 614.4,122.2 622.2,126.9 630.0,131.6 637.8,136.3 645.6,140.9 653.3,145.4 661.1,149.8 668.9,153.9 676.7,157.7 684.4,161.3 692.2,164.5 700.0,167.3 707.8,169.8 715.6,171.7 723.3,173.3 731.1,174.3 738.9,174.9 746.7,175.0 754.4,174.6 762.2,173.7 770.0,172.3" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,102.0 77.8,105.9 85.6,110.0 93.3,114.3 101.1,118.8 108.9,123.4 116.7,128.1 124.4,132.8 132.2,137.5 140.0,142.1 147.8,146.5 155.6,150.8 163.3,154.9 171.1,158.7 178.9,162.1 186.7,165.2 194.4,168.0 202.2,170.3 210.0,172.2 217.8,173.6 225.6,174.5 233.3,175.0 241.1,174.9 248.9,174.4 256.7,173.3 264.4,171.8 272.2,169.9 280.0,167.5 287.8,164.7 295.6,161.5 303.3,158.0 311.1,154.1 318.9,150.0 326.7,145.7 334.4,141.2 342.2,136.6 350.0,131.9 357.8,127.2 365.6,122.5 373.3,117.9 381.1,113.5 388.9,109.2 396.7,105.1 404.4,101.3 412.2,97.9 420.0,94.8 427.8,92.0 435.6,89.7 443.3,87.8 451.1,86.4 458.9,85.5 466.7,85.0 474.4,85.1 482.2,85.6 490.0,86.7 497.8,88.2 505.6,90.1 513.3,92.5 521.1,95.3 528.9,98.5 536.7,102.0 544.4,105.9 552.2,110.0 560.0,114.3 567.8,118.8 575.6,123.4 583.3,128.1 591.1,132.8 598.9,137.5 606.7,142.1 614.4,146.5 622.2,150.8 630.0,154.9 637.8,158.7 645.6,162.1 653.3,165.2 661.1,168.0 668.9,170.3 676.7,172.2 684.4,173.6 692.2,174.5 700.0,175.0 707.8,174.9 715.6,174.4 723.3,173.3 731.1,171.8 738.9,169.9 746.7,167.5 754.4,164.7 762.2,161.5 770.0,158.0" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,131.3 77.8,136.0 85.6,140.6 93.3,145.1 101.1,149.5 108.9,153.6 116.7,157.5 124.4,161.1 132.2,164.3 140.0,167.2 147.8,169.6 155.6,171.6 163.3,173.2 171.1,174.3 178.9,174.9 186.7,175.0 194.4,174.6 202.2,173.7 210.0,172.4 217.8,170.6 225.6,168.3 233.3,165.6 241.1,162.5 248.9,159.1 256.7,155.4 264.4,151.4 272.2,147.1 280.0,142.7 287.8,138.1 295.6,133.4 303.3,128.7 311.1,124.0 318.9,119.4 326.7,114.9 334.4,110.5 342.2,106.4 350.0,102.5 357.8,98.9 365.6,95.7 373.3,92.8 381.1,90.4 388.9,88.4 396.7,86.8 404.4,85.7 412.2,85.1 420.0,85.0 427.8,85.4 435.6,86.3 443.3,87.6 451.1,89.4 458.9,91.7 466.7,94.4 474.4,97.5 482.2,100.9 490.0,104.6 497.8,108.6 505.6,112.9 513.3,117.3 521.1,121.9 528.9,126.6 536.7,131.3 544.4,136.0 552.2,140.6 560.0,145.1 567.8,149.5 575.6,153.6 583.3,157.5 591.1,161.1 598.9,164.3 606.7,167.2 614.4,169.6 622.2,171.6 630.0,173.2 637.8,174.3 645.6,174.9 653.3,175.0 661.1,174.6 668.9,173.7 676.7,172.4 684.4,170.6 692.2,168.3 700.0,165.6 707.8,162.5 715.6,159.1 723.3,155.4 731.1,151.4 738.9,147.1 746.7,142.7 754.4,138.1 762.2,133.4 770.0,128.7" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,163.2 77.8,166.2 85.6,168.8 93.3,171.0 101.1,172.7 108.9,173.9 116.7,174.7 124.4,175.0 132.2,174.8 140.0,174.1 147.8,172.9 155.6,171.3 163.3,169.2 171.1,166.6 178.9,163.7 186.7,160.4 194.4,156.8 202.2,152.8 210.0,148.7 217.8,144.3 225.6,139.7 233.3,135.1 241.1,130.4 248.9,125.7 256.7,121.0 264.4,116.5 272.2,112.0 280.0,107.8 287.8,103.9 295.6,100.2 303.3,96.8 311.1,93.8 318.9,91.2 326.7,89.0 334.4,87.3 342.2,86.1 350.0,85.3 357.8,85.0 365.6,85.2 373.3,85.9 381.1,87.1 388.9,88.7 396.7,90.8 404.4,93.4 412.2,96.3 420.0,99.6 427.8,103.2 435.6,107.2 443.3,111.3 451.1,115.7 458.9,120.3 466.7,124.9 474.4,129.6 482.2,134.3 490.0,139.0 497.8,143.5 505.6,148.0 513.3,152.2 521.1,156.1 528.9,159.8 536.7,163.2 544.4,166.2 552.2,168.8 560.0,171.0 567.8,172.7 575.6,173.9 583.3,174.7 591.1,175.0 598.9,174.8 606.7,174.1 614.4,172.9 622.2,171.3 630.0,169.2 637.8,166.6 645.6,163.7 653.3,160.4 661.1,156.8 668.9,152.8 676.7,148.7 684.4,144.3 692.2,139.7 700.0,135.1 707.8,130.4 715.6,125.7 723.3,121.0 731.1,116.5 738.9,112.0 746.7,107.8 754.4,103.9 762.2,100.2 770.0,96.8" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,175.0 77.8,174.9 85.6,174.4 93.3,173.3 101.1,171.8 108.9,169.9 116.7,167.5 124.4,164.7 132.2,161.5 140.0,157.9 147.8,154.1 155.6,150.0 163.3,145.7 171.1,141.2 178.9,136.6 186.7,131.9 194.4,127.2 202.2,122.5 210.0,117.9 217.8,113.4 225.6,109.1 233.3,105.1 241.1,101.3 248.9,97.8 256.7,94.7 264.4,92.0 272.2,89.7 280.0,87.8 287.8,86.4 295.6,85.5 303.3,85.0 311.1,85.1 318.9,85.6 326.7,86.7 334.4,88.2 342.2,90.1 350.0,92.5 357.8,95.3 365.6,98.5 373.3,102.1 381.1,105.9 388.9,110.0 396.7,114.3 404.4,118.8 412.2,123.4 420.0,128.1 427.8,132.8 435.6,137.5 443.3,142.1 451.1,146.6 458.9,150.9 466.7,154.9 474.4,158.7 482.2,162.2 490.0,165.3 497.8,168.0 505.6,170.3 513.3,172.2 521.1,173.6 528.9,174.5 536.7,175.0 544.4,174.9 552.2,174.4 560.0,173.3 567.8,171.8 575.6,169.9 583.3,167.5 591.1,164.7 598.9,161.5 606.7,157.9 614.4,154.1 622.2,150.0 630.0,145.7 637.8,141.2 645.6,136.6 653.3,131.9 661.1,127.2 668.9,122.5 676.7,117.9 684.4,113.4 692.2,109.1 700.0,105.1 707.8,101.3 715.6,97.8 723.3,94.7 731.1,92.0 738.9,89.7 746.7,87.8 754.4,86.4 762.2,85.5 770.0,85.0" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,152.1 77.8,147.8 85.6,143.4 93.3,138.9 101.1,134.2 108.9,129.5 116.7,124.8 124.4,120.2 132.2,115.6 140.0,111.2 147.8,107.1 155.6,103.1 163.3,99.5 171.1,96.2 178.9,93.3 186.7,90.8 194.4,88.7 202.2,87.0 210.0,85.9 217.8,85.2 225.6,85.0 233.3,85.3 241.1,86.1 248.9,87.4 256.7,89.1 264.4,91.3 272.2,93.9 280.0,96.9 287.8,100.3 295.6,104.0 303.3,107.9 311.1,112.2 318.9,116.6 326.7,121.1 334.4,125.8 342.2,130.5 350.0,135.2 357.8,139.8 365.6,144.4 373.3,148.8 381.1,152.9 388.9,156.9 396.7,160.5 404.4,163.8 412.2,166.7 420.0,169.2 427.8,171.3 435.6,173.0 443.3,174.1 451.1,174.8 458.9,175.0 466.7,174.7 474.4,173.9 482.2,172.6 490.0,170.9 497.8,168.7 505.6,166.1 513.3,163.1 521.1,159.7 528.9,156.0 536.7,152.1 544.4,147.8 552.2,143.4 560.0,138.9 567.8,134.2 575.6,129.5 583.3,124.8 591.1,120.2 598.9,115.6 606.7,111.2 614.4,107.1 622.2,103.1 630.0,99.5 637.8,96.2 645.6,93.3 653.3,90.8 661.1,88.7 668.9,87.0 676.7,85.9 684.4,85.2 692.2,85.0 700.0,85.3 707.8,86.1 715.6,87.4 723.3,89.1 731.1,91.3 738.9,93.9 746.7,96.9 754.4,100.3 762.2,104.0 770.0,107.9" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+      <polyline points="70.0,105.1 77.8,101.3 85.6,97.8 93.3,94.7 101.1,92.0 108.9,89.7 116.7,87.8 124.4,86.4 132.2,85.5 140.0,85.0 147.8,85.1 155.6,85.6 163.3,86.7 171.1,88.2 178.9,90.1 186.7,92.5 194.4,95.4 202.2,98.6 210.0,102.1 217.8,105.9 225.6,110.0 233.3,114.4 241.1,118.9 248.9,123.5 256.7,128.2 264.4,132.9 272.2,137.6 280.0,142.2 287.8,146.6 295.6,150.9 303.3,154.9 311.1,158.7 318.9,162.2 326.7,165.3 334.4,168.0 342.2,170.3 350.0,172.2 357.8,173.6 365.6,174.5 373.3,175.0 381.1,174.9 388.9,174.4 396.7,173.3 404.4,171.8 412.2,169.9 420.0,167.5 427.8,164.6 435.6,161.4 443.3,157.9 451.1,154.1 458.9,150.0 466.7,145.6 474.4,141.1 482.2,136.5 490.0,131.8 497.8,127.1 505.6,122.4 513.3,117.8 521.1,113.4 528.9,109.1 536.7,105.1 544.4,101.3 552.2,97.8 560.0,94.7 567.8,92.0 575.6,89.7 583.3,87.8 591.1,86.4 598.9,85.5 606.7,85.0 614.4,85.1 622.2,85.6 630.0,86.7 637.8,88.2 645.6,90.1 653.3,92.5 661.1,95.4 668.9,98.6 676.7,102.1 684.4,105.9 692.2,110.0 700.0,114.4 707.8,118.9 715.6,123.5 723.3,128.2 731.1,132.9 738.9,137.6 746.7,142.2 754.4,146.6 762.2,150.9 770.0,154.9" fill="none" stroke="#8250df" stroke-width="1" opacity="0.75"/>
+
+      <line x1="280" y1="62" x2="280" y2="198" stroke="#0969da" stroke-width="1" stroke-dasharray="4 3"/>
+      <line x1="455" y1="62" x2="455" y2="198" stroke="#1a7f37" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="315" y="58" font-size="12" fill="#0969da" text-anchor="middle">窗口 [t*, t*+Δ]</text>
+      <text x="490" y="58" font-size="12" fill="#1a7f37" text-anchor="middle">窗口 [t*+τ, t*+τ+Δ]</text>
+      <text x="245" y="204" font-size="12" fill="#0969da" text-anchor="end">t*</text>
+      <text x="420" y="204" font-size="12" fill="#1a7f37" text-anchor="end">t*+τ</text>
+      <text x="420" y="228" font-size="12" fill="#57606a" text-anchor="middle">t</text>
+      <line x1="70" y1="214" x2="770" y2="214" stroke="#57606a" stroke-width="0.8"/>
+      <text x="70" y="230" font-size="12" fill="#57606a">X(t) = a cos(ωt + Θ),  Θ ~ U(0, 2π)：两个等宽窗口内的轨道分布完全相同 → 严平稳</text>
+    </svg>
+  </div>
+
+  <h2>2. 定义 · 严平稳过程</h2>
+  <div class="callout theorem">
+    <span class="label">定义（彭江燕课件）· 严（或狭义、或强）平稳过程</span>
+    <p>过程 $\{X(t),t\in T\}$ 对任意 $n>1$、$t_1,t_2,\dots,t_n\in T$ 和实数 $\tau$，当 $t_1+\tau,t_2+\tau,\dots,t_n+\tau\in T$ 时，</p>
+    $$\bigl(X_{t_1},X_{t_2},\dots,X_{t_n}\bigr)\ \overset{d}{=}\ \bigl(X_{t_1+\tau},X_{t_2+\tau},\dots,X_{t_n+\tau}\bigr)$$
+    <p>即（课件的分布函数写法）</p>
+    $$F_{t_1,t_2,\dots,t_n}(x_1,x_2,\dots,x_n)=F_{t_1+\tau,t_2+\tau,\dots,t_n+\tau}(x_1,x_2,\dots,x_n),\quad (x_1,\dots,x_n)\in\mathbb{R}^n$$
+    <p>称 $\{X(t),t\in T\}$ 为<strong>严平稳过程</strong>。</p>
+    <p><strong>两条注（课件）</strong>：</p>
+    <ul>
+      <li>严平稳过程的<strong>任意有限维分布对时间平移不变</strong>，<strong>不要求矩存在</strong>；</li>
+      <li>若均值、方差、相关性存在的话，<strong>它们都不随时间改变</strong>（即"如果存在，就必是平稳的"）。</li>
+    </ul>
+  </div>
+
+  <h2>3. 严平稳的三个经典例子</h2>
+
+  <h3>3.1 独立同分布（i.i.d.）序列</h3>
+  <div class="callout example">
+    <span class="label">例 1 · i.i.d. 序列</span>
+    <p>设 $\xi_1,\xi_2,\dots$ 是一列独立同分布的随机变量。</p>
+    <ul>
+      <li>每个 $\xi_n$ 的分布相同，且相互独立；</li>
+      <li>对任意 $n$ 个时刻 $t_1,\dots,t_n$，其<strong>联合分布是各边际分布的乘积</strong>；</li>
+      <li>平移时间后，联合分布不变，因为每个变量的分布都相同。</li>
+    </ul>
+    <p><strong>结论：i.i.d. 序列是严平稳过程。</strong></p>
+    <p><strong>直观理解</strong>：每次抛一枚均匀硬币，结果序列 $\xi_1,\xi_2,\dots$ 的统计规律不随时间改变。</p>
+    <p class="lede" style="font-size:14px;color:var(--c-muted)">注：如果把 i.i.d. 的"同分布"去掉，就<strong>不一定</strong>严平稳（例如 $\xi_n\sim N(0,n)$ 时平移会改变分布）。</p>
+  </div>
+
+  <h3>3.2 随机相位正弦波</h3>
+  <div class="callout example">
+    <span class="label">例 2 · 随机相位正弦波</span>
+    <p>设 $X(t)=a\cos(\omega t+\Theta)$，其中 $\Theta\sim U(0,2\pi)$ 是随机相位。</p>
+    <ul>
+      <li>对任意固定的 $t$，$X(t)$ 的分布相同（因为 $\Theta$ 均匀分布，<strong>平移后仍是均匀分布</strong>）：$X(t)\overset{d}=a\cos\Theta$；</li>
+      <li>对任意 $n$ 个时刻，<strong>联合分布只依赖于时间差，不依赖于绝对时间</strong>（第 10 节算过 $C(s,t)=\tfrac{a^2}{2}\cos\omega(s-t)$）；</li>
+      <li>由第 04 节的相容性，联合分布由边缘分布与相关结构唯一确定。</li>
+    </ul>
+    <p><strong>结论：随机相位正弦波是严平稳过程</strong>（同时也宽平稳，因为它有有限二阶矩）。</p>
+    <p><strong>直观理解</strong>：由于相位完全随机，无论你从哪个时刻开始观察，看到的波形统计特性都一样。</p>
+  </div>
+
+  <h3>3.3 高斯白噪声</h3>
+  <div class="callout example">
+    <span class="label">例 3 · 高斯白噪声</span>
+    <p>设 $\{X(t)\}$ 是均值为 $0$、方差为 $\sigma^2$ 的高斯白噪声，不同时刻相互独立。</p>
+    <ul>
+      <li>任意有限维分布是<strong>多元正态分布</strong>，均值为 $0$，协方差矩阵是对角阵 $\sigma^2 I$；</li>
+      <li>平移时间后，协方差矩阵不变（不同时刻独立、且方差相同）。</li>
+    </ul>
+    <p><strong>结论：高斯白噪声是严平稳过程</strong>（详细的自相关形式见第 12 节）。</p>
+  </div>
+
+  <h2>4. 严平稳 vs 宽平稳</h2>
+  <div class="callout theorem">
+    <span class="label">对比表（课件原表）</span>
+    <table>
+      <tr><th>特性</th><th>严平稳（Strict Stationarity）</th><th>宽平稳（Weak Stationarity）</th></tr>
+      <tr><td><strong>要求</strong></td><td>任意有限维联合分布对时间平移不变</td><td>均值常数，方差常数，自协方差只依赖于时间差</td></tr>
+      <tr><td><strong>强度</strong></td><td>更强</td><td>更弱</td></tr>
+      <tr><td><strong>关系</strong></td><td colspan="2">严平稳 + 二阶矩有限 $\Rightarrow$ 宽平稳；宽平稳 $\not\Rightarrow$ 严平稳</td></tr>
+      <tr><td><strong>例子</strong></td><td>独立同分布的序列、随机相位正弦波、高斯白噪声、AR(1) 模型（在某些条件下）</td><td>上面全部都是（它们都有二阶矩）</td></tr>
+    </table>
+    <p><strong>关键点（课件原话）</strong>：<strong>对于高斯过程，宽平稳等价于严平稳</strong>，因为高斯分布完全由均值和协方差决定。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">两个方向的推理，各需要什么</span>
+    <ul>
+      <li><strong>严平稳 ⇒ 宽平稳</strong>：需要<strong>二阶矩有限</strong>。取 $n=1$ 得均值常数；取 $n=2$、且若均值非零先中心化，得协方差只依赖时间差；再由 $D=C(0)$ 得方差常数。</li>
+      <li><strong>宽平稳 ⇏ 严平稳</strong>：宽平稳只约束 $n\le2$ 的信息，对 $n\ge3$ 的联合结构一无所知。<strong>反例构造</strong>：取 $Y(t)=X(t)+\varepsilon_{t}$，其中 $X$ 宽平稳、$\varepsilon_t$ 独立同分布但<strong>非正态</strong>。则 $m_Y$ 常数、$C_Y=C_X+\sigma^2_\varepsilon$ 仍只依赖时间差（宽平稳），但 $Y$ 的 $n=3$ 联合分布<strong>不是正态的</strong>，于是与正态性相关的结构变了——只要宽平稳过程本身不是正态的，$Y$ 就不可能严平稳。</li>
+    </ul>
+  </div>
+
+  <h2>5. 关键反例 · 柯西 i.i.d. 序列：严平稳但没有矩</h2>
+  <div class="callout danger">
+    <span class="label">反例（课件给出）· 严平稳 ⇏ 二阶矩</span>
+    <p>设 $\xi_1,\xi_2,\dots$ <strong>独立同分布</strong>，且 $\xi_n\sim$ Cauchy$(0,1)$，概率密度</p>
+    $$f_\xi(x)=\frac{1}{\pi}\cdot\frac{1}{1+x^{2}},\qquad x\in\mathbb{R}$$
+    <ul>
+      <li><strong>均值不存在</strong>：$\int_{-\infty}^{+\infty}|x|\,f(x)\,dx=\infty$；</li>
+      <li><strong>方差不存在</strong>：$\operatorname{Var}(\xi_n)$ 更无从谈起；</li>
+      <li><strong>但柯西分布本身是完全合法的概率分布</strong>，其分布函数 $F(x)=\dfrac12+\dfrac{1}{\pi}\arctan x$ 完全确定。</li>
+    </ul>
+    <p><strong>严平稳性</strong>：因为 $\xi_1,\xi_2,\dots$ 独立同分布，任意 $n$ 个时刻的联合分布都是各边际分布的乘积 $\prod_k f_\xi(\xi_{t_k})$；<strong>平移时间后联合分布仍然不变</strong>。</p>
+    <p><strong>结论</strong>：独立同分布的柯西序列是<strong>严平稳过程，但不是二阶矩过程</strong>；柯西分布连均值都不存在，所以<strong>不满足宽平稳的条件</strong>。</p>
+    <p><strong>三类关系的完整图景</strong>：</p>
+    $$\text{严平稳}\;+\;\text{二阶矩}\ \Longrightarrow\ \text{宽平稳}\ \supsetneq\ \text{严平稳 + 二阶矩},\qquad \text{宽平稳} \not\Rightarrow \text{严平稳}$$
+    <p>而对<strong>高斯过程</strong>，由于二阶矩完全决定联合分布，<strong>严、宽两栏塌缩成同一件事</strong>。</p>
+  </div>
+
+  <h2>6. 判定标准 · 教材插图到底能证明什么</h2>
+  <div class="callout warn">
+    <span class="label">课件给出的判定清单</span>
+    <table>
+      <tr><th>判定标准</th><th>图 (a)(b) 展示的内容</th><th>严平稳要求</th><th>宽平稳要求</th></tr>
+      <tr><td>均值恒定</td><td>展示了</td><td>不要求</td><td>要求</td></tr>
+      <tr><td>方差恒定</td><td>展示了</td><td>不要求</td><td>要求</td></tr>
+      <tr><td>自协方差只依赖时间差</td><td>未展示</td><td>不要求</td><td>要求</td></tr>
+      <tr><td>任意有限维分布平移不变</td><td>未展示</td><td>要求</td><td>不要求</td></tr>
+      <tr><td><strong>能否充分判定平稳</strong></td><td>—</td><td><strong>不能</strong></td><td><strong>不能</strong></td></tr>
+    </table>
+    <p><strong>两条实践结论（课件）</strong>：</p>
+    <ul>
+      <li><strong>宽平稳更"实用"</strong>：只需要前两阶矩，容易验证、容易计算，在工程和信号处理中足够用。</li>
+      <li><strong>严平稳虽然更根本</strong>，但验证它需要所有有限维分布，几乎不可能在实际中直接检验。<strong>正态过程是唯一的例外</strong>——因为高斯分布由均值与协方差完全决定，严平稳 ⟺ 宽平稳。</li>
+    </ul>
+  </div>
+
+  <h2>7. 易错点</h2>
+  <div class="callout warn">
+    <span class="label">常见错误</span>
+    <ul>
+      <li>❌ <strong>认为"宽平稳 $\Rightarrow$ 严平稳"</strong>。只有加上"<strong>正态过程</strong>"这一条才成立。这是本节最常考的判断题。</li>
+      <li>❌ <strong>认为"严平稳要求矩存在"</strong>。柯西 i.i.d. 序列是反例：它严平稳，但 $E$、$D$ 都不存在。</li>
+      <li>❌ <strong>把"每个时刻同分布"当成严平稳</strong>。第 10 节的 $Y(t)=U\cos(t^{2})+V\sin(t^{2})$ 每个时刻都是 $N(0,1)$，但<strong>联合分布不是平移不变的</strong>，所以既不宽平稳也不严平稳。<strong>严平稳是"任意 $n$ 个时刻的联合分布"不变，不只是单个时刻。</strong></li>
+      <li>❌ <strong>认为 i.i.d. 一定严平稳</strong>。要"独立<strong>同</strong>分布"。若 $\xi_n\sim N(0,n)$，各点分布不同，平移后分布改变，<strong>不是</strong>严平稳。</li>
+      <li>❌ <strong>把严平稳与宽平稳混用"宽/严"字眼</strong>。国内教材里"平稳"默认多指<strong>宽平稳</strong>（弱平稳），而"严平稳"必须写全称。看到题目只说"平稳"时，先确认它问的是哪一个。</li>
+    </ul>
+  </div>
+
+  <h2>8. 自检</h2>
+  <details>
+    <summary>Q1 · 证明：严平稳 + 二阶矩有限 ⇒ 宽平稳。</summary>
+    <p>取 $n=1$：$(X_t)\overset{d}=(X_{t+\tau})$，故 $m(t+\tau)=m(t)$，$m$ 是常数。</p>
+    <p>取 $n=2$，并中心化：$(X_s-m, X_t-m)\overset{d}=(X_{s+\tau}-m,X_{t+\tau}-m)$，取两边平方的期望得 $C(s,t)=C(s+\tau,t+\tau)=C(s-t)$，只依赖时间差。</p>
+    <p>再由 $D(t)=C(t,t)=C(0)=\sigma^2$ 得方差常数。<strong>三条宽平稳条件全部满足。</strong></p>
+  </details>
+  <details>
+    <summary>Q2 · 过程 $X(t)=\xi_t+\eta_t$，其中 $\xi_t\sim$ Cauchy$(0,1)$ 独立同分布，$\eta_t$ 是宽平稳且与 $\{\xi\}$ 独立。它宽平稳吗？严平稳吗？</summary>
+    <p><strong>宽平稳 ✗</strong>：$E[X(t)]$ 不存在，$D[X(t)]$ 也不存在，谈不上"均值常数、方差常数"。</p>
+    <p><strong>严平稳 ✗</strong>：$n=1$ 时 $X(t)=\xi_t+\eta_t$ 的分布是 Cauchy 与 $\eta$ 分布的卷积；平移时间后 $\eta_t$ 的分布<strong>可能改变</strong>（宽平稳只保证二阶量平稳，不保证 $\eta_t$ 本身同分布），所以不保证严平稳。</p>
+    <p><strong>结论</strong>：这类混合过程既不宽平稳也不严平稳。<strong>柯西项把矩彻底毁掉了。</strong></p>
+  </details>
+  <details>
+    <summary>Q3 · 为什么高斯过程的宽平稳与严平稳等价？</summary>
+    <p>严 $\Rightarrow$ 宽：第 1 问已证。</p>
+    <p>宽 $\Rightarrow$ 严：宽平稳给出 $m(t)=m$、$C(s,t)=C(\tau)$。而<strong>正态过程的全部有限维分布由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 15 节核心结论）。平移时间后 $m$ 不变、$C$ 只依赖时间差，任意 $n$ 维联合分布的均值向量与协方差矩阵都不变，故联合分布不变 $\Rightarrow$ 严平稳。</p>
+    <p><strong>一句话</strong>：因为"高斯"这个限定把"前两阶矩"升级成了"全部信息"。</p>
+  </details>
+  <details>
+    <summary>Q4 · 维纳过程是严平稳的吗？</summary>
+    <p><strong>不是</strong>，而且连宽平稳都不是：$D(t)=\sigma^2t$ 非常数。</p>
+    <p>从严平稳的角度也能看出：$W(t)\sim N(0,\sigma^2t)$，<strong>单个时刻的分布就随时间变化</strong>（方差越来越宽），平移时间后 $n=1$ 的分布就不一样了。</p>
+    <p><strong>对照</strong>：维纳过程的<strong>增量</strong> $W(t+h)-W(s+h)\overset{d}=W(t)-W(s)$（且与 $h$ 无关）——"平稳增量"。<strong>增量平稳、过程不平稳</strong>，这是本讲反复强调的区分。</p>
+  </details>
+
+  <div class="pager">
+    <a href="./10-宽平稳过程.html"><span class="label">← 上一节</span><span class="title">宽平稳过程</span></a>
+    <a href="./12-正交增量与白噪声.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">正交增量过程与白噪声</span></a>
+  </div>
+
+  <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+</body>
+</html>

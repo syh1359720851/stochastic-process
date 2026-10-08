@@ -59,6 +59,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
   .qbox{border:1px solid var(--c-line);border-radius:8px;padding:14px 18px;margin:14px 0;background:var(--c-card)}
   .qbox .qtitle{font-weight:600;color:var(--c-primary);margin-bottom:6px}
   .qbox .qmeta{font-size:13px;color:var(--c-muted);margin-bottom:10px}
@@ -84,20 +85,24 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html" class="current">自测</a>
   </nav>
 
-  <h1>第 06 讲 · 自测 10 题</h1>
-  <p class="lede">覆盖随机过程的定义与分类、有限维分布、均值/方差/相关/协方差、独立过程与独立增量过程、正态过程与维纳过程。每题含<strong>答案与详细解析</strong>——先自己在纸上做，再展开看答案。</p>
+  <h1>第 06 讲 · 自测 15 题</h1>
+  <p class="lede">覆盖随机过程的定义与分类、有限维分布、四个数字特征、二阶矩与非负定性、宽平稳/严平稳、正交增量与白噪声、独立过程与独立增量过程、正态过程与维纳过程。每题含<strong>答案与详细解析</strong>——先自己在纸上做，再展开看答案。</p>
 
   <div class="meta">
-    <span>📝 10 题</span>
-    <span>⏱ 建议时间 100 分钟</span>
+    <span>📝 15 题</span>
+    <span>⏱ 建议时间 150 分钟</span>
     <span>🎯 难度 ⭐⭐ ~ ⭐⭐⭐⭐</span>
   </div>
 
@@ -420,7 +425,7 @@
         <br><br>
         <strong>注意这里的逻辑方向</strong>：本题是"相关且依赖"。要考"不相关但不独立"，看第 08 节的 $Y(t)=X^2(t)$ 反例；要考"正态下不相关就独立"，得先构造出不相关的情形（如取 $C$ 为分块对角）。
         <br><br>
-        <strong>(5)</strong> <strong>可以。</strong>因为 $\{X(t)\}$ 是正态过程，而正态过程的<strong>全部有限维分布都由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 11 节核心结论）：任意有限维的均值向量与协方差矩阵都是从这两个函数上"采样"得到的。
+        <strong>(5)</strong> <strong>可以。</strong>因为 $\{X(t)\}$ 是正态过程，而正态过程的<strong>全部有限维分布都由 $m(t)$ 与 $C(s,t)$ 完全决定</strong>（第 15 节核心结论）：任意有限维的均值向量与协方差矩阵都是从这两个函数上"采样"得到的。
         <br><br>
         <strong>本题的意义</strong>：它是一道"把一个过程压缩成两个函数"的示范题——$X(t)=X_0+Vt$ 的随机性只来自<strong>两个</strong>随机变量，所以它的"身份证明"只有两个函数，而特征函数里恰好也只剩两个平方项：
         $$\varphi=\exp\Bigl[-\frac{1}{2}\Bigl(\Bigl(\sum_ju_j\Bigr)^2+\Bigl(\sum_ju_jt_j\Bigr)^2\Bigr)\Bigr]$$
@@ -429,23 +434,198 @@
     </details>
   </div>
 
+  <div class="qbox">
+    <div class="qtitle">Q11 · 核心反例：均值方差恒定却不平稳</div>
+    <div class="qmeta">★★★ 挑战 · 09 / 10 节 · 课件反例</div>
+    <p>取相互独立的标准正态随机变量 $U,V$，定义 $Y(t)=U\cos(t^{2})+V\sin(t^{2})$，$t\in\mathbb{R}$。</p>
+    <ol>
+      <li>求 $m_Y(t)$ 与 $D_Y(t)$，并说明 $Y(t)$ 的边缘分布；</li>
+      <li>求自相关函数 $R_Y(t,s)$，验证非负定性的两个条件是否满足；</li>
+      <li>判断 $Y(t)$ 是否宽平稳、是否严平稳，各说明理由；</li>
+      <li>取两组时间差相同的时刻对 $(t,s)=(1,0)$ 与 $(1,-1)$，用 $R_Y$ 说明它们为什么不可比。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong>
+        $$m_Y(t)=E[U]\cos t^2+E[V]\sin t^2=0$$
+        $$D_Y(t)=E\bigl[(U\cos t^2+V\sin t^2)^2\bigr]=1\cdot\cos^2t^2+1\cdot\sin^2t^2=1$$
+        所以 $Y(t)\sim N(0,1)$，<strong>对每个 $t$ 都是同一个分布</strong>。
+        <br><br>
+        <strong>(2)</strong> 交叉项含 $E(UV)=0$，故
+        $$R_Y(t,s)=\cos t^2\cos s^2+\sin t^2\sin s^2=\cos\bigl(t^2-s^2\bigr)$$
+        零均值 ⟹ $C=R$。<strong>非负定性</strong>：任取 $t_1,\dots,t_n$ 与系数 $\varphi_k$，
+        $$\sum_{k,j}C(t_k,t_j)\varphi_k\varphi_j=E\left[\Bigl(\sum_k\varphi_kY(t_k)\Bigr)^2\right]\ge0$$
+        <strong>成立</strong>（它是协方差函数，理应成立）。<strong>埃密特性</strong> $R(t,s)=R(s,t)$：由 $\cos$ 的偶性也成立。
+        <br><br>
+        <strong>(3)</strong> <strong>既不宽平稳，也不严平稳。</strong><br>
+        宽平稳：$m_Y\equiv0$、$D_Y\equiv1$ 都满足，但 $C(t,s)=\cos(t^2-s^2)$ 依赖绝对时间（$t^2-s^2=(t-s)(t+s)$），<strong>不只依赖 $t-s$</strong> ⟹ 不宽平稳。<br>
+        严平稳：$n=2$ 时取 $s,t$ 同在 $[0,\sqrt{\pi}]$ 内（此时 $\cos(t^2-s^2)\approx1$，强正相关）与取 $s=0,t=2\pi$，相关性明显不同；平移时间会改变 $n=2$ 联合分布 ⟹ 不严平稳。
+        <br><br>
+        <strong>(4)</strong> 两对的时间差都是 $t-s=1$：
+        $$R_Y(1,0)=\cos(1-0)=\cos1\approx0.540$$
+        $$R_Y(1,-1)=\cos(1-1)=\cos0=1$$
+        <strong>时间差相同、相关程度却完全不同</strong> —— 这就是"宽平稳要求 $C$ 只依赖时间差"被违反的直接证据。
+        <br><br>
+        <strong>本题的意义</strong>：这是"平稳性"最锋利的反例。<strong>均值常数、方差常数、每刻同分布、甚至协方差满足非负定，全都满足，却依然不平稳。</strong>缺的那一条是"$C$ 只依赖时间差"。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q12 · 宽平稳 vs 严平稳 vs 平稳增量</div>
+    <div class="qmeta">★★★ 挑战 · 10 / 11 / 14 节</div>
+    <p>下面五个过程，请分别判断它们是宽平稳 / 严平稳 / 平稳增量过程中的哪些（可多选，可都不选）：</p>
+    <ol>
+      <li>维纳过程 $W(t)$（参数 $\sigma^2$）</li>
+      <li>Poisson 过程 $N(t)$（强度 $\lambda$）</li>
+      <li>随机相位正弦波 $X(t)=a\cos(\omega t+\Theta)$，$\Theta\sim U(0,2\pi)$</li>
+      <li>独立同分布的柯西序列 $\{\xi_n\}$</li>
+      <li>随机直线族 $X(t)=X_0+Vt$，$X_0,V\overset{\text{独立}}{\sim}N(0,1)$</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <table style="margin:10px 0">
+          <tr><th>过程</th><th>宽平稳</th><th>严平稳</th><th>平稳增量</th><th>关键理由</th></tr>
+          <tr><td>维纳过程</td><td>✗</td><td>✗</td><td>✓</td><td>$D(t)=\sigma^2t$ 非常数；$W(t)\sim N(0,\sigma^2t)$ 每刻分布都变</td></tr>
+          <tr><td>Poisson 过程</td><td>✗</td><td>✗</td><td>✓</td><td>$D(t)=\lambda t$ 非常数；$N(t)\sim P(\lambda t)$ 每刻分布都变</td></tr>
+          <tr><td>随机相位正弦波</td><td>✓</td><td>✓</td><td>✗</td><td>$C=\frac{a^2}{2}\cos\omega\tau$ 只依赖时间差；增量含 $\omega(t-s)$ 的相位，不平稳</td></tr>
+          <tr><td>i.i.d. 柯西序列</td><td>✗</td><td>✓</td><td>✓</td><td>严平稳（联合分布平移不变）；但均值、方差不存在，谈不上宽平稳；增量同分布 ⟹ 平稳增量</td></tr>
+          <tr><td>随机直线族</td><td>✗</td><td>✗</td><td>✗</td><td>$C(s,t)=1+st$ 依赖绝对时间；增量 $V(t-s)$ 是正态但<strong>方差随 $t-s$ 变</strong>，故增量也不平稳</td></tr>
+        </table>
+        <strong>三条要记死的结论</strong>：
+        <ol>
+          <li><strong>宽平稳 + 正态 ⟺ 严平稳</strong>。维纳过程是正态但<strong>不宽</strong>，所以也不严。</li>
+          <li><strong>平稳增量 ≠ 宽平稳</strong>。Poisson 与维纳都是"平稳增量"却都不是平稳过程——这是本讲最容易混的一组。</li>
+          <li><strong>严 ⇏ 宽</strong>（柯西）；<strong>严 + 二阶矩 ⟹ 宽</strong>；<strong>宽 ⇏ 严</strong>（把非正态白噪声叠加到一个非正态宽平稳过程上即可构造）。</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q13 · 非负定性：给定的 $C(s,t)$ 能不能当协方差函数</div>
+    <div class="qmeta">★★★ 挑战 · 09 节 · 定理 1.3.1</div>
+    <ol>
+      <li>写出零均值二阶矩过程协方差函数的非负定性定理，并给出证明的关键一步；</li>
+      <li>判断 $C(s,t)=\sin(s+t)$ 是否可能是某过程的协方差函数；</li>
+      <li>判断 $C(s,t)=\sigma^{2}\delta(s-t)$ 是否满足非负定性（提示：取 $n=2$、$t_1\ne t_2$、系数 $1,-1$）；</li>
+      <li>为什么说"非负定"是必要条件而非充分条件？</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> 定理：零均值二阶矩过程 $\{X(t)\}$ 的协方差函数满足
+        $$\sum_{k=1}^{n}\sum_{j=1}^{n}C(t_k,t_j)\varphi(t_k)\varphi(t_j)\ge0,\quad \forall\,n,\ t_1,\dots,t_n\in T,\ \forall\,\text{普通函数}\varphi$$
+        证明的关键一步：左端 $=E\bigl[(\sum_k\varphi(t_k)X(t_k))^2\bigr]\ge0$（因为它<strong>就是一个随机变量的方差</strong>）。
+        <br><br>
+        <strong>(2)</strong> <strong>不可能。</strong>取 $t_1\ne t_2$、$\varphi(t_1)=1,\varphi(t_2)=1$：
+        $$\sum_{k,j}C(t_k,t_j)\varphi_k\varphi_j=2\sin(t_1+t_2)+2\sin(t_1+t_2)=4\sin(t_1+t_2)$$
+        （此处 $\sin(s+t)=\sin t\cos s+\cos t\sin s$，$C(t_1,t_1)=\sin 2t_1$，$C(t_1,t_2)=C(t_2,t_1)=\sin(t_1+t_2)$。）当 $\sin(t_1+t_2)&lt;0$ 时该值为负，<strong>违反非负定</strong>。
+        <br><br>
+        <strong>(3)</strong> <strong>满足。</strong>取 $\varphi(t_1)=1,\varphi(t_2)=-1$，$t_1\ne t_2$：
+        $$\underbrace{\sigma^2}_{C(t_1,t_1)}+\underbrace{(-\sigma^2)}_{C(t_1,t_2)}+\underbrace{(-\sigma^2)}_{C(t_2,t_1)}+\underbrace{\sigma^2}_{C(t_2,t_2)}=0\ge0$$
+        <strong>恰好为 0</strong>——这就是白噪声"不同刻严格正交"在二次型上的体现。
+        <br><br>
+        <strong>(4)</strong> 因为非负定只对 $C$ 的"二次型"下界提要求，<strong>完全没有约束不同 $t$ 之间的相容性</strong>。补足还需要：<strong>对称性</strong>（埃密特性）与<strong>相容性</strong>（低维分布必须是高维分布的边缘）。对<strong>正态过程</strong>，"对称 + 相容 + 非负定"三者齐备，由 Kolmogorov 定理就足以保证过程存在（常用 Cholesky 分解构造，即课件所说的"白化 / 去相关性"）。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q14 · 正交增量与白噪声</div>
+    <div class="qmeta">★★★ 挑战 · 12 节 · 课件例题</div>
+    <ol>
+      <li>写出离散白噪声序列与连续参数白噪声的定义式；</li>
+      <li>离散白噪声是否一定"独立"？在什么附加条件下升级为高斯白噪声、进而独立？</li>
+      <li>半二元传输信号 $X(t)=\pm1$（$(n-1)T&lt;t&lt;nT$ 内取第 $n$ 次抛硬币的结果），求 $m(t)$ 与 $R(s,t)$；</li>
+      <li>由 $U\sim N(0,1)$ 构造一个"两两不相关但不独立"的序列，说明它是否高斯白噪声。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong> 离散：$E(X_n)=0$，$D(X_n)=\sigma^2$，
+        $$R(m,n)=E(X_mX_n)=\sigma^2\delta_{mn}=\begin{cases}0,&m\ne n\\ \sigma^2,&m=n\end{cases}$$
+        连续：$E(X_t)=0$，$R(s,t)=\sigma^2\delta(s-t)$（$s\ne t$ 时为 $0$，$s=t$ 时为 $+\infty$）。
+        <br><br>
+        <strong>(2)</strong> <strong>不要求独立</strong>，只要求"两两不相关"。若每个 $X_n$ 都服从<strong>正态分布</strong>，则称<strong>高斯白噪声序列</strong>；此时由"$n$ 维正态随机变量：相互独立 $\Leftrightarrow$ 不相关"得到<strong>真正独立</strong>。
+        <br><br>
+        <strong>(3)</strong>
+        $$m(t)=\tfrac12\cdot1+\bigl(-\tfrac12\bigr)\cdot1=0$$
+        $$R(s,t)=E[X(s)X(t)]=\begin{cases}1,&(n-1)T&lt;s,t&lt;nT\ \text{（同一区间）}\\[2pt]0,&\text{其他（分属不同区间，$X(s),X(t)$ 独立）}\end{cases}$$
+        <strong>注意</strong>：它<strong>不是</strong>白噪声——同一区间内所有时刻取同一个值，$R=1$；白噪声要求 $s\ne t$ 时 $R=0$。要等 $T\to0$ 才退化为白噪声。
+        <br><br>
+        <strong>(4)</strong> 令 $\xi_n=(-1)^{I_n}$，其中 $I_1,I_2,\dots$ 是<strong>独立</strong>的伯努利变量，$P(I_n=1)=p\ne\tfrac12$。则每个 $\xi_n\in\{\pm1\}$，$E(\xi_n)=p-(1-p)=2p-1$，
+        $$E(\xi_m\xi_n)=(2p-1)^2\quad(m\ne n)$$
+        <strong>当 $p=\tfrac12$ 时</strong> $E(\xi_m\xi_n)=0$，两两不相关；但 $\xi_n$ <strong>不是正态分布</strong>（只能取 $\pm1$），且由第 08 节的反例（不相关不独立）可知它<strong>不独立</strong>。<br>
+        所以它是<strong>离散白噪声（不相关）但不是高斯白噪声</strong>——正是"$n$ 维正态中不相关 $\Leftrightarrow$ 独立"这条定理把"不相关"升级成"独立"的关键例子。
+      </div>
+    </details>
+  </div>
+
+  <div class="qbox">
+    <div class="qtitle">Q15 · 随机开关系统全套数字特征（课件例 1.1.1）</div>
+    <div class="qmeta">★★★ 挑战 · 06 / 07 节 · 课件原例</div>
+    <p>随机开关以概率 $\tfrac12$ 接通子系统 I（输出 $\cos\pi t$）、以概率 $\tfrac12$ 接通子系统 II（输出 $2t$）：</p>
+    $$X_t=\begin{cases}\cos\pi t,&\omega=\omega_1\\[2pt]2t,&\omega=\omega_2\end{cases}\qquad t\in\mathbb{R}$$
+    <ol>
+      <li>求 $m_X(t)$、$D_X(t)$；</li>
+      <li>求 $R_X(s,t)$（注意：$X_s$ 与 $X_t$ <strong>不独立</strong>）；</li>
+      <li>求 $C(s,t)$，并用 $C(t,t)=D(t)$ 自检；</li>
+      <li>这个过程是宽平稳的吗？给出判据。</li>
+    </ol>
+    <details>
+      <summary>📝 答案</summary>
+      <div class="answer">
+        <span class="label">解析</span>
+        <strong>(1)</strong>
+        $$m_X(t)=\frac12\cos\pi t+\frac12\cdot2t=\frac12\cos\pi t+t$$
+        $$E(X_t^2)=\frac12\cos^2\pi t+\frac12\cdot4t^2=\frac12\cos^2\pi t+2t^2$$
+        $$D_X(t)=E(X_t^2)-m_X^2(t)=\frac14\cos^2\pi t-t\cos\pi t+t^2$$
+        <br><br>
+        <strong>(2)</strong> 联合分布律只有两格：$(\cos\pi t,\cos\pi s)$ 概率 $\tfrac12$，$(2t,2s)$ 概率 $\tfrac12$。于是
+        $$R_X(s,t)=\frac12\cos\pi t\cos\pi s+\frac12(2t)(2s)=\frac12\cos\pi s\cos\pi t+2st$$
+        <br><br>
+        <strong>(3)</strong>
+        $$C(s,t)=R_X(s,t)-m_X(s)m_X(t)$$
+        $$=\frac12\cos\pi s\cos\pi t+2st-\Bigl(\frac12\cos\pi s+s\Bigr)\Bigl(\frac12\cos\pi t+t\Bigr)$$
+        $$=\frac14\cos\pi s\cos\pi t-\frac{t}{2}\cos\pi s-\frac{s}{2}\cos\pi t+st$$
+        <strong>自检</strong>：令 $s=t$，
+        $$C(t,t)=\frac14\cos^2\pi t-t\cos\pi t+t^2\;\overset{=}{=}\;D_X(t)\quad\checkmark$$
+        <br><br>
+        <strong>(4)</strong> <strong>不是宽平稳的。</strong>$C(s,t)$ 是四项的组合，既<strong>不只依赖 $s-t$</strong>（违反第 10 节判据 (2)），$D_X(t)$ 也<strong>不是常数</strong>（违反"方差恒定"）。<br>
+        同时它也<strong>不是独立过程</strong>：$X_s$ 与 $X_t$ 由同一个开关决定（取 $\cos$ 分支还是 $2t$ 分支），二者<strong>不独立</strong>。
+        <br><br>
+        <strong>附：课件勘误</strong>——课件这页的 $C(s,t)$ 化简结果漏掉了系数，用 $C(t,t)=D(t)$ 一验即可发现。
+      </div>
+    </details>
+  </div>
+
   <div class="callout tip">
     <span class="label">📌 自测总结</span>
-    <p>本 10 题覆盖第 06 讲全部核心：</p>
+    <p>本 15 题覆盖第 06 讲全部核心：</p>
     <ul>
       <li><strong>Q1</strong>：过程判定 + 四象限分类</li>
       <li><strong>Q2 / Q3</strong>：样本函数 + 一维/二维分布 + "一维分布不够"的核心反例</li>
       <li><strong>Q4 / Q5</strong>：四个数字特征的两类模板（随机振幅 vs 随机相位）+ 平稳性判据</li>
       <li><strong>Q6 / Q7</strong>：独立过程与独立增量过程 + 协方差的对角线自检</li>
       <li><strong>Q8</strong>：核心定理 $m(t)=at$、$D(t)=\sigma^2t$、$C(s,t)=\sigma^2\min(s,t)$ + "期望免费、方差付费"</li>
-      <li><strong>Q9</strong>：维纳过程全套计算 + "平稳增量 ≠ 平稳过程"</li>
-      <li><strong>Q10</strong>：正态过程判定 + "$m(t)$ 与 $C(s,t)$ 完全决定分布"</li>
+      <li><strong>Q9 / Q10</strong>：维纳过程全套计算 + "平稳增量 ≠ 平稳过程"；正态过程判定 + "$m(t)$ 与 $C(s,t)$ 完全决定分布"</li>
+      <li><strong>Q11 / Q12</strong>：平稳性判据链 —— $Y(t)=U\cos t^2+V\sin t^2$ 反例 + 五个过程的宽/严/平稳增量三分</li>
+      <li><strong>Q13</strong>：非负定性定理 1.3.1 + "给定 $C$ 能否成为协方差函数"的判据</li>
+      <li><strong>Q14</strong>：正交增量 vs 独立增量 + 离散/连续白噪声 + 半二元传输信号</li>
+      <li><strong>Q15</strong>：随机开关系统全套数字特征 + $C(t,t)=D(t)$ 自检法</li>
     </ul>
-    <p><strong>一句话带走</strong>：<strong>随机过程 = 一族随机变量；它的完整描述是有限维分布族；它的可操作替代是 $m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$ 四个函数；而"独立增量 + 正态"这两把钥匙，分别打开了 Poisson 过程与维纳过程两道大门。</strong></p>
+    <p><strong>一句话带走</strong>：<strong>随机过程 = 一族随机变量；它的完整描述是有限维分布族；它的可操作替代是 $m(t)$、$D(t)$、$R(s,t)$、$C(s,t)$ 四个函数；而这四个函数还要过"非负定 + 只依赖时间差"两道关——过了第二关叫宽平稳，连有限维分布都不变叫严平稳；而"独立增量 + 正态"这两把钥匙，分别打开了 Poisson 过程与维纳过程两道大门。</strong></p>
   </div>
 
   <div class="pager">
-    <a href="./12-维纳过程.html"><span class="label">← 上一节</span><span class="title">维纳过程（布朗运动）</span></a>
+    <a href="./16-维纳过程.html"><span class="label">← 上一节</span><span class="title">维纳过程（布朗运动）</span></a>
     <a href="./index.html" style="text-align:right"><span class="label">返回 →</span><span class="title">第 06 讲讲次首页</span></a>
   </div>
 

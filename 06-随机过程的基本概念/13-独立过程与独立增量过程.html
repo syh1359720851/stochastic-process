@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>09 独立过程与独立增量过程 | 第06讲</title>
+<title>13 独立过程与独立增量过程 | 第06讲</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
@@ -57,12 +57,13 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 09</div>
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第06讲</a> / 13</div>
     <div class="course-name">随机过程与排队论（融合版）</div>
   </header>
 
@@ -77,15 +78,19 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html" class="current">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html" class="current">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
 
-  <h1>09 · 独立过程与独立增量过程</h1>
+  <h1>13 · 独立过程与独立增量过程</h1>
   <p class="lede">前面讲了"分布怎么写""数字特征怎么算"，从这一节开始进入<strong>结构好的特例</strong>。第一个结构性假设是"<strong>独立性</strong>"——它弱得足够常见（很多模型天然满足），又强得足够好用（$n$ 维分布直接等于一维分布相乘）。但要小心：<strong>"各时刻独立"与"各时段增量独立"是两个不同的条件</strong>，混淆是本节最大的坑。</p>
 
   <div class="callout tip">
@@ -99,7 +104,7 @@
     <ul>
       <li><strong>独立过程</strong>：每个时刻都重新掷骰子、与之前完全无关。过去的信息对未来<strong>零价值</strong>。典型：每天的降雨量若真是独立的，那"昨天下了雨"对"今天是否下雨"毫无提示。</li>
       <li><strong>独立增量过程</strong>：真正独立的是"<strong>这一段的变化量</strong>"。<strong>过去的水平可以影响未来的水平，但过去的"变化"不影响未来的"变化"。</strong>典型：随机游动——走到的位置（水平）依赖于历史，但"下一步走哪"与历史无关。</li>
-      <li><strong>为什么后者才是主角</strong>：真实系统几乎都"有记忆"（位置、余额、队长都会累积），所以"独立过程"太理想化；真正自然出现的是"<strong>增量的独立性</strong>"。Poisson 过程（第 10 节）与维纳过程（第 12 节）都建立在它之上。</li>
+      <li><strong>为什么后者才是主角</strong>：真实系统几乎都"有记忆"（位置、余额、队长都会累积），所以"独立过程"太理想化；真正自然出现的是"<strong>增量的独立性</strong>"。Poisson 过程（第 14 节）与维纳过程（第 16 节）都建立在它之上。</li>
     </ul>
   </div>
 
@@ -210,7 +215,7 @@
     <p>而 $\mathrm{Cov}(X(i),X(j))=pq$（当 $i=j$）、$=0$（当 $i\ne j$）。所以双重求和只剩下"$i=j$ 且 $i\le m$"的那些项，共 $m=\min(m,n)$ 个：</p>
     $$C(m,n)=m\cdot pq=pq\cdot\min(m,n)$$
     <p><strong>验证</strong>：令 $m=n$，得 $C(n,n)=npq=D[Y(n)]$ ✓ 与协方差函数的对角线要求一致。</p>
-    <p><strong>形状的意义</strong>：$C(m,n)=pq\min(m,n)$ 是一个"<strong>先升后平</strong>"的折线——两个时刻的协方差随着"共同经历的时间"增长，但超过较短时刻后不再增加。<strong>这正是第 10 节"平稳独立增量过程必有 $C(s,t)=\sigma^2\min(s,t)$"的离散版本。</strong></p>
+    <p><strong>形状的意义</strong>：$C(m,n)=pq\min(m,n)$ 是一个"<strong>先升后平</strong>"的折线——两个时刻的协方差随着"共同经历的时间"增长，但超过较短时刻后不再增加。<strong>这正是第 14 节"平稳独立增量过程必有 $C(s,t)=\sigma^2\min(s,t)$"的离散版本。</strong></p>
   </details>
 
   <p>下图画出三条二项随机游动轨道（$p=1/2$，$n=0\sim10$），红虚线是均值函数 $m(n)=np=\dfrac{n}{2}$。请特别留意：<strong>轨道本身明显不独立</strong>（每条都在"爬坡"，前后高度相互关联），但<strong>每走一步的增量 $0$ 或 $1$ 是相互独立的</strong>——这正是"独立增量"的含义。</p>
@@ -255,7 +260,7 @@
     <span class="label">独立增量过程的分布结构（预告）</span>
     <p>独立增量过程的 $n$ 维分布<strong>由一维分布与增量分布共同决定</strong>。</p>
     <p>特别地，若 $X(0)=0$，则 $X(t_1)=X(t_1)-X(0)$ 本身就是一个增量，于是<strong>只需知道所有 $X(t)$ 的一维分布（即各 $t$ 处的分布），整套有限维分布就被完全锁定</strong>。</p>
-    <p>这正是第 10 节要证明的核心定理，也是 Poisson 过程与维纳过程"只需声明一维分布"的合法性来源。</p>
+    <p>这正是第 14 节要证明的核心定理，也是 Poisson 过程与维纳过程"只需声明一维分布"的合法性来源。</p>
   </div>
 
   <h2>5. 易错点</h2>
@@ -290,7 +295,7 @@
     <summary>Q3 · 为什么"独立过程"在建模中很少直接用，而"独立增量过程"却极其常见？</summary>
     <p>因为真实系统几乎都有<strong>累积性</strong>：计数、位置、余额、库存、队长都随时间单调或累积变化。<strong>累积量本身必然前后相关</strong>（今天的总数包含昨天的总数），所以"独立过程"这种极端假设很难成立。</p>
     <p>反过来，"<strong>每个时段新增了多少是独立的</strong>"这个假设在很多场景下相当合理：新到达的顾客数、分子碰撞的位移增量、单位时间新增的请求数——这些增量确实"不关心历史"。</p>
-    <p><strong>这条分界线解释了为什么第 10 节的 Poisson 过程与第 12 节的维纳过程都要以"独立增量"为公理起点</strong>：它是"能抓住累积性、又足够简单"的中间地带。</p>
+    <p><strong>这条分界线解释了为什么第 14 节的 Poisson 过程与第 16 节的维纳过程都要以"独立增量"为公理起点</strong>：它是"能抓住累积性、又足够简单"的中间地带。</p>
   </details>
   <details>
     <summary>Q4 · 二项计数过程中，$C(m,n)=pq\min(m,n)$。取 $p=q=0.5$，求 $\rho(2,4)$。</summary>
@@ -302,7 +307,7 @@
 
   <div class="pager">
     <a href="./08-互相关与互不相关.html"><span class="label">← 上一节</span><span class="title">互相关、互不相关与独立性</span></a>
-    <a href="./10-平稳独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">平稳独立增量过程的性质</span></a>
+    <a href="./14-平稳独立增量过程.html" style="text-align:right"><span class="label">下一节 →</span><span class="title">平稳独立增量过程的性质</span></a>
   </div>
 
   <footer class="bot">第 06 讲 · 随机过程的基本概念 · 融合版课件 · 仅供个人学习使用</footer>

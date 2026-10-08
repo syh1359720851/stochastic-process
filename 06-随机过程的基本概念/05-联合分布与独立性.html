@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,16 +78,20 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
 
   <h1>05 · 过程的联合分布、独立性与 $n$ 维特征函数</h1>
-  <p class="lede">上一节只讨论了"一个过程内部"的分布。这一节把视野扩大两格：<strong>两个过程之间</strong>是什么关系（联合分布、相互独立），以及用一个更趁手的工具——<strong>$n$ 维特征函数</strong>——来替代分布函数做计算。后者是第 10 节证明"独立增量过程的有限维分布由一维分布决定"的关键武器。</p>
+  <p class="lede">上一节只讨论了"一个过程内部"的分布。这一节把视野扩大两格：<strong>两个过程之间</strong>是什么关系（联合分布、相互独立），以及用一个更趁手的工具——<strong>$n$ 维特征函数</strong>——来替代分布函数做计算。后者是第 14 节证明"独立增量过程的有限维分布由一维分布决定"的关键武器。</p>
 
   <div class="callout tip">
     <span class="label">📌 一句话记忆</span>
@@ -170,7 +175,7 @@
     <p>设 $\{X(t),t\ge0\}$ 是独立过程，且每个 $X(t)\sim\mathrm{Exp}(\lambda)$（不同 $t$ 同分布）。求二维特征函数。</p>
     <p><strong>解</strong> 由独立性，$\varphi(t_1,t_2;u_1,u_2)=\varphi^{(1)}(t_1;u_1)\,\varphi^{(1)}(t_2;u_2)$。一维特征函数为 $\varphi^{(1)}(t;u)=\dfrac{\lambda}{\lambda-iu}$，故</p>
     $$\varphi(t_1,t_2;u_1,u_2)=\frac{\lambda}{\lambda-iu_1}\cdot\frac{\lambda}{\lambda-iu_2}$$
-    <p><strong>注意右端完全不含 $t_1,t_2$</strong>——这说明该过程的二维分布与"看哪两个时刻"无关。<strong>这正是第 09 节"独立过程"的典型特征</strong>，也是第 03 节末尾说的"平稳性"的一个强版本。</p>
+    <p><strong>注意右端完全不含 $t_1,t_2$</strong>——这说明该过程的二维分布与"看哪两个时刻"无关。<strong>这正是第 13 节"独立过程"的典型特征</strong>，也是第 03 节末尾说的"平稳性"的一个强版本。</p>
   </div>
 
   <h2>5. 本节的四个概念怎么串起来</h2>
@@ -181,7 +186,7 @@
       <tr><td>单个过程在各时刻的分布</td><td>有限维分布族 / 有限维特征函数族</td><td>第 04 节（本节并行给出特征函数版）</td></tr>
       <tr><td>两个过程之间有没有关系</td><td>$n+m$ 维联合分布、联合特征函数</td><td>本节、第 08 节（互相关）</td></tr>
       <tr><td>两个过程是否完全无关</td><td>独立性（联合 = 乘积）</td><td>本节、第 08 节（独立 ⇒ 互不相关）</td></tr>
-      <tr><td>怎么把"分布相同"算出来</td><td>比较特征函数（乘法比卷积好算）</td><td>第 10 节（独立增量过程的核心定理）</td></tr>
+      <tr><td>怎么把"分布相同"算出来</td><td>比较特征函数（乘法比卷积好算）</td><td>第 14 节（独立增量过程的核心定理）</td></tr>
     </table>
   </div>
 
@@ -189,7 +194,7 @@
   <div class="callout warn">
     <span class="label">常见错误</span>
     <ul>
-      <li>❌ <strong>把"两个过程独立"与"同一过程在不同时刻独立"混为一谈</strong>。前者说 $\{X\}$ 与 $\{Y\}$ 两族变量互不相干（第 08 节），后者说同一个过程内部各时刻互不相干（第 09 节的"独立过程"）。<strong>两个完全不同的概念。</strong></li>
+      <li>❌ <strong>把"两个过程独立"与"同一过程在不同时刻独立"混为一谈</strong>。前者说 $\{X\}$ 与 $\{Y\}$ 两族变量互不相干（第 08 节），后者说同一个过程内部各时刻互不相干（第 13 节的"独立过程"）。<strong>两个完全不同的概念。</strong></li>
       <li>❌ <strong>以为"边缘分布 + 独立性"总能凑出联合分布</strong>。只有在<strong>确实独立</strong>时才成立。两个过程若相关，联合分布必须额外给出。</li>
       <li>❌ <strong>在特征函数里丢掉了 $i$</strong>。是 $E(e^{iuX})$ 而不是 $E(e^{uX})$——少了 $i$ 就变成矩母函数 $M_X(u)$（第 05 讲讲过），两者存在性条件完全不同（矩母函数可能不存在）。</li>
       <li>❌ <strong>把 $n$ 维特征函数写成"一维特征函数的 $n$ 次方"</strong>。$E[\exp(i\sum u_kX(t_k))]\neq\prod E(e^{iu_kX(t_k)})$，除非各时刻独立。</li>
@@ -212,7 +217,7 @@
     <summary>Q3 · 为什么说"特征函数把卷积变成乘法"对随机过程特别重要？</summary>
     <p>因为随机过程的核心定理几乎都涉及"<strong>把多个时刻的分布拼起来</strong>"。以独立增量过程为例：$X(t_n)=Y_1+Y_2+\cdots+Y_n$（各增量独立），若在原分布函数层面处理，就要做 $n$ 重卷积；而在特征函数层面只需</p>
     $$\varphi=E\Bigl[e^{i\sum_k v_kY_k}\Bigr]=\prod_k E\bigl[e^{iv_kY_k}\bigr]$$
-    <p>一行就完成了。<strong>第 10 节的"有限维分布由一维分布与增量分布决定"就是靠这一步证明的</strong>——它也顺带说明了为什么 Poisson 过程、维纳过程这类"独立增量过程"只需声明一维分布就能被完全确定。</p>
+    <p>一行就完成了。<strong>第 14 节的"有限维分布由一维分布与增量分布决定"就是靠这一步证明的</strong>——它也顺带说明了为什么 Poisson 过程、维纳过程这类"独立增量过程"只需声明一维分布就能被完全确定。</p>
   </details>
 
   <div class="pager">

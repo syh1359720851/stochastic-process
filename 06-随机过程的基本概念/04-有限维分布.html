@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,12 +78,16 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
-    <a href="./自检.html">自测</a>
+    <a href="./自测.html">自测</a>
   </nav>
 
   <h1>04 · 随机过程的分布：有限维分布族</h1>
@@ -275,13 +280,55 @@
     <p><strong>结论</strong>：写过程定义时，"<strong>各时刻是否用同一次随机性</strong>"必须在定义里说清楚，否则分布不唯一。<strong>"要用哪个 $\omega$"是过程定义的一部分，不是可以随手补的细节。</strong></p>
   </div>
 
+  <h2>4.5 例题 · 两条样本函数的九宫格分布（彭江燕课件原例）</h2>
+  <div class="callout example">
+    <span class="label">例 4'（课件原例）· 联合分布函数的"九宫格"读法</span>
+    <p>设随机过程 $\{X(t),t\in\mathbb{R}\}$ 只有两条样本函数</p>
+    $$x_t(\omega_1)=2\cos t,\qquad x_t(\omega_2)=-2\cos t$$
+    <p>且 $P(\omega_1)=\tfrac23$、$P(\omega_2)=\tfrac13$。求：</p>
+    <ol>
+      <li>一维分布函数 $F_0(x)$ 与 $F_{\pi/4}(x)$；</li>
+      <li>二维分布函数 $F_{0,\pi/4}(x,y)$。</li>
+    </ol>
+    <p><strong>解（1）</strong> 对任意实数 $t$：</p>
+    <table>
+      <tr><th>$X(t)$</th><td>$-2\cos t$</td><td>$2\cos t$</td></tr>
+      <tr><th>$P$</th><td>$1/3$</td><td>$2/3$</td></tr>
+    </table>
+    <p>特别地 $X_0$ 取 $-2$（概率 $1/3$）、$2$（概率 $2/3$）；而 $X_{\pi/4}$ 取 $2\cos(\pi/4)=\sqrt2$（概率 $2/3$）、$-\sqrt2$（概率 $1/3$）。于是</p>
+    $$F_0(x)=\begin{cases}0,&amp;x&lt;-2\\[2pt]\dfrac13,&amp;-2\le x&lt;2\\[2pt]1,&amp;x\ge2\end{cases}
+    \qquad
+    F_{\pi/4}(x)=\begin{cases}0,&amp;x&lt;-\sqrt2\\[2pt]\dfrac13,&amp;-\sqrt2\le x&lt;\sqrt2\\[2pt]1,&amp;x\ge\sqrt2\end{cases}$$
+    <p><strong>解（2）</strong> 联合分布律<strong>只有两个格子非零</strong>：</p>
+    <table>
+      <tr><th>$(X_0,\;X_{\pi/4})$</th><td>$(2,\;\sqrt2)$</td><td>$(-2,\;-\sqrt2)$</td><td>边缘 $P(X_0)$</td></tr>
+      <tr><th>$2$</th><td>$2/3$</td><td>$0$</td><td>$2/3$</td></tr>
+      <tr><th>$-2$</th><td>$0$</td><td>$1/3$</td><td>$1/3$</td></tr>
+      <tr><th>边缘 $P(X_{\pi/4})$</th><td>$2/3$</td><td>$1/3$</td><td>$1$</td></tr>
+    </table>
+    <p>联合分布函数 $F(x,y)=P\{X_0\le x,\ X_{\pi/4}\le y\}$ 由两条竖线 $x=-2,x=2$ 与两条横线 $y=-\sqrt2,y=\sqrt2$ 把平面分成<strong>九宫格</strong>，逐格累加即得：</p>
+    <table>
+      <tr><th>$x\ \backslash\ y$</th><th>$y&lt;-\sqrt2$</th><th>$-\sqrt2\le y&lt;\sqrt2$</th><th>$y\ge\sqrt2$</th></tr>
+      <tr><td>$x&lt;-2$</td><td>$0$</td><td>$0$</td><td>$0$</td></tr>
+      <tr><td>$-2\le x&lt;2$</td><td>$0$</td><td>$1/3$</td><td>$1/3$</td></tr>
+      <tr><td>$x\ge2$</td><td>$0$</td><td>$1/3$</td><td>$1$</td></tr>
+    </table>
+    <p>写成文字版（课件原式，把 $\sqrt2$ 补全）：</p>
+    $$F(x,y)=\begin{cases}
+    0, &amp; x&lt;-2\ \text{或}\ y&lt;-\sqrt2\\[2pt]
+    \dfrac13, &amp; \bigl(-2\le x&lt;2\ \text{且}\ y\ge\sqrt2\bigr)\ \text{或}\ \bigl(x\ge2\ \text{且}\ -\sqrt2\le y&lt;\sqrt2\bigr)\\[2pt]
+    1, &amp; x\ge2\ \text{且}\ y\ge\sqrt2
+    \end{cases}$$
+    <p><strong>读法要点</strong>：中间格填 $1/3$ 而不是 $1/3+2/3$ 的原因——<strong>$x$ 落在 $[-2,2)$ 时只有 $X_0=-2$ 那一支被"圈进来"</strong>（$X_0=2>x$ 被排除）；而 $x\ge2$、$y\in[-\sqrt2,\sqrt2)$ 时换成了"$y$ 只圈进 $-\sqrt2$ 那一支"。<strong>联合分布函数永远是"逐个条件过滤后再累加"，不是两个边缘分布的乘积。</strong></p>
+  </div>
+
   <h2>5. 易错点</h2>
   <div class="callout warn">
     <span class="label">常见错误</span>
     <ul>
       <li>❌ <strong>把 $F(t,x)$ 的 $t$ 当自变量去求导</strong>。"密度"是对 $x$ 求导：$f(t,x)=\partial F/\partial x$，$t$ 只是参数。</li>
       <li>❌ <strong>以为 $F(t,x)+F(t,y)$ 之类的运算有意义</strong>。不同 $t$ 的分布函数是<strong>不同的函数</strong>，不能像同一个分布那样做加减。</li>
-      <li>❌ <strong>用"每个时刻都是正态"去断言"是正态过程"</strong>。正态过程要求<strong>任意有限维联合正态</strong>——这是强得多的条件（第 11 节详解）。</li>
+      <li>❌ <strong>用"每个时刻都是正态"去断言"是正态过程"</strong>。正态过程要求<strong>任意有限维联合正态</strong>——这是强得多的条件（第 15 节详解）。</li>
       <li>❌ <strong>忘记相容性条件的必要性</strong>。比如随便构造一族二维分布，而不检查"令 $+\infty$ 后能否回到一维分布"，就可能得到自相矛盾的对象。</li>
       <li>❌ <strong>把"有限维"理解成"次数有限"</strong>。"有限维"指<strong>时刻个数 $n$ 有限</strong>，但要对<strong>无穷多组</strong>时刻组合都给出分布，且 $n$ 可以取任意大。</li>
     </ul>
@@ -300,7 +347,7 @@
     <summary>Q3 · Kolmogorov 扩张定理的"存在性"到底解决了什么问题？</summary>
     <p>它解决了"<strong>我们凭什么说某个过程存在</strong>"。<br>
     具体来说：当你想构造一个满足"指定有限维分布"的过程时，不需要真的去搭出 $\Omega$ 和 $P$——只要<strong>验证你给的分布族满足对称性与相容性</strong>，定理就保证过程存在。<br>
-    这解释了为什么课程里描述重要过程时，<strong>惯例是直接给分布条件</strong>（如"$W(t)\sim N(0,\sigma^2t)$ 且增量独立平稳"），而从不显式构造 $\Omega$。也解释了第 10 节的"独立增量过程的有限维分布由一维分布与增量分布决定"为什么如此重要——它是 <strong>Kolmogorov 定理的"可操作版本"</strong>：不用给无穷多个 $n$ 维分布，只给一维分布加增量分布就够了。</p>
+    这解释了为什么课程里描述重要过程时，<strong>惯例是直接给分布条件</strong>（如"$W(t)\sim N(0,\sigma^2t)$ 且增量独立平稳"），而从不显式构造 $\Omega$。也解释了第 14 节的"独立增量过程的有限维分布由一维分布与增量分布决定"为什么如此重要——它是 <strong>Kolmogorov 定理的"可操作版本"</strong>：不用给无穷多个 $n$ 维分布，只给一维分布加增量分布就够了。</p>
   </details>
   <details>
     <summary>Q4 · 例 4 的两种版本，一维分布一样而二维分布不同。这对"怎么定义一个过程"有什么启示？</summary>

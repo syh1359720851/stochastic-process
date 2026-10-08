@@ -57,6 +57,7 @@
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
   th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
   th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
 </style>
 </head>
 <body>
@@ -77,10 +78,14 @@
     <a href="./06-均值函数与方差函数.html">06 均值 / 方差</a>
     <a href="./07-相关函数与协方差函数.html">07 相关 / 协方差</a>
     <a href="./08-互相关与互不相关.html">08 互相关</a>
-    <a href="./09-独立过程与独立增量过程.html">09 独立 / 独立增量</a>
-    <a href="./10-平稳独立增量过程.html">10 平稳独立增量</a>
-    <a href="./11-正态过程.html">11 正态过程</a>
-    <a href="./12-维纳过程.html">12 维纳过程</a>
+    <a href="./09-二阶矩过程与协方差非负定性.html">09 二阶矩 / 非负定</a>
+    <a href="./10-宽平稳过程.html">10 宽平稳</a>
+    <a href="./11-严平稳过程.html">11 严平稳</a>
+    <a href="./12-正交增量与白噪声.html">12 正交增量 / 白噪声</a>
+    <a href="./13-独立过程与独立增量过程.html">13 独立 / 独立增量</a>
+    <a href="./14-平稳独立增量过程.html">14 平稳独立增量</a>
+    <a href="./15-正态过程.html">15 正态过程</a>
+    <a href="./16-维纳过程.html">16 维纳过程</a>
     <a href="./动画-过程样本轨道族.html">动画</a>
     <a href="./自测.html">自测</a>
   </nav>
@@ -163,9 +168,9 @@
   <div class="callout warn">
     <span class="label">这张表要这样读</span>
     <ul>
-      <li><strong>这些类不是互斥的，而是层层叠加的</strong>：维纳过程同时是"独立增量过程 + 正态过程 + Markov 过程"（第 12 节会证明）；Poisson 过程也同时是"独立增量 + Markov"。所以"维纳过程属于哪一类"这种问法本身问错了——应该问"它满足哪些性质"。</li>
-      <li><strong>有些类之间是"推广"关系</strong>：独立过程 $\Rightarrow$ 独立增量过程（因为不相交时段的增量由不相交的独立变量组成），反之不成立。第 09 节会给反例。</li>
-      <li><strong>平稳性和其他性质也是独立的维度</strong>：Poisson 过程与维纳过程都是"平稳独立增量"，但一个是计数过程、一个是连续过程；而"平稳过程"是另一个更强的要求，维纳过程<strong>不是</strong>平稳过程（其方差随时间增长！第 12 节详解）。</li>
+      <li><strong>这些类不是互斥的，而是层层叠加的</strong>：维纳过程同时是"独立增量过程 + 正态过程 + Markov 过程"（第 16 节会证明）；Poisson 过程也同时是"独立增量 + Markov"。所以"维纳过程属于哪一类"这种问法本身问错了——应该问"它满足哪些性质"。</li>
+      <li><strong>有些类之间是"推广"关系</strong>：独立过程 $\Rightarrow$ 独立增量过程（因为不相交时段的增量由不相交的独立变量组成），反之不成立。第 13 节会给反例。</li>
+      <li><strong>平稳性和其他性质也是独立的维度</strong>：Poisson 过程与维纳过程都是"平稳独立增量"，但一个是计数过程、一个是连续过程；而"平稳过程"是另一个更强的要求，维纳过程<strong>不是</strong>平稳过程（其方差随时间增长！第 16 节详解）。</li>
     </ul>
   </div>
 
@@ -214,7 +219,7 @@
   <details>
     <summary>Q4 · 为什么说"维纳过程不是平稳过程"？</summary>
     <p>因为平稳过程要求"有限维分布对时间平移不变"，特别是一维分布 $X(t)$ 的分布不能随 $t$ 变。但维纳过程有 $W(t)\sim N(0,\sigma^2t)$——<strong>方差随时间线性增长</strong>，$t$ 越大分布越"胖"，平移后不可能同分布。<br>
-    <strong>维纳过程"平稳"的只有增量</strong>（$W(t+h)-W(s+h)$ 与 $W(t)-W(s)$ 同分布），这叫"具有平稳增量"，与"是平稳过程"是两回事。第 12 节会重点拆这个坑。</p>
+    <strong>维纳过程"平稳"的只有增量</strong>（$W(t+h)-W(s+h)$ 与 $W(t)-W(s)$ 同分布），这叫"具有平稳增量"，与"是平稳过程"是两回事。第 16 节会重点拆这个坑。</p>
   </details>
 
   <div class="pager">
