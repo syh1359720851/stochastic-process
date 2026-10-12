@@ -79,7 +79,8 @@
     <a href="./08-Wald方程.html">08 Wald 方程</a>
     <a href="./09-特征函数.html" class="current">09 特征函数</a>
     <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
-    <a href="./动画-分布参数与数字特征联动.html">动画</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画 · 数字特征</a>
+    <a href="./动画-特征函数的单位圆重心.html">动画 · 单位圆重心</a>
     <a href="./自测.html">自测</a>
   </nav>
 
@@ -103,7 +104,26 @@
 
   <h2>2. 直观含义</h2>
   <div class="callout intuition">
-    <span class="label">直观含义</span>
+    <span class="label">直观含义 · $\varphi_X(t)$ 是单位圆上的「重心」</span>
+    <p><strong>先看这一行</strong>，它比下面两条加起来都管用：</p>
+    $$\bigl|e^{itX}\bigr|=1\qquad \forall\,t\in\mathbb{R},\ \forall\,X$$
+    <p><strong>对任何 $t$、任何取值 $X$，都恒成立。</strong></p>
+    <p>因为<strong>复指数永远落在单位圆上</strong>，所以 $X$ 的每个可能取值 $x$ 都对应圆上的一个点 $e^{itx}$，而</p>
+    $$\varphi_X(t)=E\bigl(e^{itX}\bigr)=\sum_k p_k\,e^{itx_k}$$
+    <p>就是这些点按概率 $p_k$ 取的<strong>加权重心</strong>。于是：</p>
+    <table>
+      <tr><th>性质</th><th>重心语言下的解释</th></tr>
+      <tr><td>$\varphi_X(0)=1$</td><td>$t=0$ 时所有点都重合在 $1$，重心自然就是 $1$</td></tr>
+      <tr><td>$\lvert\varphi_X(t)\rvert\le1$</td><td>所有点在圆内，重心必在圆盘内</td></tr>
+      <tr><td>$\lvert\varphi_X(t)\rvert=1\iff X$ 退化</td><td>重心<strong>恰好</strong>落在圆周上 ⟹ 所有点重合 ⟹ $X$ 几乎必然为常数</td></tr>
+      <tr><td>分布<strong>关于 0</strong>对称 $\Rightarrow\varphi$ 为实函数</td><td>$x$ 与 $-x$ 对应的点上下配对，<strong>纵向分量两两抵消</strong>，重心落在实轴上</td></tr>
+    </table>
+    <p><strong>动手版：</strong><a href="./动画-特征函数的单位圆重心.html">动画「特征函数的单位圆重心」</a>——拖动 $t$ 看重心怎么动，五个分布对照着看。</p>
+    <p class="lede" style="font-size:14px;color:var(--c-muted)">⚠ 易错：只有"<strong>关于 0</strong>对称"才推出虚部恒为 0。若只是关于某个 $a\ne0$ 对称，则 $\varphi(t)=e^{iat}\times(\text{实函数})$——<strong>模是实数，但 $\varphi$ 一般不是实数</strong>。</p>
+  </div>
+
+  <div class="callout intuition">
+    <span class="label">另外两个视角</span>
     <ul>
       <li><strong>Fourier 视角</strong>：$\varphi_X(t)$ 是概率密度 $f_X(x)$ 的<strong>Fourier 变换</strong>，$f_X$ 是 $\varphi_X$ 的<strong>Fourier 逆变换</strong>——两者一一对应。</li>
       <li><strong>复平面视角</strong>：把 $e^{itX}=\cos(tX)+i\sin(tX)$ 分实部 / 虚部：</li>
@@ -112,6 +132,7 @@
     <p>$E(\cos tX)$ 是 $X$ 的"<strong>偶函数矩</strong>"，$E(\sin tX)$ 是"<strong>奇函数矩</strong>"。</p>
     <ul>
       <li><strong>"指纹" 含义</strong>：每个分布对应一条<strong>复平面上的曲线</strong> $\varphi_X(t)$（$t$ 是实参数）。不同分布的曲线不同——这是"唯一性"。</li>
+      <li><strong>信号视角（工程上最常用）</strong>：把 $e^{its}$ 当作频率 $t$ 的单位输入、$X$ 当作幅度，则 $\varphi_X(t)$ 就是<strong>随机信号在频率 $t$ 处的平均传输效果</strong>。第 06 讲第 12 节"白噪声频谱平坦所以叫白"说的正是这件事。</li>
     </ul>
   </div>
 

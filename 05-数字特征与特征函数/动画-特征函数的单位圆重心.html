@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动画 · 特征函数的单位圆重心 | 第05讲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+  :root{--c-bg:#fff;--c-fg:#1f2328;--c-muted:#57606a;--c-line:#d0d7de;--c-card:#f6f8fa;
+    --c-primary:#0969da;--c-primary-bg:#ddf4ff;--c-accent:#1a7f37;--c-accent-bg:#dafbe1;
+    --c-warn:#9a6700;--c-warn-bg:#fff8c5;--c-danger:#cf222e;--c-danger-bg:#ffebe9;
+    --c-theorem:#8250df;--c-theorem-bg:#fbefff;}
+  @media (prefers-color-scheme: dark){
+    :root{--c-bg:#0d1117;--c-fg:#e6edf3;--c-muted:#8b949e;--c-line:#30363d;--c-card:#161b22;
+      --c-primary:#58a6ff;--c-primary-bg:#051d4d;--c-accent:#3fb950;--c-accent-bg:#0f2419;
+      --c-warn:#d29922;--c-warn-bg:#341a00;--c-danger:#f85149;--c-danger-bg:#2d0a0a;
+      --c-theorem:#d2a8ff;--c-theorem-bg:#1f1530;}}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:16px;line-height:1.75;color:var(--c-fg);background:var(--c-bg)}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--c-line);margin-bottom:24px}
+  header.top .crumb{font-size:13px;color:var(--c-muted)}header.top .crumb a{color:var(--c-primary);text-decoration:none}
+  header.top .course-name{font-weight:600;color:var(--c-primary)}
+  nav.lecture-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid var(--c-line);margin-bottom:24px;font-size:14px}
+  nav.lecture-nav a{padding:4px 10px;border-radius:14px;background:var(--c-card);color:var(--c-fg);text-decoration:none;border:1px solid var(--c-line)}
+  nav.lecture-nav a:hover{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  nav.lecture-nav a.current{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+  h1{font-size:28px;line-height:1.3;margin:8px 0 4px}
+  h2{font-size:22px;line-height:1.35;margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--c-line)}
+  h3{font-size:18px;margin:24px 0 8px;color:var(--c-primary)}
+  .lede{color:var(--c-muted);margin:0 0 24px}
+  p{margin:10px 0}ul,ol{padding-left:24px}li{margin:6px 0}
+  .katex-display{margin:18px 0 !important}
+  .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+  .callout.intuition{background:var(--c-primary-bg);border-color:var(--c-primary)}
+  .callout.theorem{background:var(--c-theorem-bg);border-color:var(--c-theorem)}
+  .callout.example{background:var(--c-accent-bg);border-color:var(--c-accent)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn)}
+  .callout.danger{background:var(--c-danger-bg);border-color:var(--c-danger)}
+  .callout.tip{background:var(--c-card);border-color:var(--c-line)}
+  .callout .label{font-weight:600;font-size:14px;display:block;margin-bottom:6px;letter-spacing:0.5px}
+  .callout.intuition .label{color:var(--c-primary)}.callout.theorem .label{color:var(--c-theorem)}
+  .callout.example .label{color:var(--c-accent)}.callout.warn .label{color:var(--c-warn)}
+  .callout.danger .label{color:var(--c-danger)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--c-line)}
+  .pager a{display:block;flex:1;padding:12px 14px;border:1px solid var(--c-line);border-radius:8px;text-decoration:none;color:var(--c-fg);background:var(--c-card)}
+  .pager a:hover{border-color:var(--c-primary)}
+  .pager .label{font-size:12px;color:var(--c-muted);display:block}
+  .pager .title{font-weight:600;color:var(--c-primary)}
+  footer.bot{margin-top:48px;padding-top:16px;border-top:1px solid var(--c-line);font-size:13px;color:var(--c-muted);text-align:center}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--c-line);padding:8px 12px;text-align:left}
+  th{background:var(--c-card)}
+  table th:first-child{min-width:5.5em}
+
+  /* ==== 演示专用 ==== */
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+  .btns button{padding:7px 14px;border-radius:8px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);font-size:14px;cursor:pointer;font-family:inherit}
+  .btns button:hover{border-color:var(--c-primary);background:var(--c-primary-bg)}
+  .btns button.on{background:var(--c-primary);color:#fff;border-color:var(--c-primary);font-weight:600}
+  .ctrl{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:12px 0;padding:12px 16px;background:var(--c-card);border:1px solid var(--c-line);border-radius:10px}
+  .ctrl label{font-size:14px;color:var(--c-muted);white-space:nowrap}
+  .ctrl input[type=range]{flex:1 1 320px;min-width:220px;accent-color:var(--c-primary)}
+  .tval{font-family:ui-monospace,Consolas,monospace;font-size:16px;font-weight:700;color:var(--c-primary);min-width:150px}
+  .stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin:14px 0}
+  .card{border:1px solid var(--c-line);border-radius:10px;background:var(--c-card);padding:12px}
+  .card .ttl{font-size:14px;font-weight:600;color:var(--c-fg);margin:0 0 6px}
+  .card .cap{font-size:12px;color:var(--c-muted);margin:6px 0 0}
+  .readout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:15px;background:var(--c-primary-bg);border-left:4px solid var(--c-primary)}
+  .readout b{font-size:16px}
+  .mono{font-family:ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crumb"><a href="../index.html">课程地图</a> / <a href="./index.html">第05讲</a> / 动画</div>
+    <div class="course-name">随机过程与排队论（融合版）</div>
+  </header>
+
+  <nav class="lecture-nav">
+    <a href="./index.html">讲次首页</a>
+    <a href="./00-Fourier变换与复平面.html">00 Fourier 与复平面</a>
+    <a href="./01-R-S积分简介.html">01 R-S 积分</a>
+    <a href="./02-数学期望.html">02 期望</a>
+    <a href="./03-随机变量函数的期望.html">03 函数期望</a>
+    <a href="./04-方差.html">04 方差</a>
+    <a href="./05-协方差与相关系数.html">05 协方差</a>
+    <a href="./06-矩与矩母函数.html">06 矩与矩母函数</a>
+    <a href="./07-条件期望与全期望公式.html">07 条件期望</a>
+    <a href="./08-Wald方程.html">08 Wald 方程</a>
+    <a href="./09-特征函数.html">09 特征函数</a>
+    <a href="./10-常见分布的特征函数.html">10 常见分布特征函数</a>
+    <a href="./动画-分布参数与数字特征联动.html">动画 · 数字特征</a>
+    <a href="./动画-特征函数的单位圆重心.html" class="current">动画 · 单位圆重心</a>
+    <a href="./自测.html">自测</a>
+  </nav>
+
+  <h1>动画 · 特征函数 = 单位圆上的「重心」</h1>
+  <p class="lede">$\varphi(t)=E\!\left(e^{itX}\right)$ 到底是个什么值？<strong>拖动滑块看 $t$ 变化</strong>——左图里每个彩色线段都是 $X$ 的一个可能取值对应的向量，长度就是它的概率；它们的<strong>向量和</strong>（红色箭头）就是 $\varphi(t)$。</p>
+
+  <div class="callout tip">
+    <span class="label">📌 这页要你看懂的一件事</span>
+    <strong>因为 $|e^{itX}|=1$ 恒成立，所以每个可能的取值 $x$ 都变成单位圆上的一个点。</strong>
+    $\varphi(t)$ 就是这些点按概率取<strong>加权重心</strong>——不是概率，不是"某种程度"，而是一个实实在在的<strong>位置</strong>。
+  </div>
+
+  <h2>1. 怎么玩</h2>
+  <ol>
+    <li>先点一个分布（五个都试一遍）。</li>
+    <li><strong>拖动 $t$ 滑块从 0 到 $2\pi$</strong>，盯住左边那根红色箭头（重心）。</li>
+    <li>右边是重心走过的<strong>轨迹曲线</strong>——这就是"特征函数曲线"，也叫分布的<strong>指纹</strong>。</li>
+    <li>下面三张小图分别是 $|\varphi(t)|$、$\mathrm{Re}\,\varphi(t)$、$\mathrm{Im}\,\varphi(t)$。</li>
+  </ol>
+
+  <div class="btns" id="distBtns"></div>
+
+  <div class="ctrl">
+    <label for="tslider"><strong>参数 t</strong></label>
+    <input type="range" id="tslider" min="0" max="628" value="0" step="1">
+    <span class="tval" id="tval">t = 0.00</span>
+    <button id="playBtn" style="padding:6px 14px;border-radius:8px;border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-fg);cursor:pointer;font-family:inherit">▶ 自动播放</button>
+  </div>
+
+  <div class="readout" id="readout"><b>读数：</b>—</div>
+
+  <div class="stage">
+    <div class="card">
+      <div class="ttl">① 单位圆：向量加法就是 $\varphi(t)$</div>
+      <svg id="circleSvg" viewBox="0 0 340 340" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="cap">每条彩色线段：从圆心出发、长度 $p_k$、方向 $e^{itx_k}$。<strong>它们的向量和 = 红箭头 = $\varphi(t)$</strong>。灰圈是单位圆，红点永远在圆盘内。</p>
+    </div>
+    <div class="card">
+      <div class="ttl">② 复平面：$\varphi(t)$ 随 $t$ 走出的指纹曲线</div>
+      <svg id="trajSvg" viewBox="0 0 340 340" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="cap">横轴 $\mathrm{Re}$、纵轴 $\mathrm{Im}$。红点随滑块移动——<strong>这条曲线的形状就是这个分布的"指纹"</strong>，不同分布绝不重合。</p>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="card">
+      <div class="ttl">③ $|\varphi(t)|$ ＝ 重心到圆心的距离</div>
+      <svg id="modSvg" viewBox="0 0 340 150" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="cap">贴着 1 ⟹ $X$ 几乎是常数；掉到 0 ⟹ 分布摊得很开。</p>
+    </div>
+    <div class="card">
+      <div class="ttl">④ $\mathrm{Re}\,\varphi(t)$ ＝ 横向分量</div>
+      <svg id="reSvg" viewBox="0 0 340 150" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="cap">重心在实轴上左右摆动的程度。</p>
+    </div>
+    <div class="card">
+      <div class="ttl">⑤ $\mathrm{Im}\,\varphi(t)$ ＝ 偏斜方向</div>
+      <svg id="imSvg" viewBox="0 0 340 150" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="cap"><strong>虚部恒为 0 ⟺ 分布关于 0 对称。</strong>（只看"某个 t 的正负"会判错，见下方警示框）</p>
+    </div>
+  </div>
+
+  <h2>2. 五个例子，各自该看出什么</h2>
+  <table>
+    <tr><th>分布</th><th>对称中心</th><th>$\varphi(t)$</th><th>重心轨迹</th><th>看什么</th></tr>
+    <tr><td>$X\equiv 1$</td><td>$a=1$</td><td>$e^{it}$</td><td>整个单位圆周</td><td>模恒为 $1$，重心<strong>永远贴在圆周上绕圈</strong>——这就是"退化分布"</td></tr>
+    <tr><td>$X=\pm1$，各 $\frac12$</td><td>关于 $0$ 对称</td><td>$\cos t$</td><td>实轴上的线段 $[-1,1]$</td><td>两根等长向量<strong>对顶</strong>：$t=\frac\pi2$ 时完全抵消、重心落到圆心</td></tr>
+    <tr><td>$X\in\{-1,0,1\}$，$\frac16,\frac23,\frac16$</td><td>关于 $0$ 对称</td><td>实函数</td><td>实轴上，迅速收缩</td><td>对称 ⟹ 虚部恒为 $0$；质量集中在 $0$ ⟹ 重心飞快缩回圆心</td></tr>
+    <tr><td>$X\in\{1,2,3\}$，各 $\frac13$</td><td>关于 $2$ 对称<br><span style="color:var(--c-muted)">（<strong>不在 0</strong>）</span></td><td>$e^{2it}\cdot\frac{1+2\cos t}{3}$</td><td>边旋转边收缩</td><td>对称中心<strong>不在原点</strong> ⟹ 虚部并不为 $0$；但模仍是实数，方向锁定在辐角 $2t$ 上</td></tr>
+    <tr><td>$X\in\{0,1,4\}$，$\frac12,\frac13,\frac16$</td><td>不对称</td><td>实部虚部都在动</td><td>上下不对称的花纹</td><td>三阶中心矩 $\mu_3=4>0$ ⟹ <strong>右偏</strong></td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="label">⚠️ 这里有个容易讲错的点，务必分清</span>
+    <p><strong>正确的命题是：$\varphi(t)$ 为实函数 $\iff$ 分布关于 <strong>0</strong> 对称。</strong></p>
+    <p>若分布只是<strong>关于某个 $a\ne0$ 对称</strong>，结论降级为</p>
+    $$\varphi(t)=e^{iat}\times\bigl(\text{实函数}\bigr)$$
+    <p>——即 <strong>$|\varphi(t)|$ 仍是实数，但 $\varphi(t)$ 一般不是实数</strong>。上表第 4 行（$X\in\{1,2,3\}$）就是这种情况：它关于 $2$ 对称，轨迹因此<strong>一边旋转（辐角 $2t$）一边收缩</strong>，而不是沿着实轴收缩。<strong>把"关于 $a$ 对称"误当成"关于 0 对称"，就会错判虚部是否为零。</strong></p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">把三件事一次性说清</span>
+    <p><strong>① 模告诉你"散不散"。</strong>点越集中在原值附近，$e^{itx}$ 的方向越一致，重心越靠近圆周；点越分散，方向越乱、越互相抵消，重心越快缩向圆心。</p>
+    <p><strong>② 位置告诉你"偏不偏、偏在哪"。</strong>虚部记录重心偏离实轴的程度（<strong>关于 0 对称时恒为 0</strong>）；但<strong>偏斜方向该看三阶中心矩 $\mu_3=E[(X-\mu)^3]$</strong>——它正是 $\operatorname{Im}\varphi(t)$ 在 $t\to0$ 附近的斜率（因为 $\varphi(t)=1-\frac{\sigma^2}{2}t^2+\mathrm{i}\frac{\mu_3}{6}t^3+O(t^4)$）。<strong>不要用"某个 $t$ 的虚部是正的"去判断偏斜</strong>——像第 5 行那样，虚部在一整圈里会变号。</p>
+    <p><strong>③ 轨迹形状就是"指纹"。</strong>不同的 $X$，重心走的曲线<strong>绝不重合</strong>——这就是"特征函数唯一决定分布"的全部含义。第 05 讲第 09 节说的"$\varphi(0)=1$、$|\varphi|\le1$"，在这张图上就是<strong>起点必须在 $(1,0)$、且红点永远出不了单位圆</strong>。</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">一个必须分清的点</span>
+    <p><strong>$\varphi(t)$ 不是任何事件的概率。</strong>它是复平面上的一个<strong>位置</strong>，量纲是"长度"而不是"百分比"。想拿概率必须回到 $F(x)$ 或 $f(x)$；想从 $\varphi$ 还原概率，用 Fourier 逆变换 $f_X(x)=\frac1{2\pi}\int\varphi_X(t)e^{-itx}dt$。</p>
+    <p>连续分布也一样，只是"有限的几个点"换成"无穷多个点上的加权平均"——求和 $\sum_k$ 换成积分 $\int$，重心还是在圆盘内。</p>
+  </div>
+
+  <h2>3. 这和第 06 讲有什么关系</h2>
+  <div class="callout intuition">
+    <span class="label">一脉相承</span>
+    <ul>
+      <li>第 06 讲第 04 节说，分布函数在 $+\infty$ 处让"多余变量失效"；<strong>特征函数的相容性是在 0 处</strong>——因为 $e^{j\cdot 0\cdot X}=1$，多出来的因子恒为 $1$，自动消掉。同一个目的，两种写法。</li>
+      <li>第 06 讲第 12 节说白噪声的<strong>谱是平的</strong>（所以叫"白"）：白噪声 $R(\tau)=\sigma^2\delta(\tau)$，把 $\delta$ 做 Fourier 变换得到<strong>常数</strong>，即每个频率的能量一样——正是"重心在所有方向上到圆心的距离相同"。</li>
+      <li>第 06 讲第 15 节说<strong>正态过程的分布由 $m(t)$ 与 $C(s,t)$ 决定</strong>，靠的就是正态分布对 Fourier 变换封闭：正态 $\mapsto$ 正态，所以 $\varphi(t)$ 仍是 $e^{-\frac12(\cdot)^2}$ 这种极简形状。</li>
+    </ul>
+  </div>
+
+  <div class="pager">
+    <a href="./09-特征函数.html"><span class="label">← 返回</span><span class="title">09 特征函数</span></a>
+    <a href="./动画-分布参数与数字特征联动.html" style="text-align:right"><span class="label">另一个动画 →</span><span class="title">分布参数 ↔ 数字特征 ↔ $|\varphi|$</span></a>
+  </div>
+
+  <footer class="bot">第 05 讲 · 数字特征与特征函数 · 融合版课件 · 仅供个人学习使用</footer>
+</div>
+
+<script>
+/* ---------- 五个离散分布（全部精确，无近似） ---------- */
+const DISTS = [
+  { id:'deg', name:'X ≡ 1（退化）', xs:[1], ps:[1], sym:'a = 1', note:'只有一根长度为 1 的向量，重心=它自己：φ(t)=e^{it}，模恒为 1，轨迹就是整个单位圆。' },
+  { id:'pm1', name:'X = ±1，各 1/2', xs:[-1,1], ps:[0.5,0.5], sym:'关于 0 对称', note:'两根等长向量对顶：φ(t)=cos t。t=π/2 时完全抵消、重心落到圆心，轨迹是实轴上的线段。' },
+  { id:'mid', name:'X ∈ {−1,0,1}，1/6,2/3,1/6', xs:[-1,0,1], ps:[1/6,2/3,1/6], sym:'关于 0 对称', note:'关于 0 对称 ⟹ 虚部恒为 0、φ 是实函数；质量集中在 0 ⟹ 重心飞快缩回圆心。' },
+  { id:'three', name:'X ∈ {1,2,3}，各 1/3', xs:[1,2,3], ps:[1/3,1/3,1/3], sym:'关于 2 对称（不在 0）', note:'对称中心在 2 而不是 0 ⟹ φ(t)=e^{2it}·(1+2cos t)/3：模仍是实数，但辐角随 2t 旋转，轨迹是"边转边缩"。' },
+  { id:'skew', name:'X ∈ {0,1,4}，1/2,1/3,1/6', xs:[0,1,4], ps:[1/2,1/3,1/6], sym:'不对称', note:'不左右对称 ⟹ φ 有虚部；右偏（三阶中心矩 μ₃=4>0）。注意它的虚部在一整圈里会变号。' },
+];
+const COLORS = ['#0969da','#1a7f37','#cf222e','#8250df','#9a6700'];
+const TWOP = 2*Math.PI;
+
+let cur = 0, t = 0, playing = false, timer = null;
+
+function phi(d, t){
+  let a=0,b=0;
+  for(let k=0;k<d.xs.length;k++){ a+=d.ps[k]*Math.cos(t*d.xs[k]); b+=d.ps[k]*Math.sin(t*d.xs[k]); }
+  return [a,b];
+}
+function fmt(v){ return (v<0?-v:v)<0.005 ? '0' : v.toFixed(3); }
+
+/* ---------- 按钮 ---------- */
+(function(){
+  const box = document.getElementById('distBtns');
+  DISTS.forEach((d,i)=>{
+    const b = document.createElement('button');
+    b.textContent = d.name; b.id = 'db'+d.id;
+    b.onclick = ()=>{ cur=i; syncButtons(); renderAll(); };
+    box.appendChild(b);
+  });
+})();
+function syncButtons(){ DISTS.forEach((d,i)=>{ document.getElementById('db'+d.id).className = (i===cur?'on':''); }); }
+
+document.getElementById('tslider').addEventListener('input', e=>{
+  stopPlay(); t = (+e.target.value)/100; renderAll();
+});
+function stopPlay(){ playing=false; if(timer){clearInterval(timer); timer=null;} document.getElementById('playBtn').textContent='▶ 自动播放'; }
+document.getElementById('playBtn').addEventListener('click', ()=>{
+  if(playing){ stopPlay(); return; }
+  playing=true; document.getElementById('playBtn').textContent='⏸ 暂停';
+  timer=setInterval(()=>{ t+=0.03; if(t>TWOP) t=0;
+    document.getElementById('tslider').value=Math.round(t*100); renderAll(); }, 16);
+});
+
+/* ---------- 图 ①：单位圆 ---------- */
+function drawCircle(d){
+  const CX=170, CY=170, R=126;
+  const X = a => CX + a*R, Y = b => CY - b*R;
+  let s = '';
+  s += '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="#d0d7de" stroke-width="1"/>';
+  s += '<line x1="'+(X(-1.15))+'" y1="'+CY+'" x2="'+X(1.15)+'" y2="'+CY+'" stroke="#d0d7de" stroke-width="0.7"/>';
+  s += '<line x1="'+CX+'" y1="'+(Y(1.15))+'" x2="'+CX+'" y2="'+Y(-1.15)+'" stroke="#d0d7de" stroke-width="0.7"/>';
+  // 单位圆上"各取值对应的点"（长度为 1 的位置）
+  d.xs.forEach((x,k)=>{
+    const px = X(Math.cos(t*x)), py = Y(Math.sin(t*x));
+    s += '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4" fill="none" stroke="'+COLORS[k]+'" stroke-width="1.4"/>';
+    s += '<text x="'+px.toFixed(1)+'" y="'+(py-9).toFixed(1)+'" font-size="10" fill="'+COLORS[k]+'" text-anchor="middle">x='+x+'</text>';
+  });
+  // 概率向量
+  d.xs.forEach((x,k)=>{
+    const vx = d.ps[k]*Math.cos(t*x), vy = d.ps[k]*Math.sin(t*x);
+    s += '<line x1="'+CX+'" y1="'+CY+'" x2="'+X(vx).toFixed(1)+'" y2="'+Y(vy).toFixed(1)+'" stroke="'+COLORS[k]+'" stroke-width="2.6" opacity="0.85"/>';
+    s += '<circle cx="'+X(vx).toFixed(1)+'" cy="'+Y(vy).toFixed(1)+'" r="5" fill="'+COLORS[k]+'"/>';
+  });
+  // 重心 φ(t)
+  const [a,b] = phi(d,t);
+  s += '<circle cx="'+X(a).toFixed(1)+'" cy="'+Y(b).toFixed(1)+'" r="7" fill="#cf222e" opacity="0.18"/>';
+  s += '<line x1="'+CX+'" y1="'+CY+'" x2="'+X(a).toFixed(1)+'" y2="'+Y(b).toFixed(1)+'" stroke="#cf222e" stroke-width="3"/>';
+  s += '<circle cx="'+X(a).toFixed(1)+'" cy="'+Y(b).toFixed(1)+'" r="6" fill="#cf222e" stroke="#fff" stroke-width="1.5"/>';
+  s += '<text x="'+(CX-6)+'" y="'+(Y(1.15)+16)+'" font-size="11" fill="#57606a">1</text>';
+  s += '<text x="'+(CX-6)+'" y="'+(Y(-1.15)+4)+'" font-size="11" fill="#57606a">−1</text>';
+  s += '<text x="'+(CX-30)+'" y="'+(Y(0)-8)+'" font-size="11" fill="#cf222e">φ(t) = '+fmt(a)+' + '+fmt(b)+'i</text>';
+  document.getElementById('circleSvg').innerHTML = s;
+}
+
+/* ---------- 图 ②：指纹轨迹 ---------- */
+function drawTraj(d){
+  const L=170, R=150, RG=1.25;
+  const X = a => L + a*R/RG, Y = b => L - b*R/RG;
+  let s = '';
+  s += '<circle cx="'+L+'" cy="'+L+'" r="'+R+'" fill="none" stroke="#d0d7de" stroke-width="0.8"/>';
+  s += '<line x1="'+X(-RG)+'" y1="'+L+'" x2="'+X(RG)+'" y2="'+L+'" stroke="#d0d7de" stroke-width="0.6"/>';
+  s += '<line x1="'+L+'" y1="'+Y(RG)+'" x2="'+L+'" y2="'+Y(-RG)+'" stroke="#d0d7de" stroke-width="0.6"/>';
+  const pts=[]; const N=240;
+  for(let i=0;i<=N;i++){ const [a,b]=phi(d, TWOP*i/N); pts.push(X(a).toFixed(1)+','+Y(b).toFixed(1)); }
+  s += '<polyline points="'+pts.join(' ')+'" fill="none" stroke="#8250df" stroke-width="2" opacity="0.9"/>';
+  // 已走过的部分加粗
+  const M = Math.round(t/TWOP*N); const done = pts.slice(0, M+1);
+  if(done.length>1) s += '<polyline points="'+done.join(' ')+'" fill="none" stroke="#0969da" stroke-width="3"/>';
+  s += '<circle cx="'+X(1).toFixed(1)+'" cy="'+Y(0).toFixed(1)+'" r="4" fill="#1a7f37"/>';
+  s += '<text x="'+(X(1)-8)+'" y="'+(Y(0)-9)+'" font-size="10" fill="#1a7f37" text-anchor="end">t=0 时必在 (1,0)</text>';
+  const [a,b]=phi(d,t);
+  s += '<circle cx="'+X(a).toFixed(1)+'" cy="'+Y(b).toFixed(1)+'" r="6" fill="#cf222e" stroke="#fff" stroke-width="1.5"/>';
+  document.getElementById('trajSvg').innerHTML = s;
+}
+
+/* ---------- 图 ③④⑤：三条曲线 ---------- */
+function drawLine(id, f, lo, hi, col, zero){
+  const W=340,H=150,PL=34,PR=10,PT=10,PB=22;
+  const X = t => PL + (W-PL-PR)*t/TWOP;
+  const Y = v => PT + (H-PT-PB)*(1-(v-lo)/(hi-lo));
+  let s='';
+  s += '<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+(H-PB)+'" stroke="#d0d7de" stroke-width="0.7"/>';
+  s += '<line x1="'+PL+'" y1="'+(H-PB)+'" x2="'+(W-PR)+'" y2="'+(H-PB)+'" stroke="#d0d7de" stroke-width="0.7"/>';
+  if(lo<0&&hi>0) s += '<line x1="'+PL+'" y1="'+Y(0).toFixed(1)+'" x2="'+(W-PR)+'" y2="'+Y(0).toFixed(1)+'" stroke="#8b949e" stroke-width="0.8" stroke-dasharray="3 2"/>';
+  const pts=[]; const N=200;
+  for(let i=0;i<=N;i++){ const tt=TWOP*i/N; pts.push(X(tt).toFixed(1)+','+Y(Math.max(lo,Math.min(hi,f(tt)))).toFixed(1)); }
+  s += '<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+col+'" stroke-width="2"/>';
+  s += '<line x1="'+X(t).toFixed(1)+'" y1="'+PT+'" x2="'+X(t).toFixed(1)+'" y2="'+(H-PB)+'" stroke="#cf222e" stroke-width="1" stroke-dasharray="3 2"/>';
+  const cur=f(t);
+  s += '<circle cx="'+X(t).toFixed(1)+'" cy="'+Y(Math.max(lo,Math.min(hi,cur))).toFixed(1)+'" r="5" fill="#cf222e" stroke="#fff" stroke-width="1.4"/>';
+  s += '<text x="'+(PL-5)+'" y="'+(Y(hi)+4).toFixed(1)+'" font-size="10" fill="#57606a" text-anchor="end">'+hi.toFixed(1)+'</text>';
+  s += '<text x="'+(PL-5)+'" y="'+(Y(lo)+4).toFixed(1)+'" font-size="10" fill="#57606a" text-anchor="end">'+lo.toFixed(1)+'</text>';
+  s += '<text x="'+(W-PR)+'" y="'+(H-6)+'" font-size="10" fill="#57606a" text-anchor="end">t</text>';
+  s += '<text x="'+X(t).toFixed(1)+'" y="'+(H-6)+'" font-size="10" fill="#cf222e" text-anchor="middle">'+t.toFixed(2)+'</text>';
+  document.getElementById(id).innerHTML = s;
+}
+
+/* ---------- 动态读数 ---------- */
+function moments(d){
+  let mu=0; d.xs.forEach((x,k)=>{ mu += d.ps[k]*x; });
+  let m2=0, m3=0;
+  d.xs.forEach((x,k)=>{ const c=Math.pow(x-mu,2), c3=Math.pow(x-mu,3); m2 += d.ps[k]*c; m3 += d.ps[k]*c3; });
+  return { mu, var:m2, mu3:m3 };
+}
+function drawReadout(d){
+  const [a,b]=phi(d,t), m=Math.hypot(a,b), M=moments(d);
+  let msg;
+  if(m>0.985) msg='<b>重心几乎贴在圆周上</b> ⟹ $|\\varphi(t)|\\approx1$ ⟹ 各点几乎同向 ⟹ $X$ 接近常数（退化）。';
+  else if(m<0.12) msg='<b>重心缩到圆心附近</b> ⟹ $|\\varphi(t)|\\approx0$ ⟹ 各点方向几乎完全抵消 ⟹ 分布摊得很开。';
+  else msg='重心在圆盘内的 <span class="mono">'+m.toFixed(3)+'</span> 处，模就是"离圆心的距离"。';
+
+  let shape;
+  if(Math.abs(M.mu3)<1e-9 && M.var<1e-12) shape='退化分布（$\\mu_3=0$、方差为 0）。';
+  else if(Math.abs(M.mu3)<1e-9) shape='$\\mu_3=E\\big[(X-\\mu)^3\\big]='+M.mu3.toFixed(3)+'=0$ ⟹ <strong>分布左右对称</strong> ⟹ $\\varphi(t)$ 是<strong>实函数</strong>，虚部恒为 0（'+d.sym+'）。';
+  else shape='$\\mu_3='+M.mu3.toFixed(2)+(M.mu3>0?'>0$ ⟹ <strong>右偏</strong>':'<0$ ⟹ <strong>左偏</strong>')+' ⟹ $\\varphi(t)$ 的虚部一般不为 0。';
+
+  let caveat = Math.abs(M.mu3)>1e-9
+    ? '<br><span style="color:var(--c-muted);font-size:14px">⚠ 注意：偏斜由 $\\mu_3$ 决定，<strong>不等于"某个 $t$ 的虚部为正"</strong>——上面 $t='+t.toFixed(2)+'$ 处虚部是 '+fmt(b)+'，换到 $t$ 接近 $2\\pi$ 时它会变号。真正恒成立的是"$\\varphi$ 在实轴上 $\\iff$ 分布关于 0 对称"。</span>'
+    : '';
+
+  document.getElementById('readout').innerHTML =
+    '<b>读数：</b>$t='+t.toFixed(2)+'$，$\\varphi(t)='+fmt(a)+(b>=0?'+':'−')+fmt(Math.abs(b))+'i$，$|\\varphi(t)|='+m.toFixed(3)+'$<br>'+
+    msg+'<br>'+shape+caveat+
+    '<br><span style="color:var(--c-muted);font-size:14px">'+d.note+'</span>';
+}
+
+function renderAll(){
+  const d = DISTS[cur];
+  document.getElementById('tval').textContent = 't = '+t.toFixed(2);
+  drawCircle(d); drawTraj(d);
+  drawLine('modSvg', tt=>Math.hypot(phi(d,tt)[0],phi(d,tt)[1]), 0, 1.05, '#1a7f37');
+  drawLine('reSvg',  tt=>phi(d,tt)[0], -1.05, 1.05, '#0969da');
+  drawLine('imSvg',  tt=>phi(d,tt)[1], -1.05, 1.05, '#cf222e');
+  drawReadout(d);
+}
+
+syncButtons();
+renderAll();
+</script>
+</body>
+</html>
